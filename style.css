@@ -1,0 +1,39 @@
+/* Custom styles for your layout */
+body {
+  font-family: Arial, sans-serif;
+}
+
+/* Wrapper for the sidebar + page content */
+#wrapper {
+  display: flex;
+  width: 100%;
+}
+
+/* Toggled state for sidebar */
+#wrapper.toggled #sidebar-wrapper {
+  margin-left: -250px;
+}
+
+/* Sidebar styles */
+#sidebar-wrapper {
+  min-width: 250px;
+  max-width: 250px;
+  transition: all 0.3s ease;
+}
+
+#page-content-wrapper {
+  width: 100%;
+}
+
+.card-header {
+  background-color: #f8f9fa;
+}
+
+.card {
+  margin-bottom: 1.5rem;
+}
+
+h1.display-5 {
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+}
