@@ -32,7 +32,7 @@
         <a href="key-findings.html" class="list-group-item list-group-item-action bg-light">
           Key Findings
         </a>
-        <a href="demo.html" class="list-group-item list-group-item-action bg-light">
+        <a href="demo.html" class="list-group-item list-group-item-action bg-light menu-highlight">
           Try It Yourself: Interactive Modeling
         </a>
         <a href="contact-us.html" class="list-group-item list-group-item-action bg-light active">
@@ -57,87 +57,109 @@
         </div>
       </nav>
 
-      <div class="container-fluid py-4">
-        <h1 class="display-5 mb-4">Contact Us</h1>
-
+      <div class="container py-4">
+        <h1 class="display-5 mb-4">Meet Our Team</h1>
         <p class="text-muted">
-          We'd love to hear from you! Fill out the form below or use the contact information 
-          provided to get in touch.
+          For any inquiries or collaboration opportunities, feel free to reach out 
+          to any of our researchers below.
         </p>
 
-        <div class="row">
-          <div class="col-lg-6 mb-4">
-            <!-- Contact Form -->
-            <div class="card">
-              <div class="card-header">
-                <h5 class="mb-0">Send a Message</h5>
-              </div>
+        <!-- Responsive row of 5 cards -->
+        <!-- 'g-4' adds spacing between columns; row-cols handles responsive breakpoints -->
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
+          
+          <!-- Card #1 -->
+          <div class="col">
+            <div class="card h-100">
+              <img 
+                src="https://via.placeholder.com/300x200.png?text=Researcher+Photo" 
+                class="card-img-top" 
+                alt="Researcher 1" 
+              />
               <div class="card-body">
-                <form id="contact-form">
-                  <div class="mb-3">
-                    <label for="name" class="form-label">Your Name</label>
-                    <input 
-                      type="text" 
-                      class="form-control" 
-                      id="name" 
-                      name="name" 
-                      required 
-                    />
-                  </div>
-                  <div class="mb-3">
-                    <label for="email" class="form-label">Email Address</label>
-                    <input 
-                      type="email" 
-                      class="form-control" 
-                      id="email" 
-                      name="email" 
-                      required 
-                    />
-                  </div>
-                  <div class="mb-3">
-                    <label for="message" class="form-label">Message</label>
-                    <textarea 
-                      class="form-control" 
-                      id="message" 
-                      name="message" 
-                      rows="4"
-                      required
-                    ></textarea>
-                  </div>
-                  <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-                <div 
-                  id="contact-success" 
-                  class="alert alert-success mt-3 d-none" 
-                  role="alert"
-                >
-                  Thank you for your message. We'll get back to you soon!
-                </div>
+                <h5 class="card-title">Researcher Name 1</h5>
+                <p class="card-text">
+                  Role: Lead Data Scientist <br/>
+                  <strong>Email:</strong> <a href="mailto:researcher1@example.com">researcher1@example.com</a>
+                </p>
               </div>
             </div>
           </div>
 
-          <div class="col-lg-6 mb-4">
-            <!-- Contact Info -->
-            <div class="card">
-              <div class="card-header">
-                <h5 class="mb-0">Our Contact Info</h5>
-              </div>
+          <!-- Card #2 -->
+          <div class="col">
+            <div class="card h-100">
+              <img 
+                src="https://via.placeholder.com/300x200.png?text=Researcher+Photo" 
+                class="card-img-top" 
+                alt="Researcher 2" 
+              />
               <div class="card-body">
-                <p>
-                  <strong>Email:</strong> <a href="mailto:info@example.com">info@example.com</a><br/>
-                  <strong>Phone:</strong> +1 (555) 123-4567<br/>
-                  <strong>Address:</strong> 100 Main Street, Anytown, USA
-                </p>
-                <p>
-                  We respond within 24-48 hours. For immediate help, please call 
-                  during business hours: Monday–Friday, 9am–5pm.
+                <h5 class="card-title">Researcher Name 2</h5>
+                <p class="card-text">
+                  Role: Statistician <br/>
+                  <strong>Email:</strong> <a href="mailto:researcher2@example.com">researcher2@example.com</a>
                 </p>
               </div>
             </div>
           </div>
-        </div>
-      </div>
+
+          <!-- Card #3 -->
+          <div class="col">
+            <div class="card h-100">
+              <img 
+                src="https://via.placeholder.com/300x200.png?text=Researcher+Photo" 
+                class="card-img-top" 
+                alt="Researcher 3" 
+              />
+              <div class="card-body">
+                <h5 class="card-title">Researcher Name 3</h5>
+                <p class="card-text">
+                  Role: Data Engineer <br/>
+                  <strong>Email:</strong> <a href="mailto:researcher3@example.com">researcher3@example.com</a>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card #4 -->
+          <div class="col">
+            <div class="card h-100">
+              <img 
+                src="https://via.placeholder.com/300x200.png?text=Researcher+Photo" 
+                class="card-img-top" 
+                alt="Researcher 4" 
+              />
+              <div class="card-body">
+                <h5 class="card-title">Researcher Name 4</h5>
+                <p class="card-text">
+                  Role: ML Specialist <br/>
+                  <strong>Email:</strong> <a href="mailto:researcher4@example.com">researcher4@example.com</a>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card #5 -->
+          <div class="col">
+            <div class="card h-100">
+              <img 
+                src="https://via.placeholder.com/300x200.png?text=Researcher+Photo" 
+                class="card-img-top" 
+                alt="Researcher 5" 
+              />
+              <div class="card-body">
+                <h5 class="card-title">Researcher Name 5</h5>
+                <p class="card-text">
+                  Role: Project Manager <br/>
+                  <strong>Email:</strong> <a href="mailto:researcher5@example.com">researcher5@example.com</a>
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div> <!-- /row -->
+      </div> <!-- /container -->
     </div>
     <!-- /#page-content-wrapper -->
   </div>
@@ -154,21 +176,6 @@
     const wrapper = document.getElementById("wrapper");
     menuToggle.addEventListener("click", () => {
       wrapper.classList.toggle("toggled");
-    });
-
-    // Example form submission (mock)
-    const contactForm = document.getElementById('contact-form');
-    const successAlert = document.getElementById('contact-success');
-    
-    contactForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      // Optionally send data to an API here via fetch()
-
-      // Show success message
-      successAlert.classList.remove('d-none');
-
-      // Clear form
-      contactForm.reset();
     });
   </script>
 </body>

@@ -59,8 +59,7 @@ h1.display-5 {
 
 /* Special highlight class for certain menu items */
 .menu-highlight {
-  color: #d9534f;      /* e.g., Bootstrap "danger" shade */
-  font-weight: bold;
-  text-transform: uppercase; 
+  color: #b7ae0e;      /* e.g., Bootstrap "danger" shade */
+  font-weight: bold; 
   /* optional: add text-shadow or other emphasis */
 }
