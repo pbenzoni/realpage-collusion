@@ -22,8 +22,13 @@
         <strong>Navigation</strong>
       </div>
       <div class="list-group list-group-flush">
+        <!-- Link to Index -->
         <a href="index.html" class="list-group-item list-group-item-action bg-light">
           Index
+        </a>
+        <!-- Link to new Data Dictionary page -->
+        <a href="data-dictionary.html" class="list-group-item list-group-item-action bg-light">
+          Data Dictionary
         </a>
         <a href="#" class="list-group-item list-group-item-action bg-light">
           Exploratory Data Analysis (EDA)
@@ -75,64 +80,9 @@
           </div>
         </div>
 
-        <!-- Data Dictionary Section (Now Dynamically Loaded) -->
-        <div class="card mb-4">
-          <div class="card-header">
-            <h4 class="card-title mb-0">Data Dictionary</h4>
-          </div>
-          <div class="card-body">
-            <p class="text-muted mb-3">
-              The data shown below are examples meant to illustrate how the fields 
-              in the source data are defined, and do not reflect exact records found.
-            </p>
-            <p>
-              <strong>Rent Page &amp; Comparison Data, Core-Based Statistical Area (RealPage CBSA, cbsa_data)</strong><br>
-              Example Data Featured
-            </p>
-            <p>
-              <em>Note: The examples below are made up for the purpose of demonstration.</em>
-            </p>
+        <!-- Example / Additional Content (Remove or edit as you see fit) -->
+        <!-- "Dataset 2" card, or any other sections, can remain here on the index. -->
 
-            <!-- Example Data Cases (still hard-coded) -->
-            <div class="mb-3">
-              <h5>Case 1 – Property Alpha</h5>
-              <ul>
-                <li><strong>Location &amp; Basics:</strong> Located in Metroville, NY, zip code 12345, address “100 Main St.”</li>
-                <li><strong>Property Details:</strong> 3-story, Class A, built in 2000, 150 units, average unit size 900 sq ft.</li>
-                <li><strong>Rent Metrics:</strong> Annual rent change of 8%, asking rent $1,200, rent per square foot 1.33.</li>
-                <li><strong>Submarket Data:</strong> Additional historical submarket price band metrics (e.g., asking rent, occupancy, etc.).</li>
-              </ul>
-            </div>
-            <div class="mb-3">
-              <h5>Case 2 – Property Beta</h5>
-              <ul>
-                <li><strong>Location &amp; Basics:</strong> Springfield, IL (54321), “200 Oak Ave.”</li>
-                <li><strong>Property Details:</strong> 2-story, Class B luxury, built in 1995, 200 units, average unit size 750 sq ft.</li>
-                <li><strong>Rent Metrics:</strong> 12% annual rent increase, asking rent $1,400, rent per square foot 1.50.</li>
-                <li><strong>Submarket Data:</strong> Includes historical submarket price band metrics.</li>
-              </ul>
-            </div>
-            <div>
-              <h5>Case 3 – Property Gamma</h5>
-              <ul>
-                <li><strong>Location &amp; Basics:</strong> Lakeside, CA (67890), “300 Pine Rd.”</li>
-                <li><strong>Property Details:</strong> Single-story, Class C, built in 2010, 100 units, average unit size 1,100 sq ft.</li>
-                <li><strong>Rent Metrics:</strong> Decrease of –2% in annual rent change, asking rent $1,100, rent per square foot 1.00.</li>
-                <li><strong>Submarket Data:</strong> In this row, submarket historical fields are left blank (missing data).</li>
-              </ul>
-            </div>
-
-            <hr/>
-
-            <!-- This is where the JSON data will be injected -->
-            <div id="json-dictionary">
-              <!-- The script below will dynamically create and insert content here. -->
-            </div>
-            
-          </div>
-        </div>
-
-        <!-- Dataset 2 -->
         <div class="card mb-4">
           <div class="card-header">
             &lt;Dataset 2&gt;
@@ -180,6 +130,7 @@
             </p>
           </div>
         </div>
+        
       </div>
     </div>
     <!-- /#page-content-wrapper -->
@@ -199,47 +150,6 @@
     menuToggle.addEventListener("click", () => {
       wrapper.classList.toggle("toggled");
     });
-  </script>
-
-  <!-- Script to fetch and display data from data-dictionary.json -->
-  <script>
-    fetch('data-dictionary.json')
-      .then(response => response.json())
-      .then(data => {
-        // Pass the parsed JSON to a rendering function
-        renderDataDictionary(data);
-      })
-      .catch(error => console.error('Error fetching JSON:', error));
-
-    function renderDataDictionary(dictionary) {
-      const container = document.getElementById('json-dictionary');
-
-      // For each top-level key in our JSON (e.g., "corePropertyInfo", etc.):
-      Object.keys(dictionary).forEach(categoryKey => {
-        // Create a div to group each category
-        const section = document.createElement('div');
-        section.classList.add('mb-4');
-
-        // Category title
-        const sectionHeader = document.createElement('h5');
-        sectionHeader.textContent = categoryKey;
-        section.appendChild(sectionHeader);
-
-        // We'll assume each category is an array of objects
-        const fieldsArray = dictionary[categoryKey];
-
-        // Create a list of fields
-        const ul = document.createElement('ul');
-        fieldsArray.forEach(item => {
-          const li = document.createElement('li');
-          li.innerHTML = `<strong>${item.field}:</strong> ${item.description}`;
-          ul.appendChild(li);
-        });
-        
-        section.appendChild(ul);
-        container.appendChild(section);
-      });
-    }
   </script>
 </body>
 </html>

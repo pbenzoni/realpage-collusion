@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Data Dictionary - RealPage Collusion Dashboard</title>
+
+  <!-- Bootstrap CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <div class="bg-light border-end" id="sidebar-wrapper">
+      <div class="sidebar-heading text-center py-4">
+        <strong>Navigation</strong>
+      </div>
+      <div class="list-group list-group-flush">
+        <a href="index.html" class="list-group-item list-group-item-action bg-light">
+          Index
+        </a>
+        <a href="data-dictionary.html" class="list-group-item list-group-item-action bg-light active">
+          Data Dictionary
+        </a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">
+          Exploratory Data Analysis (EDA)
+        </a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">
+          Causal Inference & Explanatory Modeling
+        </a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">
+          Try It Yourself: Interactive Modeling
+        </a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">
+          Contact Us
+        </a>
+      </div>
+      <div class="p-3">
+        <!-- Side Button to View PDF -->
+        <a href="example.pdf" target="_blank" class="btn btn-primary w-100">
+          View PDF
+        </a>
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+      <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+        <div class="container-fluid">
+          <button class="btn btn-secondary" id="menu-toggle">
+            Toggle Menu
+          </button>
+        </div>
+      </nav>
+
+      <div class="container-fluid py-4">
+        
+        <!-- Heading Section for Data Dictionary Page -->
+        <div class="mb-4">
+          <h1 class="display-5">Data Dictionary</h1>
+          <p class="text-muted">
+            The data shown below are examples meant to illustrate how the fields 
+            in the source data are defined, and do not reflect exact records found.
+          </p>
+          <h4>Rent Page &amp; Comparison Data, Core-Based Statistical Area (RealPage CBSA, cbsa_data)</h4>
+          <p><strong>Example Data Featured</strong></p>
+          <p><em>Note: The examples below are made up for the purpose of demonstration.</em></p>
+        </div>
+
+        <!-- Example Data Cases -->
+        <div class="mb-3">
+          <h5>Case 1 – Property Alpha</h5>
+          <ul>
+            <li><strong>Location &amp; Basics:</strong> Located in Metroville, NY, zip code 12345, address “100 Main St.”</li>
+            <li><strong>Property Details:</strong> 3-story, Class A, built in 2000, 150 units, average unit size 900 sq ft.</li>
+            <li><strong>Rent Metrics:</strong> Annual rent change of 8%, asking rent $1,200, rent per square foot 1.33.</li>
+            <li><strong>Submarket Data:</strong> Additional historical submarket price band metrics (e.g., asking rent, occupancy, etc.).</li>
+          </ul>
+        </div>
+
+        <div class="mb-3">
+          <h5>Case 2 – Property Beta</h5>
+          <ul>
+            <li><strong>Location &amp; Basics:</strong> Springfield, IL (54321), “200 Oak Ave.”</li>
+            <li><strong>Property Details:</strong> 2-story, Class B luxury, built in 1995, 200 units, average unit size 750 sq ft.</li>
+            <li><strong>Rent Metrics:</strong> 12% annual rent increase, asking rent $1,400, rent per square foot 1.50.</li>
+            <li><strong>Submarket Data:</strong> Includes historical submarket price band metrics.</li>
+          </ul>
+        </div>
+
+        <div class="mb-3">
+          <h5>Case 3 – Property Gamma</h5>
+          <ul>
+            <li><strong>Location &amp; Basics:</strong> Lakeside, CA (67890), “300 Pine Rd.”</li>
+            <li><strong>Property Details:</strong> Single-story, Class C, built in 2010, 100 units, average unit size 1,100 sq ft.</li>
+            <li><strong>Rent Metrics:</strong> Decrease of –2% in annual rent change, asking rent $1,100, rent per square foot 1.00.</li>
+            <li><strong>Submarket Data:</strong> In this row, the submarket historical fields are left blank (missing or uncollected data).</li>
+          </ul>
+        </div>
+        
+        <hr/>
+
+        <!-- JSON-based dictionary goes here -->
+        <div id="json-dictionary"></div>
+
+      </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Bootstrap JS -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+  ></script>
+
+  <script>
+    // Toggle the sidebar
+    const menuToggle = document.getElementById("menu-toggle");
+    const wrapper = document.getElementById("wrapper");
+
+    menuToggle.addEventListener("click", () => {
+      wrapper.classList.toggle("toggled");
+    });
+  </script>
+
+  <!-- Script to fetch and display data from data-dictionary.json -->
+  <script>
+    fetch('data-dictionary.json')
+      .then(response => response.json())
+      .then(data => {
+        // We assume data is an object with top-level keys, e.g.:
+        // {
+        //   "corePropertyInfo": [...],
+        //   "physicalOperationalAttributes": [...],
+        //   ...
+        // }
+        renderDataDictionary(data);
+      })
+      .catch(error => console.error('Error fetching JSON:', error));
+
+    function renderDataDictionary(dictionary) {
+      const container = document.getElementById('json-dictionary');
+
+      // For each top-level key in our JSON (e.g., "corePropertyInfo", "locationMedia", etc.):
+      Object.keys(dictionary).forEach(categoryKey => {
+        // Create a section container
+        const sectionDiv = document.createElement('div');
+        sectionDiv.classList.add('mb-4');
+
+        // Create a heading for the section
+        const header = document.createElement('h5');
+        // e.g., "Core Property Information" instead of "corePropertyInfo"
+        header.textContent = niceTitle(categoryKey);
+        sectionDiv.appendChild(header);
+
+        // Access the array of fields
+        const fieldsArray = dictionary[categoryKey];
+        const ul = document.createElement('ul');
+
+        fieldsArray.forEach(item => {
+          const li = document.createElement('li');
+          li.innerHTML = `<strong>${item.field}:</strong> ${item.description}`;
+          ul.appendChild(li);
+        });
+
+        sectionDiv.appendChild(ul);
+        container.appendChild(sectionDiv);
+      });
+    }
+
+    // Helper to convert JSON keys to a nicer heading if desired:
+    function niceTitle(key) {
+      // Example transformations: 
+      // "corePropertyInformation" -> "Core Property Information"
+      // "physicalOperationalAttributes" -> "Physical & Operational Attributes"
+      // etc. You can do advanced logic or a mapping dictionary if needed.
+      return key
+        .replace(/([A-Z])/g, ' $1')        // insert space before uppercase
+        .replace(/^./, s => s.toUpperCase()); // capitalize first letter
+    }
+  </script>
+</body>
+</html>
