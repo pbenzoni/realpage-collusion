@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Exploratory Data Analysis (EDA)</title>
+
+  <!-- Bootstrap CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <!-- Optional custom CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <div class="bg-light border-end" id="sidebar-wrapper">
+      <div class="sidebar-heading text-center py-4">
+        <strong>Navigation</strong>
+      </div>
+      <div class="list-group list-group-flush">
+        <a href="index.html" class="list-group-item list-group-item-action bg-light">
+          Homepage
+        </a>
+        <a href="data-dictionary.html" class="list-group-item list-group-item-action bg-light">
+          Data Dictionary
+        </a>
+        <a href="eda.html" class="list-group-item list-group-item-action bg-light active">
+          Exploratory Data Analysis (EDA)
+        </a>
+        <a href="key-findings.html" class="list-group-item list-group-item-action bg-light">
+          Key Findings
+        </a>
+        <a href="demo.html" class="list-group-item list-group-item-action bg-light">
+          Try It Yourself: Interactive Modeling
+        </a>
+        <a href="contact-us.html" class="list-group-item list-group-item-action bg-light">
+          Contact Us
+        </a>
+      </div>
+      <div class="p-3">
+        <!-- Side Button to View PDF -->
+        <a href="example.pdf" target="_blank" class="btn btn-primary w-100">
+          View PDF
+        </a>
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+      <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+        <div class="container-fluid">
+          <button class="btn btn-secondary" id="menu-toggle">
+            Toggle Menu
+          </button>
+        </div>
+      </nav>
+
+      <div class="container-fluid py-4">
+        <!-- Page Title / Intro -->
+        <div class="mb-4">
+          <h1 class="display-5">Exploratory Data Analysis (EDA)</h1>
+          <p class="text-muted">
+            This page features 4-6 data visualizations from Power BI, each embedded and fully responsive.
+          </p>
+        </div>
+
+        <!-- Visual Container #1 -->
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5 class="mb-0">EDA Visualization 1</h5>
+          </div>
+          <div class="card-body">
+            <!-- Replace with your actual Power BI iframe -->
+            <div class="ratio ratio-16x9">
+              <iframe 
+                src="YOUR_POWER_BI_EMBED_URL_1" 
+                frameborder="0" 
+                allowFullScreen>
+              </iframe>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual Container #2 -->
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5 class="mb-0">EDA Visualization 2</h5>
+          </div>
+          <div class="card-body">
+            <div class="ratio ratio-16x9">
+              <iframe 
+                src="YOUR_POWER_BI_EMBED_URL_2" 
+                frameborder="0" 
+                allowFullScreen>
+              </iframe>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual Container #3 -->
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5 class="mb-0">EDA Visualization 3</h5>
+          </div>
+          <div class="card-body">
+            <div class="ratio ratio-16x9">
+              <iframe 
+                src="YOUR_POWER_BI_EMBED_URL_3" 
+                frameborder="0" 
+                allowFullScreen>
+              </iframe>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual Container #4 -->
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5 class="mb-0">EDA Visualization 4</h5>
+          </div>
+          <div class="card-body">
+            <div class="ratio ratio-16x9">
+              <iframe 
+                src="YOUR_POWER_BI_EMBED_URL_4" 
+                frameborder="0" 
+                allowFullScreen>
+              </iframe>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add additional cards if needed (up to 6 total) -->
+
+      </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Bootstrap JS -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+  ></script>
+
+  <!-- Sidebar toggle script -->
+  <script>
+    const menuToggle = document.getElementById("menu-toggle");
+    const wrapper = document.getElementById("wrapper");
+
+    menuToggle.addEventListener("click", () => {
+      wrapper.classList.toggle("toggled");
+    });
+  </script>
+</body>
+</html>
