@@ -32,7 +32,7 @@
         <a href="key-findings.html" class="list-group-item list-group-item-action bg-light">
           Key Findings
         </a>
-        <a href="demo.html" class="list-group-item list-group-item-action bg-light active">
+        <a href="demo.html" class="list-group-item list-group-item-action bg-light active menu-highlight">
           Try It Yourself: Interactive Modeling
         </a>
         <a href="contact-us.html" class="list-group-item list-group-item-action bg-light">
@@ -60,13 +60,13 @@
       <div class="container-fluid py-4">
         <h1 class="display-5 mb-4">Try It Yourself: Interactive Modeling</h1>
 
-        <!-- Instructions / Info -->
         <p class="text-muted">
           Adjust inputs below to see how the model predicts or classifies rent trends, 
-          or any other outcome. This is a placeholder for your ML/forecasting demonstration.
+          or any other outcome. Then view an embedded visualization tailored to your 
+          prediction result.
         </p>
 
-        <!-- Example Form -->
+        <!-- Example Form for Inputs -->
         <div class="card mb-4">
           <div class="card-header">
             <h5 class="mb-0">Model Inputs</h5>
@@ -77,10 +77,10 @@
               <div class="mb-3">
                 <label for="units" class="form-label">Number of Units</label>
                 <input 
-                  type="number" 
-                  class="form-control" 
-                  id="units" 
-                  name="units" 
+                  type="number"
+                  class="form-control"
+                  id="units"
+                  name="units"
                   placeholder="e.g. 150"
                   required
                 />
@@ -91,22 +91,24 @@
                 <input 
                   type="number"
                   step="0.01"
-                  class="form-control" 
-                  id="avgRent" 
-                  name="avgRent" 
+                  class="form-control"
+                  id="avgRent"
+                  name="avgRent"
                   placeholder="e.g. 1200"
                   required
                 />
               </div>
 
               <div class="mb-3">
-                <label for="marketShare" class="form-label">RealPage Market Share (%)</label>
+                <label for="marketShare" class="form-label">
+                  RealPage Market Share (%)
+                </label>
                 <input 
                   type="number"
                   step="0.1"
-                  class="form-control" 
-                  id="marketShare" 
-                  name="marketShare" 
+                  class="form-control"
+                  id="marketShare"
+                  name="marketShare"
                   placeholder="e.g. 40.0"
                   required
                 />
@@ -119,9 +121,30 @@
           </div>
         </div>
 
-        <!-- Display Model Output -->
+        <!-- Display Model Output (text) -->
         <div id="model-output" class="alert alert-info d-none" role="alert">
-          <!-- The script will fill in content here after receiving the API response -->
+          <!-- Script updates this with the API response -->
+        </div>
+
+        <!-- Visualization Container (hidden by default) -->
+        <div class="card mb-4 d-none" id="prediction-vis-container">
+          <div class="card-header">
+            <h5 class="mb-0">Prediction-based Visualization</h5>
+          </div>
+          <div class="card-body">
+            <p class="mb-3 text-muted">
+              Below is a visualization relevant to your model results.
+            </p>
+            <!-- Use ratio-16x9 for responsive iframes -->
+            <div class="ratio ratio-16x9">
+              <iframe 
+                src="" 
+                id="prediction-iframe"
+                frameborder="0" 
+                allowfullscreen>
+              </iframe>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -130,12 +153,12 @@
   </div>
   <!-- /#wrapper -->
 
-  <!-- Bootstrap JS -->
+  <!-- Bootstrap Bundle JS -->
   <script
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
   ></script>
 
-  <!-- Script for toggling the sidebar -->
+  <!-- Script to toggle the sidebar -->
   <script>
     const menuToggle = document.getElementById("menu-toggle");
     const wrapper = document.getElementById("wrapper");
@@ -144,10 +167,12 @@
     });
   </script>
 
-  <!-- Script to handle the form submission and API call -->
+  <!-- Script to handle the form submission and display prediction-based visualization -->
   <script>
     const form = document.getElementById('model-form');
     const outputDiv = document.getElementById('model-output');
+    const visContainer = document.getElementById('prediction-vis-container');
+    const visIframe = document.getElementById('prediction-iframe');
 
     form.addEventListener('submit', event => {
       event.preventDefault();
@@ -164,8 +189,13 @@
         marketShare: Number(marketShareVal)
       };
 
+      // Clear any old messages
+      outputDiv.classList.add('d-none');
+      outputDiv.classList.remove('alert-danger');
+      visContainer.classList.add('d-none');
+      visIframe.src = ""; // reset
+
       // Example fetch call to a hypothetical endpoint
-      // Adjust URL and method to your needs
       fetch('https://api.example.com/predict', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -173,15 +203,22 @@
       })
       .then(response => response.json())
       .then(data => {
-        // Show output
+        // Show the output text
         outputDiv.classList.remove('d-none');
-        outputDiv.textContent = 
-          `Model Prediction: ${data.prediction} (Confidence: ${data.confidence}%)`;
+        outputDiv.textContent = `Model Prediction: ${data.prediction} 
+          (Confidence: ${data.confidence}%)`;
+
+        // Now let's assume the API also returns a URL for a relevant Power BI or other embed
+        if (data.visualUrl) {
+          visIframe.src = data.visualUrl;
+          visContainer.classList.remove('d-none');
+        }
       })
       .catch(err => {
         outputDiv.classList.remove('d-none');
         outputDiv.classList.add('alert-danger');
-        outputDiv.textContent = 'Error fetching model prediction. Please try again.';
+        outputDiv.textContent = 
+          'Error fetching model prediction. Please try again.';
         console.error(err);
       });
     });
