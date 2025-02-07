@@ -282,5 +282,15 @@
       "field": "Zip",
       "description": "The postal code of the property."
     }
+  ],
+  "marketShares": [
+    {
+      "field": "Metropolitan area",
+      "description": "The metropolitan area for which the market share data is reported (e.g., 'Abilene, TX')."
+    },
+    {
+      "field": "Share of multifamily units",
+      "description": "The share of multifamily units in the metropolitan area, represented as a numeric value (typically a percentage)."
+    }
   ]
 }
