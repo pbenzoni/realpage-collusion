@@ -221,7 +221,7 @@
       "description": "The state identifier, typically the state abbreviation or code."
     }
   ],
-  "zlsFields": [
+  "ZLSFields": [
     {
       "field": "Address",
       "description": "The street address of the property."
