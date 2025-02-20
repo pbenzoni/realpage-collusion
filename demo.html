@@ -82,62 +82,44 @@
               <div class="mb-3">
                 <label for="propertyName" class="form-label">Property Name (Optional)</label>
                 <input type="text" class="form-control" id="propertyName" name="propertyName" placeholder="e.g. Sunset Apartments" />
+                <small class="form-text text-muted">Enter the name of the property (if applicable). This helps identify the listing.</small>
               </div>
 
               <div class="mb-3">
                 <label for="propertyState" class="form-label">State (Optional)</label>
                 <input type="text" class="form-control" id="propertyState" name="propertyState" placeholder="e.g. California" />
+                <small class="form-text text-muted">Specify the state where the property is located. Example: "California".</small>
               </div>
 
               <div class="mb-3">
                 <label for="propertyCity" class="form-label">City (Optional)</label>
                 <input type="text" class="form-control" id="propertyCity" name="propertyCity" placeholder="e.g. Los Angeles" />
+                <small class="form-text text-muted">Enter the city where the property is located. Example: "Los Angeles".</small>
               </div>
 
               <div class="mb-3">
                 <label for="propertyAddress" class="form-label">Address (Optional)</label>
                 <input type="text" class="form-control" id="propertyAddress" name="propertyAddress" placeholder="e.g. 123 Main St" />
+                <small class="form-text text-muted">Provide the street address of the property. This is useful for exact location identification.</small>
               </div>
 
               <div class="mb-3">
                 <label for="propertyZip" class="form-label">Zip Code (Optional)</label>
                 <input type="text" class="form-control" id="propertyZip" name="propertyZip" placeholder="e.g. 90001" />
-              </div>
-
-              <!-- Predictive Model Inputs -->
-              <div class="mb-3">
-                <label for="rentIndex" class="form-label">Metro-Area Level Rent Index</label>
-                <input type="number" step="0.01" class="form-control" id="rentIndex" name="rentIndex" placeholder="e.g. 1500" required />
-              </div>
-
-              <div class="mb-3">
-                <label for="supplyElasticity" class="form-label">Supply Elasticity</label>
-                <input type="number" step="0.01" class="form-control" id="supplyElasticity" name="supplyElasticity" placeholder="e.g. -4.79" required />
+                <small class="form-text text-muted">Enter the 5-digit ZIP code of the property. Example: "90001".</small>
               </div>
 
               <!-- HeroSource Variable (Radio Buttons) -->
               <div class="mb-3">
                 <label class="form-label">HeroSource Variable (1 = RealPage, 0 = Non-RealPage)</label>
+                <small class="form-text text-muted">Select whether the data source is from **RealPage (1)** or **another source (0)**.</small>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="heroSource" id="heroSource1" value="1" required>
-                  <label class="form-check-label" for="heroSource1">RealPage (1)</label>
+                    <input class="form-check-input" type="radio" name="heroSource" id="heroSource1" value="1" required>
+                    <label class="form-check-label" for="heroSource1">RealPage (1)</label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="heroSource" id="heroSource0" value="0" required>
-                  <label class="form-check-label" for="heroSource0">Non-RealPage (0)</label>
-                </div>
-              </div>
-
-              <!-- Scraped Website Match (Radio Buttons) -->
-              <div class="mb-3">
-                <label class="form-label">Scraped Website Match (1 = Matched, 0 = Not Matched)</label>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="scrapedMatch" id="scrapedMatch1" value="1" required>
-                  <label class="form-check-label" for="scrapedMatch1">Matched (1)</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="scrapedMatch" id="scrapedMatch0" value="0" required>
-                  <label class="form-check-label" for="scrapedMatch0">Not Matched (0)</label>
+                    <input class="form-check-input" type="radio" name="heroSource" id="heroSource0" value="0" required>
+                    <label class="form-check-label" for="heroSource0">Non-RealPage (0)</label>
                 </div>
               </div>
 
@@ -218,10 +200,7 @@
         propertyCity: document.getElementById('propertyCity').value || null,
         propertyAddress: document.getElementById('propertyAddress').value || null,
         propertyZip: document.getElementById('propertyZip').value || null,
-        rentIndex: Number(document.getElementById('rentIndex').value),
-        supplyElasticity: Number(document.getElementById('supplyElasticity').value),
         heroSource: heroSource !== undefined ? Number(heroSource) : null,
-        scrapedMatch: scrapedMatch !== undefined ? Number(scrapedMatch) : null,
       };
 
       // Clear any old messages
