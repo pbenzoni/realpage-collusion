@@ -61,10 +61,15 @@
         <h1 class="display-5 mb-4">Try It Yourself: Interactive Modeling</h1>
 
         <p class="text-muted">
-          Adjust inputs below to see how the model predicts or classifies rent trends, 
-          or any other outcome. Then view an embedded visualization tailored to your 
-          prediction result.
-        </p>
+          Use the input fields below to customize property details and key market indicators. 
+          The model will analyze your inputs to predict rent trends and other relevant housing 
+          insights. Once you submit, the system will generate a prediction, including key metrics 
+          such as confidence levels and accuracy. 
+        
+          Below the results, you'll find an embedded visualization that helps illustrate the 
+          model's predictions in a meaningful way. Use this to understand market conditions, 
+          compare trends, and make informed decisions based on data-driven insights.
+        </p>        
 
         <!-- Form for Inputs -->
         <div class="card mb-4">
@@ -110,14 +115,30 @@
                 <input type="number" step="0.01" class="form-control" id="supplyElasticity" name="supplyElasticity" placeholder="e.g. -4.79" required />
               </div>
 
+              <!-- HeroSource Variable (Radio Buttons) -->
               <div class="mb-3">
-                <label for="heroSource" class="form-label">HeroSource Variable (1 = RealPage, 0 = Non-RealPage)</label>
-                <input type="number" min="0" max="1" class="form-control" id="heroSource" name="heroSource" required />
+                <label class="form-label">HeroSource Variable (1 = RealPage, 0 = Non-RealPage)</label>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="heroSource" id="heroSource1" value="1" required>
+                  <label class="form-check-label" for="heroSource1">RealPage (1)</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="heroSource" id="heroSource0" value="0" required>
+                  <label class="form-check-label" for="heroSource0">Non-RealPage (0)</label>
+                </div>
               </div>
 
+              <!-- Scraped Website Match (Radio Buttons) -->
               <div class="mb-3">
-                <label for="scrapedMatch" class="form-label">Scraped Website Match (1 = Matched, 0 = Not Matched)</label>
-                <input type="number" min="0" max="1" class="form-control" id="scrapedMatch" name="scrapedMatch" required />
+                <label class="form-label">Scraped Website Match (1 = Matched, 0 = Not Matched)</label>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="scrapedMatch" id="scrapedMatch1" value="1" required>
+                  <label class="form-check-label" for="scrapedMatch1">Matched (1)</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="scrapedMatch" id="scrapedMatch0" value="0" required>
+                  <label class="form-check-label" for="scrapedMatch0">Not Matched (0)</label>
+                </div>
               </div>
 
               <button type="submit" class="btn btn-primary">
@@ -199,8 +220,8 @@
         propertyZip: document.getElementById('propertyZip').value || null,
         rentIndex: Number(document.getElementById('rentIndex').value),
         supplyElasticity: Number(document.getElementById('supplyElasticity').value),
-        heroSource: Number(document.getElementById('heroSource').value),
-        scrapedMatch: Number(document.getElementById('scrapedMatch').value),
+        heroSource: heroSource !== undefined ? Number(heroSource) : null,
+        scrapedMatch: scrapedMatch !== undefined ? Number(scrapedMatch) : null,
       };
 
       // Clear any old messages
