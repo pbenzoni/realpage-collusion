@@ -200,7 +200,7 @@
         propertyCity: document.getElementById('propertyCity').value || null,
         propertyAddress: document.getElementById('propertyAddress').value || null,
         propertyZip: document.getElementById('propertyZip').value || null,
-        heroSource: heroSource !== undefined ? Number(heroSource) : null,
+        heroSource: document.getElementById('heroSource').value !== undefined ? Number(document.getElementById('heroSource').value) : null,
       };
 
       // Clear any old messages
