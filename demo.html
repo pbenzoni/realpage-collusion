@@ -189,6 +189,8 @@
     const outputDiv = document.getElementById('model-output');
     const visContainer = document.getElementById('prediction-vis-container');
     const visIframe = document.getElementById('prediction-iframe');
+    const heroSourceInput = document.querySelector('input[name="heroSource"]:checked');
+    const heroSourceValue = heroSourceInput ? Number(heroSourceInput.value) : null; 
 
     form.addEventListener('submit', event => {
       event.preventDefault();
@@ -200,7 +202,7 @@
         propertyCity: document.getElementById('propertyCity').value || null,
         propertyAddress: document.getElementById('propertyAddress').value || null,
         propertyZip: document.getElementById('propertyZip').value || null,
-        heroSource: document.getElementById('heroSource').value !== undefined ? Number(document.getElementById('heroSource').value) : null,
+        heroSource: heroSourceValue,
       };
 
       // Clear any old messages
