@@ -66,52 +66,58 @@
           prediction result.
         </p>
 
-        <!-- Example Form for Inputs -->
+        <!-- Form for Inputs -->
         <div class="card mb-4">
           <div class="card-header">
             <h5 class="mb-0">Model Inputs</h5>
           </div>
           <div class="card-body">
             <form id="model-form">
-              <!-- Example Input Fields -->
+              <!-- Input Fields -->
               <div class="mb-3">
-                <label for="units" class="form-label">Number of Units</label>
-                <input 
-                  type="number"
-                  class="form-control"
-                  id="units"
-                  name="units"
-                  placeholder="e.g. 150"
-                  required
-                />
+                <label for="propertyName" class="form-label">Property Name (Optional)</label>
+                <input type="text" class="form-control" id="propertyName" name="propertyName" placeholder="e.g. Sunset Apartments" />
               </div>
 
               <div class="mb-3">
-                <label for="avgRent" class="form-label">Average Rent</label>
-                <input 
-                  type="number"
-                  step="0.01"
-                  class="form-control"
-                  id="avgRent"
-                  name="avgRent"
-                  placeholder="e.g. 1200"
-                  required
-                />
+                <label for="propertyState" class="form-label">State (Optional)</label>
+                <input type="text" class="form-control" id="propertyState" name="propertyState" placeholder="e.g. California" />
               </div>
 
               <div class="mb-3">
-                <label for="marketShare" class="form-label">
-                  RealPage Market Share (%)
-                </label>
-                <input 
-                  type="number"
-                  step="0.1"
-                  class="form-control"
-                  id="marketShare"
-                  name="marketShare"
-                  placeholder="e.g. 40.0"
-                  required
-                />
+                <label for="propertyCity" class="form-label">City (Optional)</label>
+                <input type="text" class="form-control" id="propertyCity" name="propertyCity" placeholder="e.g. Los Angeles" />
+              </div>
+
+              <div class="mb-3">
+                <label for="propertyAddress" class="form-label">Address (Optional)</label>
+                <input type="text" class="form-control" id="propertyAddress" name="propertyAddress" placeholder="e.g. 123 Main St" />
+              </div>
+
+              <div class="mb-3">
+                <label for="propertyZip" class="form-label">Zip Code (Optional)</label>
+                <input type="text" class="form-control" id="propertyZip" name="propertyZip" placeholder="e.g. 90001" />
+              </div>
+
+              <!-- Predictive Model Inputs -->
+              <div class="mb-3">
+                <label for="rentIndex" class="form-label">Metro-Area Level Rent Index</label>
+                <input type="number" step="0.01" class="form-control" id="rentIndex" name="rentIndex" placeholder="e.g. 1500" required />
+              </div>
+
+              <div class="mb-3">
+                <label for="supplyElasticity" class="form-label">Supply Elasticity</label>
+                <input type="number" step="0.01" class="form-control" id="supplyElasticity" name="supplyElasticity" placeholder="e.g. -4.79" required />
+              </div>
+
+              <div class="mb-3">
+                <label for="heroSource" class="form-label">HeroSource Variable (1 = RealPage, 0 = Non-RealPage)</label>
+                <input type="number" min="0" max="1" class="form-control" id="heroSource" name="heroSource" required />
+              </div>
+
+              <div class="mb-3">
+                <label for="scrapedMatch" class="form-label">Scraped Website Match (1 = Matched, 0 = Not Matched)</label>
+                <input type="number" min="0" max="1" class="form-control" id="scrapedMatch" name="scrapedMatch" required />
               </div>
 
               <button type="submit" class="btn btn-primary">
