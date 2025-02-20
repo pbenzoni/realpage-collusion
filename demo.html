@@ -221,16 +221,35 @@
         outputDiv.classList.remove('d-none');
         outputDiv.innerHTML = `
           <strong>Model Prediction:</strong> ${data.prediction} <br>
-          <strong>Confidence:</strong> ${data.confidence}% <br>
-          ${data.accuracy ? `<strong>Accuracy:</strong> ${data.accuracy}% <br>` : ""}
-          ${data.precision ? `<strong>Precision:</strong> ${data.precision} <br>` : ""}
-          ${data.recall ? `<strong>Recall:</strong> ${data.recall} <br>` : ""}
-          ${data.f1Score ? `<strong>F1-Score:</strong> ${data.f1Score} <br>` : ""}
-          ${data.mse ? `<strong>Mean Squared Error (MSE):</strong> ${data.mse} <br>` : ""}
-          ${data.mae ? `<strong>Mean Absolute Error (MAE):</strong> ${data.mae} <br>` : ""}
-          ${data.rSquared ? `<strong>R² Score:</strong> ${data.rSquared} <br>` : ""}
-          ${data.aucRoc ? `<strong>AUC-ROC Score:</strong> ${data.aucRoc} <br>` : ""}
-          ${data.logLoss ? `<strong>Log Loss:</strong> ${data.logLoss} <br>` : ""}
+          <strong>Confidence:</strong> ${data.confidence}% 
+          <small class="text-muted" title="Confidence score represents how certain the model is about its prediction. Higher values indicate stronger certainty.">ⓘ</small> <br>
+          
+          ${data.accuracy ? `<strong>Accuracy:</strong> ${data.accuracy}% 
+          <small class="text-muted" title="Accuracy measures the percentage of correct predictions. Useful for balanced datasets.">ⓘ</small> <br>` : ""}
+
+          ${data.precision ? `<strong>Precision:</strong> ${data.precision} 
+          <small class="text-muted" title="Precision measures how many predicted positives are actually correct. High precision means fewer false positives.">ⓘ</small> <br>` : ""}
+
+          ${data.recall ? `<strong>Recall:</strong> ${data.recall} 
+          <small class="text-muted" title="Recall measures how many actual positives were correctly identified. High recall means fewer false negatives.">ⓘ</small> <br>` : ""}
+
+          ${data.f1Score ? `<strong>F1-Score:</strong> ${data.f1Score} 
+          <small class="text-muted" title="F1-Score balances Precision & Recall. Useful for imbalanced datasets.">ⓘ</small> <br>` : ""}
+
+          ${data.mse ? `<strong>Mean Squared Error (MSE):</strong> ${data.mse} 
+          <small class="text-muted" title="MSE measures average squared differences between predicted and actual values. Lower is better.">ⓘ</small> <br>` : ""}
+
+          ${data.mae ? `<strong>Mean Absolute Error (MAE):</strong> ${data.mae} 
+          <small class="text-muted" title="MAE measures the average absolute differences between predictions and actual values. Lower is better.">ⓘ</small> <br>` : ""}
+
+          ${data.rSquared ? `<strong>R² Score:</strong> ${data.rSquared} 
+          <small class="text-muted" title="R² shows how well the model explains variance in data. Closer to 1 is better.">ⓘ</small> <br>` : ""}
+
+          ${data.aucRoc ? `<strong>AUC-ROC Score:</strong> ${data.aucRoc} 
+          <small class="text-muted" title="AUC-ROC measures model's ability to distinguish between classes. Closer to 1 is better.">ⓘ</small> <br>` : ""}
+
+          ${data.logLoss ? `<strong>Log Loss:</strong> ${data.logLoss} 
+          <small class="text-muted" title="Log Loss quantifies classification model uncertainty. Lower is better.">ⓘ</small> <br>` : ""}
         `;
 
         // Now let's assume the API also returns a URL for a relevant visualization
