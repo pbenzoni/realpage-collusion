@@ -212,7 +212,7 @@
       visContainer.classList.add('d-none');
       visIframe.src = ""; // reset
 
-      // Example fetch call to a hypothetical endpoint
+      // Fetch call to an endpoint
       fetch('https://api.example.com/predict', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -264,10 +264,50 @@
       .catch(err => {
         outputDiv.classList.remove('d-none');
         outputDiv.classList.add('alert-danger');
-        outputDiv.textContent = 
-          'Error fetching model prediction. Please try again.';
+        if ('https://api.example.com/predict') {
+          // Mock response data
+          const mockData = {
+            prediction: "Mock Prediction",
+            confidence: 97.5,
+            accuracy: 92.3,
+            precision: 89.1,
+            recall: 90.5,
+            f1Score: 89.8,
+            mse: 1.2,
+            mae: 0.8,
+            rSquared: 0.92,
+            aucRoc: 0.95,
+            logLoss: 0.23,
+            visualUrl: "https://via.placeholder.com/800x400" // Mock visualization URL
+          };
+          // Display mock data
+          outputDiv.classList.remove('alert-danger');
+          outputDiv.classList.add('alert-info');
+          outputDiv.innerHTML = `
+            <strong>Model Prediction:</strong> ${mockData.prediction} <br>
+            <strong>Confidence:</strong> ${mockData.confidence}% <br>
+            <strong>Accuracy:</strong> ${mockData.accuracy}% <br>
+            <strong>Precision:</strong> ${mockData.precision} <br>
+            <strong>Recall:</strong> ${mockData.recall} <br>
+            <strong>F1-Score:</strong> ${mockData.f1Score} <br>
+            <strong>Mean Squared Error (MSE):</strong> ${mockData.mse} <br>
+            <strong>Mean Absolute Error (MAE):</strong> ${mockData.mae} <br>
+            <strong>R² Score:</strong> ${mockData.rSquared} <br>
+            <strong>AUC-ROC Score:</strong> ${mockData.aucRoc} <br>
+            <strong>Log Loss:</strong> ${mockData.logLoss} <br>
+          `;
+          // Display mock visualization
+          if (mockData.visualUrl) {
+            visIframe.src = mockData.visualUrl;
+            visContainer.classList.remove('d-none');
+          }
+        } else {
+          // Default error message for other APIs
+          outputDiv.textContent = 'Error fetching model prediction. Please try again.';
+        }
         console.error(err);
       });
+
     });
   </script>
 </body>
