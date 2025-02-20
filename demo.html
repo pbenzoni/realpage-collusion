@@ -190,16 +190,17 @@
     form.addEventListener('submit', event => {
       event.preventDefault();
 
-      // Gather form data
-      const unitsVal = document.getElementById('units').value;
-      const avgRentVal = document.getElementById('avgRent').value;
-      const marketShareVal = document.getElementById('marketShare').value;
-
-      // Example: Prepare a payload for your API
+      // Prepare a payload for your API
       const payload = {
-        units: Number(unitsVal),
-        avgRent: Number(avgRentVal),
-        marketShare: Number(marketShareVal)
+        propertyName: document.getElementById('propertyName').value || null,
+        propertyState: document.getElementById('propertyState').value || null,
+        propertyCity: document.getElementById('propertyCity').value || null,
+        propertyAddress: document.getElementById('propertyAddress').value || null,
+        propertyZip: document.getElementById('propertyZip').value || null,
+        rentIndex: Number(document.getElementById('rentIndex').value),
+        supplyElasticity: Number(document.getElementById('supplyElasticity').value),
+        heroSource: Number(document.getElementById('heroSource').value),
+        scrapedMatch: Number(document.getElementById('scrapedMatch').value),
       };
 
       // Clear any old messages
@@ -218,10 +219,21 @@
       .then(data => {
         // Show the output text
         outputDiv.classList.remove('d-none');
-        outputDiv.textContent = `Model Prediction: ${data.prediction} 
-          (Confidence: ${data.confidence}%)`;
+        outputDiv.innerHTML = `
+          <strong>Model Prediction:</strong> ${data.prediction} <br>
+          <strong>Confidence:</strong> ${data.confidence}% <br>
+          ${data.accuracy ? `<strong>Accuracy:</strong> ${data.accuracy}% <br>` : ""}
+          ${data.precision ? `<strong>Precision:</strong> ${data.precision} <br>` : ""}
+          ${data.recall ? `<strong>Recall:</strong> ${data.recall} <br>` : ""}
+          ${data.f1Score ? `<strong>F1-Score:</strong> ${data.f1Score} <br>` : ""}
+          ${data.mse ? `<strong>Mean Squared Error (MSE):</strong> ${data.mse} <br>` : ""}
+          ${data.mae ? `<strong>Mean Absolute Error (MAE):</strong> ${data.mae} <br>` : ""}
+          ${data.rSquared ? `<strong>R² Score:</strong> ${data.rSquared} <br>` : ""}
+          ${data.aucRoc ? `<strong>AUC-ROC Score:</strong> ${data.aucRoc} <br>` : ""}
+          ${data.logLoss ? `<strong>Log Loss:</strong> ${data.logLoss} <br>` : ""}
+        `;
 
-        // Now let's assume the API also returns a URL for a relevant Power BI or other embed
+        // Now let's assume the API also returns a URL for a relevant visualization
         if (data.visualUrl) {
           visIframe.src = data.visualUrl;
           visContainer.classList.remove('d-none');
