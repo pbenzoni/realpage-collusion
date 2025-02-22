@@ -77,6 +77,30 @@ a:hover, a:focus {
   font-weight: bold;
 }
 
+/* 🎓 MIDS Capstone Title Styling */
+.mids-capstone {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #004a99; /* Matches heading color */
+  text-align: center;
+  padding: 15px 0;
+  border-bottom: 2px solid #ddd; /* Subtle separation */
+}
+
+.mids-capstone strong {
+  font-weight: bold;
+  color: #0056b3; /* Matches links */
+}
+
+/* 🌟 Responsive Design */
+@media (max-width: 768px) {
+  .mids-capstone {
+    font-size: 1.5rem;
+    padding: 10px 0;
+  }
+}
+
 /* 🔘 Buttons - Rounded & Accessible */
 .btn-primary {
   background: #0056b3;
