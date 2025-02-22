@@ -80,12 +80,12 @@ a:hover, a:focus {
 /* 🎓 MIDS Capstone Title Styling */
 .mids-capstone {
   font-family: 'Poppins', sans-serif;
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #004a99; /* Matches heading color */
-  text-align: center;
-  padding: 15px 0;
-  border-bottom: 2px solid #ddd; /* Subtle separation */
+  font-size: 1.2rem; /* Smaller text */
+  font-weight: 600; /* Semi-bold for clarity */
+  color: #004a99; /* Consistent with headings */
+  text-align: left; /* Aligns to the left */
+  margin-top: 8px; /* Small space after the logo */
+  margin-left: 5px; /* Adjust if needed */
 }
 
 .mids-capstone strong {
