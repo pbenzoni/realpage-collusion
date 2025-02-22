@@ -49,6 +49,13 @@ a:hover, a:focus {
   padding: 15px;
 }
 
+.sidebar-heading img {
+  max-width: 100%; /* Ensures the image does not exceed the div's width */
+  height: auto; /* Maintains aspect ratio */
+  display: block; /* Removes any extra spacing */
+  margin: 0 auto; /* Centers the image horizontally */
+}
+
 /* 🏠 Sidebar Links */
 .list-group-item {
   background: transparent;
