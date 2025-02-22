@@ -157,6 +157,53 @@ a:hover, a:focus {
   font-weight: bold;
 }
 
+/* Legend for Map */
+
+.legend-container {
+  background-color: #f8f9fa;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  max-width: 300px;
+  margin: 15px 0;
+}
+
+.legend-container h4 {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.legend-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.legend-list li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+.legend-list li i {
+  font-size: 1.5rem;
+  margin-right: 8px;
+}
+
+/* Set specific colors for each icon */
+.legend-list li:nth-child(1) i {
+  color: red;
+}
+
+.legend-list li:nth-child(2) i {
+  color: blue;
+}
+
+.legend-list li:nth-child(3) i {
+  color: gray;
+}
+
 /* 🍔 Toggle Button (Hamburger Menu) */
 #menu-toggle {
   background: transparent;
