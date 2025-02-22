@@ -50,7 +50,7 @@ a:hover, a:focus {
 }
 
 .sidebar-heading img {
-  max-width: 100%; /* Ensures the image does not exceed the div's width */
+  max-width: 150px; /* Ensures the image does not exceed the div's width */
   height: auto; /* Maintains aspect ratio */
   display: block; /* Removes any extra spacing */
   margin: 0 auto; /* Centers the image horizontally */
