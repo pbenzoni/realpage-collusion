@@ -1,65 +1,170 @@
-/* Custom styles for your layout */
+/* 🌟 General Styles - Modern & Accessible */
 body {
-  font-family: Arial, sans-serif;
-  margin: 0; /* optional: ensure no default margin */
-  padding: 0; /* optional: ensure no default padding */
+  font-family: 'Poppins', sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
 }
 
-/* Wrapper for the sidebar + page content */
-#wrapper {
-  display: flex;
-  width: 100%;
+/* ✅ Improve Readability */
+h1, h2, h3, h4, h5 {
+  color: #004a99;
 }
 
-/* Toggled state for sidebar */
+p {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+a {
+  color: #0056b3;
+  text-decoration: none;
+}
+
+a:hover, a:focus {
+  text-decoration: underline;
+  color: #003c80;
+}
+
+/* 🎨 Sidebar */
+#sidebar-wrapper {
+  min-width: 250px;
+  max-width: 250px;
+  background-color: #f8f9fa;
+  border-right: 1px solid #ddd;
+  transition: all 0.3s ease;
+  padding-top: 15px;
+}
+
 #wrapper.toggled #sidebar-wrapper {
   margin-left: -250px;
 }
 
-/* Sidebar styles */
-#sidebar-wrapper {
-  min-width: 250px;
-  max-width: 250px;
-  transition: all 0.3s ease;
+.sidebar-heading {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 15px;
 }
 
+/* 🏠 Sidebar Links */
+.list-group-item {
+  background: transparent;
+  color: #333;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1.1rem;
+}
+
+.list-group-item:hover, .list-group-item:focus {
+  background: #f0f0f0;
+  transition: 0.3s;
+}
+
+/* 🎨 Active Navigation Link */
+.list-group-item.active {
+  background-color: #0056b3 !important;
+  color: #fff !important;
+  font-weight: bold;
+}
+
+/* 🔘 Buttons - Rounded & Accessible */
+.btn-primary {
+  background: #0056b3;
+  border-radius: 50px;
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+  background: #003c80;
+  outline: 3px solid #ffcc00;
+}
+
+/* 🏠 Hero Section */
+.hero-section {
+  background: url('https://source.unsplash.com/1600x900/?real-estate,city') no-repeat center;
+  background-size: cover;
+  color: white;
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.hero-section h1 {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.hero-section p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+/* 📦 Content Area - Increased Padding */
 #page-content-wrapper {
-  width: 100%;
+  padding: 40px 50px; /* More padding for a spacious layout */
 }
 
-.card-header {
-  background-color: #f8f9fa;
-}
-
+/* 📦 Content Cards - Improved Readability */
 .card {
-  margin-bottom: 1.5rem;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: white;
+  padding: 15px;
 }
 
-/* Headings */
-h1.display-5 {
-  font-weight: bold;
-  margin-bottom: 0.75rem;
-}
-
-/* --- New Menu & Link Styling --- */
-
-/* Hover effect for sidebar links */
-.list-group-item-action.bg-light:hover {
-  background-color: #f0f0f0; /* light gray background on hover */
-  color: #0056b3;           /* blue text */
+/* 🔳 Lighter Card Headers for Better Contrast */
+.card-header {
+  background: #f1f1f1; /* Light gray */
+  color: #004a99;
+  font-size: 1.3rem;
+  padding: 15px;
   font-weight: bold;
 }
 
-/* Active link styling */
-.list-group-item-action.active {
-  background-color: #0056b3 !important; /* deeper blue */
-  color: #fff !important;               /* white text */
-  font-weight: bold;
+/* 🍔 Toggle Button (Hamburger Menu) */
+#menu-toggle {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem; /* Adjust button size */
+  color: #0056b3;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Special highlight class for certain menu items */
-.menu-highlight {
-  color: #b7ae0e;      /* e.g., Bootstrap "danger" shade */
-  font-weight: bold; 
-  /* optional: add text-shadow or other emphasis */
+/* 🎨 Make the Menu Icon */
+#menu-toggle::before {
+  content: "\2630"; /* Unicode for menu icon */
+  font-size: 1.8rem;
+}
+
+/* Hover and Focus Effect */
+#menu-toggle:hover, #menu-toggle:focus {
+  color: #003c80;
+  outline: none;
+}
+
+/* 🌙 Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #222;
+    color: #ddd;
+  }
+  .card {
+    background: #333;
+    color: white;
+  }
+  .btn-primary {
+    background: #ffcc00;
+    color: #222;
+  }
+  .btn-primary:hover {
+    background: #ffaa00;
+  }
 }
