@@ -303,14 +303,36 @@ a:hover, a:focus {
 
   /* Fix the toggle button in the top-right with a white background */
   #menu-toggle {
+    /* Fix it near the top, then center horizontally */
     position: fixed;
     top: 10px;
-    right: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    
+    /* Style & sizing */
+    width: auto; 
+    padding: 6px 12px;
+    font-size: 1.2rem;
     background-color: #fff;
     border: none;
-    cursor: pointer;
     z-index: 1101;
-    font-size: 1.2rem;
-    padding: 6px 12px;
+    cursor: pointer;
+    
+    /* Use flex to center icon + text inside the button */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
   }
+
+  /* Override the existing hamburger icon placement 
+     so it sits inline (to the left) rather than absolutely positioned */
+     #menu-toggle::before {
+      content: "\2630";       /* Unicode hamburger */
+      font-size: 1.8rem;
+      color: #0056b3;
+      position: static;       /* Removes absolute positioning */
+      margin-right: 8px;      /* Space between icon and text */
+      transform: none;        /* Remove transform if previously set */
+    }
 }
