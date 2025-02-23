@@ -310,7 +310,7 @@ a:hover, a:focus {
     transform: translateX(-50%);
     
     /* Style & sizing */
-    width: auto; 
+    width: 100%;
     padding: 6px 12px;
     font-size: 1.2rem;
     background-color: #fff;
@@ -338,6 +338,6 @@ a:hover, a:focus {
 
     /* Push main content down so the button doesn't overlap it */
     #page-content-wrapper {
-      padding-top: 140px; /* Adjust if you need more or less space */
+      padding-top: 70px; /* Adjust if you need more or less space */
     }
 }
