@@ -220,6 +220,11 @@ a:hover, a:focus {
   outline: none;
 }
 
+/* Hide elements on mobile */
+.mobile-only {
+  display: none;
+}
+
 /* 🌙 Dark Mode Support */
 @media (prefers-color-scheme: dark) {
   body {
@@ -256,6 +261,11 @@ a:hover, a:focus {
   /* Hide elements on mobile */
   .desktop-only {
     display: none;
+  }
+
+  /* Show elements on mobile */
+  .mobile-only {
+    display: block;
   }
 
   /* Constrain overall layout to viewport width and prevent horizontal overflow */
