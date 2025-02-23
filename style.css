@@ -93,14 +93,6 @@ a:hover, a:focus {
   color: #0056b3; /* Matches links */
 }
 
-/* 🌟 Responsive Design */
-@media (max-width: 768px) {
-  .mids-capstone {
-    font-size: 1.5rem;
-    padding: 10px 0;
-  }
-}
-
 /* 🔘 Buttons - Rounded & Accessible */
 .btn-primary {
   background: #0056b3;
@@ -234,9 +226,17 @@ a:hover, a:focus {
     background: #222;
     color: #ddd;
   }
+  /* Override header colors for better contrast */
+  h1, h2, h3, h4, h5 {
+    color: #fff;
+  }
+  /* Override paragraph text so it doesn’t remain dark grey */
+  p {
+    color: #ddd;
+  }
   .card {
     background: #333;
-    color: white;
+    color: #fff;
   }
   .btn-primary {
     background: #ffcc00;
@@ -244,5 +244,73 @@ a:hover, a:focus {
   }
   .btn-primary:hover {
     background: #ffaa00;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Universal box-sizing */
+  * {
+    box-sizing: border-box;
+  }
+
+  /* Constrain overall layout to viewport width and prevent horizontal overflow */
+  html, body, #wrapper, #page-content-wrapper {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* Enforce text wrapping */
+  body, p, h1, h2, h3, h4, h5 {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* Ensure content container adapts to small screens */
+  #page-content-wrapper {
+    padding: 20px;
+    margin: 0 auto;
+  }
+
+  /* Override fixed 250px width from desktop */
+  #sidebar-wrapper {
+    min-width: auto !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    
+    /* Hide by default on mobile */
+    display: none;
+    position: absolute;
+    top: 60px; /* Adjust if your navbar is taller/shorter */
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 10px 0;
+    text-align: center;
+    background-color: #f8f9fa;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    z-index: 1000;
+  }
+
+  /* When #wrapper has .toggled, show the menu (instead of sliding it) */
+  #wrapper.toggled #sidebar-wrapper {
+    display: block;
+    margin-left: 0 !important; /* Overrides desktop's -250px shift */
+  }
+
+  /* Fix the toggle button in the top-right with a white background */
+  #menu-toggle {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+    z-index: 1101;
+    font-size: 1.2rem;
+    padding: 6px 12px;
   }
 }
