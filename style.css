@@ -253,6 +253,11 @@ a:hover, a:focus {
     box-sizing: border-box;
   }
 
+  /* Hide elements on mobile */
+  .desktop-only {
+    display: none;
+  }
+
   /* Constrain overall layout to viewport width and prevent horizontal overflow */
   html, body, #wrapper, #page-content-wrapper {
     margin: 0;
