@@ -297,7 +297,7 @@ a:hover, a:focus {
     
     /* Hide by default on mobile */
     display: none;
-    position: absolute;
+    position: fixed;
     top: 60px; /* Adjust if your navbar is taller/shorter */
     left: 0;
     right: 0;
