@@ -335,4 +335,9 @@ a:hover, a:focus {
       margin-right: 8px;      /* Space between icon and text */
       transform: none;        /* Remove transform if previously set */
     }
+
+    /* Push main content down so the button doesn't overlap it */
+    #page-content-wrapper {
+      padding-top: 140px; /* Adjust if you need more or less space */
+    }
 }
