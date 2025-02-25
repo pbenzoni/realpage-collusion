@@ -62,15 +62,7 @@
         <h1 class="display-5 mb-4">Try It Yourself: Interactive Modeling</h1>
 
         <p class="text-muted">
-          Use the input fields below to customize property details and key market indicators. 
-          The model will analyze your inputs to predict rent trends and other relevant housing 
-          insights. Once you submit, the system will generate a prediction, including key metrics 
-          such as confidence levels and accuracy. <i>We are not storing any personal data provided by this form, and all
-          information is processed securely.</i>
-        
-          Below the results, you'll find an embedded visualization that helps illustrate the 
-          model's predictions in a meaningful way. Use this to understand market conditions, 
-          compare trends, and make informed decisions based on data-driven insights.
+          Use the input fields below to provide the key market indicators. The model will analyze your inputs to predict outcomes using both collusion and no‐collusion models. After submission, you’ll receive prediction results along with key evaluation metrics and a visualization.
         </p>        
 
         <!-- Form for Inputs -->
@@ -80,51 +72,22 @@
           </div>
           <div class="card-body">
             <form id="model-form">
-              <!-- Input Fields -->
+              <!-- Input Fields for API -->
               <div class="mb-3">
-                <label for="propertyName" class="form-label">Property Name (Optional)</label>
-                <input type="text" class="form-control" id="propertyName" name="propertyName" placeholder="e.g. Sunset Apartments" />
-                <small class="form-text text-muted">Enter the name of the property (if applicable). This helps identify the listing.</small>
+                <label for="marginalCost" class="form-label">Marginal Cost</label>
+                <input type="number" class="form-control" id="marginalCost" name="marginalCost" placeholder="e.g. 75.5" step="any" required>
+                <small class="form-text text-muted">Enter the marginal cost value.</small>
               </div>
-
               <div class="mb-3">
-                <label for="propertyState" class="form-label">State (Optional)</label>
-                <input type="text" class="form-control" id="propertyState" name="propertyState" placeholder="e.g. California" />
-                <small class="form-text text-muted">Specify the state where the property is located. Example: "California".</small>
+                <label for="supplyElasticity" class="form-label">Supply Elasticity</label>
+                <input type="number" class="form-control" id="supplyElasticity" name="supplyElasticity" placeholder="e.g. 1.2" step="any" required>
+                <small class="form-text text-muted">Enter the supply elasticity value.</small>
               </div>
-
               <div class="mb-3">
-                <label for="propertyCity" class="form-label">City (Optional)</label>
-                <input type="text" class="form-control" id="propertyCity" name="propertyCity" placeholder="e.g. Los Angeles" />
-                <small class="form-text text-muted">Enter the city where the property is located. Example: "Los Angeles".</small>
+                <label for="price" class="form-label">Observed Price</label>
+                <input type="number" class="form-control" id="price" name="price" placeholder="e.g. 100" step="any" required>
+                <small class="form-text text-muted">Enter the observed price value.</small>
               </div>
-
-              <div class="mb-3">
-                <label for="propertyAddress" class="form-label">Address (Optional)</label>
-                <input type="text" class="form-control" id="propertyAddress" name="propertyAddress" placeholder="e.g. 123 Main St" />
-                <small class="form-text text-muted">Provide the street address of the property. This is useful for exact location identification.</small>
-              </div>
-
-              <div class="mb-3">
-                <label for="propertyZip" class="form-label">Zip Code (Optional)</label>
-                <input type="text" class="form-control" id="propertyZip" name="propertyZip" placeholder="e.g. 90001" />
-                <small class="form-text text-muted">Enter the 5-digit ZIP code of the property. Example: "90001".</small>
-              </div>
-
-              <!-- HeroSource Variable (Radio Buttons) -->
-              <div class="mb-3">
-                <label class="form-label">HeroSource Variable (1 = RealPage, 0 = Non-RealPage)</label>
-                <small class="form-text text-muted">Select whether the data source is from **RealPage (1)** or **another source (0)**.</small>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="heroSource" id="heroSource1" value="1" required>
-                    <label class="form-check-label" for="heroSource1">RealPage (1)</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="heroSource" id="heroSource0" value="0" required>
-                    <label class="form-check-label" for="heroSource0">Non-RealPage (0)</label>
-                </div>
-              </div>
-
               <button type="submit" class="btn btn-primary">
                 Submit &amp; Predict
               </button>
@@ -191,29 +154,31 @@
     const outputDiv = document.getElementById('model-output');
     const visContainer = document.getElementById('prediction-vis-container');
     const visIframe = document.getElementById('prediction-iframe');
-    const heroSourceInput = document.querySelector('input[name="heroSource"]:checked');
-    const heroSourceValue = heroSourceInput ? Number(heroSourceInput.value) : null; 
 
     form.addEventListener('submit', event => {
       event.preventDefault();
 
-      // Prepare a payload for your API
+      // Collect input values for the API
+      const marginalCost = parseFloat(document.getElementById('marginalCost').value);
+      const supplyElasticity = parseFloat(document.getElementById('supplyElasticity').value);
+      const price = parseFloat(document.getElementById('price').value);
+
+      // Construct payload in the format expected by the API
       const payload = {
-        propertyName: document.getElementById('propertyName').value || null,
-        propertyState: document.getElementById('propertyState').value || null,
-        propertyCity: document.getElementById('propertyCity').value || null,
-        propertyAddress: document.getElementById('propertyAddress').value || null,
-        propertyZip: document.getElementById('propertyZip').value || null,
-        heroSource: heroSourceValue,
+        data: [{
+          marginal_cost: marginalCost,
+          supply_elasticity: supplyElasticity,
+          price: price
+        }]
       };
 
-      // Clear any old messages
+      // Clear any old messages and reset visualization
       outputDiv.classList.add('d-none');
       outputDiv.classList.remove('alert-danger');
       visContainer.classList.add('d-none');
       visIframe.src = ""; // reset
 
-      // Fetch call to an endpoint
+      // Fetch call to your API endpoint (update URL as needed)
       fetch('https://67bcba9fed4861e07b3bbb1a.mockapi.io/rpc/predict', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -221,42 +186,23 @@
       })
       .then(response => response.json())
       .then(data => {
-        // Show the output text
+        // Show the output text with the prediction and metrics
         outputDiv.classList.remove('d-none');
         outputDiv.innerHTML = `
           <strong>Model Prediction:</strong> ${data.prediction} <br>
-          <strong>Confidence:</strong> ${data.confidence}% 
-          <small class="text-muted" title="Confidence score represents how certain the model is about its prediction. Higher values indicate stronger certainty.">ⓘ</small> <br>
-          
-          ${data.accuracy ? `<strong>Accuracy:</strong> ${data.accuracy}% 
-          <small class="text-muted" title="Accuracy measures the percentage of correct predictions. Useful for balanced datasets.">ⓘ</small> <br>` : ""}
-
-          ${data.precision ? `<strong>Precision:</strong> ${data.precision} 
-          <small class="text-muted" title="Precision measures how many predicted positives are actually correct. High precision means fewer false positives.">ⓘ</small> <br>` : ""}
-
-          ${data.recall ? `<strong>Recall:</strong> ${data.recall} 
-          <small class="text-muted" title="Recall measures how many actual positives were correctly identified. High recall means fewer false negatives.">ⓘ</small> <br>` : ""}
-
-          ${data.f1Score ? `<strong>F1-Score:</strong> ${data.f1Score} 
-          <small class="text-muted" title="F1-Score balances Precision & Recall. Useful for imbalanced datasets.">ⓘ</small> <br>` : ""}
-
-          ${data.mse ? `<strong>Mean Squared Error (MSE):</strong> ${data.mse} 
-          <small class="text-muted" title="MSE measures average squared differences between predicted and actual values. Lower is better.">ⓘ</small> <br>` : ""}
-
-          ${data.mae ? `<strong>Mean Absolute Error (MAE):</strong> ${data.mae} 
-          <small class="text-muted" title="MAE measures the average absolute differences between predictions and actual values. Lower is better.">ⓘ</small> <br>` : ""}
-
-          ${data.rSquared ? `<strong>R² Score:</strong> ${data.rSquared} 
-          <small class="text-muted" title="R² shows how well the model explains variance in data. Closer to 1 is better.">ⓘ</small> <br>` : ""}
-
-          ${data.aucRoc ? `<strong>AUC-ROC Score:</strong> ${data.aucRoc} 
-          <small class="text-muted" title="AUC-ROC measures model's ability to distinguish between classes. Closer to 1 is better.">ⓘ</small> <br>` : ""}
-
-          ${data.logLoss ? `<strong>Log Loss:</strong> ${data.logLoss} 
-          <small class="text-muted" title="Log Loss quantifies classification model uncertainty. Lower is better.">ⓘ</small> <br>` : ""}
+          <strong>Mean Squared Error (MSE):</strong> ${data.mse} <br>
+          ${data.confidence ? `<strong>Confidence:</strong> ${data.confidence}% <br>` : ""}
+          ${data.accuracy ? `<strong>Accuracy:</strong> ${data.accuracy}% <br>` : ""}
+          ${data.precision ? `<strong>Precision:</strong> ${data.precision} <br>` : ""}
+          ${data.recall ? `<strong>Recall:</strong> ${data.recall} <br>` : ""}
+          ${data.f1Score ? `<strong>F1-Score:</strong> ${data.f1Score} <br>` : ""}
+          ${data.mae ? `<strong>MAE:</strong> ${data.mae} <br>` : ""}
+          ${data.rSquared ? `<strong>R² Score:</strong> ${data.rSquared} <br>` : ""}
+          ${data.aucRoc ? `<strong>AUC-ROC:</strong> ${data.aucRoc} <br>` : ""}
+          ${data.logLoss ? `<strong>Log Loss:</strong> ${data.logLoss} <br>` : ""}
         `;
 
-        // Now let's assume the API also returns a URL for a relevant visualization
+        // If a visualization URL is returned, update the iframe source and display it
         if (data.visualUrl) {
           visIframe.src = data.visualUrl;
           visContainer.classList.remove('d-none');
@@ -265,7 +211,6 @@
       .catch(err => {
         outputDiv.classList.remove('d-none');
         outputDiv.classList.add('alert-danger');
-        // Default error message
         outputDiv.textContent = 'Error fetching model prediction. Please try again.';
         console.error(err);
       });
