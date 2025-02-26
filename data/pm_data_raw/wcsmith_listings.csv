@@ -1,0 +1,80 @@
+propertyName,propertySubmarket,propertyAddress,propertyCity,propertyState,propertyZip,propertyMinPrice,propertyMaxPrice,taxCredit,latitude,longitude
+Randle Circle,Congress Heights,3022 K St SE,Washington,DC,20019,,,False,38.8785888,-76.9635808
+Garden Village,Shipley Terrace,3642 Brothers Pl SE,Washington,DC,20032,,,True,38.8390545,-77.006433
+Sheridan Station,Anacostia,2516 Sheridan Rd SE,Washington,DC,20020,655.0,1725.0,True,38.8601636,-76.9933324
+Sheridan Station South,Anacostia,2516 Sheridan Rd SE,Washington,DC,20020,300.0,1825.0,True,38.8601636,-76.9933324
+734 Longfellow St NW,Brightwood Park,734 Longfellow St NW,Washington,DC,20011,1175.0,1350.0,True,38.9571403,-77.0232171
+Manor Village,Congress Heights,1717 Alabama Ave SE,Washington,DC,20020,1175.0,1445.0,True,38.8466934,-76.9800126
+Juniper Courts,Takoma,7701 Georgia Ave NW,Washington,DC,20012,1185.0,1675.0,True,38.9829559,-77.026157
+Whitelaw,Logan Circle,1831 13th St NW,Washington,DC,20009,1186.0,1872.0,True,38.9151627,-77.0292846
+City View Apartments,Anacostia,2850 Douglass Pl SE,Washington,DC,20020,1188.0,1735.0,True,38.8568671,-76.9919199
+The Strand,Deanwood,5129 Nannie Helen Burroughs Ave NE,Washington,DC,20019,1222.0,1540.0,True,38.8982126,-76.92617829999999
+Terrace Manor,Shipley Terrace,3301 23rd St SE,Washington,DC,20020,1225.0,2195.0,True,38.8484759,-76.9716454
+Archer Park,Congress Heights,1200 Mississippi Ave SE,Washington,DC,20032,1245.0,1695.0,True,38.8397177,-76.9900006
+Fairway Park,Carver Langston,2100 Maryland Ave NE,Washington,DC,20002,1275.0,1450.0,True,38.9044956,-76.9735377
+Petworth Station,Petworth,940 Randolph St NW,Washington,DC,20011,1285.0,1480.0,True,38.9385369,-77.026224
+Park Vista Apartments,Congress Heights,3432 13th St SE,Washington,DC,20032,1415.0,1715.0,True,38.8409967,-76.9882477
+The Oaks,Anacostia,1814 29th St SE,Washington,DC,20020,1544.0,1843.0,True,38.8677996,-76.96551480000001
+Jasper Place,Congress Heights,1350 Jasper St SE,Washington,DC,20020,1843.0,1843.0,True,38.8518755,-76.9760001
+1818 Riggs,Adams Morgan,1818 Riggs Pl NW,Washington,DC,20009,,,False,38.9131839,-77.04247579999999
+2629 39th St,Glover Park,2629 39th St NW,Washington,DC,20007,,,False,38.9245963,-77.07782929999999
+Halley House,Congress Heights,2600-2622 Martin Luther King Jr Ave SE,Washington,DC,20020,,,False,38.8591139,-76.9950499
+Richman Apartments,Columbia Heights,1401 Sheridan St NW,Washington,DC,20011,,,False,38.9664068,-77.0338491
+Shipley Park,Congress Heights,2532 Southern Ave SE,Washington,DC,20020,,,False,38.847473,-76.9679926
+Penn View,Randle Highlands,2515 R St SE,Washington,DC,20020,,,False,38.86888709999999,-76.969977
+Hillside Terrace,Randle Highlands,1814 23rd St SE,Washington,DC,20020,,,False,38.8673678,-76.97278179999999
+734 Longfellow,Brightwood Park,734 Longfellow St NW,Washington,DC,20011,1175.0,1350.0,False,38.9571403,-77.0232171
+The Colonnade,Cathedral Heights,2801 New Mexico Ave NW,Washington,DC,20007,,,False,38.9267378,-77.0804513
+T Street,Congress Heights,1350 Jasper St SE,Washington,DC,20020,,,False,38.8518755,-76.9760001
+Jetu,Congress Heights,3030 30th St SE,Washington,DC,20020,,,False,38.85241,-76.9651427
+Brunswick House,Adams Morgan,1414 17th St NW,Washington,DC,20036,,,False,38.9092055,-77.0388605
+1401 Sheridan,Brightwood,1401 Sheridan St NW,Washington,DC,20011,,,False,38.9664068,-77.0338491
+2801 Pennsylvania,Capitol Hill,2801 Pennsylvania Ave SE,Washington,DC,20003,,,False,38.8718114,-76.9674575
+3101 Pennsylvania,Capitol Hill,3101 Pennsylvania Ave SE,Washington,DC,20003,,,False,38.869903,-76.9627989
+New Horizon,Congress Heights,3650 6th St SE,Washington,DC,20032,,,False,38.8378217,-76.9979402
+Ridgecrest Village Phase 1,Anacostia,2000 Ridgecrest Ct SE,Washington,DC,20020,,,False,38.8475833,-76.9740273
+Washington View,Congress Heights,2629 Douglass Rd SE,Washington,DC,20020,,,False,38.8570042,-76.9894293
+Alpha House,Congress Heights,2700 Jasper St SE,Washington,DC,20020,,,False,38.8521374,-76.96908370000001
+Hampton Courts,Columbia Heights,2013 New Hampshire Ave NW,Washington,DC,20009,,,False,38.917493,-77.0355677
+The Cortland,Adams Morgan,1760 Euclid St NW,Washington,DC,20009,,,False,38.9229512,-77.04110539999999
+Grandview Village,Congress Heights,3500 6th St SE,Washington,DC,20032,,,False,38.8394469,-76.9982049
+Twin Oaks,Columbia Heights,3800 14th St NW,Washington,DC,20011,,,False,38.9380543,-77.0335528
+Naylor Overlook,Randle Highlands,2701 Naylor Rd SE,Washington,DC,20020,,,False,38.85929489999999,-76.9685817
+3151 Mt. Pleasant St,Mount Pleasant,3151 Mt Pleasant St NW,Washington,DC,20010,,,False,38.930366,-77.0376678
+Pleasant Hills Village,Congress Heights,100 Fort Dr SE,Washington,DC,20032,,,False,,
+Sherry Hall,Adams Morgan,2702 Ontario Rd NW,Washington,DC,20009,,,False,38.924407,-77.0405134
+The Frontenac,Cathedral Heights,4550 Connecticut Ave NW,Washington,DC,20008,,,False,38.9494698,-77.0668608
+Hilltop House,Adams Morgan,1475 Euclid St NW,Washington,DC,20009,1495.0,2845.0,False,38.9236375,-77.0349895
+6100 14th Street,Brightwood,6100 14th St NW,Washington,DC,20011,,,False,38.9644046,-77.0337026
+Chatham Courts,Columbia Heights,1707 Columbia Rd NW,Washington,DC,20009,,,False,38.9250906,-77.0396141
+Parkside,Hillcrest,6000 13th St NW,Washington,DC,20011,,,False,38.9631477,-77.0300592
+Fort Totten Apartments,Fort Totten,5210 3rd St NE,Washington,DC,20011,,,False,38.9533969,-77.0013865
+2800 Woodley Rd,Woodley Park,2800 Woodley Rd NW,Washington,DC,20008,,,False,38.9256994,-77.0570639
+The Foreland,Adams Morgan,2323 16th St NW,Washington,DC,20009,,,False,38.9205089,-77.03649970000001
+5600 Chillum,Riggs Park,5600 Chillum Pl NE,Washington,DC,20011,,,False,38.958153,-77.000585
+The Shawmut,Adams Morgan,2200 19th St NW,Washington,DC,20009,,,False,38.9192106,-77.0451046
+Dupont Apartments,Dupont Circle,1717 20th St NW,Washington,DC,20009,,,False,38.9131132,-77.0444843
+Clarence House,Van Ness,4530 Connecticut Ave NW,Washington,DC,20008,,,False,38.9490299,-77.06699929999999
+2800 Ontario Rd,Adams Morgan,2800 Ontario Rd NW,Washington,DC,20009,,,False,38.9252106,-77.04154539999999
+The Calverton,Columbia Heights,2425 16th St NW,Washington,DC,20009,,,False,38.921212,-77.0364984
+The Baystate,Dupont Circle,1701 Massachusetts Ave NW,Washington,DC,20036,,,False,38.9083928,-77.03877059999999
+Meridian Park,Columbia Heights,2445 15th St NW,Washington,DC,20009,,,False,38.9228557,-77.0349677
+Wakefield Hall,Van Ness,2101 Connecticut Ave NW,Washington,DC,20008,,,False,38.9182232,-77.04704869999999
+The Klingle,Cleveland Park,2755 Macomb St NW,Washington,DC,20008,,,False,38.933695,-77.0568511
+1400 Van Buren,Brightwood,1400 Van Buren St NW,Washington,DC,20012,,,False,38.9696921,-77.0339127
+Eddystone,Adams Morgan,1301 Vermont Ave NW,Washington,DC,20005,,,False,38.9075575,-77.0305357
+Crest At Skyland Town Center,Skyland / Naylor Gardens,2219 Town Center Dr SE,Washington,DC,20020,1695.0,2860.0,False,38.8612232,-76.96789009999999
+The Norwood,Adams Morgan,1868 Columbia Rd NW,Washington,DC,20009,,,False,38.9202959,-77.0436629
+The Dahlia,Takoma,5610 13th St NW,Washington,DC,20011,,,False,38.9577032,-77.0300086
+3213 Wisconsin Ave,Cleveland Park,3213 Wisconsin Ave NW,Washington,DC,20016,,,False,38.9326847,-77.0721514
+4031 Davis,Glover Park,4031 Davis Pl NW,Washington,DC,20007,,,False,38.9238131,-77.0801579
+Cambridge Square,Glover Park,3601 39th St NW,Washington,DC,20016,,,False,38.9370783,-77.0774043
+Avec On H Street,H Street,801-901 H St NE,Washington,DC,20002,,,False,38.8999199,-76.9946239
+Strathmore,Cleveland Park,4100 Massachusetts Ave NW,Washington,DC,20016,,,False,38.9334727,-77.08194189999999
+Battery Lane Apartments,Bethesda,4858 Battery Lane,Bethesda,MD,20814,,,False,38.9924474,-77.0977928
+The Garrett,Navy Yard,150 I St SE,Washington,DC,20003,,,False,38.8795141,-77.0039967
+Park Chelsea,Navy Yard,880 New Jersey Ave SE,Washington,DC,20003,,,False,38.8796739,-77.0043561
+Agora,Navy Yard,880 New Jersey Ave SE,Washington,DC,20003,,,False,38.8796739,-77.0043561
+2701 Connecticut Ave,Woodley Park,2701 Connecticut Ave NW,Washington,DC,20008,,,False,38.9257238,-77.0524432
+4020 Calvert St,Glover Park,4020 Calvert St NW,Washington,DC,20007,,,False,38.922356,-77.0799637
+City Towns,Navy Yard,880 New Jersey Ave SE,Washington,DC,20003,,,False,38.8796739,-77.0043561
