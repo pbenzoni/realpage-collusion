@@ -3,29 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Storyboard - RealPage Collusion Dashboard</title>
-  <link rel="icon" type="image/png" href="photos/berkeleyischool-logo-vertical-blue-sm.png">
+  <title>Interactive Scroll with Sidebar</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <link rel="stylesheet" href="style.css" />
-  <style>
-    /* Styling for a scrollable storyboard container */
-    .storyboard-container {
-      max-height: 80vh;
-      overflow-y: auto;
-      padding-right: 15px;
-    }
-  </style>
 </head>
 <body>
   <div class="d-flex" id="wrapper">
-    <!-- Sidebar -->
+    <!-- Sidebar (Original Code Preserved) -->
     <div class="bg-light border-end" id="sidebar-wrapper">
       <div class="sidebar-heading text-center py-4">
         <img src="photos/berkeleyischool-logo-vertical-blue-sm.png" alt="UC Berkeley School of Information">
-        <h2 class="mids-capstone">
-          MIDS Capstone: <strong>RealPage Collusion Dashboard</strong>
-        </h2>
+        <h2 class="mids-capstone">MIDS Capstone: <strong>RealPage Collusion Dashboard</strong></h2>
       </div>
       <div class="list-group list-group-flush">
         <a href="index.html" class="list-group-item list-group-item-action bg-light active">
@@ -53,52 +43,34 @@
           </button>
         </div>
       </nav>
-
-      <div class="container-fluid py-4">
-        <h1 class="display-5">Storyboard</h1>
-        <p class="lead">Scroll through the project's narrative and visual journey below.</p>
-        <div class="storyboard-container">
-          <!-- Storyboard card: Introduction -->
-          <div class="card mb-4">
-            <div class="card-header">
-              <h5 class="mb-0">Introduction</h5>
-            </div>
-            <div class="card-body">
-              <p>An overview of the project's goals, background, and key research questions.</p>
-            </div>
+      <div class="content">
+        <!-- Scroll-Driven Sections -->
+        <section id="intro" class="section">
+          <div class="container text-center">
+            <h1>Introduction</h1>
+            <p>This section gives an overview of the project, its goals, and key questions.</p>
           </div>
-          <!-- Storyboard card: Data Exploration -->
-          <div class="card mb-4">
-            <div class="card-header">
-              <h5 class="mb-0">Data Exploration</h5>
-            </div>
-            <div class="card-body">
-              <p>Insights from initial data analysis, including trends and patterns discovered.</p>
-            </div>
+        </section>
+        <section id="data" class="section">
+          <div class="container text-center">
+            <h1>Data Exploration</h1>
+            <p>Insights from initial data analysis are showcased here.</p>
           </div>
-          <!-- Storyboard card: Interactive Map -->
-          <div class="card mb-4">
-            <div class="card-header">
-              <h5 class="mb-0">Interactive Map</h5>
-            </div>
-            <div class="card-body">
-              <p>Visual representation of geographic market trends through an interactive interface.</p>
-            </div>
+        </section>
+        <section id="map" class="section">
+          <div class="container text-center">
+            <h1>Interactive Map</h1>
+            <p>This section provides a visual representation of the data on an interactive map.</p>
           </div>
-          <!-- Storyboard card: Key Findings -->
-          <div class="card mb-4">
-            <div class="card-header">
-              <h5 class="mb-0">Key Findings</h5>
-            </div>
-            <div class="card-body">
-              <p>A summary of the study's main results and their implications for the housing market.</p>
-            </div>
+        </section>
+        <section id="findings" class="section">
+          <div class="container text-center">
+            <h1>Key Findings</h1>
+            <p>A summary of the project’s most important insights and results.</p>
           </div>
-          <!-- Additional storyboard sections can be added here -->
-        </div>
+        </section>
       </div>
-
-      <footer class="bg-light text-center py-3 mt-5 border-top">
+      <footer class="bg-light text-center py-3 border-top">
         <p class="mb-0">
           &copy; 2025 RealPage Collusion Dashboard &mdash;
           <a href="privacy.html">View Full Privacy Policy</a>
@@ -111,10 +83,25 @@
   <!-- Bootstrap Bundle JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+    // Toggle sidebar for mobile responsiveness
     const menuToggle = document.getElementById("menu-toggle");
     const wrapper = document.getElementById("wrapper");
     menuToggle.addEventListener("click", () => {
       wrapper.classList.toggle("toggled");
+    });
+    
+    // Scroll-triggered animations using IntersectionObserver
+    document.addEventListener("DOMContentLoaded", function() {
+      const sections = document.querySelectorAll('.section');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+          }
+        });
+      }, { threshold: 0.2 });
+      
+      sections.forEach(section => observer.observe(section));
     });
   </script>
 </body>
