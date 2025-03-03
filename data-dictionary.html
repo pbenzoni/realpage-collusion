@@ -125,54 +125,53 @@
   </script>
 
   <!-- Script to fetch and display data from data-dictionary.json -->
-    <!-- Script to fetch and display data from data-dictionary.json -->
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        fetch('data-dictionary.json')
-          .then(response => response.json())
-          .then(data => {
-            console.log("JSON data:", data); // Debug log
-            renderDataDictionary(data);
-          })
-          .catch(error => console.error('Error fetching JSON:', error));
-      });
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      fetch('data-dictionary.json')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          renderDataDictionary(data);
+        })
+        .catch(error => console.error('Error fetching JSON:', error));
+    });
   
-      function renderDataDictionary(dictionary) {
-        const container = document.getElementById('json-dictionary');
-        // Clear container in case there's any previous content
-        container.innerHTML = "";
-        // For each top-level key in our JSON:
-        Object.keys(dictionary).forEach(categoryKey => {
-          // Create a section container
-          const sectionDiv = document.createElement('div');
-          sectionDiv.classList.add('mb-4');
+    function renderDataDictionary(dictionary) {
+      const container = document.getElementById('json-dictionary');
+      container.innerHTML = ''; // Clear previous content if any
+      Object.keys(dictionary).forEach(categoryKey => {
+        // Create a container for each category
+        const sectionDiv = document.createElement('div');
+        sectionDiv.classList.add('mb-4');
   
-          // Create a heading for the section using a nice title
-          const header = document.createElement('h5');
-          header.textContent = niceTitle(categoryKey);
-          sectionDiv.appendChild(header);
+        // Create a header for this category
+        const header = document.createElement('h5');
+        header.textContent = prettyTitle(categoryKey);
+        sectionDiv.appendChild(header);
   
-          // Create a list of fields for this category
-          const fieldsArray = dictionary[categoryKey];
-          const ul = document.createElement('ul');
-  
-          fieldsArray.forEach(item => {
-            const li = document.createElement('li');
-            li.innerHTML = `<strong>${item.field}:</strong> ${item.description}`;
-            ul.appendChild(li);
-          });
-  
-          sectionDiv.appendChild(ul);
-          container.appendChild(sectionDiv);
+        // Create a list for the fields in this category
+        const ul = document.createElement('ul');
+        dictionary[categoryKey].forEach(item => {
+          const li = document.createElement('li');
+          li.innerHTML = `<strong>${item.field}:</strong> ${item.description}`;
+          ul.appendChild(li);
         });
-      }
+        sectionDiv.appendChild(ul);
   
-      // Helper to prettify JSON keys into titles
-      function niceTitle(key) {
-        return key
-          .replace(/([A-Z])/g, ' $1') // insert space before uppercase letters
-          .replace(/^./, s => s.toUpperCase()); // capitalize first letter
-      }
-    </script> 
+        // Append this category to the main container
+        container.appendChild(sectionDiv);
+      });
+    }
+  
+    function prettyTitle(key) {
+      return key
+        .replace(/([A-Z])/g, ' $1')  // Insert space before uppercase letters
+        .replace(/^./, s => s.toUpperCase());  // Capitalize first letter
+    }
+  </script>  
 </body>
 </html>
