@@ -125,60 +125,54 @@
   </script>
 
   <!-- Script to fetch and display data from data-dictionary.json -->
-  <script>
-    fetch('data-dictionary.json')
-      .then(response => response.json())
-      .then(data => {
-        // We assume data is an object with top-level keys, e.g.:
-        // {
-        //   "corePropertyInfo": [...],
-        //   "physicalOperationalAttributes": [...],
-        //   ...
-        // }
-        renderDataDictionary(data);
-      })
-      .catch(error => console.error('Error fetching JSON:', error));
-
-    function renderDataDictionary(dictionary) {
-      const container = document.getElementById('json-dictionary');
-
-      // For each top-level key in our JSON (e.g., "corePropertyInfo", "locationMedia", etc.):
-      Object.keys(dictionary).forEach(categoryKey => {
-        // Create a section container
-        const sectionDiv = document.createElement('div');
-        sectionDiv.classList.add('mb-4');
-
-        // Create a heading for the section
-        const header = document.createElement('h5');
-        // e.g., "Core Property Information" instead of "corePropertyInfo"
-        header.textContent = niceTitle(categoryKey);
-        sectionDiv.appendChild(header);
-
-        // Access the array of fields
-        const fieldsArray = dictionary[categoryKey];
-        const ul = document.createElement('ul');
-
-        fieldsArray.forEach(item => {
-          const li = document.createElement('li');
-          li.innerHTML = `<strong>${item.field}:</strong> ${item.description}`;
-          ul.appendChild(li);
-        });
-
-        sectionDiv.appendChild(ul);
-        container.appendChild(sectionDiv);
+    <!-- Script to fetch and display data from data-dictionary.json -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        fetch('data-dictionary.json')
+          .then(response => response.json())
+          .then(data => {
+            console.log("JSON data:", data); // Debug log
+            renderDataDictionary(data);
+          })
+          .catch(error => console.error('Error fetching JSON:', error));
       });
-    }
-
-    // Helper to convert JSON keys to a nicer heading if desired:
-    function niceTitle(key) {
-      // Example transformations: 
-      // "corePropertyInformation" -> "Core Property Information"
-      // "physicalOperationalAttributes" -> "Physical & Operational Attributes"
-      // etc. You can do advanced logic or a mapping dictionary if needed.
-      return key
-        .replace(/([A-Z])/g, ' $1')        // insert space before uppercase
-        .replace(/^./, s => s.toUpperCase()); // capitalize first letter
-    }
-  </script>
+  
+      function renderDataDictionary(dictionary) {
+        const container = document.getElementById('json-dictionary');
+        // Clear container in case there's any previous content
+        container.innerHTML = "";
+        // For each top-level key in our JSON:
+        Object.keys(dictionary).forEach(categoryKey => {
+          // Create a section container
+          const sectionDiv = document.createElement('div');
+          sectionDiv.classList.add('mb-4');
+  
+          // Create a heading for the section using a nice title
+          const header = document.createElement('h5');
+          header.textContent = niceTitle(categoryKey);
+          sectionDiv.appendChild(header);
+  
+          // Create a list of fields for this category
+          const fieldsArray = dictionary[categoryKey];
+          const ul = document.createElement('ul');
+  
+          fieldsArray.forEach(item => {
+            const li = document.createElement('li');
+            li.innerHTML = `<strong>${item.field}:</strong> ${item.description}`;
+            ul.appendChild(li);
+          });
+  
+          sectionDiv.appendChild(ul);
+          container.appendChild(sectionDiv);
+        });
+      }
+  
+      // Helper to prettify JSON keys into titles
+      function niceTitle(key) {
+        return key
+          .replace(/([A-Z])/g, ' $1') // insert space before uppercase letters
+          .replace(/^./, s => s.toUpperCase()); // capitalize first letter
+      }
+    </script> 
 </body>
 </html>
