@@ -45,28 +45,28 @@
       </nav>
       <div class="content">
         <!-- Scroll-Driven Sections -->
-        <section id="intro" class="section">
+        <section id="intro" class="scroll-section">
           <div class="container text-center">
             <h1>Introduction</h1>
             <p>This section gives an overview of the project, its goals, and key questions.</p>
           </div>
         </section>
-        <section id="data" class="section">
+        <section id="data" class="scroll-section">
           <div class="container text-center">
             <h1>Data Exploration</h1>
             <p>Insights from initial data analysis are showcased here.</p>
           </div>
         </section>
-        <section id="map" class="section">
+        <section id="map" class="scroll-section">
           <div class="container text-center">
             <h1>Interactive Map</h1>
             <p>This section provides a visual representation of the data on an interactive map.</p>
           </div>
         </section>
-        <section id="findings" class="section">
+        <section id="findings" class="scroll-section">
           <div class="container text-center">
             <h1>Key Findings</h1>
-            <p>A summary of the project’s most important insights and results.</p>
+            <p>A summary of the project's most important insights and results.</p>
           </div>
         </section>
       </div>
@@ -92,7 +92,7 @@
     
     // Scroll-triggered animations using IntersectionObserver
     document.addEventListener("DOMContentLoaded", function() {
-      const sections = document.querySelectorAll('.section');
+      const sections = document.querySelectorAll('.scroll-section');
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
