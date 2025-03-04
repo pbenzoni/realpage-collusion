@@ -222,18 +222,6 @@
   <script defer>
     let charts = {};
     let csvData = [];
-    // Arrays for state-level aggregation (for bar charts)
-    let csvLabels = [];
-    let unitCountData = [];
-    let mpfRpsfData = [];
-    let mpfHistAskRentData = [];
-    let mpfAnnRentChgData = [];
-    // Arrays for yearBuilt aggregation (for line/scatter charts)
-    let yearLabels = [];
-    let unitCountYearData = [];
-    let mpfRpsfYearData = [];
-    let mpfHistAskRentYearData = [];
-    let mpfAnnRentChgYearData = [];
     // Track chart initialization per section
     let chartsInitialized = {
       whatIsRent: false,
@@ -258,118 +246,127 @@
       identificationMethods: { metric: 'unitcount', label: 'Avg Unit Count (Field: unitcount)' }
     };
 
-    // Aggregate CSV data by state (for bar charts)
-    function aggregateByState() {
-      let stateAgg = {};
+    // -------------------------------
+    // New Helpers for Grouping by heroSource
+    // -------------------------------
+    // Define a simple color palette and helper to cycle through colors.
+    const colorPalette = [
+      'rgba(75, 192, 192, 1)',
+      'rgba(255, 99, 132, 1)',
+      'rgba(54, 162, 235, 1)',
+      'rgba(255, 206, 86, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(255, 159, 64, 1)'
+    ];
+    let colorIndex = 0;
+    function getNextColor() {
+      const color = colorPalette[colorIndex % colorPalette.length];
+      colorIndex++;
+      return color;
+    }
+
+    // Aggregate CSV data by state grouped by heroSource (for bar charts)
+    function aggregateByStateGrouped(metric) {
+      let grouped = {};
       csvData.forEach(row => {
         let state = row.state;
-        if (state) {
-          if (!stateAgg[state]) {
-            stateAgg[state] = {
-              unitcountSum: 0,
-              mpfRpsfSum: 0,
-              mpfHistAskRentSum: 0,
-              mpfAnnRentChgSum: 0,
-              count: 0
-            };
-          }
-          stateAgg[state].unitcountSum += parseFloat(row.unitcount) || 0;
-          stateAgg[state].mpfRpsfSum += parseFloat(row["MPF-RPSF"]) || 0;
-          stateAgg[state].mpfHistAskRentSum += parseFloat(row["MPF-HIST-ASK-RENT"]) || 0;
-          stateAgg[state].mpfAnnRentChgSum += parseFloat(row["MPF-ANN-RENT-CHG"]) || 0;
-          stateAgg[state].count += 1;
+        let hero = row.heroSource;
+        if (state && hero) {
+          if (!grouped[state]) grouped[state] = {};
+          if (!grouped[state][hero]) grouped[state][hero] = { sum: 0, count: 0 };
+          grouped[state][hero].sum += parseFloat(row[metric]) || 0;
+          grouped[state][hero].count += 1;
         }
       });
-      csvLabels = Object.keys(stateAgg);
-      unitCountData = [];
-      mpfRpsfData = [];
-      mpfHistAskRentData = [];
-      mpfAnnRentChgData = [];
-      csvLabels.forEach(state => {
-        let agg = stateAgg[state];
-        unitCountData.push(agg.unitcountSum / agg.count);
-        mpfRpsfData.push(agg.mpfRpsfSum / agg.count);
-        mpfHistAskRentData.push(agg.mpfHistAskRentSum / agg.count);
-        mpfAnnRentChgData.push(agg.mpfAnnRentChgSum / agg.count);
+      let labels = Object.keys(grouped).sort();
+      // Get a unique list of heroSources
+      let heroSet = new Set();
+      Object.values(grouped).forEach(heroObj => {
+        Object.keys(heroObj).forEach(hero => heroSet.add(hero));
       });
+      let heroSources = Array.from(heroSet);
+      let datasets = heroSources.map(hero => {
+        let data = labels.map(state => {
+          if (grouped[state][hero]) {
+            let agg = grouped[state][hero];
+            return agg.sum / agg.count;
+          } else {
+            return null;
+          }
+        });
+        return {
+          label: hero,
+          data: data,
+          fill: false,
+          borderColor: getNextColor(),
+          backgroundColor: 'transparent',
+          tension: 0.1,
+          borderWidth: 1
+        };
+      });
+      return { labels, datasets };
     }
 
-    // Aggregate CSV data by yearBuilt (for line/scatter charts)
-    function aggregateByYear() {
-      let yearAgg = {};
+    // Aggregate CSV data by year grouped by heroSource (for line/scatter charts)
+    function aggregateByYearGrouped(metric) {
+      let grouped = {};
       csvData.forEach(row => {
         let year = row.yearBuilt;
-        if (year) {
-          if (!yearAgg[year]) {
-            yearAgg[year] = { 
-              unitcountSum: 0, 
-              mpfRpsfSum: 0, 
-              mpfHistAskRentSum: 0, 
-              mpfAnnRentChgSum: 0, 
-              count: 0 
-            };
-          }
-          yearAgg[year].unitcountSum += parseFloat(row.unitcount) || 0;
-          yearAgg[year].mpfRpsfSum += parseFloat(row["MPF-RPSF"]) || 0;
-          yearAgg[year].mpfHistAskRentSum += parseFloat(row["MPF-HIST-ASK-RENT"]) || 0;
-          yearAgg[year].mpfAnnRentChgSum += parseFloat(row["MPF-ANN-RENT-CHG"]) || 0;
-          yearAgg[year].count += 1;
+        let hero = row.heroSource;
+        if (year && hero) {
+          if (!grouped[year]) grouped[year] = {};
+          if (!grouped[year][hero]) grouped[year][hero] = { sum: 0, count: 0 };
+          grouped[year][hero].sum += parseFloat(row[metric]) || 0;
+          grouped[year][hero].count += 1;
         }
       });
-      let years = Object.keys(yearAgg).sort();
-      let unitData = [], rpsfData = [], histAskData = [], annRentChgData = [];
-      years.forEach(year => {
-        let agg = yearAgg[year];
-        unitData.push(agg.unitcountSum / agg.count);
-        rpsfData.push(agg.mpfRpsfSum / agg.count);
-        histAskData.push(agg.mpfHistAskRentSum / agg.count);
-        annRentChgData.push(agg.mpfAnnRentChgSum / agg.count);
+      let labels = Object.keys(grouped).sort();
+      let heroSet = new Set();
+      Object.values(grouped).forEach(heroObj => {
+        Object.keys(heroObj).forEach(hero => heroSet.add(hero));
       });
-      yearLabels = years;
-      unitCountYearData = unitData;
-      mpfRpsfYearData = rpsfData;
-      mpfHistAskRentYearData = histAskData;
-      mpfAnnRentChgYearData = annRentChgData;
+      let heroSources = Array.from(heroSet);
+      let datasets = heroSources.map(hero => {
+        let data = labels.map(year => {
+          if (grouped[year][hero]) {
+            let agg = grouped[year][hero];
+            return agg.sum / agg.count;
+          } else {
+            return null;
+          }
+        });
+        return {
+          label: hero,
+          data: data,
+          fill: false,
+          borderColor: getNextColor(),
+          backgroundColor: 'transparent',
+          tension: 0.1,
+          borderWidth: 1
+        };
+      });
+      return { labels, datasets };
     }
 
-    // Helper: Get chart data based on aggregation type.
-    // For line/scatter charts, use year-based data; for bar charts, use state-based data.
-    function getChartData(metric, chartType) {
+    // New function to choose the proper aggregation based on chart type.
+    function getChartDataGrouped(metric, chartType) {
       if (chartType === 'line' || chartType === 'scatter') {
-        switch(metric) {
-          case 'unitcount': return { labels: yearLabels, data: unitCountYearData };
-          case 'MPF-RPSF': return { labels: yearLabels, data: mpfRpsfYearData };
-          case 'MPF-HIST-ASK-RENT': return { labels: yearLabels, data: mpfHistAskRentYearData };
-          case 'MPF-ANN-RENT-CHG': return { labels: yearLabels, data: mpfAnnRentChgYearData };
-          default: return { labels: yearLabels, data: [] };
-        }
+        return aggregateByYearGrouped(metric);
       } else {
-        switch(metric) {
-          case 'unitcount': return { labels: csvLabels, data: unitCountData };
-          case 'MPF-RPSF': return { labels: csvLabels, data: mpfRpsfData };
-          case 'MPF-HIST-ASK-RENT': return { labels: csvLabels, data: mpfHistAskRentData };
-          case 'MPF-ANN-RENT-CHG': return { labels: csvLabels, data: mpfAnnRentChgData };
-          default: return { labels: csvLabels, data: [] };
-        }
+        return aggregateByStateGrouped(metric);
       }
     }
 
-    // Initialize a Chart.js chart.
-    function initChart(ctxId, chartType, label, data, labels, extraOptions = {}) {
+    // -------------------------------
+    // Updated initChart to work with grouped data
+    // -------------------------------
+    function initChart(ctxId, chartType, title, chartData, extraOptions = {}) {
       const ctx = document.getElementById(ctxId).getContext('2d');
       return new Chart(ctx, {
         type: chartType,
         data: {
-          labels: labels,
-          datasets: [{
-            label: label,
-            data: data,
-            fill: false,
-            borderColor: 'rgba(75, 192, 192, 1)',
-            tension: 0.1,
-            backgroundColor: chartType === 'bar' ? 'rgba(75, 192, 192, 0.2)' : undefined,
-            borderWidth: chartType === 'bar' ? 1 : undefined
-          }]
+          labels: chartData.labels,
+          datasets: chartData.datasets
         },
         options: Object.assign({
           responsive: true,
@@ -390,7 +387,8 @@
                 }
               }
             },
-            legend: { display: true, labels: { font: { size: 16 } } }
+            legend: { display: true, labels: { font: { size: 16 } } },
+            title: { display: true, text: title, font: { size: 18 } }
           },
           scales: {
             x: { ticks: { autoSkip: true, maxTicksLimit: 20, font: { size: 14 } } },
@@ -400,42 +398,24 @@
       });
     }
 
-    // Update function to refresh charts after CSV data loads.
-    function updateAllCharts() {
-      // Update Difference-in-Difference:
-      if (charts.diffinDiff) {
-        let dtDiff = getChartData(sectionMetrics.diffinDiff.metric, 'line');
-        charts.diffinDiff.data.labels = dtDiff.labels;
-        charts.diffinDiff.data.datasets[0].data = dtDiff.data;
-        charts.diffinDiff.update();
-      }
-
-      // Update Correlation Tests:
-      if (charts.correlation) {
-        let dtCorr = getChartData(sectionMetrics.correlationTests.metric, 'scatter');
-        let scatterData = dtCorr.labels.map((year, idx) => ({ x: parseFloat(year), y: dtCorr.data[idx] }));
-        charts.correlation.data.datasets[0].data = scatterData;
-        charts.correlation.update();
-      }
-      // (Optional) update other charts similarly if needed.
-    }
-
-    // Initialize charts for each section when they come into view.
+    // -------------------------------
+    // Section Initialization (using grouped data)
+    // -------------------------------
     function initializeSection(sectionId) {
       if (!chartsInitialized[sectionId]) {
         chartsInitialized[sectionId] = true;
         let metric = sectionMetrics[sectionId].metric;
-        let chartType;
+        let chartType, dt;
         switch (sectionId) {
           case "whatIsRent":
             chartType = 'line';
-            let dtEx = getChartData(metric, chartType);
-            charts.whatIsRent = initChart('explanatoryChart', chartType, 'What is Rent? ' + sectionMetrics.whatIsRent.label, dtEx.data, dtEx.labels);
+            dt = getChartDataGrouped(metric, chartType);
+            charts.whatIsRent = initChart('explanatoryChart', chartType, 'What is Rent? ' + sectionMetrics.whatIsRent.label, dt);
             break;
           case "diffinDiff":
             chartType = 'line';
-            let dtDiff = getChartData(metric, chartType);
-            charts.diffinDiff = initChart('diffinDiffChart', chartType, 'Why is Your Rent What It Is? ' + sectionMetrics.diffinDiff.label, dtDiff.data, dtDiff.labels, {
+            dt = getChartDataGrouped(metric, chartType);
+            charts.diffinDiff = initChart('diffinDiffChart', chartType, 'Why is Your Rent What It Is? ' + sectionMetrics.diffinDiff.label, dt, {
               scales: {
                 x: { title: { display: true, text: 'Year Built' }, ticks: { font: { size: 14 } } },
                 y: { title: { display: true, text: 'MPF-ANN-RENT-CHG' }, ticks: { font: { size: 14 } } }
@@ -444,29 +424,32 @@
             break;
           case "benchmarkComparison":
             chartType = 'bar';
-            let dtBench = getChartData(metric, chartType);
-            charts.benchmark = initChart('benchmarkChart', chartType, 'Benchmark Comparison: ' + sectionMetrics.benchmarkComparison.label, dtBench.data, dtBench.labels);
+            dt = getChartDataGrouped(metric, chartType);
+            charts.benchmark = initChart('benchmarkChart', chartType, 'Benchmark Comparison: ' + sectionMetrics.benchmarkComparison.label, dt);
             break;
           case "syntheticControl":
             chartType = 'line';
-            let dtSynth = getChartData(metric, chartType);
-            charts.synthetic = initChart('syntheticChart', chartType, 'Synthetic Control: ' + sectionMetrics.syntheticControl.label, dtSynth.data, dtSynth.labels);
+            dt = getChartDataGrouped(metric, chartType);
+            charts.synthetic = initChart('syntheticChart', chartType, 'Synthetic Control: ' + sectionMetrics.syntheticControl.label, dt);
             break;
           case "alternativeMeasures":
             chartType = 'bar';
-            let dtAlt = getChartData(metric, chartType);
-            charts.alternative = initChart('alternativeChart', chartType, 'Alternative Rent Measures: ' + sectionMetrics.alternativeMeasures.label, dtAlt.data, dtAlt.labels);
+            dt = getChartDataGrouped(metric, chartType);
+            charts.alternative = initChart('alternativeChart', chartType, 'Alternative Rent Measures: ' + sectionMetrics.alternativeMeasures.label, dt);
             break;
           case "geoComparison":
             chartType = 'line';
-            let dtGeo = getChartData(metric, chartType);
-            charts.geo = initChart('geoChart', chartType, 'Geographic Rent Comparison: ' + sectionMetrics.geoComparison.label, dtGeo.data, dtGeo.labels);
+            dt = getChartDataGrouped(metric, chartType);
+            charts.geo = initChart('geoChart', chartType, 'Geographic Rent Comparison: ' + sectionMetrics.geoComparison.label, dt);
             break;
           case "correlationTests":
             chartType = 'scatter';
-            let dtCorr = getChartData(metric, chartType);
-            let scatterData = dtCorr.labels.map((year, idx) => ({ x: parseFloat(year), y: dtCorr.data[idx] }));
-            charts.correlation = initChart('correlationChart', chartType, 'Is Rent Being Inflated? ' + sectionMetrics.correlationTests.label, scatterData, [], {
+            dt = getChartDataGrouped(metric, chartType);
+            // For scatter charts, each dataset's data should be formatted as { x, y }
+            dt.datasets.forEach((dataset, idx) => {
+              dataset.data = dt.labels.map((year, i) => ({ x: parseFloat(year), y: dataset.data[i] }));
+            });
+            charts.correlation = initChart('correlationChart', chartType, 'Is Rent Being Inflated? ' + sectionMetrics.correlationTests.label, dt, {
               scales: {
                 x: { type: 'linear', position: 'bottom', title: { display: true, text: 'Year' } },
                 y: { beginAtZero: true, title: { display: true, text: sectionMetrics.correlationTests.label } }
@@ -476,11 +459,69 @@
             break;
           case "identificationMethods":
             chartType = 'bar';
-            let dtIdent = getChartData(metric, chartType);
-            charts.identification = initChart('identificationChart', chartType, 'Identification Methods: ' + sectionMetrics.identificationMethods.label, dtIdent.data, dtIdent.labels);
+            dt = getChartDataGrouped(metric, chartType);
+            charts.identification = initChart('identificationChart', chartType, 'Identification Methods: ' + sectionMetrics.identificationMethods.label, dt);
             break;
         }
       }
+    }
+
+    // -------------------------------
+    // CSV Data Aggregation for fallback (not used for grouped charts)
+    // -------------------------------
+    function aggregateByState() {
+      // Legacy aggregation (not used with grouped charts)
+      let stateAgg = {};
+      csvData.forEach(row => {
+        let state = row.state;
+        if (state) {
+          if (!stateAgg[state]) {
+            stateAgg[state] = {
+              unitcountSum: 0,
+              mpfRpsfSum: 0,
+              mpfHistAskRentSum: 0,
+              mpfAnnRentChgSum: 0,
+              count: 0
+            };
+          }
+          stateAgg[state].unitcountSum += parseFloat(row.unitcount) || 0;
+          stateAgg[state].mpfRpsfSum += parseFloat(row["MPF-RPSF"]) || 0;
+          stateAgg[state].mpfHistAskRentSum += parseFloat(row["MPF-HIST-ASK-RENT"]) || 0;
+          stateAgg[state].mpfAnnRentChgSum += parseFloat(row["MPF-ANN-RENT-CHG"]) || 0;
+          stateAgg[state].count += 1;
+        }
+      });
+    }
+
+    function aggregateByYear() {
+      // Legacy aggregation (not used with grouped charts)
+      let yearAgg = {};
+      csvData.forEach(row => {
+        let year = row.yearBuilt;
+        if (year) {
+          if (!yearAgg[year]) {
+            yearAgg[year] = { 
+              unitcountSum: 0, 
+              mpfRpsfSum: 0, 
+              mpfHistAskRentSum: 0, 
+              mpfAnnRentChgSum: 0, 
+              count: 0 
+            };
+          }
+          yearAgg[year].unitcountSum += parseFloat(row.unitcount) || 0;
+          yearAgg[year].mpfRpsfSum += parseFloat(row["MPF-RPSF"]) || 0;
+          yearAgg[year].mpfHistAskRentSum += parseFloat(row["MPF-HIST-ASK-RENT"]) || 0;
+          yearAgg[year].mpfAnnRentChgSum += parseFloat(row["MPF-ANN-RENT-CHG"]) || 0;
+          yearAgg[year].count += 1;
+        }
+      });
+    }
+
+    // -------------------------------
+    // Update Charts if Data Changes (optional)
+    // -------------------------------
+    function updateAllCharts() {
+      // This function can be extended if you want to refresh charts later.
     }
 
     // Use IntersectionObserver to initialize sections when they come into view.
@@ -508,7 +549,6 @@
               csvData = results.data;
               aggregateByState();
               aggregateByYear();
-              // Update charts now that the data has been loaded and aggregated.
               updateAllCharts();
             }
           });
