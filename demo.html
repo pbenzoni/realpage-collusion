@@ -116,6 +116,14 @@
   <!-- Bootstrap Bundle JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+  <!-- Initialize Bootstrap tooltips -->
+  <script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+  </script>
+
   <!-- Script to toggle the sidebar -->
   <script>
     const menuToggle = document.getElementById("menu-toggle");
@@ -167,18 +175,23 @@
       .then(data => {
         outputDiv.classList.remove('d-none');
         outputDiv.innerHTML = `
-          <strong><span title="The value the model forecasts based on the input data.">Model Prediction:</span></strong> <span>${data.prediction}</span> <br>
-          <strong><span title="The average of the squared differences between the predicted and actual values. Lower values indicate better predictive accuracy.">Mean Squared Error (MSE):</span></strong> <span>${data.mse}</span> <br>
-          ${data.confidence ? `<strong><span title="A measure of how certain the model is about its prediction. Higher percentages typically mean higher certainty.">Confidence:</span></strong> <span>${data.confidence}%</span> <br>` : ""}
-          ${data.accuracy ? `<strong><span title="The percentage of correct predictions out of all predictions made.">Accuracy:</span></strong> <span>${data.accuracy}%</span> <br>` : ""}
-          ${data.precision ? `<strong><span title="The proportion of true positive predictions among all positive predictions made.">Precision:</span></strong> <span>${data.precision}</span> <br>` : ""}
-          ${data.recall ? `<strong><span title="The proportion of actual positives that were correctly identified by the model.">Recall:</span></strong> <span>${data.recall}</span> <br>` : ""}
-          ${data.f1Score ? `<strong><span title="The harmonic mean of precision and recall.">F1-Score:</span></strong> <span>${data.f1Score}</span> <br>` : ""}
-          ${data.mae ? `<strong><span title="The average absolute difference between predicted values and actual values. Lower values indicate more accurate predictions.">MAE:</span></strong> <span>${data.mae}</span> <br>` : ""}
-          ${data.rSquared ? `<strong><span title="The coefficient of determination showing the proportion of variance explained by the model. Closer to 1 indicates a better fit.">R² Score:</span></strong> <span>${data.rSquared}</span> <br>` : ""}
-          ${data.aucRoc ? `<strong><span title="The area under the Receiver Operating Characteristic curve. Higher values indicate a better ability to distinguish between classes.">AUC-ROC:</span></strong> <span>${data.aucRoc}</span> <br>` : ""}
-          ${data.logLoss ? `<strong><span title="A metric that penalizes false classifications. Lower values indicate a more accurate model.">Log Loss:</span></strong> <span>${data.logLoss}</span> <br>` : ""}
+          <strong><span data-bs-toggle="tooltip" title="The value the model forecasts based on the input data.">Model Prediction:</span></strong> <span>${data.prediction}</span> <br>
+          <strong><span data-bs-toggle="tooltip" title="The average of the squared differences between the predicted and actual values. Lower values indicate better predictive accuracy.">Mean Squared Error (MSE):</span></strong> <span>${data.mse}</span> <br>
+          ${data.confidence ? `<strong><span data-bs-toggle="tooltip" title="A measure of how certain the model is about its prediction. Higher percentages typically mean higher certainty.">Confidence:</span></strong> <span>${data.confidence}%</span> <br>` : ""}
+          ${data.accuracy ? `<strong><span data-bs-toggle="tooltip" title="The percentage of correct predictions out of all predictions made.">Accuracy:</span></strong> <span>${data.accuracy}%</span> <br>` : ""}
+          ${data.precision ? `<strong><span data-bs-toggle="tooltip" title="The proportion of true positive predictions among all positive predictions made.">Precision:</span></strong> <span>${data.precision}</span> <br>` : ""}
+          ${data.recall ? `<strong><span data-bs-toggle="tooltip" title="The proportion of actual positives that were correctly identified by the model.">Recall:</span></strong> <span>${data.recall}</span> <br>` : ""}
+          ${data.f1Score ? `<strong><span data-bs-toggle="tooltip" title="The harmonic mean of precision and recall.">F1-Score:</span></strong> <span>${data.f1Score}</span> <br>` : ""}
+          ${data.mae ? `<strong><span data-bs-toggle="tooltip" title="The average absolute difference between predicted values and actual values. Lower values indicate more accurate predictions.">MAE:</span></strong> <span>${data.mae}</span> <br>` : ""}
+          ${data.rSquared ? `<strong><span data-bs-toggle="tooltip" title="The coefficient of determination showing the proportion of variance explained by the model. Closer to 1 indicates a better fit.">R² Score:</span></strong> <span>${data.rSquared}</span> <br>` : ""}
+          ${data.aucRoc ? `<strong><span data-bs-toggle="tooltip" title="The area under the Receiver Operating Characteristic curve. Higher values indicate a better ability to distinguish between classes.">AUC-ROC:</span></strong> <span>${data.aucRoc}</span> <br>` : ""}
+          ${data.logLoss ? `<strong><span data-bs-toggle="tooltip" title="A metric that penalizes false classifications. Lower values indicate a more accurate model.">Log Loss:</span></strong> <span>${data.logLoss}</span> <br>` : ""}
         `;
+        // Reinitialize tooltips on dynamically added elements
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+          return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
         // If the API provides a visualUrl, use it.
         if (data.visualUrl) {
           iframeContainer.classList.remove('d-none');
