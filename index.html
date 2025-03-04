@@ -3,11 +3,42 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Interactive Scroll with Sidebar</title>
+  <title>RealPage Collusion Dashboard</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Fixed sidebar for desktop (this page only) */
+    @media (min-width: 769px) {
+      #sidebar-wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+      }
+      #page-content-wrapper {
+        margin-left: 250px; /* same width as your sidebar */
+      }
+    }
+    
+    /* Scroll animation for content sections */
+    .section {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      scroll-snap-align: start;
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    .section.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
 </head>
 <body>
   <div class="d-flex" id="wrapper">
@@ -38,32 +69,30 @@
     <div id="page-content-wrapper">
       <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
         <div class="container-fluid">
-          <button class="btn btn-secondary" id="menu-toggle">
-            MIDS Capstone, Spring 2025: RealPage Collusion Dashboard
-          </button>
+          <button class="btn btn-secondary" id="menu-toggle">MIDS Capstone, Spring 2025: RealPage Collusion Dashboard</button>
         </div>
       </nav>
       <div class="content">
         <!-- Scroll-Driven Sections -->
-        <section id="intro" class="scroll-section">
+        <section id="intro" class="section">
           <div class="container text-center">
             <h1>Introduction</h1>
             <p>This section gives an overview of the project, its goals, and key questions.</p>
           </div>
         </section>
-        <section id="data" class="scroll-section">
+        <section id="data" class="section">
           <div class="container text-center">
             <h1>Data Exploration</h1>
             <p>Insights from initial data analysis are showcased here.</p>
           </div>
         </section>
-        <section id="map" class="scroll-section">
+        <section id="map" class="section">
           <div class="container text-center">
             <h1>Interactive Map</h1>
             <p>This section provides a visual representation of the data on an interactive map.</p>
           </div>
         </section>
-        <section id="findings" class="scroll-section">
+        <section id="findings" class="section">
           <div class="container text-center">
             <h1>Key Findings</h1>
             <p>A summary of the project's most important insights and results.</p>
@@ -92,7 +121,7 @@
     
     // Scroll-triggered animations using IntersectionObserver
     document.addEventListener("DOMContentLoaded", function() {
-      const sections = document.querySelectorAll('.scroll-section');
+      const sections = document.querySelectorAll('.section');
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
