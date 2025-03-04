@@ -247,25 +247,21 @@
     };
 
     // -------------------------------
-    // New Helpers for Grouping by heroSource
+    // New Helper for Determining Color by heroSource
     // -------------------------------
-    // Define a simple color palette and helper to cycle through colors.
-    const colorPalette = [
-      'rgba(75, 192, 192, 1)',
-      'rgba(255, 99, 132, 1)',
-      'rgba(54, 162, 235, 1)',
-      'rgba(255, 206, 86, 1)',
-      'rgba(153, 102, 255, 1)',
-      'rgba(255, 159, 64, 1)'
-    ];
-    let colorIndex = 0;
-    function getNextColor() {
-      const color = colorPalette[colorIndex % colorPalette.length];
-      colorIndex++;
-      return color;
+    function getColorForHero(hero) {
+      if (hero.toLowerCase() === "realpage") {
+        return 'rgba(54, 162, 235, 1)'; // blue
+      } else if (hero.toLowerCase() === "google") {
+        return 'rgba(255, 159, 64, 1)'; // orange
+      } else {
+        return 'rgba(128, 128, 128, 1)'; // grey
+      }
     }
 
+    // -------------------------------
     // Aggregate CSV data by state grouped by heroSource (for bar charts)
+    // -------------------------------
     function aggregateByStateGrouped(metric) {
       let grouped = {};
       csvData.forEach(row => {
@@ -298,7 +294,7 @@
           label: hero,
           data: data,
           fill: false,
-          borderColor: getNextColor(),
+          borderColor: getColorForHero(hero),
           backgroundColor: 'transparent',
           tension: 0.1,
           borderWidth: 1
@@ -307,7 +303,9 @@
       return { labels, datasets };
     }
 
+    // -------------------------------
     // Aggregate CSV data by year grouped by heroSource (for line/scatter charts)
+    // -------------------------------
     function aggregateByYearGrouped(metric) {
       let grouped = {};
       csvData.forEach(row => {
@@ -339,7 +337,7 @@
           label: hero,
           data: data,
           fill: false,
-          borderColor: getNextColor(),
+          borderColor: getColorForHero(hero),
           backgroundColor: 'transparent',
           tension: 0.1,
           borderWidth: 1
