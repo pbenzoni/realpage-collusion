@@ -116,7 +116,7 @@
           <div class="text-center w-100">
             <h1>What is Rent?</h1>
             <p>
-              Rent represents the price you pay not only for shelter but also for a host of factors such as building quality, location, amenities, and the overall market demand.
+              Rent represents the price you pay not only for shelter but also for a host of factors such as building quality, location, amenities, and overall market demand.
               Here, we start by looking at the available supply—using the average unit count as a proxy—to give context to what shapes your living environment.
             </p>
             <canvas id="explanatoryChart"></canvas>
@@ -129,32 +129,41 @@
             <h1>Why is Your Rent What It Is?</h1>
             <p>
               The price of rent is influenced by market events and underlying economic factors.
-              This Difference-in-Difference analysis uses the <strong>MPF-ANN-RENT-CHG</strong> metric—aggregated by building year—to show how rent changes over time, particularly before and after key market events.
+              This Difference‑in‑Difference analysis uses the <strong>MPF‑ANN‑RENT‑CHG</strong> metric—aggregated by building year—to show how rent changes over time, particularly before and after key market events.
             </p>
             <canvas id="diffinDiffChart"></canvas>
           </div>
         </section>
 
-        <!-- Section 3: Why is Rent Different in Different Places? -->
-        <section id="geoComparison" class="section">
+        <!-- Section 3: Rent Comparison -->
+        <section id="rentComparison" class="section">
           <div class="text-center w-100">
-            <h1>Why Does Rent Vary by Location?</h1>
+            <h1>Rent Comparison: Current vs Historical Ask Rent</h1>
             <p>
-              Local market dynamics, including demand, supply, and regional economic conditions, drive differences in rent.
-              The Geographic Rent Index Comparison uses the <strong>MPF-RPSF</strong> metric (average rent per square foot) by state to illustrate how and why rents differ across regions.
+              This chart compares current rent (<strong>MPF‑RENT</strong>) with historical ask rent (<strong>MPF‑HIST‑ASK‑RENT</strong>) over time by heroSource.
+              For each hero, the solid line represents current rent while the dashed line represents historical ask rent.
             </p>
-            <canvas id="geoChart"></canvas>
+            <canvas id="rentComparisonChart"></canvas>
           </div>
         </section>
 
-        <!-- Section 4: Is Rent Being Inflated? -->
+        <!-- Section 4: Occupancy Trends -->
+        <section id="occupancyTrends" class="section">
+          <div class="text-center w-100">
+            <h1>Occupancy Trends</h1>
+            <p>
+              This chart displays the occupancy rate (<strong>MPF‑OCC</strong>) over time, helping to reveal how property performance might relate to rent and market dynamics.
+            </p>
+            <canvas id="occupancyChart"></canvas>
+          </div>
+        </section>
+
+        <!-- Section 5: Is Rent Being Inflated? -->
         <section id="correlationTests" class="section">
           <div class="text-center w-100">
             <h1>Is RealPage Inflating Rent Prices?</h1>
             <p>
-              The final and most critical question: Could rent prices be artificially inflated? By comparing historical ask rents via the <strong>MPF-HIST-ASK-RENT</strong> metric
-              and correlating these values with known RealPage user data, we test whether there is a pattern that suggests collusion.
-              Additional benchmark comparisons support this analysis.
+              Could rent prices be artificially inflated? By comparing historical ask rents via the <strong>MPF‑HIST‑ASK‑RENT</strong> metric and correlating these values with known RealPage user data, we test for patterns suggesting collusion.
             </p>
             <canvas id="correlationChart"></canvas>
           </div>
@@ -166,7 +175,7 @@
             <h1>Benchmark Comparison</h1>
             <p>
               To further our case, we compare multifamily rent indices with single‑family benchmarks.
-              This chart uses the <strong>MPF-RPSF</strong> field to show the average rent per square foot and highlights differences in market pricing.
+              This chart uses the <strong>MPF‑RPSF</strong> field to show the average rent per square foot and highlights differences in market pricing.
             </p>
             <canvas id="benchmarkChart"></canvas>
           </div>
@@ -177,7 +186,7 @@
           <div class="text-center w-100">
             <h1>Robustness Check: Synthetic Control</h1>
             <p>
-              As a robustness check, we use synthetic control methods with the <strong>MPF-HIST-ASK-RENT</strong> field to validate our findings across multiple markets.
+              As a robustness check, we use synthetic control methods with the <strong>MPF‑HIST‑ASK‑RENT</strong> field to validate our findings across multiple markets.
             </p>
             <canvas id="syntheticChart"></canvas>
           </div>
@@ -226,23 +235,25 @@
     let chartsInitialized = {
       whatIsRent: false,
       diffinDiff: false,
+      rentComparison: false,
+      occupancyTrends: false,
+      correlationTests: false,
       benchmarkComparison: false,
       syntheticControl: false,
       alternativeMeasures: false,
-      geoComparison: false,
-      correlationTests: false,
       identificationMethods: false
     };
 
-    // Mapping: labels include the CSV field name.
+    // Mapping: labels include the CSV field name or fields.
     const sectionMetrics = {
       whatIsRent: { metric: 'unitcount', label: 'Avg Unit Count (Field: unitcount)' },
       diffinDiff: { metric: 'MPF-ANN-RENT-CHG', label: 'Avg Annual Rent Change (Field: MPF-ANN-RENT-CHG)' },
+      rentComparison: { metric1: 'MPF-RENT', metric2: 'MPF-HIST-ASK-RENT', label: 'Current Rent vs Historical Ask Rent' },
+      occupancyTrends: { metric: 'MPF-OCC', label: 'Occupancy Rate (Field: MPF-OCC)' },
+      correlationTests: { metric: 'MPF-HIST-ASK-RENT', label: 'Avg Historical Ask Rent (Field: MPF-HIST-ASK-RENT)' },
       benchmarkComparison: { metric: 'MPF-RPSF', label: 'Avg Rent per Sq Ft (Field: MPF-RPSF)' },
       syntheticControl: { metric: 'MPF-HIST-ASK-RENT', label: 'Avg Historical Ask Rent (Field: MPF-HIST-ASK-RENT)' },
       alternativeMeasures: { metric: 'unitcount', label: 'Avg Unit Count (Alt.) (Field: unitcount)' },
-      geoComparison: { metric: 'MPF-RPSF', label: 'Avg Rent per Sq Ft (Field: MPF-RPSF)' },
-      correlationTests: { metric: 'MPF-HIST-ASK-RENT', label: 'Avg Historical Ask Rent (Field: MPF-HIST-ASK-RENT)' },
       identificationMethods: { metric: 'unitcount', label: 'Avg Unit Count (Field: unitcount)' }
     };
 
@@ -275,7 +286,6 @@
         }
       });
       let labels = Object.keys(grouped).sort();
-      // Get a unique list of heroSources
       let heroSet = new Set();
       Object.values(grouped).forEach(heroObj => {
         Object.keys(heroObj).forEach(hero => heroSet.add(hero));
@@ -346,6 +356,73 @@
       return { labels, datasets };
     }
 
+    // -------------------------------
+    // New function to aggregate dual metrics by year grouped by heroSource
+    // -------------------------------
+    function aggregateDualByYearByHero(metric1, metric2) {
+      let grouped = {};
+      csvData.forEach(row => {
+        let year = row.yearBuilt;
+        let hero = row.heroSource;
+        if (year && hero) {
+          if (!grouped[year]) grouped[year] = {};
+          if (!grouped[year][hero]) {
+            grouped[year][hero] = { metric1Sum: 0, metric1Count: 0, metric2Sum: 0, metric2Count: 0 };
+          }
+          grouped[year][hero].metric1Sum += parseFloat(row[metric1]) || 0;
+          grouped[year][hero].metric1Count += 1;
+          grouped[year][hero].metric2Sum += parseFloat(row[metric2]) || 0;
+          grouped[year][hero].metric2Count += 1;
+        }
+      });
+      let years = Object.keys(grouped).sort();
+      let heroSet = new Set();
+      years.forEach(year => {
+        for (let hero in grouped[year]) {
+          heroSet.add(hero);
+        }
+      });
+      let heroes = Array.from(heroSet);
+      let datasets = [];
+      heroes.forEach(hero => {
+        let data1 = years.map(year => {
+          if (grouped[year][hero]) {
+            let group = grouped[year][hero];
+            return group.metric1Sum / group.metric1Count;
+          } else {
+            return null;
+          }
+        });
+        datasets.push({
+          label: hero + " - Current Rent",
+          data: data1,
+          borderColor: getColorForHero(hero),
+          fill: false,
+          tension: 0.1,
+          borderWidth: 1,
+          borderDash: [] // solid line
+        });
+        let data2 = years.map(year => {
+          if (grouped[year][hero]) {
+            let group = grouped[year][hero];
+            return group.metric2Sum / group.metric2Count;
+          } else {
+            return null;
+          }
+        });
+        datasets.push({
+          label: hero + " - Historical Ask Rent",
+          data: data2,
+          borderColor: getColorForHero(hero),
+          fill: false,
+          tension: 0.1,
+          borderWidth: 1,
+          borderDash: [5, 5] // dashed line
+        });
+      });
+      return { labels: years, datasets };
+    }
+
     // New function to choose the proper aggregation based on chart type.
     function getChartDataGrouped(metric, chartType) {
       if (chartType === 'line' || chartType === 'scatter') {
@@ -402,17 +479,16 @@
     function initializeSection(sectionId) {
       if (!chartsInitialized[sectionId]) {
         chartsInitialized[sectionId] = true;
-        let metric = sectionMetrics[sectionId].metric;
         let chartType, dt;
         switch (sectionId) {
           case "whatIsRent":
             chartType = 'line';
-            dt = getChartDataGrouped(metric, chartType);
+            dt = getChartDataGrouped(sectionMetrics.whatIsRent.metric, chartType);
             charts.whatIsRent = initChart('explanatoryChart', chartType, 'What is Rent? ' + sectionMetrics.whatIsRent.label, dt);
             break;
           case "diffinDiff":
             chartType = 'line';
-            dt = getChartDataGrouped(metric, chartType);
+            dt = getChartDataGrouped(sectionMetrics.diffinDiff.metric, chartType);
             charts.diffinDiff = initChart('diffinDiffChart', chartType, 'Why is Your Rent What It Is? ' + sectionMetrics.diffinDiff.label, dt, {
               scales: {
                 x: { title: { display: true, text: 'Year Built' }, ticks: { font: { size: 14 } } },
@@ -420,30 +496,19 @@
               }
             });
             break;
-          case "benchmarkComparison":
-            chartType = 'bar';
-            dt = getChartDataGrouped(metric, chartType);
-            charts.benchmark = initChart('benchmarkChart', chartType, 'Benchmark Comparison: ' + sectionMetrics.benchmarkComparison.label, dt);
-            break;
-          case "syntheticControl":
+          case "rentComparison":
             chartType = 'line';
-            dt = getChartDataGrouped(metric, chartType);
-            charts.synthetic = initChart('syntheticChart', chartType, 'Synthetic Control: ' + sectionMetrics.syntheticControl.label, dt);
+            dt = aggregateDualByYearByHero(sectionMetrics.rentComparison.metric1, sectionMetrics.rentComparison.metric2);
+            charts.rentComparison = initChart('rentComparisonChart', chartType, sectionMetrics.rentComparison.label, dt);
             break;
-          case "alternativeMeasures":
-            chartType = 'bar';
-            dt = getChartDataGrouped(metric, chartType);
-            charts.alternative = initChart('alternativeChart', chartType, 'Alternative Rent Measures: ' + sectionMetrics.alternativeMeasures.label, dt);
-            break;
-          case "geoComparison":
+          case "occupancyTrends":
             chartType = 'line';
-            dt = getChartDataGrouped(metric, chartType);
-            charts.geo = initChart('geoChart', chartType, 'Geographic Rent Comparison: ' + sectionMetrics.geoComparison.label, dt);
+            dt = getChartDataGrouped(sectionMetrics.occupancyTrends.metric, chartType);
+            charts.occupancyTrends = initChart('occupancyChart', chartType, 'Occupancy Trends: ' + sectionMetrics.occupancyTrends.label, dt);
             break;
           case "correlationTests":
             chartType = 'scatter';
-            dt = getChartDataGrouped(metric, chartType);
-            // For scatter charts, each dataset's data should be formatted as { x, y }
+            dt = getChartDataGrouped(sectionMetrics.correlationTests.metric, chartType);
             dt.datasets.forEach((dataset, idx) => {
               dataset.data = dt.labels.map((year, i) => ({ x: parseFloat(year), y: dataset.data[i] }));
             });
@@ -455,20 +520,31 @@
               parsing: false
             });
             break;
+          case "benchmarkComparison":
+            chartType = 'bar';
+            dt = getChartDataGrouped(sectionMetrics.benchmarkComparison.metric, chartType);
+            charts.benchmark = initChart('benchmarkChart', chartType, 'Benchmark Comparison: ' + sectionMetrics.benchmarkComparison.label, dt);
+            break;
+          case "syntheticControl":
+            chartType = 'line';
+            dt = getChartDataGrouped(sectionMetrics.syntheticControl.metric, chartType);
+            charts.synthetic = initChart('syntheticChart', chartType, 'Synthetic Control: ' + sectionMetrics.syntheticControl.label, dt);
+            break;
+          case "alternativeMeasures":
+            chartType = 'bar';
+            dt = getChartDataGrouped(sectionMetrics.alternativeMeasures.metric, chartType);
+            charts.alternative = initChart('alternativeChart', chartType, 'Alternative Rent Measures: ' + sectionMetrics.alternativeMeasures.label, dt);
+            break;
           case "identificationMethods":
             chartType = 'bar';
-            dt = getChartDataGrouped(metric, chartType);
+            dt = getChartDataGrouped(sectionMetrics.identificationMethods.metric, chartType);
             charts.identification = initChart('identificationChart', chartType, 'Identification Methods: ' + sectionMetrics.identificationMethods.label, dt);
             break;
         }
       }
     }
 
-    // -------------------------------
-    // CSV Data Aggregation for fallback (not used for grouped charts)
-    // -------------------------------
     function aggregateByState() {
-      // Legacy aggregation (not used with grouped charts)
       let stateAgg = {};
       csvData.forEach(row => {
         let state = row.state;
@@ -492,7 +568,6 @@
     }
 
     function aggregateByYear() {
-      // Legacy aggregation (not used with grouped charts)
       let yearAgg = {};
       csvData.forEach(row => {
         let year = row.yearBuilt;
@@ -515,14 +590,10 @@
       });
     }
 
-    // -------------------------------
-    // Update Charts if Data Changes (optional)
-    // -------------------------------
     function updateAllCharts() {
-      // This function can be extended if you want to refresh charts later.
+      // Optionally refresh charts if data changes.
     }
 
-    // Use IntersectionObserver to initialize sections when they come into view.
     document.addEventListener("DOMContentLoaded", function() {
       const sections = document.querySelectorAll('.section');
       const observer = new IntersectionObserver((entries) => {
@@ -536,7 +607,6 @@
       sections.forEach(section => observer.observe(section));
     });
 
-    // Load CSV data and perform aggregations.
     document.addEventListener("DOMContentLoaded", function() {
       fetch('https://rpc-webpage.s3-accelerate.amazonaws.com/cbsa_data.csv')
         .then(response => response.text())
@@ -554,7 +624,6 @@
         .catch(error => console.error("Error loading CSV data:", error));
     });
 
-    // Sidebar toggle for mobile.
     document.addEventListener("DOMContentLoaded", function() {
       const menuToggle = document.getElementById("menu-toggle");
       const wrapper = document.getElementById("wrapper");
