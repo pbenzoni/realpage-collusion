@@ -594,17 +594,20 @@
       // Optionally refresh charts if data changes.
     }
 
-    document.addEventListener("DOMContentLoaded", function() {
-      const sections = document.querySelectorAll('.section');
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('in-view');
-            initializeSection(entry.target.id);
-          }
-        });
-      }, { threshold: 0.4 });
-      sections.forEach(section => observer.observe(section));
+    document.addEventListener("DOMContentLoaded", function () {
+        const sections = document.querySelectorAll('.section');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view'); // Add class when in view
+                    initializeSection(entry.target.id);
+                } else {
+                    entry.target.classList.remove('in-view'); // Remove class when out of view
+                }
+            });
+        }, { threshold: 0.4 });
+
+        sections.forEach(section => observer.observe(section));
     });
 
     document.addEventListener("DOMContentLoaded", function() {
