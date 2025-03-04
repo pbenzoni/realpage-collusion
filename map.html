@@ -2,7 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Submarket/City Aggregations Map</title>
+  <title>Submarket/City Aggregations Map with Legend</title>
+  <link rel="icon" type="image/png" href="photos/berkeleyischool-logo-vertical-blue-sm.png">
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <!-- PapaParse -->
@@ -35,6 +36,22 @@
     }
     .popup-table th {
       background-color: #f2f2f2;
+    }
+    /* Legend styles */
+    .legend {
+      background: white;
+      padding: 12px 16px; /* Increased padding */
+      width: 200px;       /* Increased width */
+      font: 14px/18px Arial, Helvetica, sans-serif;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      border-radius: 5px;
+    }
+    .legend i {
+      width: 18px;
+      height: 18px;
+      float: left;
+      margin-right: 8px;
+      opacity: 1;
     }
   </style>
 </head>
@@ -192,7 +209,7 @@
           popupContent += `<p><strong>Hero Sources:</strong> ${heroList.join(", ")}</p>`;
           popupContent += '</div>';
 
-          // Determine marker color from dominant heroSource (Unknown becomes grey)
+          // Determine marker color from dominant heroSource.
           let markerColor = dominantHero ? getColorForHero(dominantHero) : "#000000";
           
           // Create a circle marker with the chosen color.
@@ -205,11 +222,34 @@
           .addTo(map)
           .bindPopup(popupContent);
         }
+
+        // After processing all groups, add a legend using the heroColors mapping.
+        addLegend();
       },
       error: function(err) {
         console.error("Error loading CSV data:", err);
       }
     });
+
+    // Function to add a legend (color key) to the map.
+    function addLegend() {
+      var legend = L.control({ position: "bottomright" });
+      legend.onAdd = function (map) {
+        var div = L.DomUtil.create("div", "legend");
+        div.innerHTML += "<strong>HeroSource Key</strong><br>";
+        for (var hero in heroColors) {
+          div.innerHTML +=
+            '<i style="background:' + heroColors[hero] + '"></i> ' +
+            hero + "<br>";
+        }
+        // Also add entry for Unknown if not already included.
+        if (!heroColors["Unknown"]) {
+          div.innerHTML += '<i style="background:#808080"></i> Unknown<br>';
+        }
+        return div;
+      };
+      legend.addTo(map);
+    }
   </script>
 </body>
 </html>
