@@ -20,7 +20,6 @@
         </h2>
       </div>
       <div class="list-group list-group-flush">
-        <!-- Updated sidebar links -->
         <a href="index.html" class="list-group-item list-group-item-action bg-light">
           Homepage
         </a>
@@ -168,17 +167,17 @@
       .then(data => {
         outputDiv.classList.remove('d-none');
         outputDiv.innerHTML = `
-          <strong>Model Prediction:</strong> ${data.prediction} <br>
-          <strong>Mean Squared Error (MSE):</strong> ${data.mse} <br>
-          ${data.confidence ? `<strong>Confidence:</strong> ${data.confidence}% <br>` : ""}
-          ${data.accuracy ? `<strong>Accuracy:</strong> ${data.accuracy}% <br>` : ""}
-          ${data.precision ? `<strong>Precision:</strong> ${data.precision} <br>` : ""}
-          ${data.recall ? `<strong>Recall:</strong> ${data.recall} <br>` : ""}
-          ${data.f1Score ? `<strong>F1-Score:</strong> ${data.f1Score} <br>` : ""}
-          ${data.mae ? `<strong>MAE:</strong> ${data.mae} <br>` : ""}
-          ${data.rSquared ? `<strong>R² Score:</strong> ${data.rSquared} <br>` : ""}
-          ${data.aucRoc ? `<strong>AUC-ROC:</strong> ${data.aucRoc} <br>` : ""}
-          ${data.logLoss ? `<strong>Log Loss:</strong> ${data.logLoss} <br>` : ""}
+          <strong><span title="The value the model forecasts based on the input data.">Model Prediction:</span></strong> <span>${data.prediction}</span> <br>
+          <strong><span title="The average of the squared differences between the predicted and actual values. Lower values indicate better predictive accuracy.">Mean Squared Error (MSE):</span></strong> <span>${data.mse}</span> <br>
+          ${data.confidence ? `<strong><span title="A measure of how certain the model is about its prediction. Higher percentages typically mean higher certainty.">Confidence:</span></strong> <span>${data.confidence}%</span> <br>` : ""}
+          ${data.accuracy ? `<strong><span title="The percentage of correct predictions out of all predictions made.">Accuracy:</span></strong> <span>${data.accuracy}%</span> <br>` : ""}
+          ${data.precision ? `<strong><span title="The proportion of true positive predictions among all positive predictions made.">Precision:</span></strong> <span>${data.precision}</span> <br>` : ""}
+          ${data.recall ? `<strong><span title="The proportion of actual positives that were correctly identified by the model.">Recall:</span></strong> <span>${data.recall}</span> <br>` : ""}
+          ${data.f1Score ? `<strong><span title="The harmonic mean of precision and recall.">F1-Score:</span></strong> <span>${data.f1Score}</span> <br>` : ""}
+          ${data.mae ? `<strong><span title="The average absolute difference between predicted values and actual values. Lower values indicate more accurate predictions.">MAE:</span></strong> <span>${data.mae}</span> <br>` : ""}
+          ${data.rSquared ? `<strong><span title="The coefficient of determination showing the proportion of variance explained by the model. Closer to 1 indicates a better fit.">R² Score:</span></strong> <span>${data.rSquared}</span> <br>` : ""}
+          ${data.aucRoc ? `<strong><span title="The area under the Receiver Operating Characteristic curve. Higher values indicate a better ability to distinguish between classes.">AUC-ROC:</span></strong> <span>${data.aucRoc}</span> <br>` : ""}
+          ${data.logLoss ? `<strong><span title="A metric that penalizes false classifications. Lower values indicate a more accurate model.">Log Loss:</span></strong> <span>${data.logLoss}</span> <br>` : ""}
         `;
         // If the API provides a visualUrl, use it.
         if (data.visualUrl) {
@@ -196,7 +195,7 @@
           predictionChart = new Chart(ctx, {
             type: 'line',
             data: {
-              labels: data.xAxis, // Expected to be an array of labels
+              labels: data.xAxis,
               datasets: data.yAxis.map(series => ({
                 label: series.label,
                 data: series.data,
@@ -215,7 +214,6 @@
           });
         }
         else {
-          // If neither visualUrl nor xAxis/yAxis exist, keep container hidden.
           visContainer.classList.add('d-none');
         }
       })
