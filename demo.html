@@ -94,8 +94,13 @@
           </div>
           <div class="card-body">
             <p class="mb-3 text-muted">Below is a visualization relevant to your model results.</p>
-            <div class="ratio ratio-16x9">
+            <!-- Container for iframe graph -->
+            <div id="iframe-container" class="ratio ratio-16x9 d-none">
               <iframe src="" id="prediction-iframe" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <!-- Container for Chart.js graph -->
+            <div id="chart-container" class="d-none">
+              <canvas id="prediction-chart"></canvas>
             </div>
           </div>
         </div>
@@ -126,7 +131,10 @@
     const form = document.getElementById('model-form');
     const outputDiv = document.getElementById('model-output');
     const visContainer = document.getElementById('prediction-vis-container');
+    const iframeContainer = document.getElementById('iframe-container');
+    const chartContainer = document.getElementById('chart-container');
     const visIframe = document.getElementById('prediction-iframe');
+    let predictionChart = null; // to hold the Chart.js instance
 
     form.addEventListener('submit', event => {
       event.preventDefault();
@@ -143,7 +151,14 @@
       outputDiv.classList.add('d-none');
       outputDiv.classList.remove('alert-danger');
       visContainer.classList.add('d-none');
+      // Clear any existing iframe src or chart
       visIframe.src = "";
+      iframeContainer.classList.add('d-none');
+      chartContainer.classList.add('d-none');
+      if (predictionChart) {
+        predictionChart.destroy();
+        predictionChart = null;
+      }
       fetch('https://67bcba9fed4861e07b3bbb1a.mockapi.io/rpc/predict', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -165,9 +180,43 @@
           ${data.aucRoc ? `<strong>AUC-ROC:</strong> ${data.aucRoc} <br>` : ""}
           ${data.logLoss ? `<strong>Log Loss:</strong> ${data.logLoss} <br>` : ""}
         `;
+        // If the API provides a visualUrl, use it.
         if (data.visualUrl) {
+          iframeContainer.classList.remove('d-none');
+          chartContainer.classList.add('d-none');
           visIframe.src = data.visualUrl;
           visContainer.classList.remove('d-none');
+        }
+        // Else, if xAxis and yAxis fields are provided, build a chart.
+        else if (data.xAxis && data.yAxis) {
+          iframeContainer.classList.add('d-none');
+          chartContainer.classList.remove('d-none');
+          visContainer.classList.remove('d-none');
+          const ctx = document.getElementById('prediction-chart').getContext('2d');
+          predictionChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: data.xAxis, // Expected to be an array of labels
+              datasets: data.yAxis.map(series => ({
+                label: series.label,
+                data: series.data,
+                borderColor: series.borderColor || 'rgba(75, 192, 192, 1)',
+                fill: false,
+                tension: 0.1,
+                borderWidth: 1
+              }))
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                legend: { display: true }
+              }
+            }
+          });
+        }
+        else {
+          // If neither visualUrl nor xAxis/yAxis exist, keep container hidden.
+          visContainer.classList.add('d-none');
         }
       })
       .catch(err => {
