@@ -72,9 +72,7 @@
         <a href="index.html" class="list-group-item list-group-item-action bg-light active">Homepage</a>
         <a href="about.html" class="list-group-item list-group-item-action bg-light">About</a>
         <a href="data-dictionary.html" class="list-group-item list-group-item-action bg-light">Data Dictionary</a>
-        <a href="interactive-map.html" class="list-group-item list-group-item-action bg-light">
-          Interactive Map
-        </a>
+        <a href="interactive-map.html" class="list-group-item list-group-item-action bg-light">Interactive Map</a>
         <a href="key-findings.html" class="list-group-item list-group-item-action bg-light">Key Findings</a>
         <a href="demo.html" class="list-group-item list-group-item-action bg-light">Try It Yourself: Interactive Modeling</a>
         <a href="contact-us.html" class="list-group-item list-group-item-action bg-light">Contact Us</a>
@@ -93,101 +91,121 @@
         </div>
       </nav>
 
-      <!-- Main Chart Intro Section -->
-      <div id="evolving-chart-container" class="text-center">
-        <h2 id="evolvingChartTitle">RealPage Collusion Dashboard</h2>
-        <p>
-          This dashboard explores causal inference, difference-in-differences, and robustness checks using multifamily rent data.
-          Charts aggregate data by <strong>yearBuilt</strong> for line/scatter charts and by state for bar charts.
-          Each chart explicitly mentions the CSV field being used.
-        </p>
-      </div>
+      <!-- Introduction Section -->
+      <section id="introduction" class="section in-view">
+        <div class="text-center w-100">
+          <h1>What is Rent, and What Are You Paying For?</h1>
+          <img src="photos/intro.jpg" alt="Illustration of rent components" class="img-fluid" style="max-width: 80%; margin: 20px auto;">
+          <p>
+            Rent is more than just the monthly payment—it reflects the quality of your living space, its location, available amenities, and the competitive market forces at play.
+            In this dashboard, we ask: <em>What is rent?</em> <br>
+            <em>Why is your rent what it is?</em> <br>
+            <em>Why does it vary so much across locations?</em> <br>
+            And ultimately, <em>Is RealPage artificially inflating rent prices?</em>
+          </p>
+          <p>
+            Explore the visual story as we break down these questions into data-driven insights.
+          </p>
+        </div>
+      </section>      
 
       <div class="content">
 
-        <!-- Section 2: Difference-in-Difference -->
+        <!-- Section 1: What is Rent? -->
+        <section id="whatIsRent" class="section">
+          <div class="text-center w-100">
+            <h1>What is Rent?</h1>
+            <p>
+              Rent represents the price you pay not only for shelter but also for a host of factors such as building quality, location, amenities, and the overall market demand.
+              Here, we start by looking at the available supply—using the average unit count as a proxy—to give context to what shapes your living environment.
+            </p>
+            <canvas id="explanatoryChart"></canvas>
+          </div>
+        </section>
+
+        <!-- Section 2: Why is Your Rent What It Is? -->
         <section id="diffinDiff" class="section">
           <div class="text-center w-100">
-            <h1>Difference-in-Difference</h1>
+            <h1>Why is Your Rent What It Is?</h1>
             <p>
-              Pre/post 2017 merger analysis comparing multifamily and benchmark (single-family) rent indices.
-              This chart uses the <strong>MPF-ANN-RENT-CHG</strong> field aggregated by <strong>yearBuilt</strong> to display the average annual rent change.
+              The price of rent is influenced by market events and underlying economic factors.
+              This Difference-in-Difference analysis uses the <strong>MPF-ANN-RENT-CHG</strong> metric—aggregated by building year—to show how rent changes over time, particularly before and after key market events.
             </p>
             <canvas id="diffinDiffChart"></canvas>
           </div>
         </section>
 
-        <!-- Section 3: Benchmark Comparison -->
-        <section id="benchmarkComparison" class="section">
-          <div class="text-center w-100">
-            <h1>Benchmark Comparison</h1>
-            <p>
-              Nationwide comparison of multifamily rent index vs. single-family (benchmark) rent index.
-              This chart displays data from the <strong>MPF-RPSF</strong> field (average rent per sq ft).
-            </p>
-            <canvas id="benchmarkChart"></canvas>
-          </div>
-        </section>
-
-        <!-- Section 4: Synthetic Control Robustness -->
-        <section id="syntheticControl" class="section">
-          <div class="text-center w-100">
-            <h1>Robustness Check: Synthetic Control</h1>
-            <p>
-              Using synthetic control regression with multiple markets as a robustness check.
-              This chart uses the <strong>MPF-HIST-ASK-RENT</strong> field to display average historical ask rent.
-            </p>
-            <canvas id="syntheticChart"></canvas>
-          </div>
-        </section>
-
-        <!-- Section 5: Alternative Rent Measures -->
-        <section id="alternativeMeasures" class="section">
-          <div class="text-center w-100">
-            <h1>Robustness Check: Alternative Rent Measures</h1>
-            <p>
-              Analysis using different rent level measures to verify results.
-              This chart also uses the <strong>unitcount</strong> field for an alternative view.
-            </p>
-            <canvas id="alternativeChart"></canvas>
-          </div>
-        </section>
-
-        <!-- Section 6: Geographic Rent Index Comparison -->
+        <!-- Section 3: Why is Rent Different in Different Places? -->
         <section id="geoComparison" class="section">
           <div class="text-center w-100">
-            <h1>Geographic Rent Index Comparison</h1>
+            <h1>Why Does Rent Vary by Location?</h1>
             <p>
-              Comparison by geography based on metro area penetration.
-              This chart uses the <strong>MPF-RPSF</strong> field to display average rent per square foot by state.
+              Local market dynamics, including demand, supply, and regional economic conditions, drive differences in rent.
+              The Geographic Rent Index Comparison uses the <strong>MPF-RPSF</strong> metric (average rent per square foot) by state to illustrate how and why rents differ across regions.
             </p>
             <canvas id="geoChart"></canvas>
           </div>
         </section>
 
-        <!-- Section 7: Correlation Tests with Covariates -->
+        <!-- Section 4: Is Rent Being Inflated? -->
         <section id="correlationTests" class="section">
           <div class="text-center w-100">
-            <h1>Correlation Tests with Covariates</h1>
+            <h1>Is RealPage Inflating Rent Prices?</h1>
             <p>
-              Assessing if known RealPage users price rents higher when controlling for building age and metro area.
-              This chart uses the <strong>MPF-HIST-ASK-RENT</strong> field to compare historical ask rents.
+              The final and most critical question: Could rent prices be artificially inflated? By comparing historical ask rents via the <strong>MPF-HIST-ASK-RENT</strong> metric
+              and correlating these values with known RealPage user data, we test whether there is a pattern that suggests collusion.
+              Additional benchmark comparisons support this analysis.
             </p>
             <canvas id="correlationChart"></canvas>
           </div>
         </section>
 
-        <!-- Section 8: Identification of RealPage Buildings -->
+        <!-- Supporting Section: Benchmark Comparison -->
+        <section id="benchmarkComparison" class="section">
+          <div class="text-center w-100">
+            <h1>Benchmark Comparison</h1>
+            <p>
+              To further our case, we compare multifamily rent indices with single‑family benchmarks.
+              This chart uses the <strong>MPF-RPSF</strong> field to show the average rent per square foot and highlights differences in market pricing.
+            </p>
+            <canvas id="benchmarkChart"></canvas>
+          </div>
+        </section>
+
+        <!-- Supporting Section: Synthetic Control Robustness -->
+        <section id="syntheticControl" class="section">
+          <div class="text-center w-100">
+            <h1>Robustness Check: Synthetic Control</h1>
+            <p>
+              As a robustness check, we use synthetic control methods with the <strong>MPF-HIST-ASK-RENT</strong> field to validate our findings across multiple markets.
+            </p>
+            <canvas id="syntheticChart"></canvas>
+          </div>
+        </section>
+
+        <!-- Supporting Section: Alternative Rent Measures -->
+        <section id="alternativeMeasures" class="section">
+          <div class="text-center w-100">
+            <h1>Alternative Rent Measures</h1>
+            <p>
+              We also explore alternative measures of rent using the <strong>unitcount</strong> field, providing another perspective on rent dynamics and further supporting our analysis.
+            </p>
+            <canvas id="alternativeChart"></canvas>
+          </div>
+        </section>
+
+        <!-- Supporting Section: Identification of RealPage Buildings -->
         <section id="identificationMethods" class="section">
           <div class="text-center w-100">
             <h1>Identification of RealPage Buildings</h1>
             <p>
-              Methods include the “HeroSource” variable and matching scraped company websites with the RealPage Explore list.
-              This chart uses the <strong>unitcount</strong> field to display the average unit count.
+              Finally, we use the <strong>unitcount</strong> field to help identify buildings linked to RealPage,
+              which assists in determining if certain groups are systematically associated with higher rent pricing.
             </p>
             <canvas id="identificationChart"></canvas>
           </div>
         </section>
+
       </div>
 
       <footer class="bg-light text-center py-3 border-top w-100">
@@ -218,7 +236,7 @@
     let mpfAnnRentChgYearData = [];
     // Track chart initialization per section
     let chartsInitialized = {
-      explanatory: false,
+      whatIsRent: false,
       diffinDiff: false,
       benchmarkComparison: false,
       syntheticControl: false,
@@ -230,7 +248,7 @@
 
     // Mapping: labels include the CSV field name.
     const sectionMetrics = {
-      explanatory: { metric: 'unitcount', label: 'Avg Unit Count (Field: unitcount)' },
+      whatIsRent: { metric: 'unitcount', label: 'Avg Unit Count (Field: unitcount)' },
       diffinDiff: { metric: 'MPF-ANN-RENT-CHG', label: 'Avg Annual Rent Change (Field: MPF-ANN-RENT-CHG)' },
       benchmarkComparison: { metric: 'MPF-RPSF', label: 'Avg Rent per Sq Ft (Field: MPF-RPSF)' },
       syntheticControl: { metric: 'MPF-HIST-ASK-RENT', label: 'Avg Historical Ask Rent (Field: MPF-HIST-ASK-RENT)' },
@@ -382,7 +400,7 @@
       });
     }
 
-    // 1) Update function to refresh charts after CSV data loads.
+    // Update function to refresh charts after CSV data loads.
     function updateAllCharts() {
       // Update Difference-in-Difference:
       if (charts.diffinDiff) {
@@ -392,17 +410,14 @@
         charts.diffinDiff.update();
       }
 
-      // 2) Update Correlation Tests with Covariates:
+      // Update Correlation Tests:
       if (charts.correlation) {
         let dtCorr = getChartData(sectionMetrics.correlationTests.metric, 'scatter');
         let scatterData = dtCorr.labels.map((year, idx) => ({ x: parseFloat(year), y: dtCorr.data[idx] }));
-        // Clear old data, set new scatter points, update
         charts.correlation.data.datasets[0].data = scatterData;
-        // For scatter, no separate 'labels' array
         charts.correlation.update();
       }
-      
-      // (Optional) add more if you want to refresh other charts too.
+      // (Optional) update other charts similarly if needed.
     }
 
     // Initialize charts for each section when they come into view.
@@ -412,15 +427,15 @@
         let metric = sectionMetrics[sectionId].metric;
         let chartType;
         switch (sectionId) {
-          case "explanatory":
+          case "whatIsRent":
             chartType = 'line';
             let dtEx = getChartData(metric, chartType);
-            charts.explanatory = initChart('explanatoryChart', chartType, 'Causal Inference: ' + sectionMetrics.explanatory.label, dtEx.data, dtEx.labels);
+            charts.whatIsRent = initChart('explanatoryChart', chartType, 'What is Rent? ' + sectionMetrics.whatIsRent.label, dtEx.data, dtEx.labels);
             break;
           case "diffinDiff":
             chartType = 'line';
             let dtDiff = getChartData(metric, chartType);
-            charts.diffinDiff = initChart('diffinDiffChart', chartType, 'Difference-in-Difference: ' + sectionMetrics.diffinDiff.label, dtDiff.data, dtDiff.labels, {
+            charts.diffinDiff = initChart('diffinDiffChart', chartType, 'Why is Your Rent What It Is? ' + sectionMetrics.diffinDiff.label, dtDiff.data, dtDiff.labels, {
               scales: {
                 x: { title: { display: true, text: 'Year Built' }, ticks: { font: { size: 14 } } },
                 y: { title: { display: true, text: 'MPF-ANN-RENT-CHG' }, ticks: { font: { size: 14 } } }
@@ -445,13 +460,13 @@
           case "geoComparison":
             chartType = 'line';
             let dtGeo = getChartData(metric, chartType);
-            charts.geo = initChart('geoChart', chartType, 'Geographic Comparison: ' + sectionMetrics.geoComparison.label, dtGeo.data, dtGeo.labels);
+            charts.geo = initChart('geoChart', chartType, 'Geographic Rent Comparison: ' + sectionMetrics.geoComparison.label, dtGeo.data, dtGeo.labels);
             break;
           case "correlationTests":
             chartType = 'scatter';
             let dtCorr = getChartData(metric, chartType);
             let scatterData = dtCorr.labels.map((year, idx) => ({ x: parseFloat(year), y: dtCorr.data[idx] }));
-            charts.correlation = initChart('correlationChart', chartType, 'Correlation Tests: ' + sectionMetrics.correlationTests.label, scatterData, [], {
+            charts.correlation = initChart('correlationChart', chartType, 'Is Rent Being Inflated? ' + sectionMetrics.correlationTests.label, scatterData, [], {
               scales: {
                 x: { type: 'linear', position: 'bottom', title: { display: true, text: 'Year' } },
                 y: { beginAtZero: true, title: { display: true, text: sectionMetrics.correlationTests.label } }
@@ -468,7 +483,7 @@
       }
     }
 
-    // Use IntersectionObserver to initialize a section when it scrolls into view.
+    // Use IntersectionObserver to initialize sections when they come into view.
     document.addEventListener("DOMContentLoaded", function() {
       const sections = document.querySelectorAll('.section');
       const observer = new IntersectionObserver((entries) => {
@@ -493,7 +508,7 @@
               csvData = results.data;
               aggregateByState();
               aggregateByYear();
-              // Update charts now that data has been loaded and aggregated.
+              // Update charts now that the data has been loaded and aggregated.
               updateAllCharts();
             }
           });
