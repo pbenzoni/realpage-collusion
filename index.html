@@ -28,7 +28,6 @@
         display: none;
       }
     }
-
     /* Scroll animation for content sections */
     .section {
       width: 100%;
@@ -49,19 +48,17 @@
 </head>
 <body>
   <div class="d-flex" id="wrapper">
-    <!-- Sidebar (Original Code Preserved) -->
+    <!-- Sidebar -->
     <div class="bg-light border-end" id="sidebar-wrapper">
       <div class="sidebar-heading text-center py-4">
         <img src="photos/berkeleyischool-logo-vertical-blue-sm.png" alt="UC Berkeley School of Information">
         <h2 class="mids-capstone">MIDS Capstone: <strong>RealPage Collusion Dashboard</strong></h2>
       </div>
       <div class="list-group list-group-flush">
-        <a href="index.html" class="list-group-item list-group-item-action bg-light active">
-          Homepage
-        </a>
+        <a href="index.html" class="list-group-item list-group-item-action bg-light active">Homepage</a>
         <a href="about.html" class="list-group-item list-group-item-action bg-light">About</a>
         <a href="data-dictionary.html" class="list-group-item list-group-item-action bg-light">Data Dictionary</a>
-        <a href="interactive-map.html" class="list-group-item list-group-item-action bg-light">Interactive Map</a>
+        <!-- Removed Interactive Map, focusing on charts -->
         <a href="key-findings.html" class="list-group-item list-group-item-action bg-light">Key Findings</a>
         <a href="demo.html" class="list-group-item list-group-item-action bg-light">Try It Yourself: Interactive Modeling</a>
         <a href="contact-us.html" class="list-group-item list-group-item-action bg-light">Contact Us</a>
@@ -91,18 +88,24 @@
           <div class="container text-center">
             <h1>Data Exploration</h1>
             <p>Insights from initial data analysis are showcased here.</p>
+            <!-- Chart container for Data Exploration (Bar Chart) -->
+            <canvas id="barChart" width="400" height="400"></canvas>
           </div>
         </section>
-        <section id="map" class="section">
+        <section id="visualization" class="section">
           <div class="container text-center">
-            <h1>Interactive Map</h1>
-            <p>This section provides a visual representation of the data on an interactive map.</p>
+            <h1>Visualization Chart</h1>
+            <p>Additional visualization using a line chart.</p>
+            <!-- Chart container for Visualization (Line Chart) -->
+            <canvas id="lineChart" width="400" height="400"></canvas>
           </div>
         </section>
         <section id="findings" class="section">
           <div class="container text-center">
             <h1>Key Findings</h1>
             <p>A summary of the project's most important insights and results.</p>
+            <!-- Chart container for Key Findings (Pie Chart) -->
+            <canvas id="pieChart" width="400" height="400"></canvas>
           </div>
         </section>
       </div>
@@ -118,6 +121,8 @@
 
   <!-- Bootstrap Bundle JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Include Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
     // Toggle sidebar for mobile responsiveness
     const menuToggle = document.getElementById("menu-toggle");
@@ -138,6 +143,83 @@
       }, { threshold: 0.2 });
       
       sections.forEach(section => observer.observe(section));
+    });
+
+    // Initialize Bar Chart in the Data Exploration section
+    const ctxBar = document.getElementById('barChart').getContext('2d');
+    new Chart(ctxBar, {
+      type: 'bar',
+      data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [{
+          label: 'Data Exploration',
+          data: [12, 19, 3, 5, 2, 3],
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)'
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    // Initialize Line Chart in the Visualization section
+    const ctxLine = document.getElementById('lineChart').getContext('2d');
+    new Chart(ctxLine, {
+      type: 'line',
+      data: {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        datasets: [{
+          label: 'Visualization Trend',
+          data: [3, 2, 2, 6, 5, 7, 4],
+          fill: false,
+          borderColor: 'rgba(75, 192, 192, 1)',
+          tension: 0.1
+        }]
+      }
+    });
+
+    // Initialize Pie Chart in the Key Findings section
+    const ctxPie = document.getElementById('pieChart').getContext('2d');
+    new Chart(ctxPie, {
+      type: 'pie',
+      data: {
+        labels: ['A', 'B', 'C'],
+        datasets: [{
+          label: 'Key Findings',
+          data: [10, 20, 30],
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)'
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)'
+          ],
+          borderWidth: 1
+        }]
+      }
     });
   </script>
 </body>
