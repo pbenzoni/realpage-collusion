@@ -4,47 +4,61 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>RealPage Collusion Dashboard</title>
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="photos/berkeleyischool-logo-vertical-blue-sm.png">
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <!-- Custom Styles -->
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* Fixed sidebar for desktop (this page only) */
+    /* Sidebar styles */
     @media (min-width: 769px) {
       #sidebar-wrapper {
         position: fixed;
         top: 0;
         left: 0;
         height: 100vh;
+        width: 250px;
       }
       #page-content-wrapper {
-        margin-left: 250px; /* same width as your sidebar */
+        margin-left: 250px;
       }
       #menu-toggle {
         display: none;
       }
-      /* Hide the navbar and toggle button on desktop */
       nav.navbar.fixed-top {
         display: none;
       }
     }
-    /* Scroll animation for content sections */
+    /* Full-width content sections */
     .section {
       width: 100%;
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       scroll-snap-align: start;
       transition: opacity 0.6s ease-out, transform 0.6s ease-out;
       opacity: 0;
       transform: translateY(30px);
+      padding: 20px;
     }
     .section.in-view {
       opacity: 1;
       transform: translateY(0);
     }
+    /* Adjusted chart container height for readability */
+    canvas {
+      width: 100% !important;
+      height: 700px !important;
+    }
   </style>
+  <!-- Defer non-critical scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js" defer></script>
 </head>
 <body>
   <div class="d-flex" id="wrapper">
@@ -58,7 +72,9 @@
         <a href="index.html" class="list-group-item list-group-item-action bg-light active">Homepage</a>
         <a href="about.html" class="list-group-item list-group-item-action bg-light">About</a>
         <a href="data-dictionary.html" class="list-group-item list-group-item-action bg-light">Data Dictionary</a>
-        <a href="interactive-map.html" class="list-group-item list-group-item-action bg-light">Interactive Map</a>
+        <a href="interactive-map.html" class="list-group-item list-group-item-action bg-light">
+          Interactive Map
+        </a>
         <a href="key-findings.html" class="list-group-item list-group-item-action bg-light">Key Findings</a>
         <a href="demo.html" class="list-group-item list-group-item-action bg-light">Try It Yourself: Interactive Modeling</a>
         <a href="contact-us.html" class="list-group-item list-group-item-action bg-light">Contact Us</a>
@@ -76,40 +92,105 @@
           <button class="btn btn-secondary" id="menu-toggle">MIDS Capstone, Spring 2025: RealPage Collusion Dashboard</button>
         </div>
       </nav>
+
+      <!-- Main Chart Intro Section -->
+      <div id="evolving-chart-container" class="text-center">
+        <h2 id="evolvingChartTitle">RealPage Collusion Dashboard</h2>
+        <p>
+          This dashboard explores causal inference, difference-in-differences, and robustness checks using multifamily rent data.
+          Charts aggregate data by <strong>yearBuilt</strong> for line/scatter charts and by state for bar charts.
+          Each chart explicitly mentions the CSV field being used.
+        </p>
+      </div>
+
       <div class="content">
-        <!-- Scroll-Driven Sections -->
-        <section id="intro" class="section">
-          <div class="container text-center">
-            <h1>Introduction</h1>
-            <p>This section gives an overview of the project, its goals, and key questions.</p>
+
+        <!-- Section 2: Difference-in-Difference -->
+        <section id="diffinDiff" class="section">
+          <div class="text-center w-100">
+            <h1>Difference-in-Difference</h1>
+            <p>
+              Pre/post 2017 merger analysis comparing multifamily and benchmark (single-family) rent indices.
+              This chart uses the <strong>MPF-ANN-RENT-CHG</strong> field aggregated by <strong>yearBuilt</strong> to display the average annual rent change.
+            </p>
+            <canvas id="diffinDiffChart"></canvas>
           </div>
         </section>
-        <section id="data" class="section">
-          <div class="container text-center">
-            <h1>Data Exploration</h1>
-            <p>Insights from initial data analysis are showcased here.</p>
-            <!-- Chart container for Data Exploration (Bar Chart) -->
-            <canvas id="barChart" width="400" height="400"></canvas>
+
+        <!-- Section 3: Benchmark Comparison -->
+        <section id="benchmarkComparison" class="section">
+          <div class="text-center w-100">
+            <h1>Benchmark Comparison</h1>
+            <p>
+              Nationwide comparison of multifamily rent index vs. single-family (benchmark) rent index.
+              This chart displays data from the <strong>MPF-RPSF</strong> field (average rent per sq ft).
+            </p>
+            <canvas id="benchmarkChart"></canvas>
           </div>
         </section>
-        <section id="visualization" class="section">
-          <div class="container text-center">
-            <h1>Visualization Chart</h1>
-            <p>Additional visualization using a line chart.</p>
-            <!-- Chart container for Visualization (Line Chart) -->
-            <canvas id="lineChart" width="400" height="400"></canvas>
+
+        <!-- Section 4: Synthetic Control Robustness -->
+        <section id="syntheticControl" class="section">
+          <div class="text-center w-100">
+            <h1>Robustness Check: Synthetic Control</h1>
+            <p>
+              Using synthetic control regression with multiple markets as a robustness check.
+              This chart uses the <strong>MPF-HIST-ASK-RENT</strong> field to display average historical ask rent.
+            </p>
+            <canvas id="syntheticChart"></canvas>
           </div>
         </section>
-        <section id="findings" class="section">
-          <div class="container text-center">
-            <h1>Key Findings</h1>
-            <p>A summary of the project's most important insights and results.</p>
-            <!-- Chart container for Key Findings (Pie Chart) -->
-            <canvas id="pieChart" width="400" height="400"></canvas>
+
+        <!-- Section 5: Alternative Rent Measures -->
+        <section id="alternativeMeasures" class="section">
+          <div class="text-center w-100">
+            <h1>Robustness Check: Alternative Rent Measures</h1>
+            <p>
+              Analysis using different rent level measures to verify results.
+              This chart also uses the <strong>unitcount</strong> field for an alternative view.
+            </p>
+            <canvas id="alternativeChart"></canvas>
+          </div>
+        </section>
+
+        <!-- Section 6: Geographic Rent Index Comparison -->
+        <section id="geoComparison" class="section">
+          <div class="text-center w-100">
+            <h1>Geographic Rent Index Comparison</h1>
+            <p>
+              Comparison by geography based on metro area penetration.
+              This chart uses the <strong>MPF-RPSF</strong> field to display average rent per square foot by state.
+            </p>
+            <canvas id="geoChart"></canvas>
+          </div>
+        </section>
+
+        <!-- Section 7: Correlation Tests with Covariates -->
+        <section id="correlationTests" class="section">
+          <div class="text-center w-100">
+            <h1>Correlation Tests with Covariates</h1>
+            <p>
+              Assessing if known RealPage users price rents higher when controlling for building age and metro area.
+              This chart uses the <strong>MPF-HIST-ASK-RENT</strong> field to compare historical ask rents.
+            </p>
+            <canvas id="correlationChart"></canvas>
+          </div>
+        </section>
+
+        <!-- Section 8: Identification of RealPage Buildings -->
+        <section id="identificationMethods" class="section">
+          <div class="text-center w-100">
+            <h1>Identification of RealPage Buildings</h1>
+            <p>
+              Methods include the “HeroSource” variable and matching scraped company websites with the RealPage Explore list.
+              This chart uses the <strong>unitcount</strong> field to display the average unit count.
+            </p>
+            <canvas id="identificationChart"></canvas>
           </div>
         </section>
       </div>
-      <footer class="bg-light text-center py-3 border-top">
+
+      <footer class="bg-light text-center py-3 border-top w-100">
         <p class="mb-0">
           &copy; 2025 RealPage Collusion Dashboard &mdash;
           <a href="privacy.html">View Full Privacy Policy</a>
@@ -119,107 +200,314 @@
     <!-- /#page-content-wrapper -->
   </div>
 
-  <!-- Bootstrap Bundle JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Include Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    // Toggle sidebar for mobile responsiveness
-    const menuToggle = document.getElementById("menu-toggle");
-    const wrapper = document.getElementById("wrapper");
-    menuToggle.addEventListener("click", () => {
-      wrapper.classList.toggle("toggled");
-    });
-    
-    // Scroll-triggered animations using IntersectionObserver
+  <!-- Inline Script: Initialize Charts and Load Data -->
+  <script defer>
+    let charts = {};
+    let csvData = [];
+    // Arrays for state-level aggregation (for bar charts)
+    let csvLabels = [];
+    let unitCountData = [];
+    let mpfRpsfData = [];
+    let mpfHistAskRentData = [];
+    let mpfAnnRentChgData = [];
+    // Arrays for yearBuilt aggregation (for line/scatter charts)
+    let yearLabels = [];
+    let unitCountYearData = [];
+    let mpfRpsfYearData = [];
+    let mpfHistAskRentYearData = [];
+    let mpfAnnRentChgYearData = [];
+    // Track chart initialization per section
+    let chartsInitialized = {
+      explanatory: false,
+      diffinDiff: false,
+      benchmarkComparison: false,
+      syntheticControl: false,
+      alternativeMeasures: false,
+      geoComparison: false,
+      correlationTests: false,
+      identificationMethods: false
+    };
+
+    // Mapping: labels include the CSV field name.
+    const sectionMetrics = {
+      explanatory: { metric: 'unitcount', label: 'Avg Unit Count (Field: unitcount)' },
+      diffinDiff: { metric: 'MPF-ANN-RENT-CHG', label: 'Avg Annual Rent Change (Field: MPF-ANN-RENT-CHG)' },
+      benchmarkComparison: { metric: 'MPF-RPSF', label: 'Avg Rent per Sq Ft (Field: MPF-RPSF)' },
+      syntheticControl: { metric: 'MPF-HIST-ASK-RENT', label: 'Avg Historical Ask Rent (Field: MPF-HIST-ASK-RENT)' },
+      alternativeMeasures: { metric: 'unitcount', label: 'Avg Unit Count (Alt.) (Field: unitcount)' },
+      geoComparison: { metric: 'MPF-RPSF', label: 'Avg Rent per Sq Ft (Field: MPF-RPSF)' },
+      correlationTests: { metric: 'MPF-HIST-ASK-RENT', label: 'Avg Historical Ask Rent (Field: MPF-HIST-ASK-RENT)' },
+      identificationMethods: { metric: 'unitcount', label: 'Avg Unit Count (Field: unitcount)' }
+    };
+
+    // Aggregate CSV data by state (for bar charts)
+    function aggregateByState() {
+      let stateAgg = {};
+      csvData.forEach(row => {
+        let state = row.state;
+        if (state) {
+          if (!stateAgg[state]) {
+            stateAgg[state] = {
+              unitcountSum: 0,
+              mpfRpsfSum: 0,
+              mpfHistAskRentSum: 0,
+              mpfAnnRentChgSum: 0,
+              count: 0
+            };
+          }
+          stateAgg[state].unitcountSum += parseFloat(row.unitcount) || 0;
+          stateAgg[state].mpfRpsfSum += parseFloat(row["MPF-RPSF"]) || 0;
+          stateAgg[state].mpfHistAskRentSum += parseFloat(row["MPF-HIST-ASK-RENT"]) || 0;
+          stateAgg[state].mpfAnnRentChgSum += parseFloat(row["MPF-ANN-RENT-CHG"]) || 0;
+          stateAgg[state].count += 1;
+        }
+      });
+      csvLabels = Object.keys(stateAgg);
+      unitCountData = [];
+      mpfRpsfData = [];
+      mpfHistAskRentData = [];
+      mpfAnnRentChgData = [];
+      csvLabels.forEach(state => {
+        let agg = stateAgg[state];
+        unitCountData.push(agg.unitcountSum / agg.count);
+        mpfRpsfData.push(agg.mpfRpsfSum / agg.count);
+        mpfHistAskRentData.push(agg.mpfHistAskRentSum / agg.count);
+        mpfAnnRentChgData.push(agg.mpfAnnRentChgSum / agg.count);
+      });
+    }
+
+    // Aggregate CSV data by yearBuilt (for line/scatter charts)
+    function aggregateByYear() {
+      let yearAgg = {};
+      csvData.forEach(row => {
+        let year = row.yearBuilt;
+        if (year) {
+          if (!yearAgg[year]) {
+            yearAgg[year] = { 
+              unitcountSum: 0, 
+              mpfRpsfSum: 0, 
+              mpfHistAskRentSum: 0, 
+              mpfAnnRentChgSum: 0, 
+              count: 0 
+            };
+          }
+          yearAgg[year].unitcountSum += parseFloat(row.unitcount) || 0;
+          yearAgg[year].mpfRpsfSum += parseFloat(row["MPF-RPSF"]) || 0;
+          yearAgg[year].mpfHistAskRentSum += parseFloat(row["MPF-HIST-ASK-RENT"]) || 0;
+          yearAgg[year].mpfAnnRentChgSum += parseFloat(row["MPF-ANN-RENT-CHG"]) || 0;
+          yearAgg[year].count += 1;
+        }
+      });
+      let years = Object.keys(yearAgg).sort();
+      let unitData = [], rpsfData = [], histAskData = [], annRentChgData = [];
+      years.forEach(year => {
+        let agg = yearAgg[year];
+        unitData.push(agg.unitcountSum / agg.count);
+        rpsfData.push(agg.mpfRpsfSum / agg.count);
+        histAskData.push(agg.mpfHistAskRentSum / agg.count);
+        annRentChgData.push(agg.mpfAnnRentChgSum / agg.count);
+      });
+      yearLabels = years;
+      unitCountYearData = unitData;
+      mpfRpsfYearData = rpsfData;
+      mpfHistAskRentYearData = histAskData;
+      mpfAnnRentChgYearData = annRentChgData;
+    }
+
+    // Helper: Get chart data based on aggregation type.
+    // For line/scatter charts, use year-based data; for bar charts, use state-based data.
+    function getChartData(metric, chartType) {
+      if (chartType === 'line' || chartType === 'scatter') {
+        switch(metric) {
+          case 'unitcount': return { labels: yearLabels, data: unitCountYearData };
+          case 'MPF-RPSF': return { labels: yearLabels, data: mpfRpsfYearData };
+          case 'MPF-HIST-ASK-RENT': return { labels: yearLabels, data: mpfHistAskRentYearData };
+          case 'MPF-ANN-RENT-CHG': return { labels: yearLabels, data: mpfAnnRentChgYearData };
+          default: return { labels: yearLabels, data: [] };
+        }
+      } else {
+        switch(metric) {
+          case 'unitcount': return { labels: csvLabels, data: unitCountData };
+          case 'MPF-RPSF': return { labels: csvLabels, data: mpfRpsfData };
+          case 'MPF-HIST-ASK-RENT': return { labels: csvLabels, data: mpfHistAskRentData };
+          case 'MPF-ANN-RENT-CHG': return { labels: csvLabels, data: mpfAnnRentChgData };
+          default: return { labels: csvLabels, data: [] };
+        }
+      }
+    }
+
+    // Initialize a Chart.js chart.
+    function initChart(ctxId, chartType, label, data, labels, extraOptions = {}) {
+      const ctx = document.getElementById(ctxId).getContext('2d');
+      return new Chart(ctx, {
+        type: chartType,
+        data: {
+          labels: labels,
+          datasets: [{
+            label: label,
+            data: data,
+            fill: false,
+            borderColor: 'rgba(75, 192, 192, 1)',
+            tension: 0.1,
+            backgroundColor: chartType === 'bar' ? 'rgba(75, 192, 192, 0.2)' : undefined,
+            borderWidth: chartType === 'bar' ? 1 : undefined
+          }]
+        },
+        options: Object.assign({
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: { duration: 0 },
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            tooltip: { 
+              enabled: true, 
+              bodyFont: { size: 16 },
+              callbacks: {
+                label: function(context) {
+                  if (chartType === 'scatter') {
+                    return 'Year: ' + context.raw.x + ', Value: ' + context.raw.y;
+                  } else {
+                    return context.dataset.label + ": " + context.parsed.y;
+                  }
+                }
+              }
+            },
+            legend: { display: true, labels: { font: { size: 16 } } }
+          },
+          scales: {
+            x: { ticks: { autoSkip: true, maxTicksLimit: 20, font: { size: 14 } } },
+            y: { ticks: { font: { size: 14 } } }
+          }
+        }, extraOptions)
+      });
+    }
+
+    // 1) Update function to refresh charts after CSV data loads.
+    function updateAllCharts() {
+      // Update Difference-in-Difference:
+      if (charts.diffinDiff) {
+        let dtDiff = getChartData(sectionMetrics.diffinDiff.metric, 'line');
+        charts.diffinDiff.data.labels = dtDiff.labels;
+        charts.diffinDiff.data.datasets[0].data = dtDiff.data;
+        charts.diffinDiff.update();
+      }
+
+      // 2) Update Correlation Tests with Covariates:
+      if (charts.correlation) {
+        let dtCorr = getChartData(sectionMetrics.correlationTests.metric, 'scatter');
+        let scatterData = dtCorr.labels.map((year, idx) => ({ x: parseFloat(year), y: dtCorr.data[idx] }));
+        // Clear old data, set new scatter points, update
+        charts.correlation.data.datasets[0].data = scatterData;
+        // For scatter, no separate 'labels' array
+        charts.correlation.update();
+      }
+      
+      // (Optional) add more if you want to refresh other charts too.
+    }
+
+    // Initialize charts for each section when they come into view.
+    function initializeSection(sectionId) {
+      if (!chartsInitialized[sectionId]) {
+        chartsInitialized[sectionId] = true;
+        let metric = sectionMetrics[sectionId].metric;
+        let chartType;
+        switch (sectionId) {
+          case "explanatory":
+            chartType = 'line';
+            let dtEx = getChartData(metric, chartType);
+            charts.explanatory = initChart('explanatoryChart', chartType, 'Causal Inference: ' + sectionMetrics.explanatory.label, dtEx.data, dtEx.labels);
+            break;
+          case "diffinDiff":
+            chartType = 'line';
+            let dtDiff = getChartData(metric, chartType);
+            charts.diffinDiff = initChart('diffinDiffChart', chartType, 'Difference-in-Difference: ' + sectionMetrics.diffinDiff.label, dtDiff.data, dtDiff.labels, {
+              scales: {
+                x: { title: { display: true, text: 'Year Built' }, ticks: { font: { size: 14 } } },
+                y: { title: { display: true, text: 'MPF-ANN-RENT-CHG' }, ticks: { font: { size: 14 } } }
+              }
+            });
+            break;
+          case "benchmarkComparison":
+            chartType = 'bar';
+            let dtBench = getChartData(metric, chartType);
+            charts.benchmark = initChart('benchmarkChart', chartType, 'Benchmark Comparison: ' + sectionMetrics.benchmarkComparison.label, dtBench.data, dtBench.labels);
+            break;
+          case "syntheticControl":
+            chartType = 'line';
+            let dtSynth = getChartData(metric, chartType);
+            charts.synthetic = initChart('syntheticChart', chartType, 'Synthetic Control: ' + sectionMetrics.syntheticControl.label, dtSynth.data, dtSynth.labels);
+            break;
+          case "alternativeMeasures":
+            chartType = 'bar';
+            let dtAlt = getChartData(metric, chartType);
+            charts.alternative = initChart('alternativeChart', chartType, 'Alternative Rent Measures: ' + sectionMetrics.alternativeMeasures.label, dtAlt.data, dtAlt.labels);
+            break;
+          case "geoComparison":
+            chartType = 'line';
+            let dtGeo = getChartData(metric, chartType);
+            charts.geo = initChart('geoChart', chartType, 'Geographic Comparison: ' + sectionMetrics.geoComparison.label, dtGeo.data, dtGeo.labels);
+            break;
+          case "correlationTests":
+            chartType = 'scatter';
+            let dtCorr = getChartData(metric, chartType);
+            let scatterData = dtCorr.labels.map((year, idx) => ({ x: parseFloat(year), y: dtCorr.data[idx] }));
+            charts.correlation = initChart('correlationChart', chartType, 'Correlation Tests: ' + sectionMetrics.correlationTests.label, scatterData, [], {
+              scales: {
+                x: { type: 'linear', position: 'bottom', title: { display: true, text: 'Year' } },
+                y: { beginAtZero: true, title: { display: true, text: sectionMetrics.correlationTests.label } }
+              },
+              parsing: false
+            });
+            break;
+          case "identificationMethods":
+            chartType = 'bar';
+            let dtIdent = getChartData(metric, chartType);
+            charts.identification = initChart('identificationChart', chartType, 'Identification Methods: ' + sectionMetrics.identificationMethods.label, dtIdent.data, dtIdent.labels);
+            break;
+        }
+      }
+    }
+
+    // Use IntersectionObserver to initialize a section when it scrolls into view.
     document.addEventListener("DOMContentLoaded", function() {
       const sections = document.querySelectorAll('.section');
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('in-view');
+            initializeSection(entry.target.id);
           }
         });
-      }, { threshold: 0.2 });
-      
+      }, { threshold: 0.4 });
       sections.forEach(section => observer.observe(section));
     });
 
-    // Initialize Bar Chart in the Data Exploration section
-    const ctxBar = document.getElementById('barChart').getContext('2d');
-    new Chart(ctxBar, {
-      type: 'bar',
-      data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [{
-          label: 'Data Exploration',
-          data: [12, 19, 3, 5, 2, 3],
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
-          ],
-          borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-          ],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
+    // Load CSV data and perform aggregations.
+    document.addEventListener("DOMContentLoaded", function() {
+      fetch('https://rpc-webpage.s3-accelerate.amazonaws.com/cbsa_data.csv')
+        .then(response => response.text())
+        .then(csvText => {
+          Papa.parse(csvText, {
+            header: true,
+            complete: function(results) {
+              csvData = results.data;
+              aggregateByState();
+              aggregateByYear();
+              // Update charts now that data has been loaded and aggregated.
+              updateAllCharts();
+            }
+          });
+        })
+        .catch(error => console.error("Error loading CSV data:", error));
     });
 
-    // Initialize Line Chart in the Visualization section
-    const ctxLine = document.getElementById('lineChart').getContext('2d');
-    new Chart(ctxLine, {
-      type: 'line',
-      data: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        datasets: [{
-          label: 'Visualization Trend',
-          data: [3, 2, 2, 6, 5, 7, 4],
-          fill: false,
-          borderColor: 'rgba(75, 192, 192, 1)',
-          tension: 0.1
-        }]
-      }
-    });
-
-    // Initialize Pie Chart in the Key Findings section
-    const ctxPie = document.getElementById('pieChart').getContext('2d');
-    new Chart(ctxPie, {
-      type: 'pie',
-      data: {
-        labels: ['A', 'B', 'C'],
-        datasets: [{
-          label: 'Key Findings',
-          data: [10, 20, 30],
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)'
-          ],
-          borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)'
-          ],
-          borderWidth: 1
-        }]
-      }
+    // Sidebar toggle for mobile.
+    document.addEventListener("DOMContentLoaded", function() {
+      const menuToggle = document.getElementById("menu-toggle");
+      const wrapper = document.getElementById("wrapper");
+      menuToggle.addEventListener("click", () => {
+        wrapper.classList.toggle("toggled");
+      });
     });
   </script>
 </body>
