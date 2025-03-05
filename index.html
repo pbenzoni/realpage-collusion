@@ -52,12 +52,15 @@
     }
     /* Adjusted chart container height for readability */
     canvas {
-      width: 100% !important;
-      height: 700px !important;
+      width: 100%;
+      height: auto;
+      max-height: 700px;
     }
   </style>
   <!-- Defer non-critical scripts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+  <!-- Chart.js Annotation Plugin -->
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.1.0" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js" defer></script>
 </head>
 <body>
@@ -94,54 +97,64 @@
       <!-- Introduction Section -->
       <section id="introduction" class="section in-view">
         <div class="text-center w-100">
-          <h1>What is Rent, and What Are You Paying For?</h1>
+          <h1>Are Algorithmic Pricing Tools Reshaping Your Rent?</h1>
           <img src="photos/intro.jpg" alt="Illustration of rent components" class="img-fluid" style="max-width: 80%; margin: 20px auto;">
           <p>
-            Rent is more than just the monthly payment—it reflects the quality of your living space, its location, available amenities, and the competitive market forces at play.
-            In this dashboard, we ask: <em>What is rent?</em> <br>
-            <em>Why is your rent what it is?</em> <br>
-            <em>Why does it vary so much across locations?</em> <br>
-            And ultimately, <em>Is RealPage artificially inflating rent prices?</em>
+            Our research investigates whether changes in rent levels and housing supply are statistically linked to the growing market share of RealPage's algorithmic pricing tools. As you scroll through this guided story, you'll discover how data on housing supply, rent dynamics, and occupancy trends combine with advanced econometric techniques to reveal potential collusion in pricing.
           </p>
           <p>
-            Explore the visual story as we break down these questions into data-driven insights.
+            Follow the narrative to understand how key market events, including the adoption of these tools, intersect with rent trajectories and housing supply shifts—informing discussions on affordability, urban planning, and antitrust considerations.
           </p>
         </div>
       </section>      
 
-      <div class="content">
+      <!-- Section A: Identifying RealPage-Managed Properties -->
+      <section id="identificationMethods" class="section">
+        <div class="text-center w-100">
+          <h1>Identifying RealPage-Managed Properties</h1>
+          <p>
+            To better understand the spatial and temporal patterns of RealPage's market penetration, we present two new visualizations:
+          </p>
+          <ul>
+            <li><strong>Interactive Geographic Heatmap:</strong> A map-based view showing the concentration of RealPage-managed properties across regions.</li>
+            <li><strong>Time Series of Adoption Trends:</strong> A chart tracking the evolution of RealPage adoption over time, highlighting key market milestones.</li>
+          </ul>
+          <div style="display: flex; flex-direction: column; gap: 20px;">
+            <canvas id="geoHeatmapChart"></canvas>
+            <canvas id="adoptionTrendsChart"></canvas>
+          </div>
+        </div>
+      </section>
 
-        <!-- Section 1: What is Rent? -->
+      <div class="content">
+        <!-- Section 1: Contextualizing Rent -->
         <section id="whatIsRent" class="section">
           <div class="text-center w-100">
-            <h1>What is Rent?</h1>
+            <h1>Contextualizing Rent: The Role of Housing Supply</h1>
             <p>
-              Rent represents the price you pay not only for shelter but also for a host of factors such as building quality, location, amenities, and overall market demand.
-              Here, we start by looking at the available supply—using the average unit count as a proxy—to give context to what shapes your living environment.
+              Rent isn't just a monthly expense—it reflects the market's housing supply. By examining average unit counts as a proxy for available housing, we set the stage to explore how algorithmic pricing might influence these fundamentals.
             </p>
             <canvas id="explanatoryChart"></canvas>
           </div>
         </section>
 
-        <!-- Section 2: Why is Your Rent What It Is? -->
+        <!-- Section 2: Tracing Rent Dynamics -->
         <section id="diffinDiff" class="section">
           <div class="text-center w-100">
-            <h1>Why is Your Rent What It Is?</h1>
+            <h1>Tracing Rent Dynamics: Pre‑ and Post‑RealPage Adoption</h1>
             <p>
-              The price of rent is influenced by market events and underlying economic factors.
-              This Difference‑in‑Difference analysis uses the <strong>MPF‑ANN‑RENT‑CHG</strong> metric—aggregated by building year—to show how rent changes over time, particularly before and after key market events.
+              In this section, we use a difference‑in‑difference framework to explore how rent changes evolve before and after RealPage's entry. Look for the red vertical line (at 2015) on the chart—a key moment marking RealPage adoption—that helps anchor the story of changing rent trends.
             </p>
             <canvas id="diffinDiffChart"></canvas>
           </div>
         </section>
 
-        <!-- Section 3: Rent Comparison -->
+        <!-- Section 3: Uncovering Price Adjustments -->
         <section id="rentComparison" class="section">
           <div class="text-center w-100">
-            <h1>Rent Comparison: Current vs Historical Ask Rent</h1>
+            <h1>Current vs. Historical Rents: Uncovering Price Adjustments</h1>
             <p>
-              This chart compares current rent (<strong>MPF‑RENT</strong>) with historical ask rent (<strong>MPF‑HIST‑ASK‑RENT</strong>) over time by heroSource.
-              For each hero, the solid line represents current rent while the dashed line represents historical ask rent.
+              By comparing current market rents with historical asking rents across property managers, we assess whether RealPage-managed properties exhibit distinct price adjustments that might indicate algorithm-driven inflation.
             </p>
             <canvas id="rentComparisonChart"></canvas>
           </div>
@@ -150,71 +163,76 @@
         <!-- Section 4: Occupancy Trends -->
         <section id="occupancyTrends" class="section">
           <div class="text-center w-100">
-            <h1>Occupancy Trends</h1>
+            <h1>Occupancy Trends Amidst Market Shifts</h1>
             <p>
-              This chart displays the occupancy rate (<strong>MPF‑OCC</strong>) over time, helping to reveal how property performance might relate to rent and market dynamics.
+              Tracking occupancy rates over time reveals how tenants respond to changing rent levels. This section explores whether higher RealPage adoption correlates with altered occupancy trends—hinting at broader market impacts.
             </p>
             <canvas id="occupancyChart"></canvas>
           </div>
         </section>
 
-        <!-- Section 5: Is Rent Being Inflated? -->
+        <!-- Section 5: Correlation & Potential Collusion -->
         <section id="correlationTests" class="section">
           <div class="text-center w-100">
-            <h1>Is RealPage Inflating Rent Prices?</h1>
+            <h1>Testing the Link: RealPage Adoption & Rent Inflation</h1>
             <p>
-              Could rent prices be artificially inflated? By comparing historical ask rents via the <strong>MPF‑HIST‑ASK‑RENT</strong> metric and correlating these values with known RealPage user data, we test for patterns suggesting collusion.
+              We directly test whether algorithmic pricing is associated with inflated rents. By correlating historical ask rents with RealPage's market presence, this scatter chart aims to reveal statistical patterns suggestive of collusive behavior.
             </p>
             <canvas id="correlationChart"></canvas>
           </div>
         </section>
 
-        <!-- Supporting Section: Benchmark Comparison -->
+        <!-- Section 6: Benchmarking Across Markets -->
         <section id="benchmarkComparison" class="section">
           <div class="text-center w-100">
-            <h1>Benchmark Comparison</h1>
+            <h1>Benchmarking Rent: Multifamily vs. Single‑Family Markets</h1>
             <p>
-              To further our case, we compare multifamily rent indices with single‑family benchmarks.
-              This chart uses the <strong>MPF‑RPSF</strong> field to show the average rent per square foot and highlights differences in market pricing.
+              This visualization juxtaposes multifamily rent indices with single‑family benchmarks to determine whether observed rent increases are unique to markets influenced by algorithmic pricing or simply part of broader economic trends.
             </p>
             <canvas id="benchmarkChart"></canvas>
           </div>
         </section>
 
-        <!-- Supporting Section: Synthetic Control Robustness -->
+        <!-- Section 7: Validating Findings -->
         <section id="syntheticControl" class="section">
           <div class="text-center w-100">
-            <h1>Robustness Check: Synthetic Control</h1>
+            <h1>Validating Findings: Synthetic Control Analysis</h1>
             <p>
-              As a robustness check, we use synthetic control methods with the <strong>MPF‑HIST‑ASK‑RENT</strong> field to validate our findings across multiple markets.
+              To ensure our results aren't merely capturing general market conditions, we apply synthetic control methods. This robustness check creates counterfactual scenarios, reinforcing whether RealPage's market penetration genuinely drives distinct rent dynamics.
             </p>
             <canvas id="syntheticChart"></canvas>
           </div>
         </section>
 
-        <!-- Supporting Section: Alternative Rent Measures -->
+        <!-- Section 8: A Multi-Dimensional View of Rent -->
         <section id="alternativeMeasures" class="section">
           <div class="text-center w-100">
-            <h1>Alternative Rent Measures</h1>
+            <h1>Alternative Measures: Expanding Our Perspective</h1>
             <p>
-              We also explore alternative measures of rent using the <strong>unitcount</strong> field, providing another perspective on rent dynamics and further supporting our analysis.
+              In addition to direct rent figures, we use housing supply metrics (like unit counts) as alternative measures. This multi-dimensional view strengthens our analysis and cross-validates the impact of algorithmic pricing on the market.
             </p>
             <canvas id="alternativeChart"></canvas>
           </div>
         </section>
-
-        <!-- Supporting Section: Identification of RealPage Buildings -->
-        <section id="identificationMethods" class="section">
+        
+        <!-- Section 9: Key Findings & Policy Implications -->
+        <section id="keyFindings" class="section">
           <div class="text-center w-100">
-            <h1>Identification of RealPage Buildings</h1>
+            <h1>Key Findings & Policy Implications</h1>
             <p>
-              Finally, we use the <strong>unitcount</strong> field to help identify buildings linked to RealPage,
-              which assists in determining if certain groups are systematically associated with higher rent pricing.
+              Our analysis reveals a significant association between RealPage's market presence and rent dynamics. The guided journey through housing supply, rent adjustments, occupancy rates, and robust counterfactual tests suggests that algorithmic pricing may contribute to rent inflation.
             </p>
-            <canvas id="identificationChart"></canvas>
+            <p><strong>Policy Implications:</strong></p>
+            <ul>
+              <li>Regulators and policymakers should consider the impact of pricing technologies on housing affordability.</li>
+              <li>Enhanced transparency and oversight might be needed to ensure fair competition in rental markets.</li>
+              <li>Stakeholders—from tenants to property managers—could benefit from clearer insights into how technology drives market outcomes.</li>
+            </ul>
+            <p>
+              These findings underscore the need for further investigation and proactive policy responses in an era marked by rising housing instability and technological disruption.
+            </p>
           </div>
         </section>
-
       </div>
 
       <footer class="bg-light text-center py-3 border-top w-100">
@@ -231,7 +249,6 @@
   <script defer>
     let charts = {};
     let csvData = [];
-    // Track chart initialization per section
     let chartsInitialized = {
       whatIsRent: false,
       diffinDiff: false,
@@ -244,35 +261,31 @@
       identificationMethods: false
     };
 
-    // Mapping: labels include the CSV field name or fields.
+    // Section metrics for chart labels
     const sectionMetrics = {
-      whatIsRent: { metric: 'unitcount', label: 'Avg Unit Count (Field: unitcount)' },
-      diffinDiff: { metric: 'MPF-ANN-RENT-CHG', label: 'Avg Annual Rent Change (Field: MPF-ANN-RENT-CHG)' },
-      rentComparison: { metric1: 'MPF-RENT', metric2: 'MPF-HIST-ASK-RENT', label: 'Current Rent vs Historical Ask Rent' },
-      occupancyTrends: { metric: 'MPF-OCC', label: 'Occupancy Rate (Field: MPF-OCC)' },
-      correlationTests: { metric: 'MPF-HIST-ASK-RENT', label: 'Avg Historical Ask Rent (Field: MPF-HIST-ASK-RENT)' },
-      benchmarkComparison: { metric: 'MPF-RPSF', label: 'Avg Rent per Sq Ft (Field: MPF-RPSF)' },
-      syntheticControl: { metric: 'MPF-HIST-ASK-RENT', label: 'Avg Historical Ask Rent (Field: MPF-HIST-ASK-RENT)' },
-      alternativeMeasures: { metric: 'unitcount', label: 'Avg Unit Count (Alt.) (Field: unitcount)' },
-      identificationMethods: { metric: 'unitcount', label: 'Avg Unit Count (Field: unitcount)' }
+      whatIsRent: { metric: 'unitcount', label: 'Housing Supply Proxy: Avg Unit Count' },
+      diffinDiff: { metric: 'MPF-ANN-RENT-CHG', label: 'Impact of Algorithmic Pricing on Rent Change' },
+      rentComparison: { metric1: 'MPF-RENT', metric2: 'MPF-HIST-ASK-RENT', label: 'Current vs Historical Rents' },
+      occupancyTrends: { metric: 'MPF-OCC', label: 'Occupancy Trends Amid Price Changes' },
+      correlationTests: { metric: 'MPF-HIST-ASK-RENT', label: 'Correlation: RealPage Adoption & Historical Ask Rent' },
+      benchmarkComparison: { metric: 'MPF-RPSF', label: 'Multifamily vs Single‑Family Rent Metrics' },
+      syntheticControl: { metric: 'MPF-HIST-ASK-RENT', label: 'Synthetic Control: Validating Rent Trends' },
+      alternativeMeasures: { metric: 'unitcount', label: 'Alternative Rent Measures via Unit Count' },
+      identificationMethods: { metric: 'unitcount', label: 'Identifying RealPage-Managed Properties' }
     };
 
-    // -------------------------------
-    // New Helper for Determining Color by heroSource
-    // -------------------------------
+    // Helper for color selection
     function getColorForHero(hero) {
       if (hero.toLowerCase() === "realpage") {
-        return 'rgba(54, 162, 235, 1)'; // blue
+        return 'rgba(54, 162, 235, 1)';
       } else if (hero.toLowerCase() === "google") {
-        return 'rgba(255, 159, 64, 1)'; // orange
+        return 'rgba(255, 159, 64, 1)';
       } else {
-        return 'rgba(128, 128, 128, 1)'; // grey
+        return 'rgba(128, 128, 128, 1)';
       }
     }
 
-    // -------------------------------
-    // Aggregate CSV data by state grouped by heroSource (for bar charts)
-    // -------------------------------
+    // Aggregation functions for charts
     function aggregateByStateGrouped(metric) {
       let grouped = {};
       csvData.forEach(row => {
@@ -313,9 +326,6 @@
       return { labels, datasets };
     }
 
-    // -------------------------------
-    // Aggregate CSV data by year grouped by heroSource (for line/scatter charts)
-    // -------------------------------
     function aggregateByYearGrouped(metric) {
       let grouped = {};
       csvData.forEach(row => {
@@ -356,9 +366,6 @@
       return { labels, datasets };
     }
 
-    // -------------------------------
-    // New function to aggregate dual metrics by year grouped by heroSource
-    // -------------------------------
     function aggregateDualByYearByHero(metric1, metric2) {
       let grouped = {};
       csvData.forEach(row => {
@@ -400,7 +407,7 @@
           fill: false,
           tension: 0.1,
           borderWidth: 1,
-          borderDash: [] // solid line
+          borderDash: []
         });
         let data2 = years.map(year => {
           if (grouped[year][hero]) {
@@ -417,13 +424,13 @@
           fill: false,
           tension: 0.1,
           borderWidth: 1,
-          borderDash: [5, 5] // dashed line
+          borderDash: [5, 5]
         });
       });
       return { labels: years, datasets };
     }
 
-    // New function to choose the proper aggregation based on chart type.
+    // NEW: Define getChartDataGrouped before it's used.
     function getChartDataGrouped(metric, chartType) {
       if (chartType === 'line' || chartType === 'scatter') {
         return aggregateByYearGrouped(metric);
@@ -432,9 +439,82 @@
       }
     }
 
-    // -------------------------------
-    // Updated initChart to work with grouped data
-    // -------------------------------
+    // NEW functions for RealPage share aggregations
+    function aggregateRealPageShareByState() {
+      let stateData = {};
+      csvData.forEach(row => {
+        let state = row.state;
+        if (state) {
+          if (!stateData[state]) {
+            stateData[state] = { total: 0, realpageCount: 0 };
+          }
+          stateData[state].total += 1;
+          if (row.heroSource && row.heroSource.toLowerCase() === 'realpage') {
+            stateData[state].realpageCount += 1;
+          }
+        }
+      });
+      let labels = Object.keys(stateData).sort();
+      let data = labels.map(state => {
+        let share = stateData[state].realpageCount / stateData[state].total;
+        return (share * 100).toFixed(2);
+      });
+      return { labels: labels, datasets: [{
+        label: 'RealPage Share (%)',
+        data: data,
+        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1
+      }]};
+    }
+
+    function aggregateRealPageShareByYear() {
+      let yearData = {};
+      csvData.forEach(row => {
+        let year = row.yearBuilt;
+        if (year) {
+          if (!yearData[year]) {
+            yearData[year] = { total: 0, realpageCount: 0 };
+          }
+          yearData[year].total += 1;
+          if (row.heroSource && row.heroSource.toLowerCase() === 'realpage') {
+            yearData[year].realpageCount += 1;
+          }
+        }
+      });
+      let labels = Object.keys(yearData).sort();
+      let data = labels.map(year => {
+        let share = yearData[year].realpageCount / yearData[year].total;
+        return (share * 100).toFixed(2);
+      });
+      return { labels: labels, datasets: [{
+        label: 'RealPage Adoption Share (%)',
+        data: data,
+        fill: false,
+        borderColor: 'rgba(255, 99, 132, 1)',
+        backgroundColor: 'transparent',
+        tension: 0.1,
+        borderWidth: 2
+      }]};
+    }
+
+    // Regression helper function for scatterplot
+    function computeLinearRegression(dataPoints) {
+      let n = dataPoints.length;
+      if (n === 0) return null;
+      let sumX = 0, sumY = 0, sumXY = 0, sumXX = 0;
+      dataPoints.forEach(pt => {
+        sumX += pt.x;
+        sumY += pt.y;
+        sumXY += pt.x * pt.y;
+        sumXX += pt.x * pt.x;
+      });
+      let slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+      let intercept = (sumY - slope * sumX) / n;
+      return { slope: slope, intercept: intercept };
+    }
+
+    // Chart initialization function
     function initChart(ctxId, chartType, title, chartData, extraOptions = {}) {
       const ctx = document.getElementById(ctxId).getContext('2d');
       return new Chart(ctx, {
@@ -473,9 +553,7 @@
       });
     }
 
-    // -------------------------------
-    // Section Initialization (using grouped data)
-    // -------------------------------
+    // Section Initialization
     function initializeSection(sectionId) {
       if (!chartsInitialized[sectionId]) {
         chartsInitialized[sectionId] = true;
@@ -484,15 +562,33 @@
           case "whatIsRent":
             chartType = 'line';
             dt = getChartDataGrouped(sectionMetrics.whatIsRent.metric, chartType);
-            charts.whatIsRent = initChart('explanatoryChart', chartType, 'What is Rent? ' + sectionMetrics.whatIsRent.label, dt);
+            charts.whatIsRent = initChart('explanatoryChart', chartType, sectionMetrics.whatIsRent.label, dt);
             break;
           case "diffinDiff":
             chartType = 'line';
             dt = getChartDataGrouped(sectionMetrics.diffinDiff.metric, chartType);
-            charts.diffinDiff = initChart('diffinDiffChart', chartType, 'Why is Your Rent What It Is? ' + sectionMetrics.diffinDiff.label, dt, {
+            charts.diffinDiff = initChart('diffinDiffChart', chartType, sectionMetrics.diffinDiff.label, dt, {
               scales: {
                 x: { title: { display: true, text: 'Year Built' }, ticks: { font: { size: 14 } } },
                 y: { title: { display: true, text: 'MPF-ANN-RENT-CHG' }, ticks: { font: { size: 14 } } }
+              },
+              plugins: {
+                annotation: {
+                  annotations: {
+                    line1: {
+                      type: 'line',
+                      xMin: 2015,
+                      xMax: 2015,
+                      borderColor: 'red',
+                      borderWidth: 2,
+                      label: {
+                        content: 'RealPage Adoption',
+                        enabled: true,
+                        position: 'start'
+                      }
+                    }
+                  }
+                }
               }
             });
             break;
@@ -504,7 +600,7 @@
           case "occupancyTrends":
             chartType = 'line';
             dt = getChartDataGrouped(sectionMetrics.occupancyTrends.metric, chartType);
-            charts.occupancyTrends = initChart('occupancyChart', chartType, 'Occupancy Trends: ' + sectionMetrics.occupancyTrends.label, dt);
+            charts.occupancyTrends = initChart('occupancyChart', chartType, sectionMetrics.occupancyTrends.label, dt);
             break;
           case "correlationTests":
             chartType = 'scatter';
@@ -512,7 +608,26 @@
             dt.datasets.forEach((dataset, idx) => {
               dataset.data = dt.labels.map((year, i) => ({ x: parseFloat(year), y: dataset.data[i] }));
             });
-            charts.correlation = initChart('correlationChart', chartType, 'Is Rent Being Inflated? ' + sectionMetrics.correlationTests.label, dt, {
+            let allDataPoints = dt.datasets[0].data;
+            let reg = computeLinearRegression(allDataPoints);
+            if(reg) {
+              let minX = Math.min(...allDataPoints.map(pt => pt.x));
+              let maxX = Math.max(...allDataPoints.map(pt => pt.x));
+              let regData = [
+                { x: minX, y: reg.slope * minX + reg.intercept },
+                { x: maxX, y: reg.slope * maxX + reg.intercept }
+              ];
+              dt.datasets.push({
+                label: 'Regression Line',
+                data: regData,
+                type: 'line',
+                borderColor: 'rgba(0, 0, 0, 0.7)',
+                borderDash: [5, 5],
+                fill: false,
+                pointRadius: 0
+              });
+            }
+            charts.correlation = initChart('correlationChart', chartType, sectionMetrics.correlationTests.label, dt, {
               scales: {
                 x: { type: 'linear', position: 'bottom', title: { display: true, text: 'Year' } },
                 y: { beginAtZero: true, title: { display: true, text: sectionMetrics.correlationTests.label } }
@@ -523,22 +638,25 @@
           case "benchmarkComparison":
             chartType = 'bar';
             dt = getChartDataGrouped(sectionMetrics.benchmarkComparison.metric, chartType);
-            charts.benchmark = initChart('benchmarkChart', chartType, 'Benchmark Comparison: ' + sectionMetrics.benchmarkComparison.label, dt);
+            charts.benchmark = initChart('benchmarkChart', chartType, sectionMetrics.benchmarkComparison.label, dt);
             break;
           case "syntheticControl":
             chartType = 'line';
             dt = getChartDataGrouped(sectionMetrics.syntheticControl.metric, chartType);
-            charts.synthetic = initChart('syntheticChart', chartType, 'Synthetic Control: ' + sectionMetrics.syntheticControl.label, dt);
+            charts.synthetic = initChart('syntheticChart', chartType, sectionMetrics.syntheticControl.label, dt);
             break;
           case "alternativeMeasures":
             chartType = 'bar';
             dt = getChartDataGrouped(sectionMetrics.alternativeMeasures.metric, chartType);
-            charts.alternative = initChart('alternativeChart', chartType, 'Alternative Rent Measures: ' + sectionMetrics.alternativeMeasures.label, dt);
+            charts.alternative = initChart('alternativeChart', chartType, sectionMetrics.alternativeMeasures.label, dt);
             break;
           case "identificationMethods":
-            chartType = 'bar';
-            dt = getChartDataGrouped(sectionMetrics.identificationMethods.metric, chartType);
-            charts.identification = initChart('identificationChart', chartType, 'Identification Methods: ' + sectionMetrics.identificationMethods.label, dt);
+            let geoChartType = 'bar';
+            let geoData = aggregateRealPageShareByState();
+            charts.geoHeatmap = initChart('geoHeatmapChart', geoChartType, 'Geographic Distribution of RealPage-Managed Properties', geoData);
+            let adoptionChartType = 'line';
+            let adoptionData = aggregateRealPageShareByYear();
+            charts.adoptionTrends = initChart('adoptionTrendsChart', adoptionChartType, 'Time Series of RealPage Adoption Trends', adoptionData);
             break;
         }
       }
@@ -595,19 +713,18 @@
     }
 
     document.addEventListener("DOMContentLoaded", function () {
-        const sections = document.querySelectorAll('.section');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('in-view'); // Add class when in view
-                    initializeSection(entry.target.id);
-                } else {
-                    entry.target.classList.remove('in-view'); // Remove class when out of view
-                }
-            });
-        }, { threshold: 0.4 });
-
-        sections.forEach(section => observer.observe(section));
+      const sections = document.querySelectorAll('.section');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            initializeSection(entry.target.id);
+          } else {
+            entry.target.classList.remove('in-view');
+          }
+        });
+      }, { threshold: 0.4 });
+      sections.forEach(section => observer.observe(section));
     });
 
     document.addEventListener("DOMContentLoaded", function() {
