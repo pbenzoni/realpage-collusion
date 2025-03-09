@@ -1,16 +1,35 @@
 /* 🌟 General Styles - Modern & Accessible */
+/* Color theme: 
+blue #004A99, 
+wheat #EAD2AC,
+coral #DF928E,
+rose: #C58882.
+platinum: #D1DEDE
+*/
 body {
   font-family: 'Poppins', sans-serif;
-  background-color: #f8f9fa;
+  background-color: #EAD2AC;
   color: #333;
   line-height: 1.6;
   margin: 0;
   padding: 0;
-}
+    /*Brick Wall Background*/
+    background-image: 
+    linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px), 
+    linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  background-size: 100px 40px; /* Brick size */
+  background-position: 0 0, 20px 20px; /* Offset second grid for brick effect */
+  
+  }
 
 /* ✅ Improve Readability */
 h1, h2, h3, h4, h5 {
   color: #004a99;
+}
+
+#page-content-wrapper {
+  text-align: left;
+
 }
 
 p {
@@ -32,7 +51,7 @@ a:hover, a:focus {
 #sidebar-wrapper {
   min-width: 250px;
   max-width: 250px;
-  background-color: #f8f9fa;
+  background-color: #D1DEDE;
   border-right: 1px solid #ddd;
   transition: all 0.3s ease;
   padding-top: 15px;
@@ -66,7 +85,7 @@ a:hover, a:focus {
 }
 
 .list-group-item:hover, .list-group-item:focus {
-  background: #f0f0f0;
+  background: #D1DEDE;
   transition: 0.3s;
 }
 
@@ -152,7 +171,7 @@ a:hover, a:focus {
 /* Legend for Map */
 
 .legend-container {
-  background-color: #f8f9fa;
+  background-color: #D1DEDE;
   padding: 10px 15px;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -387,4 +406,35 @@ html, body {
     #page-content-wrapper {
       padding-top: 70px; /* Adjust if you need more or less space */
     }
+}
+
+.highlight {
+  background-color: #004a99;
+  color: #ffffff; /* Ensures the text is readable */
+  padding: 2px 6px;
+  border-radius: 4px; /* Rounded edges */
+  display: inline;
+  font-weight: bold;
+  opacity: 0; /* Start invisible */
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+/* Keyframes for the fade-in effect */
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+.arrow {
+  border: solid #004a99;
+  border-width: 0 5px 5px 0;
+  display: inline-block;
+  padding: 25px;
+}
+.arrow-down {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
 }

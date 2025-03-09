@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RealPage Collusion Dashboard</title>
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="photos/berkeleyischool-logo-vertical-blue-sm.png">
@@ -22,16 +23,20 @@
         height: 100vh;
         width: 250px;
       }
+
       #page-content-wrapper {
         margin-left: 250px;
       }
+
       #menu-toggle {
         display: none;
       }
+
       nav.navbar.fixed-top {
         display: none;
       }
     }
+
     /* Full-width content sections */
     .section {
       width: 100%;
@@ -46,10 +51,12 @@
       transform: translateY(30px);
       padding: 20px;
     }
+
     .section.in-view {
       opacity: 1;
       transform: translateY(0);
     }
+
     /* Adjusted chart container height for readability */
     canvas {
       width: 100%;
@@ -63,6 +70,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.1.0" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js" defer></script>
 </head>
+
 <body>
   <div class="d-flex" id="wrapper">
     <!-- Sidebar -->
@@ -77,7 +85,8 @@
         <a href="data-dictionary.html" class="list-group-item list-group-item-action bg-light">Data Dictionary</a>
         <a href="interactive-map.html" class="list-group-item list-group-item-action bg-light">Interactive Map</a>
         <a href="key-findings.html" class="list-group-item list-group-item-action bg-light">Key Findings</a>
-        <a href="demo.html" class="list-group-item list-group-item-action bg-light">Try It Yourself: Interactive Modeling</a>
+        <a href="demo.html" class="list-group-item list-group-item-action bg-light">Try It Yourself: Interactive
+          Modeling</a>
         <a href="contact-us.html" class="list-group-item list-group-item-action bg-light">Contact Us</a>
       </div>
       <div class="p-3">
@@ -88,36 +97,68 @@
 
     <!-- Page Content -->
     <div id="page-content-wrapper">
-      <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+      <!-- <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
         <div class="container-fluid">
           <button class="btn btn-secondary" id="menu-toggle">MIDS Capstone, Spring 2025: RealPage Collusion Dashboard</button>
         </div>
-      </nav>
+      </nav> -->
 
       <!-- Introduction Section -->
       <section id="introduction" class="section in-view">
-        <div class="text-center w-100">
-          <h1>Are Algorithmic Pricing Tools Reshaping Your Rent?</h1>
-          <img src="photos/intro.jpg" alt="Illustration of rent components" class="img-fluid" style="max-width: 80%; margin: 20px auto;">
+        <div class="w-100">
+          <h1 class="display-1">Is <span class="highlight">Algorithmic Pricing</span> Raising Your <span
+              class="highlight">Rent?</span></h1>
+          <h1 class="display-4">A Data-Driven Investigation</h1>
+          <!-- <img src="photos/intro.jpg" alt="Illustration of rent components" class="img-fluid" style="max-width: 80%; margin: 20px auto;"> -->
           <p>
-            Our research investigates whether changes in rent levels and housing supply are statistically linked to the growing market share of RealPage's algorithmic pricing tools. As you scroll through this guided story, you'll discover how data on housing supply, rent dynamics, and occupancy trends combine with advanced econometric techniques to reveal potential collusion in pricing.
+            RealPage’s software lets landlords share secret pricing data, coordinating rent hikes instead of competing
+            for tenants. The result? <span class="highlight">Higher rents, fewer concessions</span>, and no real choice
+            for renters.
+          <p>
+            <span class="highlight">Landlords aren’t setting prices—an algorithm is</span>. RealPage collects and
+            analyzes private rent data from competitors, then recommends price hikes landlords follow almost
+            automatically. This isn’t competition—it’s algorithmic price-fixing.
           </p>
           <p>
-            Follow the narrative to understand how key market events, including the adoption of these tools, intersect with rent trajectories and housing supply shifts—informing discussions on affordability, urban planning, and antitrust considerations.
+            This isn’t just bad for renters—it’s bad for the market.<span class="highlight">RealPage controls 80% of the
+              apartment pricing software industry</span>, creating a monopoly that locks landlords in and locks renters
+            out of fair pricing.
           </p>
+          <p>
+            When landlords collude, <span class="highlight">renters lose.</span> Lawsuits are underway, but millions of
+            renters have already paid the price. Housing should be a competitive market—not a rigged game.
+          </p>
+          <!-- jump to key findings-->
+          <div class="row ">
+            <a href="#keyFindings" class="btn btn-primary">Jump to Key Findings</a>
+
+          </div>
+          <!-- Scoll on down arrow to identificationMethods, centered-->
+          <p class="text-center mt-3">
+            Or scroll down to learn more!
+          </p>
+          <div class="text-center mt-1">
+            <a href="#identificationMethods" class="scroll-down">
+              <span class="arrow arrow-down"></span>
+            </a>
+          </div>
+
         </div>
-      </section>      
+      </section>
 
       <!-- Section A: Identifying RealPage-Managed Properties -->
       <section id="identificationMethods" class="section">
         <div class="text-center w-100">
-          <h1>Identifying RealPage-Managed Properties</h1>
+          <h1 >Identifying RealPage-Managed Properties</h1>
           <p>
-            To better understand the spatial and temporal patterns of RealPage's market penetration, we present two new visualizations:
+            To better understand the spatial and temporal patterns of RealPage's market penetration, we present two new
+            visualizations:
           </p>
           <ul>
-            <li><strong>Interactive Geographic Heatmap:</strong> A map-based view showing the concentration of RealPage-managed properties across regions.</li>
-            <li><strong>Time Series of Adoption Trends:</strong> A chart tracking the evolution of RealPage adoption over time, highlighting key market milestones.</li>
+            <li><strong>Interactive Geographic Heatmap:</strong> A map-based view showing the concentration of
+              RealPage-managed properties across regions.</li>
+            <li><strong>Time Series of Adoption Trends:</strong> A chart tracking the evolution of RealPage adoption
+              over time, highlighting key market milestones.</li>
           </ul>
           <div style="display: flex; flex-direction: column; gap: 20px;">
             <canvas id="geoHeatmapChart"></canvas>
@@ -132,7 +173,9 @@
           <div class="text-center w-100">
             <h1>Contextualizing Rent: The Role of Housing Supply</h1>
             <p>
-              Rent isn't just a monthly expense—it reflects the market's housing supply. By examining average unit counts as a proxy for available housing, we set the stage to explore how algorithmic pricing might influence these fundamentals.
+              Rent isn't just a monthly expense—it reflects the market's housing supply. By examining average unit
+              counts as a proxy for available housing, we set the stage to explore how algorithmic pricing might
+              influence these fundamentals.
             </p>
             <canvas id="explanatoryChart"></canvas>
           </div>
@@ -143,7 +186,9 @@
           <div class="text-center w-100">
             <h1>Tracing Rent Dynamics: Pre‑ and Post‑RealPage Adoption</h1>
             <p>
-              In this section, we use a difference‑in‑difference framework to explore how rent changes evolve before and after RealPage's entry. Look for the red vertical line (at 2015) on the chart—a key moment marking RealPage adoption—that helps anchor the story of changing rent trends.
+              In this section, we use a difference‑in‑difference framework to explore how rent changes evolve before and
+              after RealPage's entry. Look for the red vertical line (at 2015) on the chart—a key moment marking
+              RealPage adoption—that helps anchor the story of changing rent trends.
             </p>
             <canvas id="diffinDiffChart"></canvas>
           </div>
@@ -154,7 +199,9 @@
           <div class="text-center w-100">
             <h1>Current vs. Historical Rents: Uncovering Price Adjustments</h1>
             <p>
-              By comparing current market rents with historical asking rents across property managers, we assess whether RealPage-managed properties exhibit distinct price adjustments that might indicate algorithm-driven inflation.
+              By comparing current market rents with historical asking rents across property managers, we assess whether
+              RealPage-managed properties exhibit distinct price adjustments that might indicate algorithm-driven
+              inflation.
             </p>
             <canvas id="rentComparisonChart"></canvas>
           </div>
@@ -165,7 +212,9 @@
           <div class="text-center w-100">
             <h1>Occupancy Trends Amidst Market Shifts</h1>
             <p>
-              Tracking occupancy rates over time reveals how tenants respond to changing rent levels. This section explores whether higher RealPage adoption correlates with altered occupancy trends—hinting at broader market impacts.
+              Tracking occupancy rates over time reveals how tenants respond to changing rent levels. This section
+              explores whether higher RealPage adoption correlates with altered occupancy trends—hinting at broader
+              market impacts.
             </p>
             <canvas id="occupancyChart"></canvas>
           </div>
@@ -176,7 +225,9 @@
           <div class="text-center w-100">
             <h1>Testing the Link: RealPage Adoption & Rent Inflation</h1>
             <p>
-              We directly test whether algorithmic pricing is associated with inflated rents. By correlating historical ask rents with RealPage's market presence, this scatter chart aims to reveal statistical patterns suggestive of collusive behavior.
+              We directly test whether algorithmic pricing is associated with inflated rents. By correlating historical
+              ask rents with RealPage's market presence, this scatter chart aims to reveal statistical patterns
+              suggestive of collusive behavior.
             </p>
             <canvas id="correlationChart"></canvas>
           </div>
@@ -187,7 +238,9 @@
           <div class="text-center w-100">
             <h1>Benchmarking Rent: Multifamily vs. Single‑Family Markets</h1>
             <p>
-              This visualization juxtaposes multifamily rent indices with single‑family benchmarks to determine whether observed rent increases are unique to markets influenced by algorithmic pricing or simply part of broader economic trends.
+              This visualization juxtaposes multifamily rent indices with single‑family benchmarks to determine whether
+              observed rent increases are unique to markets influenced by algorithmic pricing or simply part of broader
+              economic trends.
             </p>
             <canvas id="benchmarkChart"></canvas>
           </div>
@@ -198,7 +251,9 @@
           <div class="text-center w-100">
             <h1>Validating Findings: Synthetic Control Analysis</h1>
             <p>
-              To ensure our results aren't merely capturing general market conditions, we apply synthetic control methods. This robustness check creates counterfactual scenarios, reinforcing whether RealPage's market penetration genuinely drives distinct rent dynamics.
+              To ensure our results aren't merely capturing general market conditions, we apply synthetic control
+              methods. This robustness check creates counterfactual scenarios, reinforcing whether RealPage's market
+              penetration genuinely drives distinct rent dynamics.
             </p>
             <canvas id="syntheticChart"></canvas>
           </div>
@@ -209,27 +264,34 @@
           <div class="text-center w-100">
             <h1>Alternative Measures: Expanding Our Perspective</h1>
             <p>
-              In addition to direct rent figures, we use housing supply metrics (like unit counts) as alternative measures. This multi-dimensional view strengthens our analysis and cross-validates the impact of algorithmic pricing on the market.
+              In addition to direct rent figures, we use housing supply metrics (like unit counts) as alternative
+              measures. This multi-dimensional view strengthens our analysis and cross-validates the impact of
+              algorithmic pricing on the market.
             </p>
             <canvas id="alternativeChart"></canvas>
           </div>
         </section>
-        
+
         <!-- Section 9: Key Findings & Policy Implications -->
         <section id="keyFindings" class="section">
           <div class="text-center w-100">
             <h1>Key Findings & Policy Implications</h1>
             <p>
-              Our analysis reveals a significant association between RealPage's market presence and rent dynamics. The guided journey through housing supply, rent adjustments, occupancy rates, and robust counterfactual tests suggests that algorithmic pricing may contribute to rent inflation.
+              Our analysis reveals a significant association between RealPage's market presence and rent dynamics. The
+              guided journey through housing supply, rent adjustments, occupancy rates, and robust counterfactual tests
+              suggests that algorithmic pricing may contribute to rent inflation.
             </p>
             <p><strong>Policy Implications:</strong></p>
             <ul>
-              <li>Regulators and policymakers should consider the impact of pricing technologies on housing affordability.</li>
+              <li>Regulators and policymakers should consider the impact of pricing technologies on housing
+                affordability.</li>
               <li>Enhanced transparency and oversight might be needed to ensure fair competition in rental markets.</li>
-              <li>Stakeholders—from tenants to property managers—could benefit from clearer insights into how technology drives market outcomes.</li>
+              <li>Stakeholders—from tenants to property managers—could benefit from clearer insights into how technology
+                drives market outcomes.</li>
             </ul>
             <p>
-              These findings underscore the need for further investigation and proactive policy responses in an era marked by rising housing instability and technological disruption.
+              These findings underscore the need for further investigation and proactive policy responses in an era
+              marked by rising housing instability and technological disruption.
             </p>
           </div>
         </section>
@@ -459,13 +521,15 @@
         let share = stateData[state].realpageCount / stateData[state].total;
         return (share * 100).toFixed(2);
       });
-      return { labels: labels, datasets: [{
-        label: 'RealPage Share (%)',
-        data: data,
-        backgroundColor: 'rgba(54, 162, 235, 0.6)',
-        borderColor: 'rgba(54, 162, 235, 1)',
-        borderWidth: 1
-      }]};
+      return {
+        labels: labels, datasets: [{
+          label: 'RealPage Share (%)',
+          data: data,
+          backgroundColor: 'rgba(54, 162, 235, 0.6)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1
+        }]
+      };
     }
 
     function aggregateRealPageShareByYear() {
@@ -487,15 +551,17 @@
         let share = yearData[year].realpageCount / yearData[year].total;
         return (share * 100).toFixed(2);
       });
-      return { labels: labels, datasets: [{
-        label: 'RealPage Adoption Share (%)',
-        data: data,
-        fill: false,
-        borderColor: 'rgba(255, 99, 132, 1)',
-        backgroundColor: 'transparent',
-        tension: 0.1,
-        borderWidth: 2
-      }]};
+      return {
+        labels: labels, datasets: [{
+          label: 'RealPage Adoption Share (%)',
+          data: data,
+          fill: false,
+          borderColor: 'rgba(255, 99, 132, 1)',
+          backgroundColor: 'transparent',
+          tension: 0.1,
+          borderWidth: 2
+        }]
+      };
     }
 
     // Regression helper function for scatterplot
@@ -529,11 +595,11 @@
           animation: { duration: 0 },
           interaction: { mode: 'index', intersect: false },
           plugins: {
-            tooltip: { 
-              enabled: true, 
+            tooltip: {
+              enabled: true,
               bodyFont: { size: 16 },
               callbacks: {
-                label: function(context) {
+                label: function (context) {
                   if (chartType === 'scatter') {
                     return 'Year: ' + context.raw.x + ', Value: ' + context.raw.y;
                   } else {
@@ -610,7 +676,7 @@
             });
             let allDataPoints = dt.datasets[0].data;
             let reg = computeLinearRegression(allDataPoints);
-            if(reg) {
+            if (reg) {
               let minX = Math.min(...allDataPoints.map(pt => pt.x));
               let maxX = Math.max(...allDataPoints.map(pt => pt.x));
               let regData = [
@@ -691,12 +757,12 @@
         let year = row.yearBuilt;
         if (year) {
           if (!yearAgg[year]) {
-            yearAgg[year] = { 
-              unitcountSum: 0, 
-              mpfRpsfSum: 0, 
-              mpfHistAskRentSum: 0, 
-              mpfAnnRentChgSum: 0, 
-              count: 0 
+            yearAgg[year] = {
+              unitcountSum: 0,
+              mpfRpsfSum: 0,
+              mpfHistAskRentSum: 0,
+              mpfAnnRentChgSum: 0,
+              count: 0
             };
           }
           yearAgg[year].unitcountSum += parseFloat(row.unitcount) || 0;
@@ -727,13 +793,13 @@
       sections.forEach(section => observer.observe(section));
     });
 
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
       fetch('https://rpc-webpage.s3-accelerate.amazonaws.com/cbsa_data.csv')
         .then(response => response.text())
         .then(csvText => {
           Papa.parse(csvText, {
             header: true,
-            complete: function(results) {
+            complete: function (results) {
               csvData = results.data;
               aggregateByState();
               aggregateByYear();
@@ -744,7 +810,7 @@
         .catch(error => console.error("Error loading CSV data:", error));
     });
 
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
       const menuToggle = document.getElementById("menu-toggle");
       const wrapper = document.getElementById("wrapper");
       menuToggle.addEventListener("click", () => {
@@ -753,4 +819,5 @@
     });
   </script>
 </body>
+
 </html>
