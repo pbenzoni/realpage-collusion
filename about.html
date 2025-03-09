@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RealPage Collusion Dashboard</title>
+  <link rel="icon" type="image/png" href="photos/berkeleyischool-logo-vertical-blue-sm.png">
+  <!-- Bootstrap CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <div class="bg-light border-end" id="sidebar-wrapper">
+      <div class="sidebar-heading text-center py-4">
+        <img src="photos/berkeleyischool-logo-vertical-blue-sm.png" alt="UC Berkeley School of Information">
+        <h2 class="mids-capstone">MIDS Capstone: <strong>RealPage Collusion Dashboard</strong></h2>
+      </div>
+      <div class="list-group list-group-flush">
+        <a href="index.html" class="list-group-item list-group-item-action bg-light">
+          Homepage
+        </a>
+        <!-- Updated link: index.html -> about.html and text changed to About -->
+        <a href="about.html" class="list-group-item list-group-item-action bg-light active">
+          About
+        </a>
+        <a href="data-dictionary.html" class="list-group-item list-group-item-action bg-light">
+          Data Dictionary
+        </a>
+        <!-- Updated eda.html -> interactive-map.html with updated text -->
+        <a href="interactive-map.html" class="list-group-item list-group-item-action bg-light">
+          Interactive Map
+        </a>
+        <a href="key-findings.html" class="list-group-item list-group-item-action bg-light">
+          Key Findings
+        </a>
+        <a href="demo.html" class="list-group-item list-group-item-action bg-light">
+          Try It Yourself: Interactive Modeling
+        </a>
+        <a href="contact-us.html" class="list-group-item list-group-item-action bg-light">
+          Contact Us
+        </a>
+      </div>
+      <div class="p-3">
+        <a href="research-paper.pdf" target="_blank" class="btn btn-primary w-100">
+          View Research Paper
+        </a>
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+      <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+        <div class="container-fluid">
+          <button class="btn btn-secondary" id="menu-toggle">
+            MIDS Capstone, Spring 2025
+          </button>
+        </div>
+      </nav>
+
+      <div class="container-fluid py-4">
+        
+        <!-- Heading Section -->
+        <div class="mb-4">
+          <h1 class="display-5">RealPage Collusion Dashboard</h1>
+          <p class="lead">
+            Ahmad Allaou, Peter Benzoni, Chelle Davies, 
+            Tim Majidzadeh &amp; Patrick Yim
+          </p>
+          <h3 class="mt-4 mb-3">
+            Is there a statistically significant change in rent level and / or housing supply associated with RealPage market share?
+          </h3>
+        </div>
+
+        <!-- Abstract Card -->
+        <div class="card mb-4">
+          <div class="card-header">
+            <h4 class="mb-0">Abstract</h4>
+          </div>
+          <div class="card-body">
+            <p>
+              <!-- Replace placeholder text with your actual abstract -->
+              This study investigates whether changes in rent levels and housing supply are statistically associated with RealPage's market share in multifamily property management. 
+              Drawing on recent debates and litigation surrounding the role of algorithmic pricing tools in rental markets, we examine whether regions with a higher adoption rate of RealPage 
+              software experience different rent trajectories or supply-side responses than comparable areas. Using a panel of metropolitan-level data on apartment rents, new building permits, 
+              and RealPage adoption over multiple years, we employ econometric models (e.g., fixed effects regressions) to control for confounding factors such as population growth, 
+              overall market trends, and local economic conditions. Our findings will shed light on whether RealPage's expansion correlates with measurable shifts in rent levels—or if it reflects 
+              broader market pressures already in play. By evaluating how market concentration and technological tools interact with housing supply and rental prices, this research aims to contribute 
+              to policy discussions around housing affordability, urban planning, and potential antitrust considerations. Ultimately, identifying any statistically significant link between RealPage's 
+              market share and housing market outcomes could inform stakeholders—from renters and landlords to policymakers—about the implications of consolidating pricing technology in an era of 
+              heightened housing instability, inflationary pressures, and homelessness.
+            </p>
+          </div>
+        </div>
+
+        <!-- Website Guide Card -->
+        <div class="card mb-4">
+          <div class="card-header">
+            <h4 class="mb-0">How to Use the RealPage Collusion Dashboard</h4>
+          </div>
+          <div class="card-body">
+            <p>The <strong>RealPage Collusion Dashboard</strong> is an interactive tool that allows users to explore statistical relationships between RealPage's market share, rent levels, and housing supply. Follow the steps below to navigate the site effectively.</p>
+
+            <h4>1. Homepage Overview</h4>
+            <p>The homepage introduces the purpose of the study and key research questions regarding RealPage's influence on rental markets. You can start exploring by clicking the navigation menu at the top.</p>
+            <br>
+            <h4>2. Data Dictionary</h4>
+            <p>Learn about the dataset used in the study, including definitions of variables such as:</p>
+            <ul>
+                <li>RealPage market share</li>
+                <li>Rent levels</li>
+                <li>Housing supply metrics</li>
+                <li>Control variables (e.g., population growth, economic conditions)</li>
+            </ul>
+            <a href="data-dictionary.html" class="button">Go to Data Dictionary</a>
+            <br>
+            <br>
+            <h4>3. Exploratory Data Analysis</h4>
+            <p>Explore visualizations and summary statistics that provide initial insights into the data.</p>
+            <a href="eda.html" class="button">View Exploratory Data Analysis</a>
+            <br>
+            <br>
+            <h4>4. Key Findings</h4>
+            <p>Review the main findings from the study, including trends in rent changes and housing supply associated with RealPage's influence.</p>
+            <a href="key-findings.html" class="button">See Key Findings</a>
+            <br>
+            <br>
+            <h4>5. Interactive Modeling</h4>
+            <p>Try running your own interactive models to explore the relationship between RealPage adoption and rental market trends.</p>
+            <a href="demo.html" class="button">Try Interactive Modeling</a>
+            <br>
+            <br>
+            <h4>6. Contact Us</h4>
+            <p>For inquiries or privacy concerns, visit the contact page.</p>
+            <a href="contact-us.html" class="button">Contact Us</a>
+          </div>
+        </div>
+
+        <!-- Data Privacy Policy (Summary) -->
+        <div class="card mb-4">
+          <div class="card-header">
+            <h4 class="mb-0">Data Privacy Policy</h4>
+          </div>
+          <div class="card-body">
+            <!-- ~100-word summary -->
+            <p>
+              RealPage Collusion Dashboard protects personal data by employing robust 
+              privacy safeguards, guided by Belmont Principles (respect, beneficence, 
+              and justice) for data handling, while leveraging frameworks like Solove's 
+              Taxonomy, Nissenbaum's Contextual Integrity, and Mulligan et al.'s Analytic. 
+              We anonymize data, secure it with controlled access, and perform regular 
+              audits and staff training to ensure compliance with industry standards. 
+              Our system only displays public property data, including addresses or zip 
+              codes—no PII is collected. Ongoing risk assessments and transparent policies 
+              reinforce stakeholder trust. For concerns, please contact 
+              <a href="mailto:realpage@critiquant.com">realpage@critiquant.com</a>. 
+              We are committed to continuous privacy improvements and ethical data practices.
+            </p>
+            <!-- Link to full privacy page -->
+            <a href="privacy.html" class="btn btn-link p-0">Read the Full Privacy Policy</a>
+          </div>
+        </div>
+
+        <!-- Sources Used -->
+        <div class="card mb-4">
+          <div class="card-header">
+            <strong>Sources Used</strong>
+          </div>
+          <div class="card-body">
+            <p>
+              "Explore." RealPage, n.d., 
+              <a href="https://www.realpage.com/explore" target="_blank">
+                https://www.realpage.com/explore
+              </a>. Accessed 1 Feb. 2025.
+            </p>
+            <p>
+              "Data." Zillow Research, n.d., 
+              <a href="https://www.zillow.com/research/data/" target="_blank">
+                https://www.zillow.com/research/data/
+              </a>. Accessed 1 Feb. 2025.
+            </p>
+            
+            <p>
+              "RealPage Statement." RealPage Public Policy, n.d., 
+              <a href="https://www.realpagepublicpolicy.com/realpagestatement" target="_blank">
+                https://www.realpagepublicpolicy.com/realpagestatement
+              </a>. Accessed 1 Feb. 2025.
+            </p>
+            
+            <p>
+              "Housing Units." U.S. Census Bureau, n.d.,
+              <a href="https://data.census.gov/table?t=Housing%20Units" target="_blank">
+                https://data.census.gov/table?t=Housing%20Units
+              </a>. Accessed 1 Feb. 2025.
+            </p>
+            
+            <p>
+              "FY 2025 Fair Market Rents." U.S. Department of Housing and Urban Development, n.d.,
+              <a href="https://www.huduser.gov/portal/datasets/fmr/fmrs/FY2025_code/select_Geography.odn" target="_blank">
+                https://www.huduser.gov/portal/datasets/fmr/fmrs/FY2025_code/select_Geography.odn
+              </a>. Accessed 1 Feb. 2025.
+            </p>
+            
+            <p>
+              "RealPage Lawsuit Rent Map." The Washington Post, n.d., 
+              <a href="https://www.washingtonpost.com/business/interactive/2025/realpage-lawsuit-rent-map/" target="_blank">
+                https://www.washingtonpost.com/business/interactive/2025/realpage-lawsuit-rent-map/
+              </a>. Accessed 1 Feb. 2025.
+            </p>            
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer with link to the Full Privacy Policy -->
+      <footer class="bg-light text-center py-3 mt-5 border-top">
+        <p class="mb-0">
+          &copy; 2025 RealPage Collusion Dashboard &mdash; 
+          <a href="privacy.html">View Full Privacy Policy</a>
+        </p>
+      </footer>
+    </div>
+    <!-- /#page-content-wrapper -->
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Bootstrap Bundle JS -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+  ></script>
+
+  <!-- Script to toggle the sidebar -->
+  <script>
+    const menuToggle = document.getElementById("menu-toggle");
+    const wrapper = document.getElementById("wrapper");
+
+    menuToggle.addEventListener("click", () => {
+      wrapper.classList.toggle("toggled");
+    });
+  </script>
+</body>
+</html>

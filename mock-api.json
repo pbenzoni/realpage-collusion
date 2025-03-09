@@ -1,0 +1,14 @@
+{
+    "prediction": "Mocked High Demand Area",
+    "confidence": 85.32,
+    "accuracy": 92.5,
+    "precision": 90.1,
+    "recall": 89.7,
+    "f1Score": 89.9,
+    "mse": 2.5,
+    "mae": 1.2,
+    "rSquared": 0.87,
+    "aucRoc": 0.92,
+    "logLoss": 0.15,
+    "visualUrl": "https://d2iywlu5l18052.cloudfront.net/map.html"
+  } 
