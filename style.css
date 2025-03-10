@@ -8,18 +8,20 @@ platinum: #D1DEDE
 */
 body {
   font-family: 'Poppins', sans-serif;
-  background-color: #EAD2AC;
   color: #333;
   line-height: 1.6;
   margin: 0;
   padding: 0;
-    /*Brick Wall Background*/
-    background-image: 
-    linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px), 
-    linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
-  background-size: 100px 40px; /* Brick size */
-  background-position: 0 0, 20px 20px; /* Offset second grid for brick effect */
-  
+  /*Building Background*/
+  background-color: #f5f5f5; /* Soft greyish-blue tone with transparency */
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.05) 2px, transparent 2px), 
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 2px, transparent 2px), 
+    linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px), 
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 120px 120px, 120px 120px, 60px 60px, 60px 60px; /* Window grid effect */
+  background-position: 0 0, 0 0, 0 0, 0 0;
+  background-blend-mode: overlay;
   }
 
 /* ✅ Improve Readability */
@@ -117,7 +119,7 @@ a:hover, a:focus {
   background: #0056b3;
   border-radius: 50px;
   padding: 10px 20px;
-  font-size: 1.1rem;
+  font-size: 1rem;
   transition: all 0.3s ease-in-out;
 }
 
@@ -245,6 +247,7 @@ a:hover, a:focus {
 }
 
 /* ================= Full-Width, Full-Height Scroll Sections ================= */
+
 html, body {
   scroll-snap-type: y mandatory;
   overflow-y: scroll;
@@ -275,6 +278,82 @@ html, body {
 .scroll-section:nth-of-type(even) {
   background: transparent;
 }
+
+/* =======================
+   🟦 Improved Heading & Text Styling 
+   ======================= */
+/* 🎯 Fixing Title Alignment & Font Size */
+#introduction h1 {
+  font-size: 3rem;  /* Reduced from overly large size */
+  font-weight: 700;
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;  /* Ensures centering */
+  line-height: 1.2; /* Better spacing between lines */
+}
+
+/* 🎯 Adjusting Subheading */
+#introduction h2 {
+  font-size: 1.8rem; /* More balanced */
+  font-weight: 400;
+  color: #004a99;
+  margin-top: 10px;
+}
+
+/* 🎯 Improving Highlighted Words */
+.highlight-primary {
+  background: linear-gradient(120deg, #004a99, #0077cc);
+  color: #fff;
+  padding: 3px 10px;
+  border-radius: 4px;
+  display: inline-block; /* Prevents stretching */
+  text-align: center;
+}
+
+.highlight-secondary {
+  background: rgba(0, 74, 153, 0.1);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-weight: bold;
+}
+
+/* 🎯 Spacing Fixes */
+#introduction p {
+  max-width: 750px;
+  font-size: 1.1rem;
+  margin: 15px auto;
+  line-height: 1.6;
+}
+
+/* 🎯 Button Fix */
+.btn-primary {
+  padding: 12px 24px;
+  font-size: 1.1rem;
+  border-radius: 50px;
+  margin-top: 20px;
+}
+
+  
+  .btn-primary:hover {
+    background: #003366;
+  }
+  
+  /* 🏹 Scroll Indicator */
+  .scroll-indicator {
+    margin-top: 20px;
+  }
+  
+  .arrow {
+    border: solid #004a99;
+    border-width: 0 5px 5px 0;
+    display: inline-block;
+    padding: 15px;
+  }
+  
+  .arrow-down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+  }  
 
 /* 🌙 Dark Mode Support */
 @media (prefers-color-scheme: dark) {
