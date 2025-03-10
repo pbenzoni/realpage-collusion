@@ -16,7 +16,7 @@ body {
   background: url('photos/background.jpeg') no-repeat center center fixed;
   background-size: cover; /* Ensures the image covers the entire screen */
   background-blend-mode: overlay;
-  background-color: #f5f5f5; /* Fallback color in case image doesn't load */
+  background-color: #efeeee; /* Fallback color in case image doesn't load */
 }
 
 /* ✅ Improve Readability */
@@ -348,34 +348,7 @@ html, body {
   .arrow-down {
     transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
-  }  
-
-/* 🌙 Dark Mode Support */
-@media (prefers-color-scheme: dark) {
-  body {
-    background: #222;
-    color: #ddd;
-  }
-  /* Override header colors for better contrast */
-  h1, h2, h3, h4, h5 {
-    color: #fff;
-  }
-  /* Override paragraph text so it doesn’t remain dark grey */
-  p {
-    color: #ddd;
-  }
-  .card {
-    background: #333;
-    color: #fff;
-  }
-  .btn-primary {
-    background: #ffcc00;
-    color: #222;
-  }
-  .btn-primary:hover {
-    background: #ffaa00;
-  }
-}
+  } 
 
 @media (max-width: 768px) {
   /* Universal box-sizing */
