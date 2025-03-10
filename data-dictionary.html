@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Data Dictionary - RealPage Collusion Dashboard</title>
+  <link rel="icon" type="image/png" href="photos/berkeleyischool-logo-vertical-blue-sm.png">
+  <!-- Bootstrap CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <div class="bg-light border-end" id="sidebar-wrapper">
+      <div class="sidebar-heading text-center py-4">
+        <img src="photos/berkeleyischool-logo-vertical-blue-sm.png" alt="UC Berkeley School of Information">
+        <h2 class="mids-capstone">MIDS Capstone: <strong>RealPage Collusion Dashboard</strong></h2>
+      </div>
+      <div class="list-group list-group-flush">
+        <a href="index.html" class="list-group-item list-group-item-action bg-light">
+          Homepage
+        </a>
+        <a href="about.html" class="list-group-item list-group-item-action bg-light">About</a>
+        <a href="data-dictionary.html" class="list-group-item list-group-item-action bg-light active">Data Dictionary</a>
+        <a href="interactive-map.html" class="list-group-item list-group-item-action bg-light">Interactive Map</a>
+        <a href="key-findings.html" class="list-group-item list-group-item-action bg-light">Key Findings</a>
+        <a href="demo.html" class="list-group-item list-group-item-action bg-light">Try It Yourself: Interactive Modeling</a>
+        <a href="contact-us.html" class="list-group-item list-group-item-action bg-light">Contact Us</a>
+      </div>
+      <div class="p-3">
+        <a href="research-paper.pdf" target="_blank" class="btn btn-primary w-100">View Research Paper</a>
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+      <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+        <div class="container-fluid">
+          <button class="btn btn-secondary" id="menu-toggle">
+            MIDS Capstone, Spring 2025: RealPage Collusion Dashboard
+          </button>
+        </div>
+      </nav>
+
+      <div class="container-fluid py-4">
+        
+        <!-- Heading Section for Data Dictionary Page -->
+        <div class="mb-4">
+          <h1 class="display-5">Data Dictionary</h1>
+          <p class="text-muted">
+            The data shown below are examples meant to illustrate how the fields 
+            in the source data are defined, and do not reflect exact records found.
+          </p>
+          <h4>Rent Page &amp; Comparison Data, Core-Based Statistical Area</h4>
+          <p><strong>Example Data Featured</strong></p>
+          <p><em>Note: The examples below are made up for the purpose of demonstration.</em></p>
+        </div>
+
+        <!-- Example Data Cases -->
+        <div class="mb-3">
+          <h5>Case 1 - Property Alpha</h5>
+          <ul>
+            <li><strong>Location &amp; Basics:</strong> Located in Metroville, NY, zip code 12345, address “100 Main St.”</li>
+            <li><strong>Property Details:</strong> 3-story, Class A, built in 2000, 150 units, average unit size 900 sq ft.</li>
+            <li><strong>Rent Metrics:</strong> Annual rent change of 8%, asking rent $1,200, rent per square foot 1.33.</li>
+            <li><strong>Submarket Data:</strong> Additional historical submarket price band metrics (e.g., asking rent, occupancy, etc.).</li>
+          </ul>
+        </div>
+
+        <div class="mb-3">
+          <h5>Case 2 - Property Beta</h5>
+          <ul>
+            <li><strong>Location &amp; Basics:</strong> Springfield, IL (54321), “200 Oak Ave.”</li>
+            <li><strong>Property Details:</strong> 2-story, Class B luxury, built in 1995, 200 units, average unit size 750 sq ft.</li>
+            <li><strong>Rent Metrics:</strong> 12% annual rent increase, asking rent $1,400, rent per square foot 1.50.</li>
+            <li><strong>Submarket Data:</strong> Includes historical submarket price band metrics.</li>
+          </ul>
+        </div>
+
+        <div class="mb-3">
+          <h5>Case 3 - Property Gamma</h5>
+          <ul>
+            <li><strong>Location &amp; Basics:</strong> Lakeside, CA (67890), “300 Pine Rd.”</li>
+            <li><strong>Property Details:</strong> Single-story, Class C, built in 2010, 100 units, average unit size 1,100 sq ft.</li>
+            <li><strong>Rent Metrics:</strong> Decrease of –2% in annual rent change, asking rent $1,100, rent per square foot 1.00.</li>
+            <li><strong>Submarket Data:</strong> In this row, the submarket historical fields are left blank (missing or uncollected data).</li>
+          </ul>
+        </div>
+
+        <hr/>
+
+        <!-- JSON-based dictionary goes here -->
+        <div id="json-dictionary"></div>
+
+      </div>
+    <!-- Footer with link to the Full Privacy Policy -->
+    <footer class="bg-light text-center py-3 mt-5 border-top">
+      <p class="mb-0">
+        &copy; 2025 RealPage Collusion Dashboard &mdash; 
+        <a href="privacy.html">View Full Privacy Policy</a>
+      </p>
+    </footer>
+    </div>
+    <!-- /#page-content-wrapper -->
+  </div>
+  <!-- /#wrapper -->
+  <!-- Bootstrap JS -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+  ></script>
+
+  <script>
+    // Toggle the sidebar
+    const menuToggle = document.getElementById("menu-toggle");
+    const wrapper = document.getElementById("wrapper");
+
+    menuToggle.addEventListener("click", () => {
+      wrapper.classList.toggle("toggled");
+    });
+  </script>
+
+  <!-- Script to fetch and display data from data-dictionary.json -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      fetch('data-dictionary.json')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          renderDataDictionary(data);
+        })
+        .catch(error => console.error('Error fetching JSON:', error));
+    });
+  
+    function renderDataDictionary(dictionary) {
+      const container = document.getElementById('json-dictionary');
+      container.innerHTML = ''; // Clear previous content if any
+      Object.keys(dictionary).forEach(categoryKey => {
+        // Create a container for each category
+        const sectionDiv = document.createElement('div');
+        sectionDiv.classList.add('mb-4');
+  
+        // Create a header for this category
+        const header = document.createElement('h5');
+        header.textContent = prettyTitle(categoryKey);
+        sectionDiv.appendChild(header);
+  
+        // Create a list for the fields in this category
+        const ul = document.createElement('ul');
+        dictionary[categoryKey].forEach(item => {
+          const li = document.createElement('li');
+          li.innerHTML = `<strong>${item.field}:</strong> ${item.description}`;
+          ul.appendChild(li);
+        });
+        sectionDiv.appendChild(ul);
+  
+        // Append this category to the main container
+        container.appendChild(sectionDiv);
+      });
+    }
+  
+    function prettyTitle(key) {
+      return key
+        .replace(/([A-Z])/g, ' $1')  // Insert space before uppercase letters
+        .replace(/^./, s => s.toUpperCase());  // Capitalize first letter
+    }
+  </script>  
+</body>
+</html>

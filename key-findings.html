@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Key Findings - RealPage Collusion Dashboard</title>
+  <link rel="icon" type="image/png" href="photos/berkeleyischool-logo-vertical-blue-sm.png">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <div class="bg-light border-end" id="sidebar-wrapper">
+      <div class="sidebar-heading text-center py-4">
+        <img src="photos/berkeleyischool-logo-vertical-blue-sm.png" alt="UC Berkeley School of Information">
+        <h2 class="mids-capstone">
+          MIDS Capstone: <strong>RealPage Collusion Dashboard</strong>
+        </h2>
+      </div>
+      <div class="list-group list-group-flush">
+        <a href="index.html" class="list-group-item list-group-item-action bg-light">
+          Homepage
+        </a>
+        <!-- Updated link: index.html -> about.html -->
+        <a href="about.html" class="list-group-item list-group-item-action bg-light">
+          About
+        </a>
+        <a href="data-dictionary.html" class="list-group-item list-group-item-action bg-light">
+          Data Dictionary
+        </a>
+        <!-- Updated eda.html -> interactive-map.html -->
+        <a href="interactive-map.html" class="list-group-item list-group-item-action bg-light">
+          Interactive Map
+        </a>
+        <a href="key-findings.html" class="list-group-item list-group-item-action bg-light active">
+          Key Findings
+        </a>
+        <a href="demo.html" class="list-group-item list-group-item-action bg-light">
+          Try It Yourself: Interactive Modeling
+        </a>
+        <a href="contact-us.html" class="list-group-item list-group-item-action bg-light">
+          Contact Us
+        </a>
+      </div>
+      <div class="p-3">
+        <a href="research-paper.pdf" target="_blank" class="btn btn-primary w-100">
+          View Research Paper
+        </a>
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+    
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+      <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+        <div class="container-fluid">
+          <button class="btn btn-secondary" id="menu-toggle">
+            MIDS Capstone, Spring 2025: RealPage Collusion Dashboard
+          </button>
+        </div>
+      </nav>
+      
+      <div class="container-fluid py-4">
+        <!-- Page Title / Intro -->
+        <div class="mb-4">
+          <h1 class="display-5">Key Findings</h1>
+          <p class="text-muted">
+            This research examines explanatory and predictive analyses of rent pricing. It explores causal inference using difference-in-difference and synthetic control methods, as well as predictive modeling approaches.
+          </p>
+        </div>
+        
+        <!-- Visualization Card -->
+        <div class="desktop-only card mb-4">
+          <div class="card-header">
+            <h5 class="mb-0">Visualizations for our Key Findings</h5>
+          </div>
+          <div class="card-body">
+            <div class="ratio ratio-16x9">
+              <iframe 
+                src="https://app.powerbi.com/view?r=eyJrIjoiNDg5Nzk3MGEtMDEwZS00YmQ2LWFlZDEtNzkyOGIxNzFkYmQ5IiwidCI6IjA2MjJmYTVkLWRlMDEtNDJhYi1iYWVkLWY2ZmM3NDc0ZDJlMyIsImMiOjN9" 
+                frameborder="0" 
+                allowFullScreen>
+              </iframe>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile only description -->
+        <div class="mobile-only mb-4">
+          <p class="text-muted">
+            To view the data visualizations surrounding our findings, please open our <a href="research-paper.pdf" target="_blank">research paper (PDF)</a>, our <a href="index.html">homepage</a>, or visit this page on a desktop or laptop computer.
+          </p>
+        </div>
+        
+      </div>
+      <!-- Footer -->
+      <footer class="bg-light text-center py-3 mt-5 border-top">
+        <p class="mb-0">
+          &copy; 2025 RealPage Collusion Dashboard &mdash; 
+          <a href="privacy.html">View Full Privacy Policy</a>
+        </p>
+      </footer>
+    </div>
+    <!-- /#page-content-wrapper -->
+  </div>
+  <!-- /#wrapper -->
+  
+  <!-- Bootstrap Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const menuToggle = document.getElementById("menu-toggle");
+    const wrapper = document.getElementById("wrapper");
+    menuToggle.addEventListener("click", () => {
+      wrapper.classList.toggle("toggled");
+    });
+  </script>
+</body>
+</html>
