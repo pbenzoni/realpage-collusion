@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Submarket/City Aggregations Map with Legend</title>
+  <link rel="icon" type="image/png" href="photos/berkeleyischool-logo-vertical-blue-sm.png">
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <!-- PapaParse -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+    #map {
+      height: 100vh;
+      width: 100%;
+    }
+    .popup-content {
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    .popup-table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    .popup-table th,
+    .popup-table td {
+      border: 1px solid #ddd;
+      padding: 4px;
+      text-align: center;
+      font-size: 13px;
+    }
+    .popup-table th {
+      background-color: #f2f2f2;
+    }
+    /* Add a help cursor to indicate tooltip */
+    .popup-table td {
+      cursor: help;
+    }
+    /* Legend styles */
+    .legend {
+      background: white;
+      padding: 12px 16px;
+      width: 200px;
+      font: 14px/18px Arial, Helvetica, sans-serif;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      border-radius: 5px;
+    }
+    .legend i {
+      width: 18px;
+      height: 18px;
+      float: left;
+      margin-right: 8px;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <script>
+    // Manually defined tooltips for the fields.
+    const manualDescriptions = {
+      // rentPerformanceMetrics
+      "MPF-ANN-RENT-CHG": "The annual percentage change in rent according to market performance data.",
+      "MPF-HIST-ASK-RENT": "The historical asking rent amount based on market performance data.",
+      "MPF-HIST-AVG-ASK-RPSF": "Historical average asking rent per square foot.",
+      "MPF-HIST-CONC-RATIO": "A historical metric reflecting the concentration ratio of rents (distribution across units).",
+      "MPF-OCC": "The market performance occupancy rate, representing the proportion of occupied units.",
+      "MPF-RENT": "The current rent figure derived from market performance data.",
+      "MPF-RPSF": "The current rent per square foot metric.",
+      // submarketHistoricalPriceBand
+      "SH-HIST-ASK-RENT-PB": "Historical asking rent data for a specific price band in the submarket.",
+      "SH-HIST-RENT-PB": "Historical actual rent data for a specific price band in the submarket.",
+      "SH-HIST-CONC-RATIO-PB": "Historical concentration ratio of rents within a specified price band.",
+      "SH-HIST-OCCUPANCY": "Historical occupancy rate aggregated at the submarket level.",
+      "SH-HIST-RPSF-PB": "Historical rent per square foot for a specific price band in the submarket.",
+      "SH-HIST-AVG-ASK-RPSF-PB": "Historical average asking rent per square foot within a specified price band.",
+      "SH-HIST-ANN-RENT-PB-CHG": "The annual percentage change in rent for a specified price band in the submarket."
+    };
+
+    // Helper function to get a field's description from the manual mapping.
+    function getFieldDescription(field) {
+      return manualDescriptions[field] || 'No description available';
+    }
+
+    function loadCSVData() {
+      // Initialize Leaflet map (centered on US)
+      var map = L.map('map').setView([37.8, -96], 4);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap'
+      }).addTo(map);
+
+      // Helper: Compute median for an array of numbers.
+      function median(values) {
+        if (values.length === 0) return 0;
+        values.sort(function(a, b) { return a - b; });
+        var half = Math.floor(values.length / 2);
+        return (values.length % 2) ? values[half] : ((values[half - 1] + values[half]) / 2.0);
+      }
+
+      // List of fields to aggregate.
+      const fields = [
+        "MPF-ANN-RENT-CHG",
+        "MPF-HIST-ASK-RENT",
+        "MPF-HIST-AVG-ASK-RPSF",
+        "MPF-HIST-CONC-RATIO",
+        "MPF-OCC",
+        "MPF-RENT",
+        "MPF-RPSF",
+        "SH-HIST-ASK-RENT-PB",
+        "SH-HIST-RENT-PB",
+        "SH-HIST-CONC-RATIO-PB",
+        "SH-HIST-OCCUPANCY",
+        "SH-HIST-RPSF-PB",
+        "SH-HIST-AVG-ASK-RPSF-PB",
+        "SH-HIST-ANN-RENT-PB-CHG"
+      ];
+
+      // HeroSource -> color mapping.
+      const heroColors = {};
+      const colorPalette = [
+        "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728",
+        "#9467bd", "#8c564b", "#e377c2", "#7f7f7f",
+        "#bcbd22", "#17becf"
+      ];
+      let colorIndex = 0;
+      function getColorForHero(hero) {
+        if (hero === "Unknown") return "#808080";
+        if (!heroColors[hero]) {
+          heroColors[hero] = colorPalette[colorIndex % colorPalette.length];
+          colorIndex++;
+        }
+        return heroColors[hero];
+      }
+
+      // Load CSV data.
+      Papa.parse('https://rpc-webpage.s3-accelerate.amazonaws.com/cbsa_data.csv', {
+        download: true,
+        header: true,
+        complete: function(results) {
+          const data = results.data;
+          let groups = {};
+
+          // Group rows.
+          data.forEach(function(row) {
+            let submarket = row.submarketName && row.submarketName.trim() !== "" ? row.submarketName : null;
+            let city = row.city && row.city.trim() !== "" ? row.city : "Unknown City";
+            let state = row.state && row.state.trim() !== "" ? row.state : "Unknown State";
+            let groupKey = submarket ? submarket : `${city} - ${state}`;
+
+            if (!groups[groupKey]) {
+              groups[groupKey] = {
+                rows: [],
+                latitudes: [],
+                longitudes: [],
+                heroCounts: {},
+                submarket: submarket,
+                city: city,
+                state: state
+              };
+            }
+            groups[groupKey].rows.push(row);
+            let lat = parseFloat(row.latitude);
+            let lon = parseFloat(row.longitude);
+            if (!isNaN(lat)) groups[groupKey].latitudes.push(lat);
+            if (!isNaN(lon)) groups[groupKey].longitudes.push(lon);
+            let hero = row.heroSource && row.heroSource.trim() !== "" ? row.heroSource : "Unknown";
+            groups[groupKey].heroCounts[hero] = (groups[groupKey].heroCounts[hero] || 0) + 1;
+          });
+
+          // Process each group for aggregations and average coordinates.
+          for (let groupKey in groups) {
+            const groupRows = groups[groupKey].rows;
+            groups[groupKey].aggregations = {};
+            fields.forEach(function(field) {
+              let values = groupRows.map(r => parseFloat(r[field])).filter(v => !isNaN(v));
+              if (values.length === 0) values = [0];
+              const sum = values.reduce((a, b) => a + b, 0);
+              const avg = sum / values.length;
+              groups[groupKey].aggregations[field] = {
+                avg: avg,
+                median: median(values),
+                min: Math.min(...values),
+                max: Math.max(...values)
+              };
+            });
+            // Compute average latitude and longitude.
+            const latArr = groups[groupKey].latitudes;
+            const lonArr = groups[groupKey].longitudes;
+            groups[groupKey].avgLat = latArr.reduce((a, b) => a + b, 0) / latArr.length;
+            groups[groupKey].avgLon = lonArr.reduce((a, b) => a + b, 0) / lonArr.length;
+          }
+
+          // For each group, create markers.
+          for (let groupKey in groups) {
+            const group = groups[groupKey];
+            if (!group.avgLat || !group.avgLon) continue;
+
+            // Determine dominant heroSource and list heroSources with counts.
+            const heroCounts = group.heroCounts;
+            let dominantHero = null, maxCount = 0;
+            let heroList = [];
+            for (let hero in heroCounts) {
+              heroList.push(`${hero} (${heroCounts[hero]})`);
+              if (heroCounts[hero] > maxCount) {
+                maxCount = heroCounts[hero];
+                dominantHero = hero;
+              }
+            }
+            
+            // Determine the header label.
+            let headerLabel = group.submarket ? `${group.submarket} - ${group.city}, ${group.state}` : `${group.city}, ${group.state}`;
+
+            // Build popup content with a table for aggregations.
+            let popupContent = `<div class="popup-content"><h3>${headerLabel}</h3>`;
+            popupContent += '<table class="popup-table">';
+            popupContent += '<tr><th>Field</th><th>Avg</th><th>Median</th><th>Min</th><th>Max</th></tr>';
+            for (let field in group.aggregations) {
+              let agg = group.aggregations[field];
+              // Skip fields with an average of 0.00.
+              if (agg.avg.toFixed(2) === "0.00") continue;
+              // Use the manual tooltip.
+              let tooltip = getFieldDescription(field);
+              popupContent += `<tr>
+                <td title="${tooltip}">${field}</td>
+                <td>${agg.avg.toFixed(2)}</td>
+                <td>${agg.median.toFixed(2)}</td>
+                <td>${agg.min.toFixed(2)}</td>
+                <td>${agg.max.toFixed(2)}</td>
+              </tr>`;
+            }
+            popupContent += '</table>';
+            popupContent += `<p><strong>Hero Sources:</strong> ${heroList.join(", ")}</p>`;
+            popupContent += '</div>';
+
+            // Determine marker color from dominant heroSource.
+            let markerColor = dominantHero ? getColorForHero(dominantHero) : "#000000";
+            
+            // Create a circle marker with the chosen color.
+            L.circleMarker([group.avgLat, group.avgLon], {
+              radius: 8,
+              color: markerColor,
+              fillColor: markerColor,
+              fillOpacity: 1
+            })
+            .addTo(map)
+            .bindPopup(popupContent);
+          }
+
+          // Add a legend after processing all groups.
+          addLegend();
+
+        },
+        error: function(err) {
+          console.error("Error loading CSV data:", err);
+        }
+      });
+  
+      // Function to add a legend (color key) to the map.
+      function addLegend() {
+        var legend = L.control({ position: "bottomright" });
+        legend.onAdd = function (map) {
+          var div = L.DomUtil.create("div", "legend");
+          div.innerHTML += "<strong>HeroSource Key</strong><br>";
+          for (var hero in heroColors) {
+            div.innerHTML +=
+              '<i style="background:' + heroColors[hero] + '"></i> ' +
+              hero + "<br>";
+          }
+          if (!heroColors["Unknown"]) {
+            div.innerHTML += '<i style="background:#808080"></i> Unknown<br>';
+          }
+          return div;
+        };
+        legend.addTo(map);
+      }
+    }
+
+    // Start loading CSV data immediately.
+    loadCSVData();
+  </script>  
+</body>
+</html>

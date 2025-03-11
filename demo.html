@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Try It Yourself: Interactive Modeling</title>
+  <link rel="icon" type="image/png" href="photos/berkeleyischool-logo-vertical-blue-sm.png">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <div class="bg-light border-end" id="sidebar-wrapper">
+      <div class="sidebar-heading text-center py-4">
+        <img src="photos/berkeleyischool-logo-vertical-blue-sm.png" alt="UC Berkeley School of Information">
+        <h2 class="mids-capstone">
+          MIDS Capstone: <strong>RealPage Collusion Dashboard</strong>
+        </h2>
+      </div>
+      <div class="list-group list-group-flush">
+        <a href="index.html" class="list-group-item list-group-item-action bg-light">
+          Homepage
+        </a>
+        <a href="about.html" class="list-group-item list-group-item-action bg-light">About</a>
+        <a href="data-dictionary.html" class="list-group-item list-group-item-action bg-light">Data Dictionary</a>
+        <a href="interactive-map.html" class="list-group-item list-group-item-action bg-light">Interactive Map</a>
+        <a href="key-findings.html" class="list-group-item list-group-item-action bg-light">Key Findings</a>
+        <a href="demo.html" class="list-group-item list-group-item-action bg-light active">Try It Yourself: Interactive Modeling</a>
+        <a href="contact-us.html" class="list-group-item list-group-item-action bg-light">Contact Us</a>
+      </div>
+      <div class="p-3">
+        <a href="research-paper.pdf" target="_blank" class="btn btn-primary w-100">View Research Paper</a>
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+      <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+        <div class="container-fluid">
+          <button class="btn btn-secondary" id="menu-toggle">MIDS Capstone, Spring 2025: RealPage Collusion Dashboard</button>
+        </div>
+      </nav>
+
+      <div class="container-fluid py-4">
+        <h1 class="display-5 mb-4">Try It Yourself: Interactive Modeling</h1>
+        <p class="text-muted">
+          Use the input fields below to provide the key market indicators. The model will analyze your inputs to predict outcomes using both collusion and no-collusion models. After submission, you'll receive prediction results along with key evaluation metrics and a visualization.
+        </p>        
+
+        <!-- Form for Inputs -->
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5 class="mb-0">Model Inputs</h5>
+          </div>
+          <div class="card-body">
+            <form id="model-form">
+              <div class="mb-3">
+                <label for="marginalCost" class="form-label">Marginal Cost</label>
+                <input type="number" class="form-control" id="marginalCost" name="marginalCost" placeholder="e.g. 75.5" step="any" required title="Enter the additional cost incurred when producing one more unit. Typical range: 0 - 150.">
+                <small class="form-text text-muted">
+                  Enter the marginal cost value (additional cost per extra unit).
+                </small>
+              </div>
+              <div class="mb-3">
+                <label for="supplyElasticity" class="form-label">Supply Elasticity</label>
+                <input type="number" class="form-control" id="supplyElasticity" name="supplyElasticity" placeholder="e.g. 1.2" step="any" required title="Enter the supply elasticity. This measures the sensitivity of the quantity supplied to price changes. Typical range: 0.5 - 2.0.">
+                <small class="form-text text-muted">
+                  Enter the supply elasticity value (sensitivity of quantity supplied to price changes).
+                </small>
+              </div>
+              <div class="mb-3">
+                <label for="price" class="form-label">Observed Price</label>
+                <input type="number" class="form-control" id="price" name="price" placeholder="e.g. 1000" step="any" required title="Enter the market price at which goods are sold. Ensure a positive value. Typical range: 50 - 200.">
+                <small class="form-text text-muted">
+                  Enter the observed price value (market price rent). Ensure a positive integer value.
+                </small>
+              </div>
+              <button type="submit" class="btn btn-primary">Submit &amp; Predict</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Display Model Output (text) -->
+        <div id="model-output" class="alert alert-info d-none" role="alert"></div>
+
+        <!-- Visualization Container (hidden by default) -->
+        <div class="desktop-only card mb-4 d-none" id="prediction-vis-container">
+          <div class="card-header">
+            <h5 class="mb-0">Prediction-based Visualization</h5>
+          </div>
+          <div class="card-body">
+            <p class="mb-3 text-muted">Below is a visualization relevant to your model results.</p>
+            <!-- Container for iframe graph -->
+            <div id="iframe-container" class="ratio ratio-16x9 d-none">
+              <iframe src="" id="prediction-iframe" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <!-- Container for Chart.js graph -->
+            <div id="chart-container" class="d-none">
+              <canvas id="prediction-chart"></canvas>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <footer class="bg-light text-center py-3 mt-5 border-top">
+        <p class="mb-0">&copy; 2025 RealPage Collusion Dashboard &mdash; <a href="privacy.html">View Full Privacy Policy</a></p>
+      </footer>
+    </div>
+    <!-- /#page-content-wrapper -->
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Bootstrap Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Initialize Bootstrap tooltips -->
+  <script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+  </script>
+
+  <!-- Script to toggle the sidebar -->
+  <script>
+    const menuToggle = document.getElementById("menu-toggle");
+    const wrapper = document.getElementById("wrapper");
+    menuToggle.addEventListener("click", () => {
+      wrapper.classList.toggle("toggled");
+    });
+  </script>
+
+  <!-- Script to handle the form submission and display prediction-based visualization -->
+  <script>
+    const form = document.getElementById('model-form');
+    const outputDiv = document.getElementById('model-output');
+    const visContainer = document.getElementById('prediction-vis-container');
+    const iframeContainer = document.getElementById('iframe-container');
+    const chartContainer = document.getElementById('chart-container');
+    const visIframe = document.getElementById('prediction-iframe');
+    let predictionChart = null; // to hold the Chart.js instance
+
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      const marginalCost = parseFloat(document.getElementById('marginalCost').value);
+      const supplyElasticity = parseFloat(document.getElementById('supplyElasticity').value);
+      const price = parseFloat(document.getElementById('price').value);
+      const payload = {
+        data: [{
+          marginal_cost: marginalCost,
+          supply_elasticity: supplyElasticity,
+          price: price
+        }]
+      };
+      outputDiv.classList.add('d-none');
+      outputDiv.classList.remove('alert-danger');
+      visContainer.classList.add('d-none');
+      // Clear any existing iframe src or chart
+      visIframe.src = "";
+      iframeContainer.classList.add('d-none');
+      chartContainer.classList.add('d-none');
+      if (predictionChart) {
+        predictionChart.destroy();
+        predictionChart = null;
+      }
+      fetch('https://67bcba9fed4861e07b3bbb1a.mockapi.io/rpc/predict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(response => response.json())
+      .then(data => {
+        outputDiv.classList.remove('d-none');
+        outputDiv.innerHTML = `
+          <strong><span data-bs-toggle="tooltip" title="The value the model forecasts based on the input data.">Model Prediction:</span></strong> <span>${data.prediction}</span> <br>
+          <strong><span data-bs-toggle="tooltip" title="The average of the squared differences between the predicted and actual values. Lower values indicate better predictive accuracy.">Mean Squared Error (MSE):</span></strong> <span>${data.mse}</span> <br>
+          ${data.confidence ? `<strong><span data-bs-toggle="tooltip" title="A measure of how certain the model is about its prediction. Higher percentages typically mean higher certainty.">Confidence:</span></strong> <span>${data.confidence}%</span> <br>` : ""}
+          ${data.accuracy ? `<strong><span data-bs-toggle="tooltip" title="The percentage of correct predictions out of all predictions made.">Accuracy:</span></strong> <span>${data.accuracy}%</span> <br>` : ""}
+          ${data.precision ? `<strong><span data-bs-toggle="tooltip" title="The proportion of true positive predictions among all positive predictions made.">Precision:</span></strong> <span>${data.precision}</span> <br>` : ""}
+          ${data.recall ? `<strong><span data-bs-toggle="tooltip" title="The proportion of actual positives that were correctly identified by the model.">Recall:</span></strong> <span>${data.recall}</span> <br>` : ""}
+          ${data.f1Score ? `<strong><span data-bs-toggle="tooltip" title="The harmonic mean of precision and recall.">F1-Score:</span></strong> <span>${data.f1Score}</span> <br>` : ""}
+          ${data.mae ? `<strong><span data-bs-toggle="tooltip" title="The average absolute difference between predicted values and actual values. Lower values indicate more accurate predictions.">MAE:</span></strong> <span>${data.mae}</span> <br>` : ""}
+          ${data.rSquared ? `<strong><span data-bs-toggle="tooltip" title="The coefficient of determination showing the proportion of variance explained by the model. Closer to 1 indicates a better fit.">R² Score:</span></strong> <span>${data.rSquared}</span> <br>` : ""}
+          ${data.aucRoc ? `<strong><span data-bs-toggle="tooltip" title="The area under the Receiver Operating Characteristic curve. Higher values indicate a better ability to distinguish between classes.">AUC-ROC:</span></strong> <span>${data.aucRoc}</span> <br>` : ""}
+          ${data.logLoss ? `<strong><span data-bs-toggle="tooltip" title="A metric that penalizes false classifications. Lower values indicate a more accurate model.">Log Loss:</span></strong> <span>${data.logLoss}</span> <br>` : ""}
+        `;
+        // Reinitialize tooltips on dynamically added elements
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+          return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
+        // If the API provides a visualUrl, use it.
+        if (data.visualUrl) {
+          iframeContainer.classList.remove('d-none');
+          chartContainer.classList.add('d-none');
+          visIframe.src = data.visualUrl;
+          visContainer.classList.remove('d-none');
+        }
+        // Else, if xAxis and yAxis fields are provided, build a chart.
+        else if (data.xAxis && data.yAxis) {
+          iframeContainer.classList.add('d-none');
+          chartContainer.classList.remove('d-none');
+          visContainer.classList.remove('d-none');
+          const ctx = document.getElementById('prediction-chart').getContext('2d');
+          predictionChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: data.xAxis,
+              datasets: data.yAxis.map(series => ({
+                label: series.label,
+                data: series.data,
+                borderColor: series.borderColor || 'rgba(75, 192, 192, 1)',
+                fill: false,
+                tension: 0.1,
+                borderWidth: 1
+              }))
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                legend: { display: true }
+              }
+            }
+          });
+        }
+        else {
+          visContainer.classList.add('d-none');
+        }
+      })
+      .catch(err => {
+        outputDiv.classList.remove('d-none');
+        outputDiv.classList.add('alert-danger');
+        outputDiv.textContent = 'Error fetching model prediction. Please try again.';
+        console.error(err);
+      });
+    });
+  </script>
+</body>
+</html>

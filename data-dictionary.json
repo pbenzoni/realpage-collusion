@@ -1,0 +1,158 @@
+{
+  "corePropertyInfo": [
+    {
+      "field": "propertyId",
+      "description": "A unique identifier for the property."
+    },
+    {
+      "field": "propertyName",
+      "description": "The name of the property."
+    },
+    {
+      "field": "zipCode",
+      "description": "The postal code where the property is located."
+    },
+    {
+      "field": "address",
+      "description": "The street address of the property."
+    },
+    {
+      "field": "city",
+      "description": "The city in which the property is located."
+    },
+    {
+      "field": "state",
+      "description": "The state abbreviation where the property is located."
+    }
+  ],
+  "physicalOperationalAttributes": [
+    {
+      "field": "averageSquareFootage",
+      "description": "The average size (in square feet) of the units at the property."
+    },
+    {
+      "field": "stories",
+      "description": "The number of floors or stories the building has."
+    },
+    {
+      "field": "stable",
+      "description": "Indicates the stability or operational consistency of the property (e.g., stable rent or occupancy)."
+    },
+    {
+      "field": "class",
+      "description": "The classification or quality tier of the property (often designated A, B, C, etc.)."
+    },
+    {
+      "field": "yearBuilt",
+      "description": "The year in which the property was constructed."
+    },
+    {
+      "field": "siteStatus",
+      "description": "The current operational status of the property (e.g., Stabilized, Under Construction)."
+    },
+    {
+      "field": "type",
+      "description": "The property type (e.g., Conventional, Luxury)."
+    }
+  ],
+  "locationMedia": [
+    {
+      "field": "latitude",
+      "description": "The geographic latitude coordinate of the property."
+    },
+    {
+      "field": "longitude",
+      "description": "The geographic longitude coordinate of the property."
+    },
+    {
+      "field": "imageHero",
+      "description": "The file path or URL to the primary ('hero') image of the property."
+    },
+    {
+      "field": "heroSource",
+      "description": "The source or provider of the hero image."
+    },
+    {
+      "field": "submarketName",
+      "description": "The submarket or localized market area where the property is located."
+    }
+  ],
+  "unitRegionalData": [
+    {
+      "field": "unitcount",
+      "description": "The total number of rental units available at the property."
+    },
+    {
+      "field": "cbsa_code",
+      "description": "The CBSA code identifying the metropolitan area or region in which the property is located."
+    },
+    {
+      "field": "data_index",
+      "description": "An index field for the dataset records as nested under a given cbsa_code."
+    },
+    {
+      "field": "status",
+      "description": "Indicates the record status in the dataset (e.g., data validation, operational status)."
+    }
+  ],
+  "rentPerformanceMetrics": [
+    {
+      "field": "MPF-ANN-RENT-CHG",
+      "description": "The annual percentage change in rent according to market performance data."
+    },
+    {
+      "field": "MPF-HIST-ASK-RENT",
+      "description": "The historical asking rent amount based on market performance data."
+    },
+    {
+      "field": "MPF-HIST-AVG-ASK-RPSF",
+      "description": "Historical average asking rent per square foot."
+    },
+    {
+      "field": "MPF-HIST-CONC-RATIO",
+      "description": "A historical metric reflecting the concentration ratio of rents (distribution across units)."
+    },
+    {
+      "field": "MPF-OCC",
+      "description": "The market performance occupancy rate, representing the proportion of occupied units."
+    },
+    {
+      "field": "MPF-RENT",
+      "description": "The current rent figure derived from market performance data."
+    },
+    {
+      "field": "MPF-RPSF",
+      "description": "The current rent per square foot metric."
+    }
+  ],
+  "submarketHistoricalPriceBand": [
+    {
+      "field": "SH-HIST-ASK-RENT-PB",
+      "description": "Historical asking rent data for a specific price band in the submarket."
+    },
+    {
+      "field": "SH-HIST-RENT-PB",
+      "description": "Historical actual rent data for a specific price band in the submarket."
+    },
+    {
+      "field": "SH-HIST-CONC-RATIO-PB",
+      "description": "Historical concentration ratio of rents within a specified price band."
+    },
+    {
+      "field": "SH-HIST-OCCUPANCY",
+      "description": "Historical occupancy rate aggregated at the submarket level."
+    },
+    {
+      "field": "SH-HIST-RPSF-PB",
+      "description": "Historical rent per square foot for a specific price band in the submarket."
+    },
+    {
+      "field": "SH-HIST-AVG-ASK-RPSF-PB",
+      "description": "Historical average asking rent per square foot within a specified price band."
+    },
+    {
+      "field": "SH-HIST-ANN-RENT-PB-CHG",
+      "description": "The annual percentage change in rent for a specified price band in the submarket."
+    }
+  ]
+}

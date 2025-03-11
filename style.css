@@ -1,0 +1,487 @@
+/* 🌟 General Styles - Modern & Accessible */
+/* Color theme: 
+blue #004A99, 
+wheat #EAD2AC,
+coral #DF928E,
+rose: #C58882.
+platinum: #D1DEDE
+*/
+body {
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  /*Building Background*/
+  background: url('photos/background.jpeg') no-repeat center center fixed;
+  background-size: cover; /* Ensures the image covers the entire screen */
+  background-blend-mode: overlay;
+  background-color: #efeeee; /* Fallback color in case image doesn't load */
+}
+
+/* ✅ Improve Readability */
+h1, h2, h3, h4, h5 {
+  color: #004a99;
+}
+
+#page-content-wrapper {
+  text-align: left;
+
+}
+
+p {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+a {
+  color: #0056b3;
+  text-decoration: none;
+}
+
+a:hover, a:focus {
+  text-decoration: underline;
+  color: #003c80;
+}
+
+/* 🎨 Sidebar */
+#sidebar-wrapper {
+  min-width: 250px;
+  max-width: 250px;
+  background-color: #D1DEDE;
+  border-right: 1px solid #ddd;
+  transition: all 0.3s ease;
+  padding-top: 15px;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+  margin-left: -250px;
+}
+
+.sidebar-heading {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 15px;
+}
+
+.sidebar-heading img {
+  max-width: 150px; /* Ensures the image does not exceed the div's width */
+  height: auto; /* Maintains aspect ratio */
+  display: block; /* Removes any extra spacing */
+  margin: 0 auto; /* Centers the image horizontally */
+}
+
+/* 🏠 Sidebar Links */
+.list-group-item {
+  background: transparent;
+  color: #333;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1.1rem;
+}
+
+.list-group-item:hover, .list-group-item:focus {
+  background: #D1DEDE;
+  transition: 0.3s;
+}
+
+/* 🎨 Active Navigation Link */
+.list-group-item.active {
+  background-color: #0056b3 !important;
+  color: #fff !important;
+  font-weight: bold;
+}
+
+/* 🎓 MIDS Capstone Title Styling */
+.mids-capstone {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem; /* Smaller text */
+  font-weight: 600; /* Semi-bold for clarity */
+  color: #004a99; /* Consistent with headings */
+  text-align: center; /* Alignment */
+  margin-top: 8px; /* Small space after the logo */
+  margin-left: 5px; /* Adjust if needed */
+}
+
+.mids-capstone strong {
+  font-weight: bold;
+  color: #0056b3; /* Matches links */
+}
+
+/* 🔘 Buttons - Rounded & Accessible */
+.btn-primary {
+  background: #0056b3;
+  border-radius: 50px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+  background: #003c80;
+  outline: 3px solid #ffcc00;
+}
+
+/* 🏠 Hero Section */
+.hero-section {
+  background: url('https://source.unsplash.com/1600x900/?real-estate,city') no-repeat center;
+  background-size: cover;
+  color: white;
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.hero-section h1 {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.hero-section p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+/* 📦 Content Area - Increased Padding */
+#page-content-wrapper {
+  padding: 40px 50px; /* More padding for a spacious layout */
+}
+
+/* 📦 Content Cards - Improved Readability */
+.card {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: white;
+  padding: 15px;
+}
+
+/* 🔳 Lighter Card Headers for Better Contrast */
+.card-header {
+  background: #f1f1f1; /* Light gray */
+  color: #004a99;
+  font-size: 1.3rem;
+  padding: 15px;
+  font-weight: bold;
+}
+
+/* Legend for Map */
+
+.legend-container {
+  background-color: #D1DEDE;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  max-width: 300px;
+  margin: 15px 0;
+}
+
+.legend-container h4 {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.legend-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.legend-list li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+.legend-list li i {
+  font-size: 1.5rem;
+  margin-right: 8px;
+}
+
+/* Set specific colors for each icon */
+.legend-list li:nth-child(1) i {
+  color: red;
+}
+
+.legend-list li:nth-child(2) i {
+  color: blue;
+}
+
+.legend-list li:nth-child(3) i {
+  color: gray;
+}
+
+/* 🍔 Toggle Button (Hamburger Menu) */
+#menu-toggle {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem; /* Adjust button size */
+  color: #0056b3;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 🎨 Make the Menu Icon */
+#menu-toggle::before {
+  content: "\2630"; /* Unicode for menu icon */
+  font-size: 1.8rem;
+}
+
+/* Hover and Focus Effect */
+#menu-toggle:hover, #menu-toggle:focus {
+  color: #003c80;
+  outline: none;
+}
+
+/* Hide elements on mobile */
+.mobile-only {
+  display: none;
+}
+
+/* ================= Full-Width, Full-Height Scroll Sections ================= */
+
+html, body {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  margin: 0;
+  padding: 0;
+}
+
+.scroll-section {
+  width: 100%;           /* Use 100% of the available width */
+  height: 100vh;         /* Full viewport height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;  /* Consistent background if needed */
+  scroll-snap-align: start;
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.scroll-section.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* (Optional) Remove any alternating backgrounds so the background is consistent */
+.scroll-section:nth-of-type(odd),
+.scroll-section:nth-of-type(even) {
+  background: transparent;
+}
+
+/* =======================
+   🟦 Improved Heading & Text Styling 
+   ======================= */
+/* 🎯 Fixing Title Alignment & Font Size */
+#introduction h1 {
+  font-size: 3rem;  /* Reduced from overly large size */
+  font-weight: 700;
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;  /* Ensures centering */
+  line-height: 1.2; /* Better spacing between lines */
+}
+
+/* 🎯 Adjusting Subheading */
+#introduction h2 {
+  font-size: 1.8rem; /* More balanced */
+  font-weight: 400;
+  color: #004a99;
+  margin-top: 10px;
+}
+
+/* 🎯 Improving Highlighted Words */
+.highlight-primary {
+  background: linear-gradient(120deg, #004a99, #0077cc);
+  color: #fff;
+  padding: 3px 10px;
+  border-radius: 4px;
+  display: inline-block; /* Prevents stretching */
+  text-align: center;
+}
+
+.highlight-secondary {
+  background: rgba(0, 74, 153, 0.1);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-weight: bold;
+}
+
+/* 🎯 Spacing Fixes */
+#introduction p {
+  max-width: 750px;
+  font-size: 1.1rem;
+  margin: 15px auto;
+  line-height: 1.6;
+}
+
+/* 🎯 Button Fix */
+.btn-primary {
+  padding: 12px 24px;
+  font-size: 1.1rem;
+  border-radius: 50px;
+  margin-top: 20px;
+}
+
+  
+  .btn-primary:hover {
+    background: #003366;
+  }
+  
+  /* 🏹 Scroll Indicator */
+  .scroll-indicator {
+    margin-top: 20px;
+  }
+  
+  .arrow {
+    border: solid #004a99;
+    border-width: 0 5px 5px 0;
+    display: inline-block;
+    padding: 15px;
+  }
+  
+  .arrow-down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+  } 
+
+@media (max-width: 768px) {
+  /* Universal box-sizing */
+  * {
+    box-sizing: border-box;
+  }
+
+  /* Hide elements on mobile */
+  .desktop-only {
+    display: none;
+  }
+
+  /* Show elements on mobile */
+  .mobile-only {
+    display: block;
+  }
+
+  /* Constrain overall layout to viewport width and prevent horizontal overflow */
+  html, body, #wrapper, #page-content-wrapper {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* Enforce text wrapping */
+  body, p, h1, h2, h3, h4, h5 {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* Ensure content container adapts to small screens */
+  #page-content-wrapper {
+    padding: 20px;
+    margin: 0 auto;
+  }
+
+  /* Override fixed 250px width from desktop */
+  #sidebar-wrapper {
+    min-width: auto !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    
+    /* Hide by default on mobile */
+    display: none;
+    position: fixed;
+    top: 60px; /* Adjust if your navbar is taller/shorter */
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 10px 0;
+    text-align: center;
+    background-color: #f8f9fa;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    z-index: 1000;
+  }
+
+  /* When #wrapper has .toggled, show the menu (instead of sliding it) */
+  #wrapper.toggled #sidebar-wrapper {
+    display: block;
+    margin-left: 0 !important; /* Overrides desktop's -250px shift */
+  }
+
+  /* Fix the toggle button in the top-right with a white background */
+  #menu-toggle {
+    /* Fix it near the top, then center horizontally */
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    
+    /* Style & sizing */
+    width: 100%;
+    padding: 6px 12px;
+    font-size: 1.2rem;
+    background-color: #fff;
+    border: none;
+    z-index: 1101;
+    cursor: pointer;
+    
+    /* Use flex to center icon + text inside the button */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  /* Override the existing hamburger icon placement 
+     so it sits inline (to the left) rather than absolutely positioned */
+     #menu-toggle::before {
+      content: "\2630";       /* Unicode hamburger */
+      font-size: 1.8rem;
+      color: #0056b3;
+      position: static;       /* Removes absolute positioning */
+      margin-right: 8px;      /* Space between icon and text */
+      transform: none;        /* Remove transform if previously set */
+    }
+
+    /* Push main content down so the button doesn't overlap it */
+    #page-content-wrapper {
+      padding-top: 70px; /* Adjust if you need more or less space */
+    }
+}
+
+.highlight {
+  background-color: #004a99;
+  color: #ffffff; /* Ensures the text is readable */
+  padding: 2px 6px;
+  border-radius: 4px; /* Rounded edges */
+  display: inline;
+  font-weight: bold;
+  opacity: 0; /* Start invisible */
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+/* Keyframes for the fade-in effect */
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+.arrow {
+  border: solid #004a99;
+  border-width: 0 5px 5px 0;
+  display: inline-block;
+  padding: 25px;
+}
+.arrow-down {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
