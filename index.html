@@ -267,46 +267,7 @@
           </div>
         </section>
 
-        <!-- Section 6: Benchmarking Across Markets -->
-        <section id="benchmarkComparison" class="section">
-          <div class="text-center w-100">
-            <h1>Benchmarking Rent: Multifamily vs. Single‑Family Markets</h1>
-            <p>
-              This visualization juxtaposes multifamily rent indices with single‑family benchmarks to determine whether
-              observed rent increases are unique to markets influenced by algorithmic pricing or simply part of broader
-              economic trends.
-            </p>
-            <canvas id="benchmarkChart"></canvas>
-          </div>
-        </section>
-
-        <!-- Section 7: Validating Findings -->
-        <section id="syntheticControl" class="section">
-          <div class="text-center w-100">
-            <h1>Validating Findings: Synthetic Control Analysis</h1>
-            <p>
-              To ensure our results aren't merely capturing general market conditions, we apply synthetic control
-              methods. This robustness check creates counterfactual scenarios, reinforcing whether RealPage's market
-              penetration genuinely drives distinct rent dynamics.
-            </p>
-            <canvas id="syntheticChart"></canvas>
-          </div>
-        </section>
-
-        <!-- Section 8: A Multi-Dimensional View of Rent -->
-        <section id="alternativeMeasures" class="section">
-          <div class="text-center w-100">
-            <h1>Alternative Measures: Expanding Our Perspective</h1>
-            <p>
-              In addition to direct rent figures, we use housing supply metrics (like unit counts) as alternative
-              measures. This multi-dimensional view strengthens our analysis and cross-validates the impact of
-              algorithmic pricing on the market.
-            </p>
-            <canvas id="alternativeChart"></canvas>
-          </div>
-        </section>
-
-        <!-- Section 9: Key Findings & Policy Implications -->
+        <!-- Section 6: Key Findings & Policy Implications -->
         <section id="keyFindings" class="section">
           <div class="text-center w-100">
             <h1>Key Findings & Policy Implications</h1>
@@ -364,9 +325,6 @@
       rentComparison: { metric1: 'MPF-RENT', metric2: 'MPF-HIST-ASK-RENT', label: 'Current vs Historical Rents' },
       occupancyTrends: { metric: 'MPF-OCC', label: 'Occupancy Trends Amid Price Changes' },
       correlationTests: { metric: 'MPF-HIST-ASK-RENT', label: 'Correlation: RealPage Adoption & Historical Ask Rent' },
-      benchmarkComparison: { metric: 'MPF-RPSF', label: 'Multifamily vs Single‑Family Rent Metrics' },
-      syntheticControl: { metric: 'MPF-HIST-ASK-RENT', label: 'Synthetic Control: Validating Rent Trends' },
-      alternativeMeasures: { metric: 'unitcount', label: 'Alternative Rent Measures via Unit Count' },
       identificationMethods: { metric: 'unitcount', label: 'Identifying RealPage-Managed Properties' }
     };
 
@@ -734,21 +692,6 @@
               },
               parsing: false
             });
-            break;
-          case "benchmarkComparison":
-            chartType = 'bar';
-            dt = getChartDataGrouped(sectionMetrics.benchmarkComparison.metric, chartType);
-            charts.benchmark = initChart('benchmarkChart', chartType, sectionMetrics.benchmarkComparison.label, dt);
-            break;
-          case "syntheticControl":
-            chartType = 'line';
-            dt = getChartDataGrouped(sectionMetrics.syntheticControl.metric, chartType);
-            charts.synthetic = initChart('syntheticChart', chartType, sectionMetrics.syntheticControl.label, dt);
-            break;
-          case "alternativeMeasures":
-            chartType = 'bar';
-            dt = getChartDataGrouped(sectionMetrics.alternativeMeasures.metric, chartType);
-            charts.alternative = initChart('alternativeChart', chartType, sectionMetrics.alternativeMeasures.label, dt);
             break;
           case "identificationMethods":
             let geoChartType = 'bar';
