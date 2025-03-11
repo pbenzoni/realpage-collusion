@@ -218,6 +218,7 @@
 
             // Build popup content with a table for aggregations.
             let popupContent = `<div class="popup-content"><h3>${headerLabel}</h3>`;
+            popupContent += `<p><strong>How to Read the Table:</strong> <i>Each row represents a market performance metric. Hover over a field name for an explanation. You can also click the help button on the upper right corner for an explanation on how to interpret the results.</i></p>`;
             popupContent += '<table class="popup-table">';
             popupContent += '<tr><th>Field</th><th>Avg</th><th>Median</th><th>Min</th><th>Max</th></tr>';
             for (let field in group.aggregations) {
