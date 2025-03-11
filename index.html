@@ -603,7 +603,7 @@
               callbacks: {
                 label: function (context) {
                   if (chartType === 'scatter') {
-                    return 'Year: ' + context.raw.x + ', Value: ' + context.raw.y;
+                    return 'Year Built: ' + context.raw.x + ', Value: ' + context.raw.y;
                   } else {
                     return context.dataset.label + ": " + context.parsed.y;
                   }
@@ -638,21 +638,30 @@
             charts.diffinDiff = initChart('diffinDiffChart', chartType, sectionMetrics.diffinDiff.label, dt, {
               scales: {
                 x: { title: { display: true, text: 'Year Built' }, ticks: { font: { size: 14 } } },
-                y: { title: { display: true, text: 'MPF-ANN-RENT-CHG' }, ticks: { font: { size: 14 } } }
+                y: { 
+                      title: { display: true, text: 'Annual Change in Rent (%)' },
+                      ticks: { 
+                        font: { size: 14 },
+                        callback: function(value) {
+                          return (value * 100).toFixed(0) + '%'; // Multiply by 100 and append a percent sign
+                        }
+                      }
+                    }
               },
               plugins: {
                 annotation: {
                   annotations: {
                     line1: {
                       type: 'line',
-                      xMin: 2015,
-                      xMax: 2015,
-                      borderColor: 'red',
+                      scaleID: 'x', // Reference to your x-axis
+                      value: '2017', // Ensure this exactly matches one of your x-axis labels
+                      borderColor: 'blue',
                       borderWidth: 2,
                       label: {
-                        content: 'RealPage Adoption',
                         enabled: true,
-                        position: 'start'
+                        content: '2017 merger with LRO',
+                        position: 'top',
+                        backgroundColor: 'blue',
                       }
                     }
                   }
@@ -668,7 +677,22 @@
           case "occupancyTrends":
             chartType = 'line';
             dt = getChartDataGrouped(sectionMetrics.occupancyTrends.metric, chartType);
-            charts.occupancyTrends = initChart('occupancyChart', chartType, sectionMetrics.occupancyTrends.label, dt);
+            charts.occupancyTrends = initChart('occupancyChart', chartType, sectionMetrics.occupancyTrends.label, dt,
+              {
+                scales: {
+                x: { title: { display: true, text: 'Year Built' }, ticks: { font: { size: 14 } } },
+                y: { 
+                      title: { display: true, text: 'Occupied Units (%)' },
+                      ticks: { 
+                        font: { size: 14 },
+                        callback: function(value) {
+                          return (value * 100).toFixed(0) + '%'; // Multiply by 100 and append a percent sign
+                        }
+                      }
+                    }
+              } 
+              }
+            );
             break;
           case "correlationTests":
             chartType = 'scatter';
@@ -697,7 +721,16 @@
             }
             charts.correlation = initChart('correlationChart', chartType, sectionMetrics.correlationTests.label, dt, {
               scales: {
-                x: { type: 'linear', position: 'bottom', title: { display: true, text: 'Year' } },
+                x: {
+                  type: 'linear',
+                  position: 'bottom',
+                  title: { display: true, text: 'Year Built' },
+                  ticks: {
+                    callback: function(value, index, ticks) {
+                      return parseInt(value).toString(); // Converts 2,017 to "2017"
+                    }
+                  }
+                },
                 y: { beginAtZero: true, title: { display: true, text: sectionMetrics.correlationTests.label } }
               },
               parsing: false
