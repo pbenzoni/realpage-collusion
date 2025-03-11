@@ -603,7 +603,7 @@
               callbacks: {
                 label: function (context) {
                   if (chartType === 'scatter') {
-                    return 'Year Built: ' + context.raw.x + ', Value: ' + context.raw.y;
+                    return 'Year: ' + context.raw.x + ', Value: ' + context.raw.y;
                   } else {
                     return context.dataset.label + ": " + context.parsed.y;
                   }
@@ -637,7 +637,7 @@
             dt = getChartDataGrouped(sectionMetrics.diffinDiff.metric, chartType);
             charts.diffinDiff = initChart('diffinDiffChart', chartType, sectionMetrics.diffinDiff.label, dt, {
               scales: {
-                x: { title: { display: true, text: 'Year Built' }, ticks: { font: { size: 14 } } },
+                x: { title: { display: true, text: 'Year' }, ticks: { font: { size: 14 } } },
                 y: { 
                       title: { display: true, text: 'Annual Change in Rent (%)' },
                       ticks: { 
@@ -680,7 +680,7 @@
             charts.occupancyTrends = initChart('occupancyChart', chartType, sectionMetrics.occupancyTrends.label, dt,
               {
                 scales: {
-                x: { title: { display: true, text: 'Year Built' }, ticks: { font: { size: 14 } } },
+                x: { title: { display: true, text: 'Year' }, ticks: { font: { size: 14 } } },
                 y: { 
                       title: { display: true, text: 'Occupied Units (%)' },
                       ticks: { 
@@ -724,7 +724,7 @@
                 x: {
                   type: 'linear',
                   position: 'bottom',
-                  title: { display: true, text: 'Year Built' },
+                  title: { display: true, text: 'Year' },
                   ticks: {
                     callback: function(value, index, ticks) {
                       return parseInt(value).toString(); // Converts 2,017 to "2017"
