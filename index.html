@@ -508,13 +508,23 @@
           }
         }
       });
-      let labels = Object.keys(stateData).sort();
-      let data = labels.map(state => {
+      
+      // Get state names and sort them based on computed share value (descending)
+      let states = Object.keys(stateData);
+      states.sort((a, b) => {
+        let shareA = stateData[a].realpageCount / stateData[a].total;
+        let shareB = stateData[b].realpageCount / stateData[b].total;
+        return shareB - shareA; // descending order; use shareA - shareB for ascending order
+      });
+      
+      let data = states.map(state => {
         let share = stateData[state].realpageCount / stateData[state].total;
         return (share * 100).toFixed(2);
       });
+      
       return {
-        labels: labels, datasets: [{
+        labels: states,
+        datasets: [{
           label: 'RealPage Share (%)',
           data: data,
           backgroundColor: 'rgba(54, 162, 235, 0.6)',
@@ -696,7 +706,7 @@
           case "identificationMethods":
             let geoChartType = 'bar';
             let geoData = aggregateRealPageShareByState();
-            charts.geoHeatmap = initChart('geoHeatmapChart', geoChartType, 'Geographic Distribution of RealPage-Managed Properties', geoData);
+            charts.geoHeatmap = initChart('geoHeatmapChart', geoChartType, 'Geographic Distribution of Properties using the RealPage Algorithm', geoData);
             let adoptionChartType = 'line';
             let adoptionData = aggregateRealPageShareByYear();
             charts.adoptionTrends = initChart('adoptionTrendsChart', adoptionChartType, 'Time Series of RealPage Adoption Trends', adoptionData);
