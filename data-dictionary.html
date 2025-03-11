@@ -39,13 +39,13 @@
 
     <!-- Page Content -->
     <div id="page-content-wrapper">
-      <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+      <!-- <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
         <div class="container-fluid">
           <button class="btn btn-secondary" id="menu-toggle">
             MIDS Capstone, Spring 2025: RealPage Collusion Dashboard
           </button>
         </div>
-      </nav>
+      </nav> -->
 
       <div class="container-fluid py-4">
         
@@ -93,6 +93,167 @@
         </div>
 
         <hr/>
+        <div class="mt-3 row">
+          <div class="col-xs-12">
+            <h3 class="mb-1">Download Scraped RealPage Data </h3>
+            <a href="data/cbsa_data.csv" class="btn btn-primary btn-lg">CSV</a>
+            <a href="data/cbsa_data.json" class="btn btn-primary btn-lg">JSON</a>
+          </div>
+        </div>
+        <h5 class="mt-3">Field Descriptions </h5>
+        <table class="table table-striped table-bordered mt-3">
+          <thead>
+            <tr>
+              <th>Field Name</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>propertyId</td>
+              <td>Integer</td>
+              <td>Unique identifier for each property.</td>
+            </tr>
+            <tr>
+              <td>propertyName</td>
+              <td>Text</td>
+              <td>Name of the property.</td>
+            </tr>
+            <tr>
+              <td>zipCode</td>
+              <td>Text</td>
+              <td>Postal code where the property is located.</td>
+            </tr>
+            <tr>
+              <td>address</td>
+              <td>Text</td>
+              <td>Street address of the property.</td>
+            </tr>
+            <tr>
+              <td>city</td>
+              <td>Text</td>
+              <td>City in which the property is situated.</td>
+            </tr>
+            <tr>
+              <td>state</td>
+              <td>Text</td>
+              <td>Two-letter state code representing the location.</td>
+            </tr>
+            <tr>
+              <td>averageSquareFootage</td>
+              <td>Number</td>
+              <td>Average square footage per unit at the property.</td>
+            </tr>
+            <tr>
+              <td>stories</td>
+              <td>Number</td>
+              <td>Number of stories in the property building.</td>
+            </tr>
+            <tr>
+              <td>stable</td>
+              <td>Text</td>
+              <td>Indicates whether the property’s operational status is stable.</td>
+            </tr>
+            <tr>
+              <td>class</td>
+              <td>Text</td>
+              <td>Classification rating of the property, typically represented by a letter (for example, “A,” “B,” or “C”).</td>
+            </tr>
+            <tr>
+              <td>latitude</td>
+              <td>Number</td>
+              <td>Geographic latitude of the property.</td>
+            </tr>
+            <tr>
+              <td>longitude</td>
+              <td>Number</td>
+              <td>Geographic longitude of the property.</td>
+            </tr>
+            <tr>
+              <td>imageHero</td>
+              <td>Text</td>
+              <td>File path or URL for the primary image associated with the property.</td>
+            </tr>
+            <tr>
+              <td>heroSource</td>
+              <td>Text</td>
+              <td>Source of the hero image; for example, the name of the image provider.</td>
+            </tr>
+            <tr>
+              <td>submarketName</td>
+              <td>Text</td>
+              <td>Submarket or subregion where the property is located.</td>
+            </tr>
+            <tr>
+              <td>unitcount</td>
+              <td>Number</td>
+              <td>Total number of residential or commercial units in the property.</td>
+            </tr>
+            <tr>
+              <td>yearBuilt</td>
+              <td>Number</td>
+              <td>The year the property was constructed.</td>
+            </tr>
+            <tr>
+              <td>siteStatus</td>
+              <td>Text</td>
+              <td>Current status of the property site (for example, “Stabilized”).</td>
+            </tr>
+            <tr>
+              <td>type</td>
+              <td>Text</td>
+              <td>Property type or building style (for example, “Conventional”).</td>
+            </tr>
+            <tr>
+              <td>MPF-ANN-RENT-CHG</td>
+              <td>Number</td>
+              <td>Annual change in rent, represented as a decimal value.</td>
+            </tr>
+            <tr>
+              <td>MPF-HIST-ASK-RENT</td>
+              <td>Number</td>
+              <td>Historical asking rent value; typically, the monthly rent amount in dollars.</td>
+            </tr>
+            <tr>
+              <td>MPF-HIST-AVG-ASK-RPSF</td>
+              <td>Number</td>
+              <td>Historical average asking rent per square foot.</td>
+            </tr>
+            <tr>
+              <td>MPF-HIST-CONC-RATIO</td>
+              <td>Number or Text</td>
+              <td>Historical concession ratio, indicating any adjustments made to rent (this value may be missing).</td>
+            </tr>
+            <tr>
+              <td>MPF-OCC</td>
+              <td>Number</td>
+              <td>Occupancy metric; likely represents the occupancy rate of the property.</td>
+            </tr>
+            <tr>
+              <td>MPF-RENT</td>
+              <td>Number</td>
+              <td>Current rent amount at the property.</td>
+            </tr>
+            <tr>
+              <td>MPF-RPSF</td>
+              <td>Number</td>
+              <td>Current rent per square foot.</td>
+            </tr>
+            <tr>
+              <td>data_index</td>
+              <td>Number</td>
+              <td>Index number assigned to the data row.</td>
+            </tr>
+            <tr>
+              <td>cbsa_code</td>
+              <td>Number</td>
+              <td>Core-based statistical area code representing the broader metropolitan area.</td>
+            </tr>
+          </tbody>
+        </table>
+
+
 
         <!-- JSON-based dictionary goes here -->
         <div id="json-dictionary"></div>
