@@ -402,7 +402,7 @@ html, body {
 
 /* 🎯 Spacing Fixes */
 #introduction p {
-  max-width: 750px;
+  max-width: 900px;
   font-size: 1.1rem;
   margin: 15px auto;
   line-height: 1.6;
@@ -572,4 +572,32 @@ html, body {
 .arrow-down {
   transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
+}
+
+.transition-container {
+  transition: transform 0.5s ease;
+}
+.container-rentsim {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 400px;
+  margin: auto;
+  width: 80%;
+  max-width: 600px;
+}
+.bar-rentsim {
+  width: 100px;
+  background: steelblue;
+  margin: 0 10px;
+  position: relative;
+  transition: height 0.5s ease;
+}
+.price {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-weight: bold;
 }
