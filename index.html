@@ -475,184 +475,178 @@
             <span class="arrow arrow-down"></span>
           </a>
         </div>
-  </section>
+      </section>
 
-  <!-- JavaScript for sliding functionality -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const container = document.querySelector(".transition-container");
-      const cards = container.querySelectorAll(".card");
-      const prevButton = document.getElementById("prevButton");
-      const nextButton = document.getElementById("nextButton");
-      let currentIndex = 0;
-      let cardWidth = cards[0].offsetWidth;
+      <!-- JavaScript for sliding functionality -->
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const container = document.querySelector(".transition-container");
+          const cards = container.querySelectorAll(".card");
+          const prevButton = document.getElementById("prevButton");
+          const nextButton = document.getElementById("nextButton");
+          let currentIndex = 0;
+          let cardWidth = cards[0].offsetWidth;
 
-      // Update navigation buttons preview text and visibility
-      function updateButtons() {
-        if (currentIndex < cards.length - 1) {
-          const nextTitle = cards[currentIndex + 1].querySelector(".card-title").innerText;
-          nextButton.innerText = "Next: " + nextTitle;
-          nextButton.style.display = "block";
-        } else {
-          nextButton.style.display = "none";
-        }
+          // Update navigation buttons preview text and visibility
+          function updateButtons() {
+            if (currentIndex < cards.length - 1) {
+              const nextTitle = cards[currentIndex + 1].querySelector(".card-title").innerText;
+              nextButton.innerText = "Next: " + nextTitle;
+              nextButton.style.display = "block";
+            } else {
+              nextButton.style.display = "none";
+            }
 
-        if (currentIndex > 0) {
-          const prevTitle = cards[currentIndex - 1].querySelector(".card-title").innerText;
-          prevButton.innerText = "Prev: " + prevTitle;
-          prevButton.style.display = "block";
-        } else {
-          prevButton.style.display = "none";
-        }
-      }
+            if (currentIndex > 0) {
+              const prevTitle = cards[currentIndex - 1].querySelector(".card-title").innerText;
+              prevButton.innerText = "Prev: " + prevTitle;
+              prevButton.style.display = "block";
+            } else {
+              prevButton.style.display = "none";
+            }
+          }
 
-      // Slide to the next card
-      window.slideNext = function () {
-        if (currentIndex < cards.length - 1) {
-          currentIndex++;
-          container.style.transform = "translateX(-" + (cardWidth * currentIndex) + "px)";
+          // Slide to the next card
+          window.slideNext = function () {
+            if (currentIndex < cards.length - 1) {
+              currentIndex++;
+              container.style.transform = "translateX(-" + (cardWidth * currentIndex) + "px)";
+              updateButtons();
+            }
+          };
+
+          // Slide to the previous card
+          window.slidePrev = function () {
+            if (currentIndex > 0) {
+              currentIndex--;
+              container.style.transform = "translateX(-" + (cardWidth * currentIndex) + "px)";
+              updateButtons();
+            }
+          };
+
+          // Update button previews on load and when window is resized
           updateButtons();
-        }
-      };
+          window.addEventListener("resize", function () {
+            cardWidth = cards[0].offsetWidth;
+            container.style.transform = "translateX(-" + (cardWidth * currentIndex) + "px)";
+          });
+        });
+      </script>
+      <hr class="mt-5" id="identificationMethodsHR">
+      <!-- Section A: Identifying RealPage-Managed Properties -->
+      <section class="section" id="identificationMethods">
+        <div class="text-center w-100">
+          <h1>What factors into rent? </h1>
+          <h5>and how does RealPage compare?</h5>
+          <p>
+            First off: Location, location, location. Some cities are more expensive than others due to higher paying
+            jobs, the size of the city, greater density, and other factors.
+          </p>
+          <div style="display: flex; flex-direction: column; gap: 20px;">
+            <canvas id="rentComparablesChart"></canvas>
+          </div>
+        </div>
+      </section>
 
-      // Slide to the previous card
-      window.slidePrev = function () {
-        if (currentIndex > 0) {
-          currentIndex--;
-          container.style.transform = "translateX(-" + (cardWidth * currentIndex) + "px)";
-          updateButtons();
-        }
-      };
+      <div class="content">
+        <!-- Section 1: Contextualizing Rent -->
+        <section id="whatIsRent" class="section">
+          <div class="text-center w-100">
+            <h1>Contextualizing Rent: The Role of Housing Supply</h1>
+            <p>
+              Rent isn't just a monthly expense—it reflects the market's housing supply. By examining average unit
+              counts as a proxy for available housing, we set the stage to explore how algorithmic pricing might
+              influence these fundamentals.
+            </p>
+            <canvas id="explanatoryChart"></canvas>
+          </div>
+        </section>
 
-      // Update button previews on load and when window is resized
-      updateButtons();
-      window.addEventListener("resize", function () {
-        cardWidth = cards[0].offsetWidth;
-        container.style.transform = "translateX(-" + (cardWidth * currentIndex) + "px)";
-      });
-    });
-  </script>
-  <hr class="mt-5" id="identificationMethodsHR">
-  <!-- Section A: Identifying RealPage-Managed Properties -->
-  <section class="section" id="identificationMethods">
-    <div class="text-center w-100">
-      <h1>Identifying RealPage-Managed Properties</h1>
-      <p>
-        To better understand the spatial and temporal patterns of RealPage's market penetration, we present two new
-        visualizations:
-      </p>
-      <ul>
-        <li><strong>Interactive Geographic Heatmap:</strong> A map-based view showing the concentration of
-          RealPage-managed properties across regions.</li>
-        <li><strong>Time Series of Adoption Trends:</strong> A chart tracking the evolution of RealPage adoption
-          over time, highlighting key market milestones.</li>
-      </ul>
-      <div style="display: flex; flex-direction: column; gap: 20px;">
-        <canvas id="geoHeatmapChart"></canvas>
-        <canvas id="adoptionTrendsChart"></canvas>
+        <!-- Section 2: Tracing Rent Dynamics -->
+        <section id="diffinDiff" class="section">
+          <div class="text-center w-100">
+            <h1>Tracing Rent Dynamics: Pre‑ and Post‑RealPage Adoption</h1>
+            <p>
+              In this section, we use a difference‑in‑difference framework to explore how rent changes evolve before and
+              after RealPage's entry. This method helps us isolate the impact of algorithmic pricing on rent inflation.
+            </p>
+            <canvas id="diffinDiffChart"></canvas>
+          </div>
+        </section>
+
+        <!-- Section 3: Uncovering Price Adjustments -->
+        <section id="rentComparison" class="section">
+          <div class="text-center w-100">
+            <h1>Current vs. Historical Rents: Uncovering Price Adjustments</h1>
+            <p>
+              By comparing current market rents with historical asking rents across property managers, we assess whether
+              RealPage-managed properties exhibit distinct price adjustments that might indicate algorithm-driven
+              inflation.
+            </p>
+            <canvas id="rentComparisonChart"></canvas>
+          </div>
+        </section>
+
+        <!-- Section 4: Occupancy Trends -->
+        <section id="occupancyTrends" class="section">
+          <div class="text-center w-100">
+            <h1>Occupancy Trends Amidst Market Shifts</h1>
+            <p>
+              Tracking occupancy rates over time reveals how tenants respond to changing rent levels. This section
+              explores whether higher RealPage adoption correlates with altered occupancy trends—hinting at broader
+              market impacts.
+            </p>
+            <canvas id="occupancyChart"></canvas>
+          </div>
+        </section>
+
+        <!-- Section 5: Correlation & Potential Collusion -->
+        <section id="correlationTests" class="section">
+          <div class="text-center w-100">
+            <h1>Testing the Link: RealPage Adoption & Rent Inflation</h1>
+            <p>
+              We directly test whether algorithmic pricing is associated with inflated rents. By correlating historical
+              ask rents with RealPage's market presence, this scatter chart aims to reveal statistical patterns
+              suggestive of collusive behavior.
+            </p>
+            <canvas id="correlationChart"></canvas>
+            <!-- Add Model graphs here -->
+          </div>
+        </section>
+
+        <!-- Section 6: Key Findings & Policy Implications -->
+        <section id="keyFindings" class="section">
+          <div class="text-center w-100">
+            <h1>Key Findings & Policy Implications</h1>
+            <p>
+              Our analysis reveals a significant association between RealPage's market presence and rent dynamics. The
+              guided journey through housing supply, rent adjustments, occupancy rates, and robust counterfactual tests
+              suggests that algorithmic pricing may contribute to rent inflation.
+            </p>
+            <p><strong>Policy Implications:</strong></p>
+            <ul>
+              <li>Regulators and policymakers should consider the impact of pricing technologies on housing
+                affordability.</li>
+              <li>Enhanced transparency and oversight might be needed to ensure fair competition in rental markets.</li>
+              <li>Stakeholders—from tenants to property managers—could benefit from clearer insights into how technology
+                drives market outcomes.</li>
+            </ul>
+            <p>
+              These findings underscore the need for further investigation and proactive policy responses in an era
+              marked by rising housing instability and technological disruption.
+            </p>
+          </div>
+        </section>
       </div>
+
+      <footer class="bg-light text-center py-3 border-top w-100">
+        <p class="mb-0">
+          &copy; 2025 RealPage Collusion Dashboard &mdash;
+          <a href="privacy.html">View Full Privacy Policy</a>
+        </p>
+      </footer>
     </div>
-  </section>
-
-  <div class="content">
-    <!-- Section 1: Contextualizing Rent -->
-    <section id="whatIsRent" class="section">
-      <div class="text-center w-100">
-        <h1>Contextualizing Rent: The Role of Housing Supply</h1>
-        <p>
-          Rent isn't just a monthly expense—it reflects the market's housing supply. By examining average unit
-          counts as a proxy for available housing, we set the stage to explore how algorithmic pricing might
-          influence these fundamentals.
-        </p>
-        <canvas id="explanatoryChart"></canvas>
-      </div>
-    </section>
-
-    <!-- Section 2: Tracing Rent Dynamics -->
-    <section id="diffinDiff" class="section">
-      <div class="text-center w-100">
-        <h1>Tracing Rent Dynamics: Pre‑ and Post‑RealPage Adoption</h1>
-        <p>
-          In this section, we use a difference‑in‑difference framework to explore how rent changes evolve before and
-          after RealPage's entry. This method helps us isolate the impact of algorithmic pricing on rent inflation.
-        </p>
-        <canvas id="diffinDiffChart"></canvas>
-      </div>
-    </section>
-
-    <!-- Section 3: Uncovering Price Adjustments -->
-    <section id="rentComparison" class="section">
-      <div class="text-center w-100">
-        <h1>Current vs. Historical Rents: Uncovering Price Adjustments</h1>
-        <p>
-          By comparing current market rents with historical asking rents across property managers, we assess whether
-          RealPage-managed properties exhibit distinct price adjustments that might indicate algorithm-driven
-          inflation.
-        </p>
-        <canvas id="rentComparisonChart"></canvas>
-      </div>
-    </section>
-
-    <!-- Section 4: Occupancy Trends -->
-    <section id="occupancyTrends" class="section">
-      <div class="text-center w-100">
-        <h1>Occupancy Trends Amidst Market Shifts</h1>
-        <p>
-          Tracking occupancy rates over time reveals how tenants respond to changing rent levels. This section
-          explores whether higher RealPage adoption correlates with altered occupancy trends—hinting at broader
-          market impacts.
-        </p>
-        <canvas id="occupancyChart"></canvas>
-      </div>
-    </section>
-
-    <!-- Section 5: Correlation & Potential Collusion -->
-    <section id="correlationTests" class="section">
-      <div class="text-center w-100">
-        <h1>Testing the Link: RealPage Adoption & Rent Inflation</h1>
-        <p>
-          We directly test whether algorithmic pricing is associated with inflated rents. By correlating historical
-          ask rents with RealPage's market presence, this scatter chart aims to reveal statistical patterns
-          suggestive of collusive behavior.
-        </p>
-        <canvas id="correlationChart"></canvas>
-        <!-- Add Model graphs here -->
-      </div>
-    </section>
-
-    <!-- Section 6: Key Findings & Policy Implications -->
-    <section id="keyFindings" class="section">
-      <div class="text-center w-100">
-        <h1>Key Findings & Policy Implications</h1>
-        <p>
-          Our analysis reveals a significant association between RealPage's market presence and rent dynamics. The
-          guided journey through housing supply, rent adjustments, occupancy rates, and robust counterfactual tests
-          suggests that algorithmic pricing may contribute to rent inflation.
-        </p>
-        <p><strong>Policy Implications:</strong></p>
-        <ul>
-          <li>Regulators and policymakers should consider the impact of pricing technologies on housing
-            affordability.</li>
-          <li>Enhanced transparency and oversight might be needed to ensure fair competition in rental markets.</li>
-          <li>Stakeholders—from tenants to property managers—could benefit from clearer insights into how technology
-            drives market outcomes.</li>
-        </ul>
-        <p>
-          These findings underscore the need for further investigation and proactive policy responses in an era
-          marked by rising housing instability and technological disruption.
-        </p>
-      </div>
-    </section>
-  </div>
-
-  <footer class="bg-light text-center py-3 border-top w-100">
-    <p class="mb-0">
-      &copy; 2025 RealPage Collusion Dashboard &mdash;
-      <a href="privacy.html">View Full Privacy Policy</a>
-    </p>
-  </footer>
-  </div>
-  <!-- /#page-content-wrapper -->
+    <!-- /#page-content-wrapper -->
   </div>
 
   <!-- Inline Script: Initialize Charts and Load Data -->
@@ -861,6 +855,23 @@
           }
         }
       });
+
+      function aggregateRealPageShareByCity() {
+        let cityData = {};
+        csvData.forEach(row => {
+          let city = row.city;
+          if (city) {
+            if (!cityData[city]) {
+              cityData[city] = { total: 0, realpageCount: 0 };
+            }
+            cityData[city].total += 1;
+            if (row.heroSource && row.heroSource.toLowerCase() === 'realpage') {
+              cityData[city].realpageCount += 1;
+            }
+          }
+        });
+        return cityData;
+      }
 
       // Get state names and sort them based on computed share value (descending)
       let states = Object.keys(stateData);
@@ -1190,6 +1201,139 @@
         wrapper.classList.toggle("toggled");
       });
     });
+
+    function loadAndRenderComparables() {
+      const csvText = `Region,CBSASub24,HUD,Realpage,Zillow,Avg of Rents
+"Santa Cruz-Watsonville, CA",42100,3388.65,3452.15,3016.74,3286
+"San Jose-Sunnyvale-Santa Clara, CA",41940,3099.39,2899.41,3071.1,3023
+"San Luis Obispo-Paso Robles-Arroyo Grande, CA",42020,1808,2884.5,2427.22,2373
+"San Diego-Carlsbad, CA",41740,2499.43,2821.4,2736.57,2686
+"Oxnard-Thousand Oaks-Ventura, CA",37100,2289.04,2615.92,2708.02,2538
+"Providence-Fall River, RI-MA",39300,1494.79,2492.5,1959.4,1982
+"Santa Maria-Santa Barbara, CA",42200,2598.81,2492.15,2858.26,2650
+"Santa Rosa, CA",42220,1803.8,2467.88,2403.8,2225
+"Chicago-Joliet-Naperville, IL",16980,1745.78,2462.07,2001.53,2070
+"Washington-Arlington-Alexandria, DC-VA-MD",47900,2194.89,2454.56,2265.5,2305
+"Ithaca, NY",27060,1519.33,2382.75,2035.04,1979
+"Utica-Rome, NY",46540,963.42,2377,1282.85,1541
+"Burlington-South Burlington, VT",15540,1501.65,2374,1934.22,1937
+"Binghamton, NY",13780,999.18,2361,1099.56,1487
+"Salinas, CA",41500,2637.18,2288,2330.56,2419
+"Boulder, CO",14500,1765.29,2239.82,2099.85,2035
+"Naples-Immokalee-Marco Island, FL",34940,1696.37,2183.8,2446.48,2109
+"Worcester, MA",49340,1560,2169.94,2028.76,1920
+"Riverside-San Bernardino-Ontario, CA",40140,1976.63,2169.49,2290.14,2145
+"Charlottesville, VA",16820,1517.12,1939.76,1741.65,1733
+"East Stroudsburg, PA",20700,1255.87,1934.5,1599.36,1597
+"Charleston-North Charleston, SC",16700,1758.68,1928.97,1831.74,1840
+"Flagstaff, AZ",22380,1753.24,1916.1,1911.58,1860
+"Philadelphia-Camden-Wilmington, PA-NJ-DE-MD",37980,1662.61,1903.86,1808.23,1792
+"Sacramento--Roseville--Arden-Arcade, CA",40900,1907.95,1884.46,1996.04,1929
+"Hartford-West Hartford-East Hartford, CT",25540,1386.68,1882.89,1775.64,1682
+"Denver-Aurora-Lakewood, CO",19740,1886.25,1851.64,1789.95,1843
+"Tampa-St. Petersburg-Clearwater, FL",45300,1810.25,1851.11,1866.88,1843
+"Santa Fe, NM",42140,1406.55,1849.36,1888.26,1715
+"Bellingham, WA",13380,1399.86,1835.41,1690.23,1642
+"Visalia-Porterville, CA",47300,1145.22,1828.83,1315.27,1430
+"Bend-Redmond, OR",13460,1342.73,1826.96,1804.8,1658
+"Ann Arbor, MI",11460,1398.79,1814.2,1878.16,1697
+"Blacksburg-Christiansburg-Radford, VA",13980,999.89,1812.78,1216.63,1343
+"Bremerton-Silverdale, WA",14740,1693.04,1783.08,1831.04,1769
+"Scranton--Wilkes-Barre, PA",42540,967.25,1774.33,1175.77,1306
+"Winchester, VA-WV",49020,1282.29,1773.86,1599.37,1552
+"Albany-Schenectady-Troy, NY",10580,1276.18,1754.92,1520.85,1517
+"Kingston, NY",28740,1430.77,1753,1765.12,1650
+"Orlando-Kissimmee-Sanford, FL",36740,1821.41,1750.2,1824.4,1799
+"Salisbury, MD",41540,1176.22,1741.07,1630.77,1516
+"Olympia-Tumwater, WA",36500,1615.71,1734.43,1790.82,1714
+"Cape Coral-Fort Myers, FL",15980,1601.12,1721.31,1751.39,1691
+"Eugene-Springfield, OR",21660,1186.19,1706.23,1705.58,1533
+"Atlanta-Sandy Springs-Roswell, GA",12060,1754.97,1702.96,1674.46,1711
+"Asheville, NC",11700,1409.63,1701.7,1549.04,1553
+"Wenatchee, WA",48300,1201.36,1701.6,1755.59,1553
+"Pittsburgh, PA",38300,1113.01,1692.35,1353.28,1386
+"Fort Collins, CO",22660,1516.97,1687.3,1679.44,1628
+"Modesto, CA",33700,1341.45,1685.02,1698.96,1575
+`;
+      Papa.parse(csvText, {
+        header: true,
+        skipEmptyLines: true,
+        complete: function (results) {
+          const data = results.data;
+
+          const labels = [];
+          const hudRents = [];
+          const realPageRents = [];
+          const zillowRents = [];
+
+          data.forEach(row => {
+            const location = row.City || row.Region || row.Name || row.Metro || 'Unknown';
+            labels.push(location);
+            hudRents.push(parseFloat(row.HUD) || null);
+            realPageRents.push(parseFloat(row.Realpage) || null);
+            zillowRents.push(parseFloat(row.Zillow) || null);
+          });
+
+          const chartData = {
+            labels: labels,
+            datasets: [
+              {
+                label: 'HUD',
+                data: hudRents,
+                backgroundColor: 'rgba(75, 192, 192, 0.6)'
+              },
+              {
+                label: 'RealPage',
+                data: realPageRents,
+                backgroundColor: 'rgba(54, 162, 235, 0.6)'
+              },
+              {
+                label: 'Zillow',
+                data: zillowRents,
+                backgroundColor: 'rgba(255, 206, 86, 0.6)'
+              }
+            ]
+          };
+
+          const ctx = document.getElementById('rentComparablesChart').getContext('2d');
+          new Chart(ctx, {
+            type: 'bar',
+            data: chartData,
+            options: {
+              responsive: true,
+              plugins: {
+                title: {
+                  display: true,
+                  text: 'Rent by Location: HUD vs. RealPage vs. Zillow'
+                },
+                tooltip: {
+                  callbacks: {
+                    label: function (context) {
+                      return context.dataset.label + ": $" + context.parsed.y.toFixed(2);
+                    }
+                  }
+                }
+              },
+              scales: {
+                x: {
+                  stacked: false,
+                  title: { display: true, text: 'City / Region' },
+                  ticks: { autoSkip: false, maxRotation: 90, minRotation: 45 }
+                },
+                y: {
+                  beginAtZero: true,
+                  title: { display: true, text: 'Rent (USD)' }
+                }
+              }
+            }
+          });
+        }
+      });
+
+    }
+
+    document.addEventListener("DOMContentLoaded", loadAndRenderComparables);
+
   </script>
 </body>
 
