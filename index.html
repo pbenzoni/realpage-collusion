@@ -544,6 +544,9 @@
           </p>
           <div style="display: flex; flex-direction: column; gap: 20px;">
             <canvas id="rentComparablesChart"></canvas>
+            <canvas id="yearBuiltVolumeChart"></canvas>
+
+            
           </div>
         </div>
       </section>
@@ -1111,7 +1114,31 @@
         }
       }
     }
-
+    function aggregateUnitCountByYearBuilt(data) {
+      const yearGroups = {};
+      data.forEach(row => {
+        const year = row.yearBuilt;
+        const units = parseInt(row.unitcount) || 0;
+        if (year) {
+          if (!yearGroups[year]) yearGroups[year] = 0;
+          yearGroups[year] += units;
+        }
+      });
+      const sortedYears = Object.keys(yearGroups).sort();
+      const counts = sortedYears.map(y => yearGroups[y]);
+      return {
+        labels: sortedYears,
+        datasets: [
+          {
+            label: "Total Unit Count",
+            data: counts,
+            backgroundColor: "rgba(153, 102, 255, 0.6)",
+            borderColor: "rgba(153, 102, 255, 1)",
+            borderWidth: 1
+          }
+        ]
+      };
+    }
     function aggregateByState() {
       let stateAgg = {};
       csvData.forEach(row => {
@@ -1202,60 +1229,60 @@
       });
     });
 
-    function loadAndRenderComparables() {
-      const csvText = `Region,CBSASub24,HUD,Realpage,Zillow,Avg of Rents
-"Santa Cruz-Watsonville, CA",42100,3388.65,3452.15,3016.74,3286
-"San Jose-Sunnyvale-Santa Clara, CA",41940,3099.39,2899.41,3071.1,3023
-"San Luis Obispo-Paso Robles-Arroyo Grande, CA",42020,1808,2884.5,2427.22,2373
-"San Diego-Carlsbad, CA",41740,2499.43,2821.4,2736.57,2686
-"Oxnard-Thousand Oaks-Ventura, CA",37100,2289.04,2615.92,2708.02,2538
-"Providence-Fall River, RI-MA",39300,1494.79,2492.5,1959.4,1982
-"Santa Maria-Santa Barbara, CA",42200,2598.81,2492.15,2858.26,2650
-"Santa Rosa, CA",42220,1803.8,2467.88,2403.8,2225
-"Chicago-Joliet-Naperville, IL",16980,1745.78,2462.07,2001.53,2070
-"Washington-Arlington-Alexandria, DC-VA-MD",47900,2194.89,2454.56,2265.5,2305
-"Ithaca, NY",27060,1519.33,2382.75,2035.04,1979
-"Utica-Rome, NY",46540,963.42,2377,1282.85,1541
-"Burlington-South Burlington, VT",15540,1501.65,2374,1934.22,1937
-"Binghamton, NY",13780,999.18,2361,1099.56,1487
-"Salinas, CA",41500,2637.18,2288,2330.56,2419
-"Boulder, CO",14500,1765.29,2239.82,2099.85,2035
-"Naples-Immokalee-Marco Island, FL",34940,1696.37,2183.8,2446.48,2109
-"Worcester, MA",49340,1560,2169.94,2028.76,1920
-"Riverside-San Bernardino-Ontario, CA",40140,1976.63,2169.49,2290.14,2145
-"Charlottesville, VA",16820,1517.12,1939.76,1741.65,1733
-"East Stroudsburg, PA",20700,1255.87,1934.5,1599.36,1597
-"Charleston-North Charleston, SC",16700,1758.68,1928.97,1831.74,1840
-"Flagstaff, AZ",22380,1753.24,1916.1,1911.58,1860
-"Philadelphia-Camden-Wilmington, PA-NJ-DE-MD",37980,1662.61,1903.86,1808.23,1792
-"Sacramento--Roseville--Arden-Arcade, CA",40900,1907.95,1884.46,1996.04,1929
-"Hartford-West Hartford-East Hartford, CT",25540,1386.68,1882.89,1775.64,1682
-"Denver-Aurora-Lakewood, CO",19740,1886.25,1851.64,1789.95,1843
-"Tampa-St. Petersburg-Clearwater, FL",45300,1810.25,1851.11,1866.88,1843
-"Santa Fe, NM",42140,1406.55,1849.36,1888.26,1715
-"Bellingham, WA",13380,1399.86,1835.41,1690.23,1642
-"Visalia-Porterville, CA",47300,1145.22,1828.83,1315.27,1430
-"Bend-Redmond, OR",13460,1342.73,1826.96,1804.8,1658
-"Ann Arbor, MI",11460,1398.79,1814.2,1878.16,1697
-"Blacksburg-Christiansburg-Radford, VA",13980,999.89,1812.78,1216.63,1343
-"Bremerton-Silverdale, WA",14740,1693.04,1783.08,1831.04,1769
-"Scranton--Wilkes-Barre, PA",42540,967.25,1774.33,1175.77,1306
-"Winchester, VA-WV",49020,1282.29,1773.86,1599.37,1552
-"Albany-Schenectady-Troy, NY",10580,1276.18,1754.92,1520.85,1517
-"Kingston, NY",28740,1430.77,1753,1765.12,1650
-"Orlando-Kissimmee-Sanford, FL",36740,1821.41,1750.2,1824.4,1799
-"Salisbury, MD",41540,1176.22,1741.07,1630.77,1516
-"Olympia-Tumwater, WA",36500,1615.71,1734.43,1790.82,1714
-"Cape Coral-Fort Myers, FL",15980,1601.12,1721.31,1751.39,1691
-"Eugene-Springfield, OR",21660,1186.19,1706.23,1705.58,1533
-"Atlanta-Sandy Springs-Roswell, GA",12060,1754.97,1702.96,1674.46,1711
-"Asheville, NC",11700,1409.63,1701.7,1549.04,1553
-"Wenatchee, WA",48300,1201.36,1701.6,1755.59,1553
-"Pittsburgh, PA",38300,1113.01,1692.35,1353.28,1386
-"Fort Collins, CO",22660,1516.97,1687.3,1679.44,1628
-"Modesto, CA",33700,1341.45,1685.02,1698.96,1575
-`;
-      Papa.parse(csvText, {
+    document.addEventListener("DOMContentLoaded", function () {
+      const csvString = `City,CBSASub24,HUD,Realpage,Zillow,RealPageMarketShare,Avg of Rents
+"Santa Cruz-Watsonville, CA",42100,3388.65,3452.15,3016.74,9.296953948,3286
+"San Jose-Sunnyvale-Santa Clara, CA",41940,3099.39,2899.41,3071.1,,3023
+"San Luis Obispo-Paso Robles-Arroyo Grande, CA",42020,1808,2884.5,2427.22,,2373
+"San Diego-Carlsbad, CA",41740,2499.43,2821.4,2736.57,,2686
+"Oxnard-Thousand Oaks-Ventura, CA",37100,2289.04,2615.92,2708.02,17.16353646,2538
+"Providence-Fall River, RI-MA",39300,1494.79,2492.5,1959.4,,1982
+"Santa Maria-Santa Barbara, CA",42200,2598.81,2492.15,2858.26,5.187820844,2650
+"Santa Rosa, CA",42220,1803.8,2467.88,2403.8,,2225
+"Chicago-Joliet-Naperville, IL",16980,1745.78,2462.07,2001.53,,2070
+"Washington-Arlington-Alexandria, DC-VA-MD",47900,2194.89,2454.56,2265.5,,2305
+"Ithaca, NY",27060,1519.33,2382.75,2035.04,6.664101578,1979
+"Utica-Rome, NY",46540,963.42,2377,1282.85,,1541
+"Burlington-South Burlington, VT",15540,1501.65,2374,1934.22,,1937
+"Binghamton, NY",13780,999.18,2361,1099.56,,1487
+"Salinas, CA",41500,2637.18,2288,2330.56,9.897201171,2419
+"Boulder, CO",14500,1765.29,2239.82,2099.85,19.18003843,2035
+"Naples-Immokalee-Marco Island, FL",34940,1696.37,2183.8,2446.48,,2109
+"Worcester, MA",49340,1560,2169.94,2028.76,,1920
+"Riverside-San Bernardino-Ontario, CA",40140,1976.63,2169.49,2290.14,14.42517463,2145
+"Charlottesville, VA",16820,1517.12,1939.76,1741.65,5.896602659,1733
+"East Stroudsburg, PA",20700,1255.87,1934.5,1599.36,,1597
+"Charleston-North Charleston, SC",16700,1758.68,1928.97,1831.74,23.75321054,1840
+"Flagstaff, AZ",22380,1753.24,1916.1,1911.58,1.747602846,1860
+"Philadelphia-Camden-Wilmington, PA-NJ-DE-MD",37980,1662.61,1903.86,1808.23,7.781512711,1792
+"Sacramento--Roseville--Arden-Arcade, CA",40900,1907.95,1884.46,1996.04,,1929
+"Hartford-West Hartford-East Hartford, CT",25540,1386.68,1882.89,1775.64,,1682
+"Denver-Aurora-Lakewood, CO",19740,1886.25,1851.64,1789.95,,1843
+"Tampa-St. Petersburg-Clearwater, FL",45300,1810.25,1851.11,1866.88,19.02432447,1843
+"Santa Fe, NM",42140,1406.55,1849.36,1888.26,10.78369906,1715
+"Bellingham, WA",13380,1399.86,1835.41,1690.23,,1642
+"Visalia-Porterville, CA",47300,1145.22,1828.83,1315.27,,1430
+"Bend-Redmond, OR",13460,1342.73,1826.96,1804.8,,1658
+"Ann Arbor, MI",11460,1398.79,1814.2,1878.16,0.859529085,1697
+"Blacksburg-Christiansburg-Radford, VA",13980,999.89,1812.78,1216.63,,1343
+"Bremerton-Silverdale, WA",14740,1693.04,1783.08,1831.04,,1769
+"Scranton--Wilkes-Barre, PA",42540,967.25,1774.33,1175.77,1.833073323,1306
+"Winchester, VA-WV",49020,1282.29,1773.86,1599.37,5.690280695,1552
+"Albany-Schenectady-Troy, NY",10580,1276.18,1754.92,1520.85,1.411984917,1517
+"Kingston, NY",28740,1430.77,1753,1765.12,2.804327277,1650
+"Orlando-Kissimmee-Sanford, FL",36740,1821.41,1750.2,1824.4,27.78099041,1799
+"Salisbury, MD",41540,1176.22,1741.07,1630.77,,1516
+"Olympia-Tumwater, WA",36500,1615.71,1734.43,1790.82,,1714
+"Cape Coral-Fort Myers, FL",15980,1601.12,1721.31,1751.39,9.355610007,1691
+"Eugene-Springfield, OR",21660,1186.19,1706.23,1705.58,16.81110294,1533
+"Atlanta-Sandy Springs-Roswell, GA",12060,1754.97,1702.96,1674.46,,1711
+"Asheville, NC",11700,1409.63,1701.7,1549.04,,1553
+"Wenatchee, WA",48300,1201.36,1701.6,1755.59,,1553
+"Pittsburgh, PA",38300,1113.01,1692.35,1353.28,,1386
+"Fort Collins, CO",22660,1516.97,1687.3,1679.44,,1628
+"Modesto, CA",33700,1341.45,1685.02,1698.96,19.47350494,1575
+"Allentown-Bethlehem-Easton, PA",10900,1280.93,1684.34,1626.22,,1530`;
+      Papa.parse(csvString, {
         header: true,
         skipEmptyLines: true,
         complete: function (results) {
@@ -1265,76 +1292,186 @@
           const hudRents = [];
           const realPageRents = [];
           const zillowRents = [];
+          const marketShareTicks = [];
 
-          data.forEach(row => {
-            const location = row.City || row.Region || row.Name || row.Metro || 'Unknown';
-            labels.push(location);
-            hudRents.push(parseFloat(row.HUD) || null);
-            realPageRents.push(parseFloat(row.Realpage) || null);
-            zillowRents.push(parseFloat(row.Zillow) || null);
+          data.forEach((row, index) => {
+            labels.push(row.City);
+            hudRents.push(parseFloat(row.HUD));
+            realPageRents.push(parseFloat(row.Realpage));
+            zillowRents.push(parseFloat(row.Zillow));
+            const share = Math.round(parseFloat(row.RealPageMarketShare) * 10) / 10;
+            // Create "tick" marker as a scatter point with the x as the index and y as the share
+            marketShareTicks.push({
+              x: index,
+              y: share
+            });
           });
 
-          const chartData = {
-            labels: labels,
-            datasets: [
-              {
-                label: 'HUD',
-                data: hudRents,
-                backgroundColor: 'rgba(75, 192, 192, 0.6)'
-              },
-              {
-                label: 'RealPage',
-                data: realPageRents,
-                backgroundColor: 'rgba(54, 162, 235, 0.6)'
-              },
-              {
-                label: 'Zillow',
-                data: zillowRents,
-                backgroundColor: 'rgba(255, 206, 86, 0.6)'
-              }
-            ]
-          };
-
-          const ctx = document.getElementById('rentComparablesChart').getContext('2d');
+          const ctx = document.getElementById("rentComparablesChart").getContext("2d");
           new Chart(ctx, {
-            type: 'bar',
-            data: chartData,
+            type: "bar",
+            data: {
+              labels: labels,
+              datasets: [
+                {
+                  label: "HUD Rent",
+                  data: hudRents,
+                  backgroundColor: "rgba(75, 192, 192, 0.6)",
+                  yAxisID: "y"
+                },
+                {
+                  label: "RealPage Rent",
+                  data: realPageRents,
+                  backgroundColor: "rgba(54, 162, 235, 0.6)",
+                  yAxisID: "y"
+                },
+                {
+                  label: "Zillow Rent",
+                  data: zillowRents,
+                  backgroundColor: "rgba(255, 206, 86, 0.6)",
+                  yAxisID: "y"
+                },
+                {
+                  label: "RealPage Market Share (%)",
+                  type: "scatter",
+                  data: marketShareTicks,
+                  yAxisID: "y1",
+                  showLine: false,
+                  pointStyle: 'line',
+                  pointRadius: 10,
+                  pointBorderColor: "rgba(255, 99, 132, 1)",
+                  pointBackgroundColor: "rgba(255, 99, 132, 1)",
+                  pointBorderWidth: 2,
+                  pointRotation: 0
+                }
+              ]
+            },
             options: {
               responsive: true,
               plugins: {
                 title: {
                   display: true,
-                  text: 'Rent by Location: HUD vs. RealPage vs. Zillow'
+                  text: "Rents and RealPage Market Share by City"
                 },
                 tooltip: {
                   callbacks: {
                     label: function (context) {
-                      return context.dataset.label + ": $" + context.parsed.y.toFixed(2);
+                      if (context.dataset.type === "scatter") {
+                        return context.dataset.label + ": " + context.raw.y + "%";
+                      } else {
+                        return context.dataset.label + ": $" + context.parsed.y;
+                      }
                     }
                   }
                 }
               },
               scales: {
                 x: {
-                  stacked: false,
-                  title: { display: true, text: 'City / Region' },
-                  ticks: { autoSkip: false, maxRotation: 90, minRotation: 45 }
+                  title: { display: true, text: "City" },
+                  ticks: { autoSkip: false },
+                  offset: true
                 },
                 y: {
                   beginAtZero: true,
-                  title: { display: true, text: 'Rent (USD)' }
+                  position: "left",
+                  title: { display: true, text: "Rent (USD)" }
+                },
+                y1: {
+                  beginAtZero: true,
+                  position: "right",
+                  title: { display: true, text: "RealPage Market Share (%)" },
+                  grid: { drawOnChartArea: false }
                 }
               }
             }
           });
         }
       });
-
-    }
-
-    document.addEventListener("DOMContentLoaded", loadAndRenderComparables);
+    });
 
   </script>
+  <script defer>
+    document.addEventListener("DOMContentLoaded", function () {
+      const yearBuiltCanvas = document.createElement("canvas");
+      yearBuiltCanvas.id = "yearBuiltVolumeChart";
+      document.querySelector("#identificationMethods").appendChild(yearBuiltCanvas);
+  
+      function aggregateUnitCountByYearBuilt(data) {
+        const yearGroups = {};
+        data.forEach(row => {
+          // toss out rows with missing or invalid yearBuilt values or before 1900
+          if (!row.yearBuilt || row.yearBuilt < 1920 || row.yearBuilt > 2025 ) return;
+
+          const year = row.yearBuilt;
+          const units = parseInt(row.unitcount) || 0;
+          if (year) {
+            if (!yearGroups[year]) yearGroups[year] = 0;
+            yearGroups[year] += units;
+          }
+        });
+        const sortedYears = Object.keys(yearGroups).sort();
+        const counts = sortedYears.map(y => yearGroups[y]);
+        return {
+          labels: sortedYears,
+          datasets: [
+            {
+              label: "Total Unit Count",
+              data: counts,
+              backgroundColor: "rgba(153, 102, 255, 0.6)",
+              borderColor: "rgba(153, 102, 255, 1)",
+              borderWidth: 1
+            }
+          ]
+        };
+      }
+  
+      function renderYearBuiltChart(data) {
+        const chartData = aggregateUnitCountByYearBuilt(data);
+        new Chart(document.getElementById("yearBuiltVolumeChart").getContext("2d"), {
+          type: "bar",
+          data: chartData,
+          options: {
+            responsive: true,
+            plugins: {
+              title: {
+                display: true,
+                text: "Unit Count by Year Built"
+              },
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    return "Units: " + context.parsed.y;
+                  }
+                }
+              }
+            },
+            scales: {
+              x: {
+                title: { display: true, text: "Year Built" }
+              },
+              y: {
+                beginAtZero: true,
+                title: { display: true, text: "Total Units" }
+              }
+            }
+          }
+        });
+      }
+  
+      fetch('https://rpc-webpage.s3-accelerate.amazonaws.com/cbsa_data.csv')
+        .then(response => response.text())
+        .then(csvText => {
+          Papa.parse(csvText, {
+            header: true,
+            complete: function (results) {
+              renderYearBuiltChart(results.data);
+            }
+          });
+        })
+        .catch(err => console.error("Error loading Year Built data:", err));
+    });
+  </script>
+  
 </body>
 
 </html>
