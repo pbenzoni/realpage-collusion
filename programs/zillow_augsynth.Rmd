@@ -1,7 +1,7 @@
 ---
 title: "zillow_augsynth"
 author: "Timothy Majidzadeh"
-date: "2025-03-23"
+date: "2025-03-24"
 output: html_document
 ---
 
@@ -35,8 +35,6 @@ treat_cities <- c(
   'Washington, DC'
 )
 
-atts <- c()
-pvals <- c()
 for (city in treat_cities){
   one_city_data = zillow_reg %>%
     filter((AffectedCity == 0) | (RegionName == city))
@@ -44,8 +42,35 @@ for (city in treat_cities){
       ZORI ~ AffectedCityTime, RegionName, TimeTrend, one_city_data, progfunc="None", SCM=T, t_int=35
     )
   syn_sum <- summary(syn)
-  atts <- append(atts, syn_sum[['average_att']]['Estimate'][1])
-  pvals <- append(pvals, syn_sum[['average_att']]['p_val'][1])
-  plot(syn)
+  write.csv(syn_sum[['average_att']], file=paste0('../data/reg_results/syn_2015-2019_avg_att_', city, '.csv'))
+  write.csv(syn_sum[['att']], file=paste0('../data/reg_results/syn_2015-2019_att_', city, '.csv'))
+}
+```
+
+```{r alt_controls, include=FALSE, warning=FALSE}
+# Use a reduced-size control group instead of using all non-treatment cities as the control group. Synthetic control can give a false-negative result if "unaffected" cities are in fact affected.
+alt_control_cities <- c(
+  'Minneapolis, MN',
+  'San Diego, CA',
+  'Miami, FL',
+  'San Francisco, CA', 
+  'Chicago, IL',
+  'Detroit, MI', 
+  'Los Angeles, CA',
+  'New York, NY'
+)
+
+zillow_reg_alt_control <- zillow_reg %>%
+  filter((AffectedCity == 1) | (RegionName %in% alt_control_cities))
+
+for (city in treat_cities){
+  one_city_data = zillow_reg_alt_control %>%
+    filter((AffectedCity == 0) | (RegionName == city))
+  syn <- augsynth(
+      ZORI ~ AffectedCityTime, RegionName, TimeTrend, one_city_data, progfunc="None", SCM=T, t_int=35
+    )
+  syn_sum <- summary(syn)
+  write.csv(syn_sum[['average_att']], file=paste0('../data/reg_results/syn_alt_con_2015-2019avg_att_', city, '.csv'))
+  write.csv(syn_sum[['att']], file=paste0('../data/reg_results/syn_alt_con_2015-2019_att_', city, '.csv'))
 }
 ```
