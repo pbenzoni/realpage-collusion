@@ -1,0 +1,51 @@
+---
+title: "zillow_augsynth"
+author: "Timothy Majidzadeh"
+date: "2025-03-23"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r packages, include=FALSE}
+library(dplyr)
+library(augsynth)
+```
+
+
+```{r data, include=FALSE}
+## Import Data
+zillow_reg <- read.csv('../data/zillow_reg_data/zillow_data_reg_proto_20250309.csv') %>%
+  mutate(
+    AffectedCityTime = AffectedCity * AffectedTime
+  )
+
+```
+
+```{r augsynth, include=FALSE, warning=FALSE}
+## Execute augsynth
+treat_cities <- c(
+  'Atlanta, GA',
+  'Dallas, TX',
+  'Phoenix, AZ',
+  'Denver, CO',
+  'Tampa, FL',
+  'Washington, DC'
+)
+
+atts <- c()
+pvals <- c()
+for (city in treat_cities){
+  one_city_data = zillow_reg %>%
+    filter((AffectedCity == 0) | (RegionName == city))
+  syn <- augsynth(
+      ZORI ~ AffectedCityTime, RegionName, TimeTrend, one_city_data, progfunc="None", SCM=T, t_int=35
+    )
+  syn_sum <- summary(syn)
+  atts <- append(atts, syn_sum[['average_att']]['Estimate'][1])
+  pvals <- append(pvals, syn_sum[['average_att']]['p_val'][1])
+  plot(syn)
+}
+```
