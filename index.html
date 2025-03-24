@@ -66,6 +66,7 @@
   </style>
   <!-- Defer non-critical scripts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+
   <!-- Chart.js Annotation Plugin -->
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.1.0" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js" defer></script>
@@ -469,9 +470,9 @@
           Next
         </button>
         <!-- Scroll Down Arrow -->
-        <p class="mt-4">Scroll down to learn how we identified Realpage properties</p>
+        <p class="mt-4">Scroll down to learn about the major factors that determine rent prices</p>
         <div class="scroll-indicator">
-          <a href="#identificationMethodsHR">
+          <a href="#rentFactorssHR">
             <span class="arrow arrow-down"></span>
           </a>
         </div>
@@ -532,36 +533,44 @@
           });
         });
       </script>
-      <hr class="mt-5" id="identificationMethodsHR">
+      <hr class="mt-5" id="rentFactorsHR">
       <!-- Section A: Identifying RealPage-Managed Properties -->
       <section class="section" id="identificationMethods">
         <div class="text-center w-100">
           <h1>What factors into rent? </h1>
           <h5>and how does RealPage compare?</h5>
           <p>
-            First off: Location, location, location. Some cities are more expensive than others due to higher paying
-            jobs, the size of the city, greater density, and other factors.
+            Two major factors affect rent prices: the market and the condition of the property. We use the year built
+            and metropolitation area to compare RealPAage-managed properties to the rest of the market.
           </p>
           <div style="display: flex; flex-direction: column; gap: 20px;">
             <canvas id="rentComparablesChart"></canvas>
             <canvas id="yearBuiltVolumeChart"></canvas>
-
-            
+          </div>
+          <p class="mt-4">Scroll down to understand who RealPage serves and in what markets</p>
+          <div class="scroll-indicator">
+            <a href="#contextualizingRentHR">
+              <span class="arrow arrow-down"></span>
+            </a>
           </div>
         </div>
       </section>
 
       <div class="content">
-        <!-- Section 1: Contextualizing Rent -->
+        <hr class="mt-5" id="contextualizingRentHR">
+
         <section id="whatIsRent" class="section">
           <div class="text-center w-100">
-            <h1>Contextualizing Rent: The Role of Housing Supply</h1>
+            <h1>Contextualizing RealPage</h1>
+            <h5>Who does RealPage serve and how did the LRO merger affect prices?</h5>
             <p>
-              Rent isn't just a monthly expense—it reflects the market's housing supply. By examining average unit
-              counts as a proxy for available housing, we set the stage to explore how algorithmic pricing might
-              influence these fundamentals.
+              Realpage isn;t serving mom and pop landlords. They're serving large property management companies.
+              The LRO merger allowed RealPage to collect more data and increase their market share.
             </p>
-            <canvas id="explanatoryChart"></canvas>
+            <canvas id="zillowLineChart"></canvas>
+            <canvas id="unitCountBarChart" style="height: 500px;"></canvas>
+            <!-- <canvas id="explanatoryChart"></canvas> -->
+            
           </div>
         </section>
 
@@ -1395,12 +1404,12 @@
       const yearBuiltCanvas = document.createElement("canvas");
       yearBuiltCanvas.id = "yearBuiltVolumeChart";
       document.querySelector("#identificationMethods").appendChild(yearBuiltCanvas);
-  
+
       function aggregateUnitCountByYearBuilt(data) {
         const yearGroups = {};
         data.forEach(row => {
           // toss out rows with missing or invalid yearBuilt values or before 1900
-          if (!row.yearBuilt || row.yearBuilt < 1920 || row.yearBuilt > 2025 ) return;
+          if (!row.yearBuilt || row.yearBuilt < 1920 || row.yearBuilt > 2025) return;
 
           const year = row.yearBuilt;
           const units = parseInt(row.unitcount) || 0;
@@ -1424,7 +1433,7 @@
           ]
         };
       }
-  
+
       function renderYearBuiltChart(data) {
         const chartData = aggregateUnitCountByYearBuilt(data);
         new Chart(document.getElementById("yearBuiltVolumeChart").getContext("2d"), {
@@ -1457,7 +1466,7 @@
           }
         });
       }
-  
+
       fetch('https://rpc-webpage.s3-accelerate.amazonaws.com/cbsa_data.csv')
         .then(response => response.text())
         .then(csvText => {
@@ -1471,7 +1480,236 @@
         .catch(err => console.error("Error loading Year Built data:", err));
     });
   </script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const csvUrl = 'https://raw.githubusercontent.com/UC-Berkeley-I-School/realpage-collusion/refs/heads/main/data/workbooks/zillow_rot.csv';
+    const mergerDate = '1/31/2017';
   
+    Papa.parse(csvUrl, {
+      download: true,
+      header: true,
+      skipEmptyLines: true,
+      complete: (results) => {
+        const rows = results.data;
+        if (!rows.length) {
+          console.error('No data in CSV!');
+          return;
+        }
+  
+        const allHeaders = results.meta.fields;
+        const dateLabels = allHeaders.slice(2); // Skip first two columns (RegionName, Realpage Market Share)
+  
+        // Separate USA line from others
+        const usaData = rows.find(row => row.RegionName === 'USA');
+        const regionalData = rows.filter(row => row.RegionName !== 'USA');
+  
+        const datasets = [];
+  
+        // Add USA dataset first, standalone
+        if (usaData) {
+          datasets.push({
+            label: 'USA',
+            data: dateLabels.map(date => parseFloat(usaData[date]) || null),
+            borderColor: 'rgba(0,0,0,1)',
+            backgroundColor: 'rgba(0,0,0,0)',
+            fill: false,
+            tension: 0.2,
+            borderWidth: 3,
+            pointRadius: 0
+          });
+        }
+  
+        // Add regional datasets with market share in label
+        regionalData.forEach(regionRow => {
+          const regionName = regionRow['RegionName'];
+          const marketShare = parseFloat(regionRow['Realpage Market Share']);
+          const shareLabel = isNaN(marketShare) ? '' : ` (${marketShare.toFixed(1)}%)`;
+  
+          datasets.push({
+            label: regionName + shareLabel,
+            data: dateLabels.map(date => parseFloat(regionRow[date]) || null),
+            borderColor: randomColor(),
+            fill: false,
+            tension: 0.2,
+            borderWidth: 1.5,
+            pointRadius: 0
+          });
+        });
+  
+        // Chart initialization
+        const ctx = document.getElementById('zillowLineChart').getContext('2d');
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: dateLabels,
+            datasets: datasets
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+              legend: {
+                display: true,
+                position: 'right',
+                labels: { boxWidth: 15, font: { size: 12 } }
+              },
+              title: {
+                display: true,
+                text: 'Zillow Rent Trends Over Time'
+              },
+              annotation: {
+                annotations: {
+                  mergerLine: {
+                    type: 'line',
+                    scaleID: 'x',
+                    value: mergerDate,
+                    borderColor: 'red',
+                    borderWidth: 2,
+                    label: {
+                      enabled: true,
+                      content: 'RealPage-LRO Merger',
+                      position: 'start',
+                      backgroundColor: 'rgba(255, 99, 132, 0.8)',
+                      color: 'white'
+                    }
+                  }
+                }
+              }
+            },
+            scales: {
+              x: {
+                title: { display: true, text: 'Date' },
+                ticks: {
+                  maxRotation: 45,
+                  minRotation: 30,
+                  autoSkip: true,
+                  maxTicksLimit: 20
+                }
+              },
+              y: {
+                title: { display: true, text: 'Rent (USD)' },
+                beginAtZero: false
+              }
+            }
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Error fetching CSV:', err);
+      }
+    });
+  
+    // Utility function for random colors
+    function randomColor() {
+      const r = Math.floor(Math.random() * 180 + 30);
+      const g = Math.floor(Math.random() * 180 + 30);
+      const b = Math.floor(Math.random() * 180 + 30);
+      return `rgba(${r}, ${g}, ${b}, 0.9)`;
+    }
+  });
+  </script>
+  <script defer>
+    document.addEventListener('DOMContentLoaded', () => {
+      const csvUrl = 'https://rpc-webpage.s3-accelerate.amazonaws.com/cbsa_data.csv';
+    
+      Papa.parse(csvUrl, {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete: (results) => {
+          const rows = results.data;
+    
+          // Define categories for unit counts
+          const categories = {
+            'Small (≤10 units)': 0,
+            'Medium (10–50 units)': 0,
+            'Large (51–200 units)': 0,
+            'Very Large (201–500 units)': 0,
+            'Mega (501+ units)': 0
+          };
+    
+          // Classify each property
+          rows.forEach(row => {
+            const units = parseInt(row.unitcount, 10);
+            if (isNaN(units)) return;
+    
+            if (units <= 10) categories['Small (≤10 units)'] += units;
+            else if (units <= 50) categories['Medium (10–50 units)'] += units;
+            else if (units <= 200) categories['Large (51–200 units)'] += units;
+            else if (units <= 500) categories['Very Large (201–500 units)'] += units;
+            else categories['Mega (501+ units)'] += units;
+          });
+    
+          const labels = Object.keys(categories);
+      const data = Object.values(categories);
+
+      // Initialize the Bar Chart
+      const ctx = document.getElementById('unitCountBarChart').getContext('2d');
+
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Total Units',
+            data: data,
+            backgroundColor: [
+              '#a6cee3',
+              '#1f78b4',
+              '#b2df8a',
+              '#33a02c',
+              '#fb9a99'
+            ],
+            borderColor: '#333',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Apartment Complexes Grouped by Total Units',
+              font: { size: 18 }
+            },
+            legend: {
+              display: false
+            },
+            tooltip: {
+              callbacks: {
+                label: (context) => `${context.parsed.y.toLocaleString()} units`
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Total Units'
+              },
+              ticks: {
+                callback: (value) => value.toLocaleString()
+              }
+            },
+            x: {
+              title: {
+                display: true,
+                text: 'Apartment Complex Size Categories'
+              }
+            }
+          }
+        }
+      });
+    },
+    error: (err) => console.error('CSV Parsing Error:', err)
+  });
+});
+    </script>
+
 </body>
 
 </html>
