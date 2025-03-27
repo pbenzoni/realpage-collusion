@@ -37,6 +37,24 @@
       }
     }
 
+    /* For screens >= 769px, when the sidebar is fixed at 250px */
+    @media (min-width: 769px) {
+      #page-content-wrapper {
+        margin-left: 250px;               /* Shift the content to the right of the sidebar */
+        max-width: calc(100% - 250px);    /* Prevents content from exceeding the screen width */
+        overflow-x: hidden;               /* Hides any accidental overflow */
+      }
+    }
+
+    /* For smaller screens, let #page-content-wrapper take full width */
+    @media (max-width: 768px) {
+      #page-content-wrapper {
+        margin-left: 0;
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+    }
+
     /* Full-width content sections */
     .section {
       width: 100%;
