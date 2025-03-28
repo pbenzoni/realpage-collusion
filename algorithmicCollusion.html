@@ -57,12 +57,12 @@
     .card {
     flex: 0 0 100%;
     width: 100%;
+    max-width: 990px;
     box-sizing: border-box;
     padding: 20px; /* internal padding for neatness */
     overflow-x: hidden; /* hide any accidental horizontal overflow */
     /* Remove height: 100%; so the card height adapts to its content */
     }
-
 
     /* Move buttons to the top of the cards */
     .nav-container {
@@ -274,7 +274,7 @@
                     app also checks what all the other gas stations are charging. Now, if one station tries to lower
                     its
                     price to attract more customers, the app will notice and will likely tell the other stations to
-                    lower their prices a bit too, so that first station doesn’t get much of an edge. On the flip side,
+                    lower their prices a bit too, so that first station doesn't get much of an edge. On the flip side,
                     if the app sees that one station can successfully raise prices (say, during a big event or
                     holiday),
                     it will prompt the others to raise their prices as well. In the end, all the gas stations end up
@@ -288,9 +288,9 @@
                     <p class="card-text">This is essentially what happens with algorithmic rent pricing. All the
                     landlords
                     using the same (or similar) rent algorithms end up moving prices in unison, like a flock of birds
-                    turning together. Renters are like the drivers looking for cheaper gas – they discover that every
-                    apartment they visit has high rent, because the landlords’ software has guided them all to keep
-                    rents up. It’s as if the landlords had a friendly pact to not undercut each other, even though
+                    turning together. Renters are like the drivers looking for cheaper gas - they discover that every
+                    apartment they visit has high rent, because the landlords' software has guided them all to keep
+                    rents up. It's as if the landlords had a friendly pact to not undercut each other, even though
                     they
                     never spoke directly. The analogy shows why this is a problem: when businesses should be competing
                     on price but instead start acting in sync (thanks to an algorithm), consumers lose out. In rental
@@ -368,20 +368,34 @@
       const prevButton = document.getElementById("prevButton");
       const nextButton = document.getElementById("nextButton");
       let currentIndex = 0;
-      let cardWidth = container.offsetWidth; // Using container width for more robust measurements
+      let cardWidth = 0;
   
       // Restrict page height
       const mainContainer = document.querySelector('.main-container');
       mainContainer.style.maxHeight = '100vh';
       mainContainer.style.overflowY = 'auto';
   
-      // Function to update the list of cards and recalculate cardWidth
+      function getActualCardWidth() {
+        // If no cards, bail out
+        if (!cards.length) return 0;
+        
+        // The container's current width
+        const containerWidth = container.offsetWidth;
+        
+        // The card's max-width from CSS
+        const maxWidthStr = window.getComputedStyle(cards[0]).getPropertyValue('max-width');
+        const maxWidth = parseFloat(maxWidthStr) || 0;
+  
+        // Use whichever is smaller: the container or the max-width
+        return containerWidth < maxWidth ? containerWidth : maxWidth;
+      }
+  
+      // Recalculate the card list and cardWidth
       function updateCards() {
         cards = container.querySelectorAll(".card");
-        cardWidth = container.offsetWidth;
+        cardWidth = getActualCardWidth();
       }
-      // Expose updateCards globally if needed
-      window.updateCards = updateCards;
+      window.updateCards = updateCards; // expose globally if needed
   
       function updateButtons() {
         updateCards();
@@ -424,14 +438,16 @@
         }
       };
   
+      // Initial setup
       updateButtons();
   
+      // Recalculate on window resize
       window.addEventListener("resize", function () {
         updateCards();
         container.style.transform = "translateX(-" + (cardWidth * currentIndex) + "px)";
         updateButtons();
       });
     });
-  </script> 
+  </script>  
 </body>
 </html>
