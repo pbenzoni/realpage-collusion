@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Algorithmic Collusion</title>
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="photos/berkeleyischool-logo-vertical-blue-sm.png">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Defer non-critical scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+  <!-- Chart.js Annotation Plugin -->
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.1.0" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js" defer></script>
+  <style>
+    /* Global Reset */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      overflow-x: hidden; /* Prevent horizontal scrolling */
+    }
+    /* Main container that holds all content and adds a border */
+    .main-container {
+    width: 100%;
+    margin: 0;
+    padding: 20px; /* or 0 if you prefer no padding */
+    border: none;  /* remove the border */
+    box-sizing: border-box;
+    /* min-height: 100vh; (optional) */
+    }
+
+    /* Section styles */
+    .section {
+      width: 100%;  /* Relative to the main container */
+      /*min-height: 100vh;*/
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    /* Card slider container */
+    .card-slider {
+      width: 100%;
+      overflow: hidden;
+      display: flex;
+      flex-wrap: wrap;  /* Allow wrapping on small screens */
+    }
+    /* Each card takes full width */
+    .card-slider .card {
+      flex: 1 1 100%;
+      margin-bottom: 20px;
+    }
+    /* On larger screens, disable wrapping for slider effect */
+    @media (min-width: 768px) {
+      .card-slider {
+        flex-wrap: nowrap;
+      }
+      .card-slider .card {
+        flex: 0 0 100%;
+      }
+    }
+    /* Navigation container: keep buttons within container */
+    .nav-container {
+      display: flex;
+      justify-content: flex-end; /* Align buttons to right by default */
+      align-items: center;
+      width: 100%;
+      margin: 20px 0;
+    }
+    .nav-button {
+      padding: 10px 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+      <!-- What is Algorithmic Collusion -->
+      <section class="section">
+        <div class="mt-5">
+          <div class="container-fluid py-2">
+            <h1 class="text-center">How Algorithmic Collusion in Rent Pricing Works</h1>
+            <!-- Navigation Buttons -->
+            <div class="nav-container">
+              <button class="nav-button btn btn-primary btn-lg" id="prevButton" onclick="slidePrev()">Prev</button>
+              <button class="nav-button btn btn-primary btn-lg" id="nextButton" onclick="slideNext()">Next</button>
+            </div> 
+            <!-- Slider Container: Only one card is visible at a time -->
+            <div class="card-slider">
+              <!-- The inner container that slides -->
+              <div class="d-flex flex-row flex-nowrap transition-container">
+                <div class="card">
+                  <div class="card-body">
+                    <h3 class="card-title">What Are Rent-Setting Algorithms?</h3>
+                    <p class="card-text">
+                        Landlords today often use computer programs (algorithms) to help decide how much rent to charge.
+                        An algorithm is a set of rules or a software tool that looks at various factors (like apartment
+                        size,
+                        location, demand, time of year) and then recommends a rent price. Companies offer these
+                        rent-setting
+                        algorithms to landlords as a way to maximize their profits. Instead of manually researching the
+                        market
+                        or guessing, a landlord can rely on the software's suggestion for the “optimal” rent.
+                        In fact, many big property management firms use these tools for
+                        <a
+                          href="https://www.ftc.gov/business-guidance/blog/2024/03/price-fixing-algorithm-still-price-fixing#:~:text=Meanwhile%2C%20landlords%20increasingly%20use%20algorithms,to%20vote%20with%20their%20feet">
+                          tens of millions of apartments
+                        </a> across the country.
+                        The goal is usually to charge the highest rent that people are willing to pay.
+                        One executive at a rent pricing company even admitted their software encouraged rent hikes that
+                        managers
+                        <a
+                          href="https://www.propublica.org/article/yieldstar-rent-increase-realpage-rent#:~:text=%E2%80%9CI%20think%20it%E2%80%99s%20driving%20it%2C,%E2%80%9D">
+                          wouldn't normally dare to do on their own.
+                        </a>.
+                    </p>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-body">
+                    <h3 class="card-title">How Do These Algorithms Track Competitors' Prices?</h3>
+                    <p class="card-text">
+                        These rent algorithms don't set prices in a vacuum - they pay close attention to what other
+                        landlords are charging. The
+                        <a
+                          href="https://www.justice.gov/archives/opa/pr/justice-department-sues-realpage-algorithmic-pricing-scheme-harms-millions-american-renters#:~:text=The%20complaint%C2%A0alleges%20that%20RealPage%20contracts,to%20attract%20renters%20based%20on">
+                          software often gathers data
+                        </a> from nearby similar apartments to see the going rates. In some cases, companies even collect
+                        private
+                        pricing info from many landlords and
+                        <a
+                          href="https://www.justice.gov/archives/opa/pr/justice-department-sues-realpage-algorithmic-pricing-scheme-harms-millions-american-renters#:~:text=The%20complaint%C2%A0alleges%20that%20RealPage%20contracts,to%20attract%20renters%20based%20on">
+                          feed it into a shared system
+                        </a>.
+                        Using all this market data, the algorithm adjusts its recommendations. For example, if the
+                        apartment complex across the street bumps up its rent for a one-bedroom unit, the algorithm at
+                        your building
+                        might notice that and suggest you could raise your rent too. Conversely, if a competitor lowers
+                        prices or offers a special deal, the software will know and might respond (perhaps telling your
+                        landlord
+                        to also slightly lower rent, or to hold firm if it predicts the competitor's drop is temporary).
+                        This is
+                        similar to how airlines or hotels set prices: constantly monitoring what others are doing and then
+                        tweaking their own prices accordingly. The key point is that landlords' pricing software is always
+                        watching the
+                        competition and reacting to it, much faster and more consistently than any human landlord could.
+                    </p>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-body">
+                    <h3 class="card-title">When Algorithms Collude (Unintended Collusion)</h3>
+                    <p class="card-text">
+                        “Collusion” is when businesses secretly cooperate instead of competing, usually to keep prices
+                        high.
+                        Normally, collusion is illegal - for instance, landlords aren't allowed to sit in a room together
+                        and
+                        agree, “Let's all charge $1,500 for one-bedroom apartments and not go lower.” But with algorithms,
+                        something similar can happen without anyone explicitly plotting. Here's how: Imagine a city where
+                        multiple
+                        major landlords are all using the same or similar rent-setting algorithm. Because they're using
+                        the same
+                        tool (or tools that work in similar ways), they end up following the same playbook. If the
+                        algorithm sees
+                        strong demand in the city, it might tell every landlord using it to keep rents high. If one
+                        landlord's
+                        software raises rent, the others' software takes note and may raise their rents, too. None of
+                        these
+                        landlords called each other on the phone to agree on a price, but in effect their software is
+                        coordinating
+                        their moves.
+                      </p>
+                      <p class="card-text">
+                        This phenomenon is sometimes called “algorithmic collusion” or tacit collusion. It's “tacit” or
+                        unintended in the sense that no person sat down and said “let's form a cartel.” Yet the outcome -
+                        uniformly
+                        high rents - is similar to what you'd see if there was a secret cartel. Regulators have noticed
+                        this
+                        problem. The U.S. Department of Justice, for example, alleges that a popular rent pricing
+                        algorithm allowed
+                        landlords to “align their rents” and
+                        <a
+                          href="https://www.justice.gov/archives/opa/pr/justice-department-sues-realpage-algorithmic-pricing-scheme-harms-millions-american-renters#:~:text=way%20to%20scheme%20with%20landlords,%E2%80%9D">
+                          avoid competing with each other
+                        </a>.
+                        Essentially, the software became a middleman that let landlords stick to a high-price strategy
+                        together.
+                        One former FTC official gave a useful illustration: she said to imagine replacing the word
+                        “algorithm” with
+                        “a guy named Bob.” If all the landlords gave Bob their private pricing information and Bob told
+                        each of them
+                        what rent to charge, that would clearly be
+                        <a
+                          href="https://www.propublica.org/article/yieldstar-rent-increase-realpage-rent#:~:text=She%20suggested%20substituting%20%E2%80%9Ca%20guy,everywhere%20the%20word%20algorithm%20appears">
+                          illegal collusion
+                        </a>. If it's not OK for a person to coordinate prices like that, it's also not OK when a computer
+                        program
+                        does it. In short, using fancy software doesn't magically make price-fixing legal. But many
+                        landlords may
+                        not even realize this is what's happening - they just see the software's recommendations and
+                        follow along.
+                        The result is a “silent agreement” of high prices: unintended by any single landlord, but very
+                        real for renters
+                        who have to pay those prices.
+                      </p>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-body">
+                    <h3 class="card-title">Impact on Renters: Rising Costs and Fewer Options</h3>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            Higher Rents Across the Board: When landlords coordinate (even unintentionally) on high prices,
+                            renters lose the benefit of shopping around. One analysis by the White House's economic advisers
+                            found that algorithmic rent pricing led to renters paying about $70 more per month on average​.
+                            That's roughly a 4% increase in rent - solely due to the pricing software's effects - which
+                            adds up to over $800 extra per year for the same apartment. In 2023 alone, renters nationwide
+                            paid an estimated $3.8 billion more in rent <a
+                              href="https://www.multifamilydive.com/news/price-setting-algorithm-non-public-information-legislation-bill/739836/#:~:text=Under%20the%20bill%E2%80%99s%20definition%2C%20sharing,8%20billion%20in%202023">
+                              because of these algorithm-driven pricing practices.
+                            </a>
+                          </li>
+                          <li class="list-group-item">Reduced Affordability and Choice: With nearly all landlords following
+                            similar high-price signals, renters can't find a “cheap” option - every nearby landlord is
+                            charging top dollar. This makes housing far less affordable. Already, about half of renters in
+                            the U.S. spend over
+                            <a
+                              href="https://www.ftc.gov/business-guidance/blog/2024/03/price-fixing-algorithm-still-price-fixing#:~:text=The%20agencies%E2%80%99%20work%20in%20this,thirds%20of%20January%20inflation">
+                              30% of their income on rent and utilities
+                            </a>
+                            (a common benchmark for affordability). If rents are inflated due to algorithmic coordination,
+                            more people will be pushed past that
+                            30% threshold. Renters might have to cut other expenses, move farther away, or live with
+                            roommates or family just to make ends meet. In other words, the cost burden on renters
+                            increases, and those with limited incomes are hurt the most. High, synchronized rents can price
+                            some people out of certain neighborhoods entirely, contributing to housing crises and
+                            instability for families.
+                          </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">An Alternative Example: Buying Gas</h3>
+                    <p class="card-text">
+                    Think of it like this: imagine all the gas stations in town used the same automatic pricing app.
+                    Each gas station owner types in some data, and the app tells them what price to put on the pump.
+                    The
+                    app also checks what all the other gas stations are charging. Now, if one station tries to lower
+                    its
+                    price to attract more customers, the app will notice and will likely tell the other stations to
+                    lower their prices a bit too, so that first station doesn’t get much of an edge. On the flip side,
+                    if the app sees that one station can successfully raise prices (say, during a big event or
+                    holiday),
+                    it will prompt the others to raise their prices as well. In the end, all the gas stations end up
+                    with pretty similar, higher prices. No owner ever called up another to agree on a price, but
+                    because
+                    they all followed the same software, the outcome is as if they had a gentle agreement not to
+                    compete. Drivers in that town would find that no matter which gas station they go to, the price
+                    per
+                    gallon is high and nearly identical.
+                    </p>
+                    <p class="card-text">This is essentially what happens with algorithmic rent pricing. All the
+                    landlords
+                    using the same (or similar) rent algorithms end up moving prices in unison, like a flock of birds
+                    turning together. Renters are like the drivers looking for cheaper gas – they discover that every
+                    apartment they visit has high rent, because the landlords’ software has guided them all to keep
+                    rents up. It’s as if the landlords had a friendly pact to not undercut each other, even though
+                    they
+                    never spoke directly. The analogy shows why this is a problem: when businesses should be competing
+                    on price but instead start acting in sync (thanks to an algorithm), consumers lose out. In rental
+                    housing, that means families paying more for shelter and struggling with affordability, all
+                    because
+                    of a behind-the-scenes algorithm that unintentionally encouraged a form of collusion.
+                    </p>
+                </div>
+                </div>
+                <div class="card">
+                  <div class="card-body">
+                    <h3 class="card-title">Algorithmic Collusion Simulation</h3>
+                    <button id="restartBtn" class="btn btn-primary btn-lg" onclick="restartSimulation()">Restart Simulation</button>
+                    <div class="container-rentsim">
+                      <div class="bar-rentsim" id="bar1" style="height: 200px">
+                        <div class="price" id="price1">$1000</div>
+                      </div>
+                      <div class="bar-rentsim" id="bar2" style="height: 220px">
+                        <div class="price" id="price2">$1100</div>
+                      </div>
+                      <div class="bar-rentsim" id="bar3" style="height: 210px">
+                        <div class="price" id="price3">$1050</div>
+                      </div>
+                      <div class="bar-rentsim" id="bar4" style="height: 190px">
+                        <div class="price" id="price4">$950</div>
+                      </div>
+                    </div>
+                    <script>
+                      var numAgents = 4;
+                      var prices = [1000, 1100, 1050, 950];
+                      var globalMarket = 1000;
+                      var volatility = 50;
+                      function updatePrices() {
+                        var change = (Math.random() - 0.5) * volatility;
+                        globalMarket += change;
+                        for (var i = 0; i < numAgents; i++) {
+                          prices[i] = prices[i] + 0.5 * (globalMarket - prices[i]);
+                        }
+                        for (var i = 0; i < numAgents; i++) {
+                          var bar = document.getElementById("bar" + (i + 1));
+                          var priceLabel = document.getElementById("price" + (i + 1));
+                          var height = prices[i] / 5;
+                          bar.style.height = height + "px";
+                          priceLabel.innerHTML = "$" + Math.round(prices[i]);
+                        }
+                      }
+                      function restartSimulation() {
+                        globalMarket = 1000;
+                        prices = [1000, 1100, 1050, 950];
+                        for (var i = 0; i < numAgents; i++) {
+                          var bar = document.getElementById("bar" + (i + 1));
+                          var priceLabel = document.getElementById("price" + (i + 1));
+                          var height = prices[i] / 5;
+                          bar.style.height = height + "px";
+                          priceLabel.innerHTML = "$" + Math.round(prices[i]);
+                        }
+                      }
+                      setInterval(updatePrices, 2000);
+                    </script>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Additional sections and chart scripts can follow here -->
+    </div>
+  </div>
+  <!-- JavaScript for slider functionality -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const container = document.querySelector(".transition-container");
+      let cards = container.querySelectorAll(".card");
+      const prevButton = document.getElementById("prevButton");
+      const nextButton = document.getElementById("nextButton");
+      let currentIndex = 0;
+      let cardWidth = container.offsetWidth; // Using container width for more robust measurements
+  
+      // Restrict page height
+      const mainContainer = document.querySelector('.main-container');
+      //mainContainer.style.maxHeight = '100vh';
+      //mainContainer.style.overflowY = 'auto';
+  
+      // Function to update the list of cards and recalculate cardWidth
+      function updateCards() {
+        cards = container.querySelectorAll(".card");
+        cardWidth = container.offsetWidth;
+      }
+      // Expose updateCards globally if needed
+      window.updateCards = updateCards;
+  
+      function updateButtons() {
+        updateCards();
+        const navContainer = document.querySelector('.nav-container');
+        if (currentIndex === 0) {
+          prevButton.style.display = "none";
+          navContainer.style.justifyContent = "flex-end";
+        } else {
+          prevButton.style.display = "block";
+          navContainer.style.justifyContent = "space-between";
+        }
+        if (currentIndex < cards.length - 1) {
+          const nextTitle = cards[currentIndex + 1].querySelector(".card-title").innerText;
+          nextButton.innerText = "Next: " + nextTitle;
+          nextButton.style.display = "block";
+        } else {
+          nextButton.style.display = "none";
+        }
+        if (currentIndex > 0) {
+          const prevTitle = cards[currentIndex - 1].querySelector(".card-title").innerText;
+          prevButton.innerText = "Prev: " + prevTitle;
+        }
+      }
+  
+      window.slideNext = function () {
+        updateCards();
+        if (currentIndex < cards.length - 1) {
+          currentIndex++;
+          container.style.transform = "translateX(-" + (cardWidth * currentIndex) + "px)";
+          updateButtons();
+        }
+      };
+  
+      window.slidePrev = function () {
+        updateCards();
+        if (currentIndex > 0) {
+          currentIndex--;
+          container.style.transform = "translateX(-" + (cardWidth * currentIndex) + "px)";
+          updateButtons();
+        }
+      };
+  
+      updateButtons();
+  
+      window.addEventListener("resize", function () {
+        updateCards();
+        container.style.transform = "translateX(-" + (cardWidth * currentIndex) + "px)";
+        updateButtons();
+      });
+    });
+  </script> 
+</body>
+</html>
