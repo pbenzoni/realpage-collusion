@@ -55,8 +55,8 @@
     }
 
     .card {
-    flex: 0 0 100%;
-    width: 100%;
+    flex: 0 0 auto;
+    width: 90vw;
     max-width: 990px;
     box-sizing: border-box;
     padding: 20px; /* internal padding for neatness */
@@ -375,19 +375,12 @@
       mainContainer.style.maxHeight = '100vh';
       mainContainer.style.overflowY = 'auto';
   
+      // Use the smaller of the card's offsetWidth or the viewport width for sliding
       function getActualCardWidth() {
-        // If no cards, bail out
         if (!cards.length) return 0;
-        
-        // The container's current width
-        const containerWidth = container.offsetWidth;
-        
-        // The card's max-width from CSS
-        const maxWidthStr = window.getComputedStyle(cards[0]).getPropertyValue('max-width');
-        const maxWidth = parseFloat(maxWidthStr) || 0;
-  
-        // Use whichever is smaller: the container or the max-width
-        return containerWidth < maxWidth ? containerWidth : maxWidth;
+        const cardOffset = cards[0].offsetWidth;
+        const viewportWidth = window.innerWidth;
+        return viewportWidth < cardOffset ? viewportWidth : cardOffset;
       }
   
       // Recalculate the card list and cardWidth
@@ -395,7 +388,7 @@
         cards = container.querySelectorAll(".card");
         cardWidth = getActualCardWidth();
       }
-      window.updateCards = updateCards; // expose globally if needed
+      window.updateCards = updateCards; // Expose globally if needed
   
       function updateButtons() {
         updateCards();
@@ -448,6 +441,6 @@
         updateButtons();
       });
     });
-  </script>  
+  </script>
 </body>
 </html>
