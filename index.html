@@ -40,9 +40,12 @@
     /* For screens >= 769px, when the sidebar is fixed at 250px */
     @media (min-width: 769px) {
       #page-content-wrapper {
-        margin-left: 250px;               /* Shift the content to the right of the sidebar */
-        max-width: calc(100% - 250px);    /* Prevents content from exceeding the screen width */
-        overflow-x: hidden;               /* Hides any accidental overflow */
+        margin-left: 250px;
+        /* Shift the content to the right of the sidebar */
+        max-width: calc(100% - 250px);
+        /* Prevents content from exceeding the screen width */
+        overflow-x: hidden;
+        /* Hides any accidental overflow */
       }
     }
 
@@ -205,30 +208,27 @@
 
       <!-- What is Algorithmic Collusion -->
       <hr class="mt-5" id="algorithmicCollusion">
-      <section class="section" id="algoAnimation"> 
+      <section class="section" id="algoAnimation">
         <!-- Desktop version embedded -->
         <div class="desktop-only" style="width: 100%; max-width: 100%;">
-          <iframe 
-            src="algorithmicCollusion.html"
-            style="width: 100%; height: 115vh; border: none; background-color: transparent;"
-            allowtransparency="true">
+          <iframe src="algorithmicCollusion.html"
+            style="width: 100%; height: 115vh; border: none; background-color: transparent;" allowtransparency="true">
           </iframe>
         </div>
         <!-- Mobile version embedded -->
         <div class="mobile-only" style="width: 100%; max-width: 100%;">
-          <iframe 
-            src="algorithmicCollusion-mobile.html"
-            style="width: 100%; height: 200vh; border: none; background-color: transparent;"
-            allowtransparency="true">
+          <iframe src="algorithmicCollusion-mobile.html"
+            style="width: 100%; height: 200vh; border: none; background-color: transparent;" allowtransparency="true">
           </iframe>
         </div>
         <!-- Scroll Down Arrow -->
-        <p class="mt-4" style="text-align: center; margin: 0 auto;">Scroll down to learn about the major factors that determine rent prices.</p>
-          <div class="scroll-indicator" style="text-align: center; margin: 0 auto;">
-            <a href="#rentFactorsHR">
-              <span class="arrow arrow-down"></span>
-            </a>
-          </div>
+        <p class="mt-4" style="text-align: center; margin: 0 auto;">Scroll down to learn about the major factors that
+          determine rent prices.</p>
+        <div class="scroll-indicator" style="text-align: center; margin: 0 auto;">
+          <a href="#rentFactorsHR">
+            <span class="arrow arrow-down"></span>
+          </a>
+        </div>
       </section>
 
       <hr class="mt-5" id="rentFactorsHR">
@@ -239,7 +239,7 @@
           <h5>and how does RealPage compare?</h5>
           <p>
             Two major factors affect rent prices: the market and the condition of the property. We use the year built
-            and metropolitation area to compare RealPAage-managed properties to the rest of the market.
+            and metropolitation area to compare RealPage-managed properties to the rest of the market.
           </p>
           <div style="display: flex; flex-direction: column; gap: 20px;">
             <canvas id="rentComparablesChart"></canvas>
@@ -254,100 +254,52 @@
         </div>
       </section>
 
-      <div class="content">
-        <hr class="mt-5" id="contextualizingRentHR">
+      <hr class="mt-5" id="contextualizingRentHR">
 
-        <section id="whatIsRent" class="section">
-          <div class="text-center w-100">
-            <h1>Contextualizing RealPage</h1>
-            <h5>Who does RealPage serve and how did the LRO merger affect prices?</h5>
-            <p>
-              Realpage isn;t serving mom and pop landlords. They're serving large property management companies.
-              The LRO merger allowed RealPage to collect more data and increase their market share.
-            </p>
-            <canvas id="zillowLineChart"></canvas>
-            <canvas id="unitCountBarChart" style="height: 500px;"></canvas>
-            <!-- <canvas id="explanatoryChart"></canvas> -->
-            
+      <section id="whatIsRent" class="section">
+        <div class="text-center w-100">
+          <h1>Contextualizing RealPage</h1>
+          <h5>Who does RealPage serve and how did the LRO merger affect prices?</h5>
+          <p>
+            Realpage isn't serving mom and pop landlords: they court large property management companies.
+            In Spring 2017, RealPage acquired their main rival, LRO. This merger allowed RealPage to collect more data
+            and increase their market share.
+          </p>
+          <canvas id="zillowLineChart"></canvas>
+          <canvas id="unitCountBarChart" style="height: 500px;"></canvas>
+          <!-- <canvas id="explanatoryChart"></canvas> -->
+          <p class="mt-4">Scroll down to understand who RealPage serves and in what markets</p>
+          <div class="scroll-indicator">
+            <a href="#contextualizingRentHR">
+              <span class="arrow arrow-down"></span>
+            </a>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <!-- Section 2: Tracing Rent Dynamics -->
-        <section id="diffinDiff" class="section">
-          <div class="text-center w-100">
-            <h1>Tracing Rent Dynamics: Pre‑ and Post‑RealPage Adoption</h1>
-            <p>
-              In this section, we use a difference‑in‑difference framework to explore how rent changes evolve before and
-              after RealPage's entry. This method helps us isolate the impact of algorithmic pricing on rent inflation.
-            </p>
-            <canvas id="diffinDiffChart"></canvas>
-          </div>
-        </section>
-
-        <!-- Section 3: Uncovering Price Adjustments -->
-        <section id="rentComparison" class="section">
-          <div class="text-center w-100">
-            <h1>Current vs. Historical Rents: Uncovering Price Adjustments</h1>
-            <p>
-              By comparing current market rents with historical asking rents across property managers, we assess whether
-              RealPage-managed properties exhibit distinct price adjustments that might indicate algorithm-driven
-              inflation.
-            </p>
-            <canvas id="rentComparisonChart"></canvas>
-          </div>
-        </section>
-
-        <!-- Section 4: Occupancy Trends -->
-        <section id="occupancyTrends" class="section">
-          <div class="text-center w-100">
-            <h1>Occupancy Trends Amidst Market Shifts</h1>
-            <p>
-              Tracking occupancy rates over time reveals how tenants respond to changing rent levels. This section
-              explores whether higher RealPage adoption correlates with altered occupancy trends—hinting at broader
-              market impacts.
-            </p>
-            <canvas id="occupancyChart"></canvas>
-          </div>
-        </section>
-
-        <!-- Section 5: Correlation & Potential Collusion -->
-        <section id="correlationTests" class="section">
-          <div class="text-center w-100">
-            <h1>Testing the Link: RealPage Adoption & Rent Inflation</h1>
-            <p>
-              We directly test whether algorithmic pricing is associated with inflated rents. By correlating historical
-              ask rents with RealPage's market presence, this scatter chart aims to reveal statistical patterns
-              suggestive of collusive behavior.
-            </p>
-            <canvas id="correlationChart"></canvas>
-            <!-- Add Model graphs here -->
-          </div>
-        </section>
-
-        <!-- Section 6: Key Findings & Policy Implications -->
-        <section id="keyFindings" class="section">
-          <div class="text-center w-100">
-            <h1>Key Findings & Policy Implications</h1>
-            <p>
-              Our analysis reveals a significant association between RealPage's market presence and rent dynamics. The
-              guided journey through housing supply, rent adjustments, occupancy rates, and robust counterfactual tests
-              suggests that algorithmic pricing may contribute to rent inflation.
-            </p>
-            <p><strong>Policy Implications:</strong></p>
-            <ul>
-              <li>Regulators and policymakers should consider the impact of pricing technologies on housing
-                affordability.</li>
-              <li>Enhanced transparency and oversight might be needed to ensure fair competition in rental markets.</li>
-              <li>Stakeholders—from tenants to property managers—could benefit from clearer insights into how technology
-                drives market outcomes.</li>
-            </ul>
-            <p>
-              These findings underscore the need for further investigation and proactive policy responses in an era
-              marked by rising housing instability and technological disruption.
-            </p>
-          </div>
-        </section>
-      </div>
+      <!-- Section 6: Key Findings & Policy Implications -->
+      <section id="keyFindings" class="section">
+        <div class="text-center w-100">
+          <h1>Key Findings & Policy Implications</h1>
+          <p>
+            Our analysis reveals a significant association between RealPage's market presence and rent dynamics. The
+            guided journey through housing supply, rent adjustments, occupancy rates, and robust counterfactual tests
+            suggests that algorithmic pricing may contribute to rent inflation.
+          </p>
+          <p><strong>Policy Implications:</strong></p>
+          <ul>
+            <li>Regulators and policymakers should consider the impact of pricing technologies on housing
+              affordability.</li>
+            <li>Enhanced transparency and oversight might be needed to ensure fair competition in rental markets.</li>
+            <li>Stakeholders—from tenants to property managers—could benefit from clearer insights into how technology
+              drives market outcomes.</li>
+          </ul>
+          <p>
+            These findings underscore the need for further investigation and proactive policy responses in an era
+            marked by rising housing instability and technological disruption.
+          </p>
+        </div>
+      </section>
 
       <footer class="bg-light text-center py-3 border-top w-100">
         <p class="mb-0">
@@ -1108,6 +1060,8 @@
         data.forEach(row => {
           // toss out rows with missing or invalid yearBuilt values or before 1900
           if (!row.yearBuilt || row.yearBuilt < 1920 || row.yearBuilt > 2025) return;
+          //toss out rows whose heroSource is not RealPage
+          if (row.heroSource && row.heroSource.toLowerCase() !== 'realpage') return;
 
           const year = row.yearBuilt;
           const units = parseInt(row.unitcount) || 0;
@@ -1178,147 +1132,147 @@
         .catch(err => console.error("Error loading Year Built data:", err));
     });
   </script>
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const csvUrl = 'https://raw.githubusercontent.com/UC-Berkeley-I-School/realpage-collusion/refs/heads/main/data/workbooks/zillow_rot.csv';
-    const mergerDate = '1/31/2017';
-  
-    Papa.parse(csvUrl, {
-      download: true,
-      header: true,
-      skipEmptyLines: true,
-      complete: (results) => {
-        const rows = results.data;
-        if (!rows.length) {
-          console.error('No data in CSV!');
-          return;
-        }
-  
-        const allHeaders = results.meta.fields;
-        const dateLabels = allHeaders.slice(2); // Skip first two columns (RegionName, Realpage Market Share)
-  
-        // Separate USA line from others
-        const usaData = rows.find(row => row.RegionName === 'USA');
-        const regionalData = rows.filter(row => row.RegionName !== 'USA');
-  
-        const datasets = [];
-  
-        // Add USA dataset first, standalone
-        if (usaData) {
-          datasets.push({
-            label: 'USA',
-            data: dateLabels.map(date => parseFloat(usaData[date]) || null),
-            borderColor: 'rgba(0,0,0,1)',
-            backgroundColor: 'rgba(0,0,0,0)',
-            fill: false,
-            tension: 0.2,
-            borderWidth: 3,
-            pointRadius: 0
-          });
-        }
-  
-        // Add regional datasets with market share in label
-        regionalData.forEach(regionRow => {
-          const regionName = regionRow['RegionName'];
-          const marketShare = parseFloat(regionRow['Realpage Market Share']);
-          const shareLabel = isNaN(marketShare) ? '' : ` (${marketShare.toFixed(1)}%)`;
-  
-          datasets.push({
-            label: regionName + shareLabel,
-            data: dateLabels.map(date => parseFloat(regionRow[date]) || null),
-            borderColor: randomColor(),
-            fill: false,
-            tension: 0.2,
-            borderWidth: 1.5,
-            pointRadius: 0
-          });
-        });
-  
-        // Chart initialization
-        const ctx = document.getElementById('zillowLineChart').getContext('2d');
-        new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: dateLabels,
-            datasets: datasets
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            interaction: { mode: 'index', intersect: false },
-            plugins: {
-              legend: {
-                display: true,
-                position: 'right',
-                labels: { boxWidth: 15, font: { size: 12 } }
-              },
-              title: {
-                display: true,
-                text: 'Zillow Rent Trends Over Time'
-              },
-              annotation: {
-                annotations: {
-                  mergerLine: {
-                    type: 'line',
-                    scaleID: 'x',
-                    value: mergerDate,
-                    borderColor: 'red',
-                    borderWidth: 2,
-                    label: {
-                      enabled: true,
-                      content: 'RealPage-LRO Merger',
-                      position: 'start',
-                      backgroundColor: 'rgba(255, 99, 132, 0.8)',
-                      color: 'white'
-                    }
-                  }
-                }
-              }
-            },
-            scales: {
-              x: {
-                title: { display: true, text: 'Date' },
-                ticks: {
-                  maxRotation: 45,
-                  minRotation: 30,
-                  autoSkip: true,
-                  maxTicksLimit: 20
-                }
-              },
-              y: {
-                title: { display: true, text: 'Rent (USD)' },
-                beginAtZero: false
-              }
-            }
-          }
-        });
-      },
-      error: (err) => {
-        console.error('Error fetching CSV:', err);
-      }
-    });
-  
-    // Utility function for random colors
-    function randomColor() {
-      const r = Math.floor(Math.random() * 180 + 30);
-      const g = Math.floor(Math.random() * 180 + 30);
-      const b = Math.floor(Math.random() * 180 + 30);
-      return `rgba(${r}, ${g}, ${b}, 0.9)`;
-    }
-  });
-  </script>
-  <script defer>
+  q
+  <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const csvUrl = 'https://rpc-webpage.s3-accelerate.amazonaws.com/cbsa_data.csv';
-    
+      const csvUrl = 'https://raw.githubusercontent.com/UC-Berkeley-I-School/realpage-collusion/refs/heads/main/data/workbooks/zillow_rot.csv';
+      const mergerDate = '3/1/2017';
+
       Papa.parse(csvUrl, {
         download: true,
         header: true,
         skipEmptyLines: true,
         complete: (results) => {
           const rows = results.data;
-    
+          if (!rows.length) {
+            console.error('No data in CSV!');
+            return;
+          }
+
+          const allHeaders = results.meta.fields;
+          const dateLabels = allHeaders.slice(2); // Skip first two columns (RegionName, Realpage Market Share)
+
+          // Separate USA line from others
+          const usaData = rows.find(row => row.RegionName === 'USA');
+          const regionalData = rows.filter(row => row.RegionName !== 'USA');
+
+          const datasets = [];
+
+          // Add USA dataset first, standalone
+          if (usaData) {
+            datasets.push({
+              label: 'USA',
+              data: dateLabels.map(date => parseFloat(usaData[date]) || null),
+              borderColor: 'rgba(0,0,0,1)',
+              backgroundColor: 'rgba(0,0,0,0)',
+              fill: false,
+              tension: 0.2,
+              borderWidth: 3,
+              pointRadius: 0
+            });
+          }
+
+          // Add regional datasets with market share in label
+          regionalData.forEach(regionRow => {
+            const regionName = regionRow['RegionName'];
+            const marketShare = parseFloat(regionRow['Realpage Market Share']);
+            const shareLabel = isNaN(marketShare) ? '' : ` (${marketShare.toFixed(1)}%)`;
+
+            datasets.push({
+              label: regionName + shareLabel,
+              data: dateLabels.map(date => parseFloat(regionRow[date]) || null),
+              borderColor: randomColor(),
+              fill: false,
+              tension: 0.2,
+              borderWidth: 1.5,
+              pointRadius: 0
+            });
+          });
+
+          // Chart initialization
+          const ctx = document.getElementById('zillowLineChart').getContext('2d');
+          new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: dateLabels,
+              datasets: datasets
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              interaction: { mode: 'index', intersect: false },
+              plugins: {
+                legend: {
+                  display: true,
+                  position: 'right',
+                  labels: { boxWidth: 15, font: { size: 12 } }
+                },
+                title: {
+                  display: true,
+                  text: 'Zillow Rent Trends Over Time'
+                },
+                annotation: {
+                  annotations: {
+                    mergerLine: {
+                      type: 'line',
+                      scaleID: 'x',
+                      value: mergerDate,
+                      borderColor: 'red',
+                      borderWidth: 2,
+                      label: {
+                        enabled: true,
+                        content: 'RealPage-LRO Merger',
+                        position: 'start',
+                        backgroundColor: 'rgba(255, 99, 132, 0.8)',
+                        color: 'white'
+                      }
+                    }
+                  }
+                }
+              },
+              scales: {
+                x: {
+                  title: { display: true, text: 'Date' },
+                  ticks: {
+                    maxRotation: 45,
+                    minRotation: 30,
+                    autoSkip: true,
+                    maxTicksLimit: 20
+                  }
+                },
+                y: {
+                  title: { display: true, text: 'Rent (USD)' },
+                  beginAtZero: false
+                }
+              }
+            }
+          });
+        },
+        error: (err) => {
+          console.error('Error fetching CSV:', err);
+        }
+      });
+
+      // Utility function for random colors
+      function randomColor() {
+        const r = Math.floor(Math.random() * 180 + 30);
+        const g = Math.floor(Math.random() * 180 + 30);
+        const b = Math.floor(Math.random() * 180 + 30);
+        return `rgba(${r}, ${g}, ${b}, 0.9)`;
+      }
+    });
+  </script>
+  <script defer>
+    document.addEventListener('DOMContentLoaded', () => {
+      const csvUrl = 'https://rpc-webpage.s3-accelerate.amazonaws.com/cbsa_data.csv';
+
+      Papa.parse(csvUrl, {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete: (results) => {
+          const rows = results.data;
+
           // Define categories for unit counts
           const categories = {
             'Small (≤10 units)': 0,
@@ -1327,86 +1281,90 @@
             'Very Large (201–500 units)': 0,
             'Mega (501+ units)': 0
           };
-    
+
           // Classify each property
           rows.forEach(row => {
+            // remove non-realpage rows
+            if (row.heroSource && row.heroSource.toLowerCase() !== 'realpage') return;
+
             const units = parseInt(row.unitcount, 10);
             if (isNaN(units)) return;
-    
+
             if (units <= 10) categories['Small (≤10 units)'] += units;
             else if (units <= 50) categories['Medium (10–50 units)'] += units;
             else if (units <= 200) categories['Large (51–200 units)'] += units;
             else if (units <= 500) categories['Very Large (201–500 units)'] += units;
             else categories['Mega (501+ units)'] += units;
           });
-    
+
           const labels = Object.keys(categories);
-      const data = Object.values(categories);
+          const data = Object.values(categories);
 
-      // Initialize the Bar Chart
-      const ctx = document.getElementById('unitCountBarChart').getContext('2d');
+          // Initialize the Bar Chart
+          const ctx = document.getElementById('unitCountBarChart').getContext('2d');
 
-      new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: 'Total Units',
-            data: data,
-            backgroundColor: [
-              '#a6cee3',
-              '#1f78b4',
-              '#b2df8a',
-              '#33a02c',
-              '#fb9a99'
-            ],
-            borderColor: '#333',
-            borderWidth: 1
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            title: {
-              display: true,
-              text: 'Apartment Complexes Grouped by Total Units',
-              font: { size: 18 }
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: labels,
+              datasets: [{
+                label: 'Total Units',
+                data: data,
+                backgroundColor: [
+                  '#a6cee3',
+                  '#1f78b4',
+                  '#b2df8a',
+                  '#33a02c',
+                  '#fb9a99'
+                ],
+                borderColor: '#333',
+                borderWidth: 1
+              }]
             },
-            legend: {
-              display: false
-            },
-            tooltip: {
-              callbacks: {
-                label: (context) => `${context.parsed.y.toLocaleString()} units`
-              }
-            }
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              title: {
-                display: true,
-                text: 'Total Units'
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                title: {
+                  display: true,
+                  text: 'Apartment Complexes Grouped by Total Units',
+                  font: { size: 18 }
+                },
+                legend: {
+                  display: false
+                },
+                tooltip: {
+                  callbacks: {
+                    label: (context) => `${context.parsed.y.toLocaleString()} units`
+                  }
+                }
               },
-              ticks: {
-                callback: (value) => value.toLocaleString()
-              }
-            },
-            x: {
-              title: {
-                display: true,
-                text: 'Apartment Complex Size Categories'
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  title: {
+                    display: true,
+                    text: 'Total Units'
+                  },
+                  ticks: {
+                    callback: (value) => value.toLocaleString()
+                  }
+                },
+                x: {
+                  title: {
+                    display: true,
+                    text: 'Apartment Complex Size Categories'
+                  }
+                }
               }
             }
-          }
-        }
+          });
+        },
+        error: (err) => console.error('CSV Parsing Error:', err)
       });
-    },
-    error: (err) => console.error('CSV Parsing Error:', err)
-  });
-});
-    </script>
+    });
+  </script>
 
 </body>
+
 </html>
