@@ -58,39 +58,57 @@
           <div class="card-body">
             <form id="model-form">
               <div class="mb-3">
-                <label for="averageSquareFootage" class="form-label">Average Square Footage</label>
+                <label for="averageSquareFootage" class="form-label">
+                  Average Square Footage
+                  <span data-bs-toggle="tooltip" title="Typical range: 500 - 1500 sq ft. Represents the average living space per unit.">🛈</span>
+                </label>
                 <input type="number" class="form-control" id="averageSquareFootage" name="averageSquareFootage" placeholder="e.g. 950" step="any" required>
               </div>
               <div class="mb-3">
-                <label for="yearBuilt" class="form-label">Year Built</label>
+                <label for="yearBuilt" class="form-label">
+                  Year Built
+                  <span data-bs-toggle="tooltip" title="Construction year of the building. Helps identify vintage or newer properties.">🛈</span>
+                </label>
                 <input type="number" class="form-control" id="yearBuilt" name="yearBuilt" placeholder="e.g. 1998" required>
               </div>
               <div class="mb-3">
                 <label for="unitcount" class="form-label">Unit Count</label>
+                <label for="unitcount" class="form-label">
+                  Unit Count
+                  <span data-bs-toggle="tooltip" title="Total number of rental units in the property.">🛈</span>
+                </label>
                 <input type="number" class="form-control" id="unitcount" name="unitcount" placeholder="e.g. 120" required>
               </div>
               <div class="mb-3">
-                <label for="MPF-HIST-CONC-RATIO" class="form-label">MPF Historical Concentration Ratio</label>
+                <label for="MPF-HIST-CONC-RATIO" class="form-label">
+                  MPF Historical Concentration Ratio
+                  <span data-bs-toggle="tooltip" title="Market concentration metric. Closer to 1 means fewer players dominate.">🛈</span>
+                </label>
                 <input type="number" class="form-control" id="MPF-HIST-CONC-RATIO" name="MPF-HIST-CONC-RATIO" step="any" placeholder="e.g. 0.45" required>
               </div>
               <div class="mb-3">
-                <label for="MPF-OCC" class="form-label">MPF Occupancy</label>
+                <label for="MPF-OCC" class="form-label">
+                  MPF Occupancy
+                  <span data-bs-toggle="tooltip" title="Current occupancy rate. Typically ranges from 0.8 to 1.0.">🛈</span>
+                </label>
                 <input type="number" class="form-control" id="MPF-OCC" name="MPF-OCC" step="any" placeholder="e.g. 0.92" required>
               </div>
               <div class="mb-3">
-                <label for="latitude" class="form-label">Latitude</label>
-                <input type="number" class="form-control" id="latitude" name="latitude" step="any" placeholder="e.g. 37.7749" required>
-              </div>
+                <label for="city" class="form-label">
+                  City / Submarket
+                  <span data-bs-toggle="tooltip" title="Enter a recognizable city or submarket name (e.g. Austin, TX or Bay Area South)">🛈</span>
+                </label>
+                <input type="text" class="form-control" id="city" name="city" placeholder="e.g. Austin, TX" required>
+              </div>              
               <div class="mb-3">
-                <label for="longitude" class="form-label">Longitude</label>
-                <input type="number" class="form-control" id="longitude" name="longitude" step="any" placeholder="e.g. -122.4194" required>
-              </div>
-              <div class="mb-3">
-                <label for="stories" class="form-label">Stories</label>
+                <label for="stories" class="form-label">
+                  Stories
+                  <span data-bs-toggle="tooltip" title="Number of floors in the building. Helps determine building type and density.">🛈</span>
+                </label>
                 <input type="number" class="form-control" id="stories" name="stories" placeholder="e.g. 3" required>
               </div>
               <button type="submit" class="btn btn-primary">Submit &amp; Predict</button>
-            </form>            
+            </form>                      
           </div>
         </div>
 
@@ -152,38 +170,62 @@
     const iframeContainer = document.getElementById('iframe-container');
     const chartContainer = document.getElementById('chart-container');
     const visIframe = document.getElementById('prediction-iframe');
-    let predictionChart = null; // to hold the Chart.js instance
-
-    form.addEventListener('submit', event => {
-      event.preventDefault();
-      const marginalCost = parseFloat(document.getElementById('marginalCost').value);
-      const supplyElasticity = parseFloat(document.getElementById('supplyElasticity').value);
-      const price = parseFloat(document.getElementById('price').value);
-      const payload = {
-        data: [{
-          marginal_cost: marginalCost,
-          supply_elasticity: supplyElasticity,
-          price: price
-        }]
-      };
-      outputDiv.classList.add('d-none');
-      outputDiv.classList.remove('alert-danger');
-      visContainer.classList.add('d-none');
-      // Clear any existing iframe src or chart
-      visIframe.src = "";
-      iframeContainer.classList.add('d-none');
-      chartContainer.classList.add('d-none');
-      if (predictionChart) {
-        predictionChart.destroy();
-        predictionChart = null;
+    let predictionChart = null;
+  
+    // ✅ Helper: Geocode city into lat/lng
+    async function getLatLongFromCity(city) {
+      const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(city)}`);
+      const data = await response.json();
+      if (data && data.length > 0) {
+        return {
+          latitude: parseFloat(data[0].lat),
+          longitude: parseFloat(data[0].lon)
+        };
+      } else {
+        throw new Error('Location not found');
       }
-      fetch('https://67bcba9fed4861e07b3bbb1a.mockapi.io/rpc/predict', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-      .then(response => response.json())
-      .then(data => {
+    }
+  
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+  
+      const city = document.getElementById('city').value.trim();
+  
+      try {
+        const { latitude, longitude } = await getLatLongFromCity(city);
+  
+        const payload = {
+          features: [{
+            averageSquareFootage: parseFloat(document.getElementById('averageSquareFootage').value),
+            yearBuilt: parseInt(document.getElementById('yearBuilt').value),
+            unitcount: parseInt(document.getElementById('unitcount').value),
+            "MPF-HIST-CONC-RATIO": parseFloat(document.getElementById('MPF-HIST-CONC-RATIO').value),
+            "MPF-OCC": parseFloat(document.getElementById('MPF-OCC').value),
+            latitude,
+            longitude,
+            stories: parseInt(document.getElementById('stories').value)
+          }]
+        };
+  
+        outputDiv.classList.add('d-none');
+        outputDiv.classList.remove('alert-danger');
+        visContainer.classList.add('d-none');
+        visIframe.src = "";
+        iframeContainer.classList.add('d-none');
+        chartContainer.classList.add('d-none');
+        if (predictionChart) {
+          predictionChart.destroy();
+          predictionChart = null;
+        }
+  
+        const response = await fetch('https://67bcba9fed4861e07b3bbb1a.mockapi.io/rpc/predict', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+  
+        const data = await response.json();
+  
         outputDiv.classList.remove('d-none');
         outputDiv.innerHTML = `
           <strong><span data-bs-toggle="tooltip" title="The value the model forecasts based on the input data.">Model Prediction:</span></strong> <span>${data.prediction}</span> <br>
@@ -198,20 +240,16 @@
           ${data.aucRoc ? `<strong><span data-bs-toggle="tooltip" title="The area under the Receiver Operating Characteristic curve. Higher values indicate a better ability to distinguish between classes.">AUC-ROC:</span></strong> <span>${data.aucRoc}</span> <br>` : ""}
           ${data.logLoss ? `<strong><span data-bs-toggle="tooltip" title="A metric that penalizes false classifications. Lower values indicate a more accurate model.">Log Loss:</span></strong> <span>${data.logLoss}</span> <br>` : ""}
         `;
-        // Reinitialize tooltips on dynamically added elements
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        tooltipTriggerList.map(function (tooltipTriggerEl) {
-          return new bootstrap.Tooltip(tooltipTriggerEl)
-        });
-        // If the API provides a visualUrl, use it.
+  
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(el => new bootstrap.Tooltip(el));
+  
         if (data.visualUrl) {
           iframeContainer.classList.remove('d-none');
           chartContainer.classList.add('d-none');
           visIframe.src = data.visualUrl;
           visContainer.classList.remove('d-none');
-        }
-        // Else, if xAxis and yAxis fields are provided, build a chart.
-        else if (data.xAxis && data.yAxis) {
+        } else if (data.xAxis && data.yAxis) {
           iframeContainer.classList.add('d-none');
           chartContainer.classList.remove('d-none');
           visContainer.classList.remove('d-none');
@@ -231,23 +269,20 @@
             },
             options: {
               responsive: true,
-              plugins: {
-                legend: { display: true }
-              }
+              plugins: { legend: { display: true } }
             }
           });
-        }
-        else {
+        } else {
           visContainer.classList.add('d-none');
         }
-      })
-      .catch(err => {
+  
+      } catch (err) {
         outputDiv.classList.remove('d-none');
         outputDiv.classList.add('alert-danger');
-        outputDiv.textContent = 'Error fetching model prediction. Please try again.';
+        outputDiv.textContent = 'Error fetching prediction or geocoding city. Please try again.';
         console.error(err);
-      });
+      }
     });
-  </script>
+  </script>  
 </body>
 </html>
