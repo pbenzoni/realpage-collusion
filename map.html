@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8" />
   <title>Submarket/City Aggregations Map with Legend</title>
@@ -11,22 +12,27 @@
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <style>
-    html, body {
+    html,
+    body {
       height: 100%;
       margin: 0;
     }
+
     #map {
       height: 100vh;
       width: 100%;
     }
+
     .popup-content {
       font-size: 14px;
       line-height: 1.4;
     }
+
     .popup-table {
       border-collapse: collapse;
       width: 100%;
     }
+
     .popup-table th,
     .popup-table td {
       border: 1px solid #ddd;
@@ -34,22 +40,26 @@
       text-align: center;
       font-size: 13px;
     }
+
     .popup-table th {
       background-color: #f2f2f2;
     }
+
     /* Add a help cursor to indicate tooltip */
     .popup-table td {
       cursor: help;
     }
+
     /* Legend styles */
     .legend {
       background: white;
       padding: 12px 16px;
       width: 200px;
       font: 14px/18px Arial, Helvetica, sans-serif;
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
       border-radius: 5px;
     }
+
     .legend i {
       width: 18px;
       height: 18px;
@@ -59,10 +69,10 @@
     }
   </style>
 </head>
+
 <body>
   <div id="map"></div>
   <script>
-    // Manually defined tooltips for the fields.
     const manualDescriptions = {
       // rentPerformanceMetrics
       "MPF-ANN-RENT-CHG": "The annual percentage change in rent according to market performance data.",
@@ -82,36 +92,38 @@
       "SH-HIST-ANN-RENT-PB-CHG": "The annual percentage change in rent for a specified price band in the submarket."
     };
 
-    // Helper function to get a field's description from the manual mapping.
+    // Helper function to get a field's description.
     function getFieldDescription(field) {
-      return manualDescriptions[field] || 'No description available';
+      return manualDescriptions[field] || "No description available";
     }
 
     function loadCSVData() {
-      // Initialize Leaflet map (centered on US)
-      var map = L.map('map').setView([37.8, -96], 4);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      // Initialize Leaflet map (centered on the US)
+      var map = L.map("map").setView([37.8, -96], 4);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
-        attribution: '© OpenStreetMap'
+        attribution: "© OpenStreetMap"
       }).addTo(map);
 
       // Helper: Compute median for an array of numbers.
       function median(values) {
         if (values.length === 0) return 0;
-        values.sort(function(a, b) { return a - b; });
+        values.sort(function (a, b) { return a - b; });
         var half = Math.floor(values.length / 2);
-        return (values.length % 2) ? values[half] : ((values[half - 1] + values[half]) / 2.0);
+        return (values.length % 2)
+          ? values[half]
+          : ((values[half - 1] + values[half]) / 2.0);
       }
 
       // List of fields to aggregate.
       const fields = [
         "MPF-ANN-RENT-CHG",
-        "MPF-HIST-ASK-RENT",
-        "MPF-HIST-AVG-ASK-RPSF",
-        "MPF-HIST-CONC-RATIO",
         "MPF-OCC",
         "MPF-RENT",
         "MPF-RPSF",
+        "MPF-HIST-ASK-RENT",
+        "MPF-HIST-AVG-ASK-RPSF",
+        "MPF-HIST-CONC-RATIO",
         "SH-HIST-ASK-RENT-PB",
         "SH-HIST-RENT-PB",
         "SH-HIST-CONC-RATIO-PB",
@@ -121,7 +133,7 @@
         "SH-HIST-ANN-RENT-PB-CHG"
       ];
 
-      // HeroSource -> color mapping.
+      // HeroSource → color mapping.
       const heroColors = {};
       const colorPalette = [
         "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728",
@@ -138,20 +150,54 @@
         return heroColors[hero];
       }
 
+      // Create an SVG pie chart icon for a given heroCounts object.
+      function createPieChartIcon(heroCounts) {
+        // Compute total count.
+        let total = Object.values(heroCounts).reduce((a, b) => a + b, 0);
+        // Define icon size.
+        let size = 30;
+        let radius = size / 2;
+        let center = radius;
+        let svg = `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg">`;
+        let startAngle = 0;
+        // For each hero, create a slice.
+        for (let hero in heroCounts) {
+          let count = heroCounts[hero];
+          let angle = (count / total) * 2 * Math.PI;
+          let endAngle = startAngle + angle;
+          let x1 = center + radius * Math.cos(startAngle);
+          let y1 = center + radius * Math.sin(startAngle);
+          let x2 = center + radius * Math.cos(endAngle);
+          let y2 = center + radius * Math.sin(endAngle);
+          // large-arc flag is 1 if the slice is greater than 180°.
+          let largeArcFlag = angle > Math.PI ? 1 : 0;
+          let pathData = `M ${center},${center} L ${x1},${y1} A ${radius},${radius} 0 ${largeArcFlag} 1 ${x2},${y2} Z`;
+          let color = getColorForHero(hero);
+          svg += `<path d="${pathData}" fill="${color}"></path>`;
+          startAngle = endAngle;
+        }
+        svg += "</svg>";
+        return L.divIcon({
+          html: svg,
+          className: "",  // Remove default styling class.
+          iconSize: [size, size]
+        });
+      }
+
       // Load CSV data.
-      Papa.parse('https://rpc-webpage.s3-accelerate.amazonaws.com/cbsa_data.csv', {
+      Papa.parse("https://rpc-webpage.s3-accelerate.amazonaws.com/cbsa_data.csv", {
         download: true,
         header: true,
-        complete: function(results) {
+        complete: function (results) {
           const data = results.data;
           let groups = {};
 
           // Group rows.
-          data.forEach(function(row) {
+          data.forEach(function (row) {
             let submarket = row.submarketName && row.submarketName.trim() !== "" ? row.submarketName : null;
             let city = row.city && row.city.trim() !== "" ? row.city : "Unknown City";
             let state = row.state && row.state.trim() !== "" ? row.state : "Unknown State";
-            let groupKey = submarket ? submarket : `${city} - ${state}`;
+            let groupKey = submarket ? submarket : `${city} – ${state}`;
 
             if (!groups[groupKey]) {
               groups[groupKey] = {
@@ -173,27 +219,14 @@
             groups[groupKey].heroCounts[hero] = (groups[groupKey].heroCounts[hero] || 0) + 1;
           });
 
-          // Process each group for aggregations and average coordinates.
+          // Process each group for average coordinates.
           for (let groupKey in groups) {
-            const groupRows = groups[groupKey].rows;
-            groups[groupKey].aggregations = {};
-            fields.forEach(function(field) {
-              let values = groupRows.map(r => parseFloat(r[field])).filter(v => !isNaN(v));
-              if (values.length === 0) values = [0];
-              const sum = values.reduce((a, b) => a + b, 0);
-              const avg = sum / values.length;
-              groups[groupKey].aggregations[field] = {
-                avg: avg,
-                median: median(values),
-                min: Math.min(...values),
-                max: Math.max(...values)
-              };
-            });
+            const group = groups[groupKey];
             // Compute average latitude and longitude.
-            const latArr = groups[groupKey].latitudes;
-            const lonArr = groups[groupKey].longitudes;
-            groups[groupKey].avgLat = latArr.reduce((a, b) => a + b, 0) / latArr.length;
-            groups[groupKey].avgLon = lonArr.reduce((a, b) => a + b, 0) / lonArr.length;
+            const latArr = group.latitudes;
+            const lonArr = group.longitudes;
+            group.avgLat = latArr.reduce((a, b) => a + b, 0) / latArr.length;
+            group.avgLon = lonArr.reduce((a, b) => a + b, 0) / lonArr.length;
           }
 
           // For each group, create markers.
@@ -201,67 +234,70 @@
             const group = groups[groupKey];
             if (!group.avgLat || !group.avgLon) continue;
 
-            // Determine dominant heroSource and list heroSources with counts.
-            const heroCounts = group.heroCounts;
-            let dominantHero = null, maxCount = 0;
-            let heroList = [];
-            for (let hero in heroCounts) {
-              heroList.push(`${hero} (${heroCounts[hero]})`);
-              if (heroCounts[hero] > maxCount) {
-                maxCount = heroCounts[hero];
-                dominantHero = hero;
-              }
-            }
-            
-            // Determine the header label.
-            let headerLabel = group.submarket ? `${group.submarket} - ${group.city}, ${group.state}` : `${group.city}, ${group.state}`;
+            // Build header label.
+            let headerLabel = group.submarket ? `${group.submarket} – ${group.city}, ${group.state}` : `${group.city}, ${group.state}`;
 
-            // Build popup content with a table for aggregations.
+            // Compute hero-specific medians.
+            let heroMetrics = {};
+            for (let hero in group.heroCounts) {
+              heroMetrics[hero] = {};
+              fields.forEach(function (field) {
+                let values = group.rows
+                  .filter(r => (r.heroSource && r.heroSource.trim() === hero))
+                  .map(r => parseFloat(r[field]))
+                  .filter(v => !isNaN(v));
+                if (values.length === 0) values = [0];
+                heroMetrics[hero][field] = median(values);
+              });
+            }
+
+            // Build popup content with a table.
             let popupContent = `<div class="popup-content"><h3>${headerLabel}</h3>`;
-            popupContent += `<p><strong>How to Read the Table:</strong> <i>Each row represents a market performance metric. Hover over a field name for an explanation. You can also click the help button on the upper right corner for an explanation on how to interpret the results.</i></p>`;
+            popupContent += `<p><strong>How to Read the Table:</strong> <i>Each row represents a market performance metric. Hover over a field name for an explanation.</i></p>`;
             popupContent += '<table class="popup-table">';
-            popupContent += '<tr><th>Field</th><th>Avg</th><th>Median</th><th>Min</th><th>Max</th></tr>';
-            for (let field in group.aggregations) {
-              let agg = group.aggregations[field];
-              // Skip fields with an average of 0.00.
-              if (agg.avg.toFixed(2) === "0.00") continue;
-              // Use the manual tooltip.
+            // Build table header.
+            popupContent += "<tr><th>Field</th>";
+            // List hero sources in sorted order.
+            const heroSources = Object.keys(group.heroCounts).sort();
+            heroSources.forEach(hero => {
+              popupContent += `<th>${hero}</th>`;
+            });
+            popupContent += "</tr>";
+            // For each field, add a row with median values per hero.
+            fields.forEach(function (field) {
+              // Only show the row if at least one hero has a nonzero median.
+              let showRow = heroSources.some(hero => {
+                return parseFloat(heroMetrics[hero][field].toFixed(2)) !== 0;
+              });
+              if (!showRow) return;
               let tooltip = getFieldDescription(field);
-              popupContent += `<tr>
-                <td title="${tooltip}">${field}</td>
-                <td>${agg.avg.toFixed(2)}</td>
-                <td>${agg.median.toFixed(2)}</td>
-                <td>${agg.min.toFixed(2)}</td>
-                <td>${agg.max.toFixed(2)}</td>
-              </tr>`;
-            }
-            popupContent += '</table>';
-            popupContent += `<p><strong>Hero Sources:</strong> ${heroList.join(", ")}</p>`;
-            popupContent += '</div>';
+              popupContent += `<tr><td title="${tooltip}">${field}</td>`;
+              heroSources.forEach(hero => {
+                popupContent += `<td>${heroMetrics[hero][field].toFixed(2)}</td>`;
+              });
+              popupContent += "</tr>";
+            });
+            popupContent += "</table>";
+            // Also list hero counts.
+            popupContent += `<p><strong>Hero Sources (Count):</strong> ${heroSources.map(h => h + " (" + group.heroCounts[h] + ")").join(", ")}</p>`;
+            popupContent += "</div>";
 
-            // Determine marker color from dominant heroSource.
-            let markerColor = dominantHero ? getColorForHero(dominantHero) : "#000000";
-            
-            // Create a circle marker with the chosen color.
-            L.circleMarker([group.avgLat, group.avgLon], {
-              radius: 8,
-              color: markerColor,
-              fillColor: markerColor,
-              fillOpacity: 1
-            })
-            .addTo(map)
-            .bindPopup(popupContent);
+            // Create a pie chart icon for the group.
+            let pieIcon = createPieChartIcon(group.heroCounts);
+            // Create a marker with the custom icon.
+            L.marker([group.avgLat, group.avgLon], { icon: pieIcon })
+              .addTo(map)
+              .bindPopup(popupContent);
           }
 
           // Add a legend after processing all groups.
           addLegend();
-
         },
-        error: function(err) {
+        error: function (err) {
           console.error("Error loading CSV data:", err);
         }
       });
-  
+
       // Function to add a legend (color key) to the map.
       function addLegend() {
         var legend = L.control({ position: "bottomright" });
@@ -284,6 +320,7 @@
 
     // Start loading CSV data immediately.
     loadCSVData();
-  </script>  
+  </script>
 </body>
+
 </html>

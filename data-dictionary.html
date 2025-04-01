@@ -56,7 +56,7 @@
             The data shown below are examples meant to illustrate how the fields 
             in the source data are defined, and do not reflect exact records found.
           </p>
-          <h4>Rent Page &amp; Comparison Data, Core-Based Statistical Area</h4>
+          <h3>Rent Page &amp; Comparison Data, Core-Based Statistical Area</h3>
           <p><strong>Example Data Featured</strong></p>
           <p><em>Note: The examples below are made up for the purpose of demonstration.</em></p>
         </div>
@@ -252,13 +252,154 @@
             </tr>
           </tbody>
         </table>
+        <hr/>
+
+        <div class="mb-4 mt-5">
+          <h3>Comparables Workbooks – Rent Comparison Data by Core-Based Statistical Area</h3>
+          <p><strong>Example Data Featured</strong></p>
+          <p><em>Note: The examples below are made up for the purpose of demonstration.</em></p>
+        </div>
+        
+        <!-- Comparables Workbooks Sample Row -->
+        <div class="mb-3">
+          <h5>Sample Row – Santa Cruz–Watsonville, CA (Comparables Workbooks)</h5>
+          <ul>
+            <li><strong>Area &amp; Basics:</strong> Area name: Santa Cruz–Watsonville, CA; CBSA: 42100.</li>
+            <li><strong>Rent Metrics:</strong> HUD Fair Market Rent: $3,388.65; RealPage Rent: $3,452.15; Zillow Rent: $3,016.74.</li>
+            <li><strong>Market Share:</strong> RealPage market share: 9.30%.</li>
+            <li><strong>Average Rent:</strong> Average of rents: $3,286.</li>
+          </ul>
+        </div>
+        
+        <!-- Comparables Workbooks Download Section -->
+        <div class="mt-3 row">
+          <div class="col-xs-12">
+            <h4 class="mb-1">Download Comparables Workbooks Data</h4>
+            <a href="data/workbooks/comparables_csv.csv" class="btn btn-primary btn-lg">CSV</a>
+            <a href="data/workbooks/Comparables_Workbooks.xlsx" class="btn btn-primary btn-lg">Excel</a>
+          </div>
+        </div>
+        
+        <!-- Comparables Workbooks Field Descriptions -->
+        <h5 class="mt-3">Comparables Workbooks Field Descriptions</h5>
+        <table class="table table-striped table-bordered mt-3">
+          <thead>
+            <tr>
+              <th>Field Name</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>HUD Metro Fair Market Rent Area Name</td>
+              <td>Text</td>
+              <td>Name of the metro area as defined by HUD.</td>
+            </tr>
+            <tr>
+              <td>CBSA</td>
+              <td>Number</td>
+              <td>Core-based statistical area code representing the broader metropolitan area.</td>
+            </tr>
+            <tr>
+              <td>HUD</td>
+              <td>Number</td>
+              <td>HUD-determined Fair Market Rent value.</td>
+            </tr>
+            <tr>
+              <td>Realpage</td>
+              <td>Number</td>
+              <td>Rent value as stated by RealPage.</td>
+            </tr>
+            <tr>
+              <td>Zillow</td>
+              <td>Number</td>
+              <td>Rent value listed on Zillow.</td>
+            </tr>
+            <tr>
+              <td>Realpage Market Share</td>
+              <td>Number</td>
+              <td>Market share percentage for RealPage.</td>
+            </tr>
+            <tr>
+              <td>Avg of Rents</td>
+              <td>Number</td>
+              <td>Average rent value computed from the available sources.</td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <hr/>
+        
+        <!-- Zillow Rent Over Time Section Header -->
+        <div class="mb-4 mt-5">
+          <h3>Zillow Rent Over Time – Analysis of Rent Trends Relative to RealPage Market Share</h3>
+          <p><strong>Example Data Featured</strong></p>
+        </div>
+        
+        <!-- Zillow Rent Over Time Sample Row -->
+        <div class="mb-3">
+          <h5>Sample Row – Austin, TX (Zillow Rent Over Time)</h5>
+          <ul>
+            <li><strong>Region &amp; Basics:</strong> Region name: Austin, TX; RealPage market share: 46.00%.</li>
+            <li><strong>Rent Over Time:</strong> January 31, 2015: $1,092.69; February 28, 2015: $1,101.90; March 31, 2015: $1,105.17; April 30, 2015: $1,103.27.</li>
+          </ul>
+        </div>
+        
+        <!-- Zillow Rent Over Time Download Section -->
+        <div class="mt-3 row">
+          <div class="col-xs-12">
+            <h4 class="mb-1">Download Zillow Rent Over Time Data</h4>
+            <a href="data/zillow_rot.csv" class="btn btn-primary btn-lg">CSV</a>
+            <a href="data/zillow_rent_over_time_excel.json" class="btn btn-primary btn-lg">EXCEL</a>
+          </div>
+        </div>
+        
+        <!-- Zillow Rent Over Time Field Descriptions -->
+        <h5 class="mt-3">Zillow Rent Over Time Field Descriptions</h5>
+        <table class="table table-striped table-bordered mt-3">
+          <thead>
+            <tr>
+              <th>Field Name</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>RegionName</td>
+              <td>Text</td>
+              <td>Name of the region or city under analysis.</td>
+            </tr>
+            <tr>
+              <td>Realpage Market Share</td>
+              <td>Number</td>
+              <td>Market share percentage for RealPage in the region.</td>
+            </tr>
+            <tr>
+              <td>1/31/2015</td>
+              <td>Number</td>
+              <td>Rent value on January 31, 2015.</td>
+            </tr>
+            <tr>
+              <td>2/28/2015</td>
+              <td>Number</td>
+              <td>Rent value on February 28, 2015.</td>
+            </tr>
+            <tr>
+              <td>3/31/2015</td>
+              <td>Number</td>
+              <td>Rent value on March 31, 2015.</td>
+            </tr>
+            <tr>
+              <td>Continued through 2025</td>
+              <td>Continued, all "numbers"</td>
+              <td>Continued, Rent value at the end of each month</td>
+            </tr>
+          </tbody>
+        </table>
 
 
-
-        <!-- JSON-based dictionary goes here -->
-        <div id="json-dictionary"></div>
-
-      </div>
     <!-- Footer with link to the Full Privacy Policy -->
     <footer class="bg-light text-center py-3 mt-5 border-top">
       <p class="mb-0">
