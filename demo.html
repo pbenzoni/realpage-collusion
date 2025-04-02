@@ -58,57 +58,85 @@
           <div class="card-body">
             <form id="model-form">
               <div class="mb-3">
-                <label for="averageSquareFootage" class="form-label">
-                  Average Square Footage
-                  <span data-bs-toggle="tooltip" title="Typical range: 500 - 1500 sq ft. Represents the average living space per unit.">🛈</span>
+                <label for="rentPerSqFt" class="form-label">
+                  Rent per Square Foot (RPSF)
+                  <span data-bs-toggle="tooltip" title="Typical range: $1.00 - $5.00. Represents monthly rent per square foot of living space.">ⓘ</span>
                 </label>
-                <input type="number" class="form-control" id="averageSquareFootage" name="averageSquareFootage" placeholder="e.g. 950" step="any" required>
+                <input type="number" class="form-control" id="rentPerSqFt" name="rentPerSqFt" placeholder="e.g. 2.50" step="any" required>                
               </div>
               <div class="mb-3">
                 <label for="yearBuilt" class="form-label">
                   Year Built
-                  <span data-bs-toggle="tooltip" title="Construction year of the building. Helps identify vintage or newer properties.">🛈</span>
+                  <span data-bs-toggle="tooltip" title="Construction year of the building. Helps identify vintage or newer properties.">ⓘ</span>
                 </label>
                 <input type="number" class="form-control" id="yearBuilt" name="yearBuilt" placeholder="e.g. 1998" required>
               </div>
               <div class="mb-3">
-                <label for="unitcount" class="form-label">Unit Count</label>
                 <label for="unitcount" class="form-label">
                   Unit Count
-                  <span data-bs-toggle="tooltip" title="Total number of rental units in the property.">🛈</span>
+                  <span data-bs-toggle="tooltip" title="Total number of rental units in the property.">ⓘ</span>
                 </label>
                 <input type="number" class="form-control" id="unitcount" name="unitcount" placeholder="e.g. 120" required>
               </div>
               <div class="mb-3">
                 <label for="MPF-HIST-CONC-RATIO" class="form-label">
                   MPF Historical Concentration Ratio
-                  <span data-bs-toggle="tooltip" title="Market concentration metric. Closer to 1 means fewer players dominate.">🛈</span>
+                  <span data-bs-toggle="tooltip" title="Market concentration metric. Closer to 1 means fewer players dominate.">ⓘ</span>
                 </label>
                 <input type="number" class="form-control" id="MPF-HIST-CONC-RATIO" name="MPF-HIST-CONC-RATIO" step="any" placeholder="e.g. 0.45" required>
               </div>
               <div class="mb-3">
                 <label for="MPF-OCC" class="form-label">
                   MPF Occupancy
-                  <span data-bs-toggle="tooltip" title="Current occupancy rate. Typically ranges from 0.8 to 1.0.">🛈</span>
+                  <span data-bs-toggle="tooltip" title="Current occupancy rate. Typically ranges from 0.8 to 1.0.">ⓘ</span>
                 </label>
                 <input type="number" class="form-control" id="MPF-OCC" name="MPF-OCC" step="any" placeholder="e.g. 0.92" required>
               </div>
               <div class="mb-3">
                 <label for="city" class="form-label">
                   City / Submarket
-                  <span data-bs-toggle="tooltip" title="Enter a recognizable city or submarket name (e.g. Austin, TX or Bay Area South)">🛈</span>
+                  <span data-bs-toggle="tooltip" title="Enter a recognizable city or submarket name (e.g. Austin, TX or Bay Area South)">ⓘ</span>
                 </label>
-                <input type="text" class="form-control" id="city" name="city" placeholder="e.g. Austin, TX" required>
+                <input type="text" class="form-control" id="city" name="city" list="city-suggestions" placeholder="e.g. Austin, TX" required>
+                <datalist id="city-suggestions"></datalist>
               </div>              
               <div class="mb-3">
                 <label for="stories" class="form-label">
                   Stories
-                  <span data-bs-toggle="tooltip" title="Number of floors in the building. Helps determine building type and density.">🛈</span>
+                  <span data-bs-toggle="tooltip" title="Number of floors in the building. Helps determine building type and density.">ⓘ</span>
                 </label>
                 <input type="number" class="form-control" id="stories" name="stories" placeholder="e.g. 3" required>
               </div>
               <button type="submit" class="btn btn-primary">Submit &amp; Predict</button>
-            </form>                      
+            </form> 
+            <script>
+              const cityInput = document.getElementById('city');
+              const citySuggestions = document.getElementById('city-suggestions');
+              let cityTimeout = null;
+            
+              cityInput.addEventListener('input', () => {
+                clearTimeout(cityTimeout);
+                const query = cityInput.value.trim();
+                if (query.length < 3) return;
+            
+                cityTimeout = setTimeout(async () => {
+                  try {
+                    const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5&addressdetails=1`);
+                    const results = await res.json();
+            
+                    citySuggestions.innerHTML = '';
+                    results.forEach(result => {
+                      const cityLabel = result.display_name;
+                      const option = document.createElement('option');
+                      option.value = cityLabel;
+                      citySuggestions.appendChild(option);
+                    });
+                  } catch (err) {
+                    console.error('Autocomplete error:', err);
+                  }
+                }, 300); // delay to reduce API hits
+              });
+            </script>                                 
           </div>
         </div>
 
@@ -195,8 +223,7 @@
         const { latitude, longitude } = await getLatLongFromCity(city);
   
         const payload = {
-          features: [{
-            averageSquareFootage: parseFloat(document.getElementById('averageSquareFootage').value),
+            rentPerSqFt: parseFloat(document.getElementById('rentPerSqFt').value),
             yearBuilt: parseInt(document.getElementById('yearBuilt').value),
             unitcount: parseInt(document.getElementById('unitcount').value),
             "MPF-HIST-CONC-RATIO": parseFloat(document.getElementById('MPF-HIST-CONC-RATIO').value),
@@ -204,7 +231,6 @@
             latitude,
             longitude,
             stories: parseInt(document.getElementById('stories').value)
-          }]
         };
   
         outputDiv.classList.add('d-none');
