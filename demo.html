@@ -252,6 +252,7 @@
         });
   
         const data = await response.json();
+        console.log(data);
 
         let interpretation = '';
         if (data.prediction_realpage > data.prediction_non_realpage) {
@@ -262,14 +263,14 @@
           interpretation = `<div class="alert alert-success fw-bold">
             ✅ No Evidence of Collusion: RealPage-affiliated prediction is not higher.
           </div>`;
-        }
-  
+        };
+        console.log(interpretation);
         outputDiv.classList.remove('d-none');
         let outputHTML = `
           <strong><span data-bs-toggle="tooltip" title="Predicted monthly rent per square foot using RealPage-affiliated model.">RealPage RPSF:</span></strong>
-          <span class="text-success fw-bold">${data.prediction_realpage.toFixed(2)} (RealPage)</span> <br>
+          <span class="text-success fw-bold">$${data.prediction_realpage.toFixed(2)} (RealPage)</span> <br>
           <strong><span data-bs-toggle="tooltip" title="Predicted monthly rent per square foot using non-RealPage model.">Non-RealPage RPSF:</span></strong>
-          <span class="text-secondary fw-bold">${data.prediction_non_realpage.toFixed(2)} (Non-RealPage)</span> <br>
+          <span class="text-secondary fw-bold">$${data.prediction_non_realpage.toFixed(2)} (Non-RealPage)</span> <br>
           <hr>
           ${interpretation}
           <hr> 
