@@ -58,6 +58,13 @@
           <div class="card-body">
             <form id="model-form">
               <div class="mb-3">
+                <label for="averageSquareFootage" class="form-label">
+                  Average Square Footage
+                  <span data-bs-toggle="tooltip" title="Average unit size in square feet for the property.">ⓘ</span>
+                </label>
+                <input type="number" class="form-control" id="averageSquareFootage" name="averageSquareFootage" placeholder="e.g. 875" required>
+              </div>              
+              <div class="mb-3">
                 <label for="yearBuilt" class="form-label">
                   Year Built
                   <span data-bs-toggle="tooltip" title="Construction year of the building. Helps identify vintage or newer properties.">ⓘ</span>
@@ -143,24 +150,6 @@
         <!-- Display Model Output (text) -->
         <div id="model-output" class="alert alert-info d-none" role="alert"></div>
 
-        <!-- Visualization Container (hidden by default) -->
-        <div class="desktop-only card mb-4 d-none" id="prediction-vis-container">
-          <div class="card-header">
-            <h5 class="mb-0">Prediction-based Visualization</h5>
-          </div>
-          <div class="card-body">
-            <p class="mb-3 text-muted">Below is a visualization relevant to your model results.</p>
-            <!-- Container for iframe graph -->
-            <div id="iframe-container" class="ratio ratio-16x9 d-none">
-              <iframe src="" id="prediction-iframe" frameborder="0" allowfullscreen></iframe>
-            </div>
-            <!-- Container for Chart.js graph -->
-            <div id="chart-container" class="d-none">
-              <canvas id="prediction-chart"></canvas>
-            </div>
-          </div>
-        </div>
-
       </div>
       <footer class="bg-light text-center py-3 mt-5 border-top">
         <p class="mb-0">&copy; 2025 RealPage Collusion Dashboard &mdash; <a href="privacy.html">View Full Privacy Policy</a></p>
@@ -194,11 +183,6 @@
   <script>
     const form = document.getElementById('model-form');
     const outputDiv = document.getElementById('model-output');
-    const visContainer = document.getElementById('prediction-vis-container');
-    const iframeContainer = document.getElementById('iframe-container');
-    const chartContainer = document.getElementById('chart-container');
-    const visIframe = document.getElementById('prediction-iframe');
-    let predictionChart = null;
   
     // ✅ Helper: Geocode city into lat/lng
     async function getLatLongFromCity(city) {
@@ -223,7 +207,7 @@
         const { latitude, longitude } = await getLatLongFromCity(city);
   
         const payload = {
-
+            averageSquareFootage: parseInt(document.getElementById('averageSquareFootage').value),
             yearBuilt: parseInt(document.getElementById('yearBuilt').value),
             unitcount: parseInt(document.getElementById('unitcount').value),
             "MPF-HIST-CONC-RATIO": parseFloat(document.getElementById('MPF-HIST-CONC-RATIO').value),
@@ -236,16 +220,8 @@
   
         outputDiv.classList.add('d-none');
         outputDiv.classList.remove('alert-danger');
-        visContainer.classList.add('d-none');
-        visIframe.src = "";
-        iframeContainer.classList.add('d-none');
-        chartContainer.classList.add('d-none');
-        if (predictionChart) {
-          predictionChart.destroy();
-          predictionChart = null;
-        }
-  
-        const response = await fetch('https://67bcba9fed4861e07b3bbb1a.mockapi.io/rpc/predict', {
+
+        const response = await fetch('http://crampus.quest/predict', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
@@ -254,25 +230,28 @@
         const data = await response.json();
         console.log(data);
 
-        let interpretation = '';
-        if (data.prediction_realpage > data.prediction_non_realpage) {
-          interpretation = `<div class="alert alert-warning fw-bold">
-            ⚠️ Evidence of Potential Collusion: RealPage-affiliated prediction is higher than non-RealPage.
-          </div>`;
-        } else {
-          interpretation = `<div class="alert alert-success fw-bold">
-            ✅ No Evidence of Collusion: RealPage-affiliated prediction is not higher.
-          </div>`;
-        };
+        let interpretation = `
+          <hr>
+          <strong>Propensity Score:</strong> ${parseFloat(data.propensity_score).toFixed(4)}<br>
+          <strong>Matched Index:</strong> ${parseInt(data.match_index)}<br>
+          <hr> 
+        `;
+
         console.log(interpretation);
         let outputHTML = `
-          <strong><span data-bs-toggle="tooltip" title="Predicted monthly rent per square foot using RealPage-affiliated model.">RealPage RPSF:</span></strong>
-          <span class="text-success fw-bold">$${data.prediction_realpage.toFixed(2)} (RealPage)</span> <br>
-          <strong><span data-bs-toggle="tooltip" title="Predicted monthly rent per square foot using non-RealPage model.">Non-RealPage RPSF:</span></strong>
-          <span class="text-secondary fw-bold">$${data.prediction_non_realpage.toFixed(2)} (Non-RealPage)</span> <br>
-          <hr>
+          <strong>
+            <span data-bs-toggle="tooltip" title="The probability (0 to 1) that this property is similar to properties using RealPage. Higher values indicate stronger similarity.">
+              Propensity Score:
+            </span>
+          </strong>
+          <span class="text-info fw-bold">${parseFloat(data.propensity_score).toFixed(4)}</span><br>
+          <strong>
+            <span data-bs-toggle="tooltip" title="Index of the most similar property used for comparison in the matching analysis.">
+              Match Index:
+            </span>
+          </strong>
+          <span class="text-info fw-bold">${parseInt(data.match_index)}</span><br>
           ${interpretation}
-          <hr> 
           ${data.mse !== undefined ? `<strong><span data-bs-toggle="tooltip" title="The average of the squared differences between the predicted and actual values. Lower values indicate better predictive accuracy.">MSE:</span></strong> <span>${data.mse}</span> <br>` : ""}
           ${data.confidence !== undefined ? `<strong><span data-bs-toggle="tooltip" title="How certain the model is about its prediction.">Confidence:</span></strong> <span>${data.confidence}%</span> <br>` : ""}
           ${data.accuracy !== undefined ? `<strong><span data-bs-toggle="tooltip" title="The percentage of correct predictions out of all predictions made.">Accuracy:</span></strong> <span>${data.accuracy}%</span> <br>` : ""}
@@ -290,67 +269,6 @@
         outputDiv.classList.remove('d-none');  // <-- move this here just in case
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
         tooltipTriggerList.map(el => new bootstrap.Tooltip(el));
-  
-        if (data.visualUrl) {
-          iframeContainer.classList.remove('d-none');
-          chartContainer.classList.add('d-none');
-          visIframe.src = data.visualUrl;
-          visContainer.classList.remove('d-none');
-        } else if (data.xAxis && data.yAxis) {
-          iframeContainer.classList.add('d-none');
-          chartContainer.classList.remove('d-none');
-          visContainer.classList.remove('d-none');
-
-          const ctx = document.getElementById('prediction-chart').getContext('2d');
-
-          // Choose chart type based on data.chartType
-          const chartTitle = data.chartType === "feature_vs_prediction"
-            ? "Feature Impact on Prediction"
-            : "Actual vs. Predicted Rent";
-
-          predictionChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-              labels: data.xAxis,
-              datasets: data.yAxis.map(series => ({
-                label: series.label,
-                data: series.data,
-                borderColor: series.borderColor || 'rgba(75, 192, 192, 1)',
-                fill: false,
-                tension: 0.1,
-                borderWidth: 1
-              }))
-            },
-            options: {
-              responsive: true,
-              plugins: {
-                legend: { display: true },
-                title: {
-                  display: true,
-                  text: chartTitle,
-                  font: { size: 16 }
-                }
-              },
-              scales: {
-                y: {
-                  title: {
-                    display: true,
-                    text: data.chartType === "feature_vs_prediction" ? "Predicted Rent" : "Rent"
-                  }
-                },
-                x: {
-                  title: {
-                    display: true,
-                    text: data.chartType === "feature_vs_prediction" ? data.featureName || "Feature" : "Sample Index"
-                  }
-                }
-              }
-            }
-          });
-        }
-        else {
-          visContainer.classList.add('d-none');
-        }
       } catch (err) {
         outputDiv.classList.remove('d-none');
         outputDiv.classList.add('alert-danger');
