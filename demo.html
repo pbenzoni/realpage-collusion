@@ -58,13 +58,6 @@
           <div class="card-body">
             <form id="model-form">
               <div class="mb-3">
-                <label for="rentPerSqFt" class="form-label">
-                  Rent per Square Foot ($)
-                  <span data-bs-toggle="tooltip" title="Typical range: $1.00 - $5.00. Represents monthly rent per square foot of living space.">ⓘ</span>
-                </label>
-                <input type="number" class="form-control" id="rentPerSqFt" name="rentPerSqFt" placeholder="e.g. 2.50" step="any" required>                
-              </div>
-              <div class="mb-3">
                 <label for="yearBuilt" class="form-label">
                   Year Built
                   <span data-bs-toggle="tooltip" title="Construction year of the building. Helps identify vintage or newer properties.">ⓘ</span>
@@ -223,7 +216,6 @@
         const { latitude, longitude } = await getLatLongFromCity(city);
   
         const payload = {
-            rentPerSqFt: parseFloat(document.getElementById('rentPerSqFt').value),
             yearBuilt: parseInt(document.getElementById('yearBuilt').value),
             unitcount: parseInt(document.getElementById('unitcount').value),
             "MPF-HIST-CONC-RATIO": parseFloat(document.getElementById('MPF-HIST-CONC-RATIO').value),
@@ -251,10 +243,27 @@
         });
   
         const data = await response.json();
+
+        let interpretation = '';
+        if (data.prediction_realpage > data.prediction_non_realpage) {
+          interpretation = `<div class="alert alert-warning fw-bold">
+            ⚠️ Evidence of Potential Collusion: RealPage-affiliated prediction is higher than non-RealPage.
+          </div>`;
+        } else {
+          interpretation = `<div class="alert alert-success fw-bold">
+            ✅ No Evidence of Collusion: RealPage-affiliated prediction is not higher.
+          </div>`;
+}
   
         outputDiv.classList.remove('d-none');
         let outputHTML = `
-          <strong><span data-bs-toggle="tooltip" title="The value the model forecasts based on the input data.">Model Prediction:</span></strong> <span>${data.prediction}</span> <br>
+          <strong><span data-bs-toggle="tooltip" title="Predicted monthly rent per square foot using RealPage-affiliated model.">RealPage RPSF:</span></strong>
+          <span class="text-success fw-bold">${data.prediction_realpage.toFixed(2)} (RealPage)</span> <br>
+          <strong><span data-bs-toggle="tooltip" title="Predicted monthly rent per square foot using non-RealPage model.">Non-RealPage RPSF:</span></strong>
+          <span class="text-secondary fw-bold">${data.prediction_non_realpage.toFixed(2)} (Non-RealPage)</span> <br>
+          <hr>
+          ${interpretation}
+          <hr> 
           ${data.mse !== undefined ? `<strong><span data-bs-toggle="tooltip" title="The average of the squared differences between the predicted and actual values. Lower values indicate better predictive accuracy.">MSE:</span></strong> <span>${data.mse}</span> <br>` : ""}
           ${data.confidence !== undefined ? `<strong><span data-bs-toggle="tooltip" title="How certain the model is about its prediction.">Confidence:</span></strong> <span>${data.confidence}%</span> <br>` : ""}
           ${data.accuracy !== undefined ? `<strong><span data-bs-toggle="tooltip" title="The percentage of correct predictions out of all predictions made.">Accuracy:</span></strong> <span>${data.accuracy}%</span> <br>` : ""}
