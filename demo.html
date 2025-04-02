@@ -251,7 +251,23 @@
           body: JSON.stringify(payload)
         });
   
-        const data = await response.json();
+        //const data = await response.json();
+        const data = {
+          prediction_realpage: 1.92,
+          prediction_non_realpage: 1.73,
+          mse: 0.12,
+          confidence: 88,
+          accuracy: 91,
+          precision: 0.87,
+          recall: 0.78,
+          f1Score: 0.82,
+          mae: 0.09,
+          rSquared: 0.89,
+          aucRoc: 0.93,
+          logLoss: 0.11,
+          pValues: { "yearBuilt": 0.032, "unitcount": 0.005 },
+          tStats: { "yearBuilt": 2.15, "unitcount": 3.88 }
+        };
         console.log(data);
 
         let interpretation = '';
@@ -265,7 +281,6 @@
           </div>`;
         };
         console.log(interpretation);
-        outputDiv.classList.remove('d-none');
         let outputHTML = `
           <strong><span data-bs-toggle="tooltip" title="Predicted monthly rent per square foot using RealPage-affiliated model.">RealPage RPSF:</span></strong>
           <span class="text-success fw-bold">$${data.prediction_realpage.toFixed(2)} (RealPage)</span> <br>
@@ -287,7 +302,8 @@
           ${data.pValues !== undefined ? `<hr><strong>Feature P-Values:</strong><br>${Object.entries(data.pValues).map(([k, v]) => `<span>${k}:</span> <span>${v.toFixed(4)}</span>`).join("<br>")}<br>` : ""}
           ${data.tStats !== undefined ? `<hr><strong>Feature T-Statistics:</strong><br>${Object.entries(data.tStats).map(([k, v]) => `<span>${k}:</span> <span>${v.toFixed(4)}</span>`).join("<br>")}<br>` : ""}
         `;
-  
+        outputDiv.innerHTML = outputHTML;
+        outputDiv.classList.remove('d-none');  // <-- move this here just in case
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
         tooltipTriggerList.map(el => new bootstrap.Tooltip(el));
   
