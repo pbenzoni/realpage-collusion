@@ -233,8 +233,11 @@
         let interpretation = `
           <hr>
           <strong>Propensity Score:</strong> ${parseFloat(data.propensity_score).toFixed(4)}<br>
+          <em>This score represents the estimated probability that algorithmic collusion took place in determining rent prices, based on observed characteristics. It ranges from 0 to 1.</em><br><br>
+
           <strong>Matched Index:</strong> ${parseInt(data.match_index)}<br>
-          <hr> 
+          <em>This is the index of the subject in the control group that was matched to this treated subject based on similar propensity scores.</em>
+          <hr>
         `;
 
         console.log(interpretation);
