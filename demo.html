@@ -251,23 +251,7 @@
           body: JSON.stringify(payload)
         });
   
-        //const data = await response.json();
-        const data = {
-          prediction_realpage: 1.92,
-          prediction_non_realpage: 1.73,
-          mse: 0.12,
-          confidence: 88,
-          accuracy: 91,
-          precision: 0.87,
-          recall: 0.78,
-          f1Score: 0.82,
-          mae: 0.09,
-          rSquared: 0.89,
-          aucRoc: 0.93,
-          logLoss: 0.11,
-          pValues: { "yearBuilt": 0.032, "unitcount": 0.005 },
-          tStats: { "yearBuilt": 2.15, "unitcount": 3.88 }
-        };
+        const data = await response.json();
         console.log(data);
 
         let interpretation = '';
