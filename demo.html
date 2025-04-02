@@ -59,7 +59,7 @@
             <form id="model-form">
               <div class="mb-3">
                 <label for="rentPerSqFt" class="form-label">
-                  Rent per Square Foot (RPSF)
+                  Rent per Square Foot ($)
                   <span data-bs-toggle="tooltip" title="Typical range: $1.00 - $5.00. Represents monthly rent per square foot of living space.">ⓘ</span>
                 </label>
                 <input type="number" class="form-control" id="rentPerSqFt" name="rentPerSqFt" placeholder="e.g. 2.50" step="any" required>                
@@ -253,18 +253,20 @@
         const data = await response.json();
   
         outputDiv.classList.remove('d-none');
-        outputDiv.innerHTML = `
+        let outputHTML = `
           <strong><span data-bs-toggle="tooltip" title="The value the model forecasts based on the input data.">Model Prediction:</span></strong> <span>${data.prediction}</span> <br>
-          <strong><span data-bs-toggle="tooltip" title="The average of the squared differences between the predicted and actual values. Lower values indicate better predictive accuracy.">Mean Squared Error (MSE):</span></strong> <span>${data.mse}</span> <br>
-          ${data.confidence ? `<strong><span data-bs-toggle="tooltip" title="A measure of how certain the model is about its prediction. Higher percentages typically mean higher certainty.">Confidence:</span></strong> <span>${data.confidence}%</span> <br>` : ""}
-          ${data.accuracy ? `<strong><span data-bs-toggle="tooltip" title="The percentage of correct predictions out of all predictions made.">Accuracy:</span></strong> <span>${data.accuracy}%</span> <br>` : ""}
-          ${data.precision ? `<strong><span data-bs-toggle="tooltip" title="The proportion of true positive predictions among all positive predictions made.">Precision:</span></strong> <span>${data.precision}</span> <br>` : ""}
-          ${data.recall ? `<strong><span data-bs-toggle="tooltip" title="The proportion of actual positives that were correctly identified by the model.">Recall:</span></strong> <span>${data.recall}</span> <br>` : ""}
-          ${data.f1Score ? `<strong><span data-bs-toggle="tooltip" title="The harmonic mean of precision and recall.">F1-Score:</span></strong> <span>${data.f1Score}</span> <br>` : ""}
-          ${data.mae ? `<strong><span data-bs-toggle="tooltip" title="The average absolute difference between predicted values and actual values. Lower values indicate more accurate predictions.">MAE:</span></strong> <span>${data.mae}</span> <br>` : ""}
-          ${data.rSquared ? `<strong><span data-bs-toggle="tooltip" title="The coefficient of determination showing the proportion of variance explained by the model. Closer to 1 indicates a better fit.">R² Score:</span></strong> <span>${data.rSquared}</span> <br>` : ""}
-          ${data.aucRoc ? `<strong><span data-bs-toggle="tooltip" title="The area under the Receiver Operating Characteristic curve. Higher values indicate a better ability to distinguish between classes.">AUC-ROC:</span></strong> <span>${data.aucRoc}</span> <br>` : ""}
-          ${data.logLoss ? `<strong><span data-bs-toggle="tooltip" title="A metric that penalizes false classifications. Lower values indicate a more accurate model.">Log Loss:</span></strong> <span>${data.logLoss}</span> <br>` : ""}
+          ${data.mse !== undefined ? `<strong><span data-bs-toggle="tooltip" title="The average of the squared differences between the predicted and actual values. Lower values indicate better predictive accuracy.">MSE:</span></strong> <span>${data.mse}</span> <br>` : ""}
+          ${data.confidence !== undefined ? `<strong><span data-bs-toggle="tooltip" title="How certain the model is about its prediction.">Confidence:</span></strong> <span>${data.confidence}%</span> <br>` : ""}
+          ${data.accuracy !== undefined ? `<strong><span data-bs-toggle="tooltip" title="The percentage of correct predictions out of all predictions made.">Accuracy:</span></strong> <span>${data.accuracy}%</span> <br>` : ""}
+          ${data.precision !== undefined ? `<strong><span data-bs-toggle="tooltip" title="The proportion of true positive predictions among all positive predictions made.">Precision:</span></strong> <span>${data.precision}</span> <br>` : ""}
+          ${data.recall !== undefined ? `<strong><span data-bs-toggle="tooltip" title="The proportion of actual positives that were correctly identified by the model.">Recall:</span></strong> <span>${data.recall}</span> <br>` : ""}
+          ${data.f1Score !== undefined ? `<strong><span data-bs-toggle="tooltip" title="The harmonic mean of precision and recall.">F1-Score:</span></strong> <span>${data.f1Score}</span> <br>` : ""}
+          ${data.mae !== undefined ? `<strong><span data-bs-toggle="tooltip" title="The average absolute difference between predicted values and actual values. Lower values indicate more accurate predictions.">MAE:</span></strong> <span>${data.mae}</span> <br>` : ""}
+          ${data.rSquared !== undefined ? `<strong><span data-bs-toggle="tooltip" title="The coefficient of determination showing the proportion of variance explained by the model. Closer to 1 indicates a better fit.">R² Score:</span></strong> <span>${data.rSquared}</span> <br>` : ""}
+          ${data.aucRoc !== undefined ? `<strong><span data-bs-toggle="tooltip" title="The area under the Receiver Operating Characteristic curve. Higher values indicate a better ability to distinguish between classes.">AUC-ROC:</span></strong> <span>${data.aucRoc}</span> <br>` : ""}
+          ${data.logLoss !== undefined ? `<strong><span data-bs-toggle="tooltip" title="A metric that penalizes false classifications. Lower values indicate a more accurate model.">Log Loss:</span></strong> <span>${data.logLoss}</span> <br>` : ""}
+          ${data.pValues !== undefined ? `<hr><strong>Feature P-Values:</strong><br>${Object.entries(data.pValues).map(([k, v]) => `<span>${k}:</span> <span>${v.toFixed(4)}</span>`).join("<br>")}<br>` : ""}
+          ${data.tStats !== undefined ? `<hr><strong>Feature T-Statistics:</strong><br>${Object.entries(data.tStats).map(([k, v]) => `<span>${k}:</span> <span>${v.toFixed(4)}</span>`).join("<br>")}<br>` : ""}
         `;
   
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
@@ -279,7 +281,14 @@
           iframeContainer.classList.add('d-none');
           chartContainer.classList.remove('d-none');
           visContainer.classList.remove('d-none');
+
           const ctx = document.getElementById('prediction-chart').getContext('2d');
+
+          // Choose chart type based on data.chartType
+          const chartTitle = data.chartType === "feature_vs_prediction"
+            ? "Feature Impact on Prediction"
+            : "Actual vs. Predicted Rent";
+
           predictionChart = new Chart(ctx, {
             type: 'line',
             data: {
@@ -295,13 +304,34 @@
             },
             options: {
               responsive: true,
-              plugins: { legend: { display: true } }
+              plugins: {
+                legend: { display: true },
+                title: {
+                  display: true,
+                  text: chartTitle,
+                  font: { size: 16 }
+                }
+              },
+              scales: {
+                y: {
+                  title: {
+                    display: true,
+                    text: data.chartType === "feature_vs_prediction" ? "Predicted Rent" : "Rent"
+                  }
+                },
+                x: {
+                  title: {
+                    display: true,
+                    text: data.chartType === "feature_vs_prediction" ? data.featureName || "Feature" : "Sample Index"
+                  }
+                }
+              }
             }
           });
-        } else {
+        }
+        else {
           visContainer.classList.add('d-none');
         }
-  
       } catch (err) {
         outputDiv.classList.remove('d-none');
         outputDiv.classList.add('alert-danger');
