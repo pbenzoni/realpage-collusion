@@ -222,12 +222,15 @@
         const data = await response.json();
         console.log(data);
 
+        const propensity = Array.isArray(data.propensity_scores) ? data.propensity_scores[0] : null;
+        const matchIndex = Array.isArray(data.match_indices) ? data.match_indices[0] : null;
+
         let interpretation = `
           <hr>
-          <strong>Propensity Score:</strong> ${parseFloat(data.propensity_score).toFixed(4)}<br>
+          <strong>Propensity Score:</strong> ${propensity !== null ? propensity.toFixed(4) : 'N/A'} <br>
           <em>This score represents the estimated probability that algorithmic collusion took place in determining rent prices with RealPage, based on observed characteristics. It ranges from 0 to 1. Higher values indicate stronger likelihood of algorithmic collusion.</em><br><br>
 
-          <strong>Matched Index:</strong> ${parseInt(data.match_index)}<br>
+          <strong>Matched Index:</strong> ${matchIndex !== null ? matchIndex : 'N/A'} <br>
           <em>This is the index of the most similar property used for comparison in the matching analysis based on similar propensity scores.</em>
           <hr>
         `;
@@ -239,13 +242,13 @@
               Propensity Score:
             </span>
           </strong>
-          <span class="text-info fw-bold">${parseFloat(data.propensity_score).toFixed(4)}</span><br>
+          <span class="text-info fw-bold">${propensity !== null ? propensity.toFixed(4) : 'N/A'}</span><br>
           <strong>
             <span data-bs-toggle="tooltip" title="Index of the most similar property used for comparison in the matching analysis.">
               Match Index:
             </span>
           </strong>
-          <span class="text-info fw-bold">${parseInt(data.match_index)}</span><br>
+          <span class="text-info fw-bold">${matchIndex !== null ? matchIndex : 'N/A'}</span><br>
           ${interpretation}
           ${data.mse !== undefined ? `<strong><span data-bs-toggle="tooltip" title="The average of the squared differences between the predicted and actual values. Lower values indicate better predictive accuracy.">MSE:</span></strong> <span>${data.mse}</span> <br>` : ""}
           ${data.confidence !== undefined ? `<strong><span data-bs-toggle="tooltip" title="How certain the model is about its prediction.">Confidence:</span></strong> <span>${data.confidence}%</span> <br>` : ""}
