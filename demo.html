@@ -53,10 +53,25 @@
         <!-- Form for Inputs -->
         <div class="card mb-4">
           <div class="card-header">
-            <h5 class="mb-0">Model Inputs</h5>
+            <h5 class="mb-0">Model Inputs - Propensity Score Matching</h5>
           </div>
           <div class="card-body">
-            <form id="model-form">
+            <form id="model-form-propensity">
+              <!-- Model description with help link -->
+              <div class="mb-3">
+                <p class="form-text">
+                  This model estimates the likelihood of algorithmic collusion in rent pricing using RealPage's pricing algorithm. It uses characteristics such as property size, year built, market concentration, and occupancy rates to generate a propensity score.
+                </p>
+                <p class="form-text">
+                  You don't need exact values — feel free to try out different inputs to explore how the model responds. It's a tool for learning, not precision.
+                </p>
+                <p class="form-text text-muted">
+                  <strong>Note:</strong> The model is based on historical data and may not reflect current market conditions. The results should be interpreted with caution and in conjunction with other market analysis tools. <br>
+                  <strong>Disclaimer:</strong> The model is for educational purposes only and should not be used for investment decisions. The authors are not responsible for any financial losses incurred based on the model's predictions.
+                  Need help finding inputs? Visit the <a href="interactive-map.html" target="_blank">interactive map</a> to explore market values by city or submarket.
+                </p>
+              </div>
+
               <!-- Average Square Footage -->
               <div class="mb-3">
                 <label for="averageSquareFootage" class="form-label">
@@ -64,6 +79,9 @@
                 </label>
                 <input type="range" class="form-range" id="averageSquareFootage" name="averageSquareFootage" min="400" max="1600" step="25" value="875" oninput="sqftOutput.value = this.value">
                 <output id="sqftOutput" class="form-text">875</output>
+                <small class="form-text text-muted">
+                  Need help? Use the <a href="interactive-map.html" target="_blank">interactive map</a> to find common market values.
+                </small>
               </div>
             
               <!-- Year Built -->
@@ -91,6 +109,9 @@
                 </label>
                 <input type="range" class="form-range" id="MPF-HIST-CONC-RATIO" name="MPF-HIST-CONC-RATIO" min="0.3" max="1.0" step="0.01" value="0.65" oninput="concOutput.value = this.value">
                 <output id="concOutput" class="form-text">0.65</output>
+                <small class="form-text text-muted">
+                  Need help? Use the <a href="interactive-map.html" target="_blank">interactive map</a> to find common market values.
+                </small>
               </div>
             
               <!-- MPF Occupancy -->
@@ -100,6 +121,9 @@
                 </label>
                 <input type="range" class="form-range" id="MPF-OCC" name="MPF-OCC" min="0.85" max="1.0" step="0.01" value="0.94" oninput="occOutput.value = this.value">
                 <output id="occOutput" class="form-text">0.94</output>
+                <small class="form-text text-muted">
+                  Need help? Use the <a href="interactive-map.html" target="_blank">interactive map</a> to find common market values.
+                </small>
               </div>
             
               <!-- City / Submarket -->
@@ -191,7 +215,7 @@
 
   <!-- Script to handle the form submission and display prediction-based visualization -->
   <script>
-    const form = document.getElementById('model-form');
+    const form = document.getElementById('model-form-propensity');
     const outputDiv = document.getElementById('model-output');
   
     // ✅ Helper: Geocode city into lat/lng
