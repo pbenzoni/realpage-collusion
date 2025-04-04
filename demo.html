@@ -216,7 +216,7 @@
         const response = await fetch('https://rpc-proxy-msf8.onrender.com/predict', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ data: [payload] })
+          body: JSON.stringify({ data: payload })
         });
   
         const data = await response.json();
