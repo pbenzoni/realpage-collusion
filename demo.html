@@ -239,13 +239,13 @@
               Propensity Score:
             </span>
           </strong>
-          <span class="text-info fw-bold">${parseFloat(data.propensity_score).toFixed(4)}</span><br>
+          <span class="text-info fw-bold">${parseFloat(data.propensity_score[0]).toFixed(4)}</span><br>
           <strong>
             <span data-bs-toggle="tooltip" title="Index of the most similar property used for comparison in the matching analysis.">
               Match Index:
             </span>
           </strong>
-          <span class="text-info fw-bold">${parseInt(data.match_index)}</span><br>
+          <span class="text-info fw-bold">${parseInt(data.match_index[0])}</span><br>
           ${interpretation}
           ${data.mse !== undefined ? `<strong><span data-bs-toggle="tooltip" title="The average of the squared differences between the predicted and actual values. Lower values indicate better predictive accuracy.">MSE:</span></strong> <span>${data.mse}</span> <br>` : ""}
           ${data.confidence !== undefined ? `<strong><span data-bs-toggle="tooltip" title="How certain the model is about its prediction.">Confidence:</span></strong> <span>${data.confidence}%</span> <br>` : ""}
