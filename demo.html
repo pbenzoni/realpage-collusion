@@ -208,7 +208,10 @@
             </script>                                 
           </div>
         </div>
-
+        <!-- Loading Message -->
+        <div id="loading-message" class="alert alert-warning d-none" role="alert">
+          <strong>Loading...</strong> Please wait while we fetch the prediction.
+        </div>
         <!-- Display Model Output (text) -->
         <div id="model-output" class="alert alert-info d-none" role="alert"></div>
 
@@ -260,6 +263,7 @@
       }
     }
   
+    const loadingDiv = document.getElementById('loading-message');
     form.addEventListener('submit', async event => {
       event.preventDefault();
   
@@ -333,10 +337,12 @@
           ${data.tStats !== undefined ? `<hr><strong>Feature T-Statistics:</strong><br>${Object.entries(data.tStats).map(([k, v]) => `<span>${k}:</span> <span>${v.toFixed(4)}</span>`).join("<br>")}<br>` : ""}
         `;
         outputDiv.innerHTML = outputHTML;
+        loadingDiv.classList.add('d-none');
         outputDiv.classList.remove('d-none');  // <-- move this here just in case
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
         tooltipTriggerList.map(el => new bootstrap.Tooltip(el));
       } catch (err) {
+        loadingDiv.classList.add('d-none');
         outputDiv.classList.remove('d-none');
         outputDiv.classList.add('alert-danger');
         outputDiv.textContent = 'Error fetching prediction or geocoding city. Please try again.';
