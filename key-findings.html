@@ -110,7 +110,16 @@
         <p class="text-muted" style="margin-top:1rem;">
           This chart compares rent levels by metro, grouped by 'Management Named in Lawsuits Against RealPage'.
         </p>
-        
+        <h2 class="mt-5">📊 Current Rent vs. Annual Rent Growth (Dual-Axis View)</h2>
+        <canvas id="comboChart" style="max-height:500px;"></canvas>
+        <p class="text-muted" style="margin-top:1rem;">
+          This chart compares current rent levels with annual rent growth, providing a dual-axis view of the data.
+        </p>
+        <h2>📍 Predicted vs Actual Rent by Property</h2>
+        <canvas id="predictionChart" style="height:500px;"></canvas>
+        <p class="text-muted" style="margin-top:1rem;">
+          This scatter plot compares predicted rent prices against actual rent prices, with a line indicating perfect prediction.
+        </p>
 
       </div>
       <!-- Footer -->
@@ -232,6 +241,194 @@
         });
     });
     </script>
-    
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const ctx = document.getElementById('comboChart').getContext('2d');
+      
+        fetch("https://rpc-webpage.s3-accelerate.amazonaws.com/cbsa_data_final.csv")
+          .then(res => res.text())
+          .then(csv => {
+            Papa.parse(csv, {
+              header: true,
+              skipEmptyLines: true,
+              complete: function(results) {
+                const data = results.data;
+                const yearMap = {};
+      
+                data.forEach(row => {
+                  const year = parseInt(row.yearBuilt);
+                  const rent = parseFloat(row["MPF-RENT"]);
+                  const growth = parseFloat(row["MPF-ANN-RENT-CHG"]);
+      
+                  if (!isNaN(year) && year >= 1950 && year <= 2025 && !isNaN(rent) && !isNaN(growth)) {
+                    if (!yearMap[year]) {
+                      yearMap[year] = { rentTotal: 0, growthTotal: 0, count: 0 };
+                    }
+                    yearMap[year].rentTotal += rent;
+                    yearMap[year].growthTotal += growth;
+                    yearMap[year].count++;
+                  }
+                });
+      
+                const labels = [];
+                const avgRent = [];
+                const avgGrowth = [];
+      
+                Object.entries(yearMap).forEach(([year, stats]) => {
+                  if (stats.count >= 5) {
+                    labels.push(year);
+                    avgRent.push(stats.rentTotal / stats.count);
+                    avgGrowth.push((stats.growthTotal / stats.count) * 100); // convert to %
+                  }
+                });
+      
+                new Chart(ctx, {
+                  type: 'bar',
+                  data: {
+                    labels,
+                    datasets: [
+                      {
+                        type: 'bar',
+                        label: 'Avg Rent ($)',
+                        data: avgRent,
+                        backgroundColor: 'rgba(0, 123, 255, 0.7)',
+                        yAxisID: 'y'
+                      },
+                      {
+                        type: 'line',
+                        label: 'Rent Growth (%)',
+                        data: avgGrowth,
+                        borderColor: 'rgba(220, 53, 69, 1)',
+                        backgroundColor: 'rgba(220, 53, 69, 0.3)',
+                        yAxisID: 'y1',
+                        fill: false
+                      }
+                    ]
+                  },
+                  options: {
+                    responsive: true,
+                    plugins: {
+                      title: {
+                        display: true,
+                        text: 'Rent and Rent Growth by Year Built'
+                      }
+                    },
+                    scales: {
+                      y: {
+                        beginAtZero: true,
+                        title: {
+                          display: true,
+                          text: 'Average Rent ($)'
+                        }
+                      },
+                      y1: {
+                        beginAtZero: true,
+                        position: 'right',
+                        grid: { drawOnChartArea: false },
+                        title: {
+                          display: true,
+                          text: 'Annual Rent Growth (%)'
+                        }
+                      }
+                    }
+                  }
+                });
+              }
+            });
+          });
+      });
+      </script>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
+      <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const canvas = document.getElementById("predictionChart").getContext("2d");
+      
+        fetch("https://rpc-webpage.s3-accelerate.amazonaws.com/cbsa_data_final.csv")
+          .then(res => res.text())
+          .then(csv => {
+            Papa.parse(csv, {
+              header: true,
+              skipEmptyLines: true,
+              complete: function(results) {
+                const data = results.data;
+      
+                const realPagePoints = [];
+                const otherPoints = [];
+      
+                data.forEach(row => {
+                  const actual = parseFloat(row["MPF-RENT"]);
+                  const predicted = parseFloat(row["MPF-HIST-ASK-RENT"]);
+                  const source = row["uses_realpage"];
+      
+                  if (!isNaN(actual) && !isNaN(predicted)) {
+                    const point = {
+                      x: actual,
+                      y: predicted,
+                      tooltip: row["propertyName"] || ""
+                    };
+                    (source === "1" ? realPagePoints : otherPoints).push(point);
+                  }
+                });
+      
+                new Chart(canvas, {
+                  type: "scatter",
+                  data: {
+                    datasets: [
+                      {
+                        label: "RealPage",
+                        data: realPagePoints,
+                        backgroundColor: "rgba(255,99,132,0.8)",
+                        pointRadius: 4
+                      },
+                      {
+                        label: "Not RealPage",
+                        data: otherPoints,
+                        backgroundColor: "rgba(54,162,235,0.8)",
+                        pointRadius: 4
+                      },
+                      {
+                        type: "line",
+                        label: "Perfect Fit (y = x)",
+                        data: Array.from({length: 100}, (_, i) => ({ x: i * 100, y: i * 100 })),
+                        borderColor: "rgba(0,0,0,0.3)",
+                        borderWidth: 1,
+                        pointRadius: 0,
+                        fill: false
+                      }
+                    ]
+                  },
+                  options: {
+                    responsive: true,
+                    plugins: {
+                      tooltip: {
+                        callbacks: {
+                          label: function(context) {
+                            return `${context.dataset.label}: Predicted $${context.parsed.y.toFixed(0)}, Actual $${context.parsed.x.toFixed(0)}`;
+                          }
+                        }
+                      },
+                      title: {
+                        display: true,
+                        text: "Predicted vs Actual Rent Prices"
+                      }
+                    },
+                    scales: {
+                      x: {
+                        title: { display: true, text: "Actual Rent Price ($)" },
+                        min: 0
+                      },
+                      y: {
+                        title: { display: true, text: "Predicted Rent Price ($)" },
+                        min: 0
+                      }
+                    }
+                  }
+                });
+              }
+            });
+          });
+      });
+      </script>
 </body>
 </html>
