@@ -268,6 +268,9 @@
       event.preventDefault();
   
       const city = document.getElementById('city').value.trim();
+
+      // Show loading message
+      loadingDiv.classList.remove('d-none');
   
       try {
         const { latitude, longitude } = await getLatLongFromCity(city);
