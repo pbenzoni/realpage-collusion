@@ -99,14 +99,7 @@
                 </label>
                 <input type="text" class="form-control" id="city" name="city" list="city-suggestions" placeholder="e.g. Austin, TX" required>
                 <datalist id="city-suggestions"></datalist>
-              </div>
-              <div class="mb-3">
-                <label for="cbsa" class="form-label">
-                  CBSA Code
-                  <span data-bs-toggle="tooltip" title="Optional: Enter a 5-digit Core-Based Statistical Area (CBSA) code if known. This can improve geographic targeting.">ⓘ</span>
-                </label>
-                <input type="text" class="form-control" id="cbsa" name="cbsa" placeholder="e.g. 12420 (Austin-Round Rock, TX)">
-              </div>           
+              </div>  
               <div class="mb-3">
                 <label for="stories" class="form-label">
                   Stories
@@ -214,7 +207,6 @@
             "MPF-OCC": parseFloat(document.getElementById('MPF-OCC').value),
             latitude,
             longitude,
-            cbsa: document.getElementById('cbsa').value.trim() || null,
             stories: parseInt(document.getElementById('stories').value)
         };
   
