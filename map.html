@@ -75,20 +75,12 @@
     const manualDescriptions = {
       // rentPerformanceMetrics
       "MPF-ANN-RENT-CHG": "The annual percentage change in rent according to market performance data.",
-      "MPF-HIST-ASK-RENT": "The historical asking rent amount based on market performance data.",
-      "MPF-HIST-AVG-ASK-RPSF": "Historical average asking rent per square foot.",
+      "MPF-HIST-ASK-RENT": "The historical asking rent amount based on market performance data ($USD).",
+      "MPF-HIST-AVG-ASK-RPSF": "Historical average asking rent per square foot ($USD).",
       "MPF-HIST-CONC-RATIO": "A historical metric reflecting the concentration ratio of rents (distribution across units).",
       "MPF-OCC": "The market performance occupancy rate, representing the proportion of occupied units.",
-      "MPF-RENT": "The current rent figure derived from market performance data.",
-      "MPF-RPSF": "The current rent per square foot metric.",
-      // submarketHistoricalPriceBand
-      "SH-HIST-ASK-RENT-PB": "Historical asking rent data for a specific price band in the submarket.",
-      "SH-HIST-RENT-PB": "Historical actual rent data for a specific price band in the submarket.",
-      "SH-HIST-CONC-RATIO-PB": "Historical concentration ratio of rents within a specified price band.",
-      "SH-HIST-OCCUPANCY": "Historical occupancy rate aggregated at the submarket level.",
-      "SH-HIST-RPSF-PB": "Historical rent per square foot for a specific price band in the submarket.",
-      "SH-HIST-AVG-ASK-RPSF-PB": "Historical average asking rent per square foot within a specified price band.",
-      "SH-HIST-ANN-RENT-PB-CHG": "The annual percentage change in rent for a specified price band in the submarket."
+      "MPF-RENT": "The current rent figure derived from market performance data ($USD).",
+      "MPF-RPSF": "The current rent per square foot metric ($USD)."
     };
 
     // Helper function to get a field's description.
@@ -122,14 +114,7 @@
         "MPF-RPSF",
         "MPF-HIST-ASK-RENT",
         "MPF-HIST-AVG-ASK-RPSF",
-        "MPF-HIST-CONC-RATIO",
-        "SH-HIST-ASK-RENT-PB",
-        "SH-HIST-RENT-PB",
-        "SH-HIST-CONC-RATIO-PB",
-        "SH-HIST-OCCUPANCY",
-        "SH-HIST-RPSF-PB",
-        "SH-HIST-AVG-ASK-RPSF-PB",
-        "SH-HIST-ANN-RENT-PB-CHG"
+        "MPF-HIST-CONC-RATIO"
       ];
 
       const fieldLabels = {
@@ -139,14 +124,7 @@
         "MPF-RPSF": "Rent per SF",
         "MPF-HIST-ASK-RENT": "Historical Ask Rent",
         "MPF-HIST-AVG-ASK-RPSF": "Hist. Avg Ask RPSF",
-        "MPF-HIST-CONC-RATIO": "Hist. Rent Conc. Ratio",
-        "SH-HIST-ASK-RENT-PB": "Hist. Ask Rent (PB)",
-        "SH-HIST-RENT-PB": "Hist. Rent (PB)",
-        "SH-HIST-CONC-RATIO-PB": "Conc. Ratio (PB)",
-        "SH-HIST-OCCUPANCY": "Submarket Occupancy",
-        "SH-HIST-RPSF-PB": "RPSF (PB)",
-        "SH-HIST-AVG-ASK-RPSF-PB": "Avg Ask RPSF (PB)",
-        "SH-HIST-ANN-RENT-PB-CHG": "Ann. Rent Chg (PB)"
+        "MPF-HIST-CONC-RATIO": "Hist. Rent Conc. Ratio"
       };
 
       // HeroSource → color mapping.
@@ -201,7 +179,7 @@
       }
 
       // Load CSV data.
-      Papa.parse("https://rpc-webpage.s3-accelerate.amazonaws.com/cbsa_data.csv", {
+      Papa.parse("https://rpc-webpage.s3-accelerate.amazonaws.com/cbsa_data_final.csv", {
         download: true,
         header: true,
         complete: function (results) {
@@ -231,7 +209,10 @@
             let lon = parseFloat(row.longitude);
             if (!isNaN(lat)) groups[groupKey].latitudes.push(lat);
             if (!isNaN(lon)) groups[groupKey].longitudes.push(lon);
-            let hero = row.heroSource && row.heroSource.trim() !== "" ? row.heroSource : "Unknown";
+            let value = row.uses_realpage && row.uses_realpage.trim();
+            let hero = value === "1" ? "Uses RealPage" :
+                      value === "0" ? "Does NOT Use RealPage" :
+                      "Unknown";
             groups[groupKey].heroCounts[hero] = (groups[groupKey].heroCounts[hero] || 0) + 1;
           });
 
@@ -259,7 +240,12 @@
               heroMetrics[hero] = {};
               fields.forEach(function (field) {
                 let values = group.rows
-                  .filter(r => (r.heroSource && r.heroSource.trim() === hero))
+                  .filter(r => {
+                    let val = r.uses_realpage && r.uses_realpage.trim();
+                    let source = val === "1" ? "Uses RealPage" :
+                                val === "0" ? "Does NOT Use RealPage" : "Unknown";
+                    return source === hero;
+                  })
                   .map(r => parseFloat(r[field]))
                   .filter(v => !isNaN(v));
                 if (values.length === 0) values = [0];
@@ -296,7 +282,7 @@
             });
             popupContent += "</table>";
             // Also list hero counts.
-            popupContent += `<p><strong>Hero Sources (Count):</strong> ${heroSources.map(h => h + " (" + group.heroCounts[h] + ")").join(", ")}</p>`;
+            popupContent += `<p><strong>RealPage Sources (Count):</strong> ${heroSources.map(h => h + " (" + group.heroCounts[h] + ")").join(", ")}</p>`;
             popupContent += "</div>";
 
             // Create a pie chart icon for the group.
@@ -320,7 +306,7 @@
         var legend = L.control({ position: "bottomright" });
         legend.onAdd = function (map) {
           var div = L.DomUtil.create("div", "legend");
-          div.innerHTML += "<strong>Source Key</strong><br>";
+          div.innerHTML += "<strong>RealPage Usage Key</strong><br>";
           for (var hero in heroColors) {
             div.innerHTML +=
               '<i style="background:' + heroColors[hero] + '"></i> ' +
@@ -339,5 +325,4 @@
     loadCSVData();
   </script>
 </body>
-
 </html>
