@@ -132,6 +132,23 @@
         "SH-HIST-ANN-RENT-PB-CHG"
       ];
 
+      const fieldLabels = {
+        "MPF-ANN-RENT-CHG": "Annual Rent Change",
+        "MPF-OCC": "Occupancy Rate",
+        "MPF-RENT": "Current Rent",
+        "MPF-RPSF": "Rent per SF",
+        "MPF-HIST-ASK-RENT": "Historical Ask Rent",
+        "MPF-HIST-AVG-ASK-RPSF": "Hist. Avg Ask RPSF",
+        "MPF-HIST-CONC-RATIO": "Hist. Rent Conc. Ratio",
+        "SH-HIST-ASK-RENT-PB": "Hist. Ask Rent (PB)",
+        "SH-HIST-RENT-PB": "Hist. Rent (PB)",
+        "SH-HIST-CONC-RATIO-PB": "Conc. Ratio (PB)",
+        "SH-HIST-OCCUPANCY": "Submarket Occupancy",
+        "SH-HIST-RPSF-PB": "RPSF (PB)",
+        "SH-HIST-AVG-ASK-RPSF-PB": "Avg Ask RPSF (PB)",
+        "SH-HIST-ANN-RENT-PB-CHG": "Ann. Rent Chg (PB)"
+      };
+
       // HeroSource → color mapping.
       const heroColors = {};
       const colorPalette = [
@@ -270,7 +287,8 @@
               });
               if (!showRow) return;
               let tooltip = getFieldDescription(field);
-              popupContent += `<tr><td title="${tooltip}">${field}</td>`;
+              let displayField = fieldLabels[field] || field;
+              popupContent += `<tr><td title="${tooltip}">${displayField}</td>`;
               heroSources.forEach(hero => {
                 popupContent += `<td>${heroMetrics[hero][field].toFixed(2)}</td>`;
               });
