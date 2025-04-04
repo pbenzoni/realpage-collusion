@@ -320,7 +320,7 @@
         var legend = L.control({ position: "bottomright" });
         legend.onAdd = function (map) {
           var div = L.DomUtil.create("div", "legend");
-          div.innerHTML += "<strong>HeroSource Key</strong><br>";
+          div.innerHTML += "<strong>Source Key</strong><br>";
           for (var hero in heroColors) {
             div.innerHTML +=
               '<i style="background:' + heroColors[hero] + '"></i> ' +
