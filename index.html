@@ -284,7 +284,9 @@
           <p>
             Our analysis reveals a significant association between RealPage's market presence and rent dynamics. The
             guided journey through housing supply, rent adjustments, occupancy rates, and robust counterfactual tests
-            suggests that algorithmic pricing may contribute to rent inflation.
+            suggests that algorithmic pricing may contribute to rent inflation. However, our models do not imply
+            causation. The observed correlations warrant further investigation into the role of algorithmic pricing in
+            shaping rental markets.
           </p>
           <p><strong>Policy Implications:</strong></p>
           <ul>
@@ -353,7 +355,7 @@
       let grouped = {};
       csvData.forEach(row => {
         let state = row.state;
-        let hero = row.heroSource;
+        let hero = row.uses_realpage?.toLowerCase() === 'true' ? 'realpage' : 'other';
         if (state && hero) {
           if (!grouped[state]) grouped[state] = {};
           if (!grouped[state][hero]) grouped[state][hero] = { sum: 0, count: 0 };
@@ -393,7 +395,7 @@
       let grouped = {};
       csvData.forEach(row => {
         let year = row.yearBuilt;
-        let hero = row.heroSource;
+        let hero = row.uses_realpage?.toLowerCase() === 'true' ? 'realpage' : 'other';
         if (year && hero) {
           if (!grouped[year]) grouped[year] = {};
           if (!grouped[year][hero]) grouped[year][hero] = { sum: 0, count: 0 };
@@ -433,7 +435,7 @@
       let grouped = {};
       csvData.forEach(row => {
         let year = row.yearBuilt;
-        let hero = row.heroSource;
+        let hero = row.uses_realpage?.toLowerCase() === 'true' ? 'realpage' : 'other';
         if (year && hero) {
           if (!grouped[year]) grouped[year] = {};
           if (!grouped[year][hero]) {
@@ -512,7 +514,7 @@
             stateData[state] = { total: 0, realpageCount: 0 };
           }
           stateData[state].total += 1;
-          if (row.heroSource && row.heroSource.toLowerCase() === 'realpage') {
+          if (row.uses_realpage === '1') {
             stateData[state].realpageCount += 1;
           }
         }
@@ -864,7 +866,7 @@
     });
 
     document.addEventListener("DOMContentLoaded", function () {
-      fetch('https://rpc-webpage.s3-accelerate.amazonaws.com/cbsa_data.csv')
+      fetch('https://rpc-webpage.s3-accelerate.amazonaws.com/cbsa_data_final.csv')
         .then(response => response.text())
         .then(csvText => {
           Papa.parse(csvText, {
@@ -1061,7 +1063,7 @@
           // toss out rows with missing or invalid yearBuilt values or before 1900
           if (!row.yearBuilt || row.yearBuilt < 1920 || row.yearBuilt > 2025) return;
           //toss out rows whose heroSource is not RealPage
-          if (row.heroSource && row.heroSource.toLowerCase() !== 'realpage') return;
+          if (row.uses_realpage !== '1') return;
 
           const year = row.yearBuilt;
           const units = parseInt(row.unitcount) || 0;
@@ -1119,7 +1121,7 @@
         });
       }
 
-      fetch('https://rpc-webpage.s3-accelerate.amazonaws.com/cbsa_data.csv')
+      fetch('https://rpc-webpage.s3-accelerate.amazonaws.com/cbsa_data_final.csv')
         .then(response => response.text())
         .then(csvText => {
           Papa.parse(csvText, {
@@ -1264,7 +1266,7 @@
   </script>
   <script defer>
     document.addEventListener('DOMContentLoaded', () => {
-      const csvUrl = 'https://rpc-webpage.s3-accelerate.amazonaws.com/cbsa_data.csv';
+      const csvUrl = 'https://rpc-webpage.s3-accelerate.amazonaws.com/cbsa_data_final.csv';
 
       Papa.parse(csvUrl, {
         download: true,
@@ -1285,8 +1287,7 @@
           // Classify each property
           rows.forEach(row => {
             // remove non-realpage rows
-            if (row.heroSource && row.heroSource.toLowerCase() !== 'realpage') return;
-
+            if (row.uses_realpage !== '1') return;
             const units = parseInt(row.unitcount, 10);
             if (isNaN(units)) return;
 
