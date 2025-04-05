@@ -1,7 +1,7 @@
 ---
 title: "zillow_augsynth"
 author: "Timothy Majidzadeh"
-date: "2025-03-24"
+date: "2025-04-04"
 output: html_document
 ---
 
@@ -17,10 +17,11 @@ library(augsynth)
 
 ```{r data, include=FALSE}
 ## Import Data
-zillow_reg <- read.csv('../data/zillow_reg_data/zillow_data_reg_proto_20250309.csv') %>%
+zillow_reg <- read.csv('../data/zillow_reg_data/zillow_data_reg_20250404.csv') %>%
   mutate(
     AffectedCityTime = AffectedCity * AffectedTime
-  )
+  ) %>%
+  filter(Year < 2020)
 
 ```
 
