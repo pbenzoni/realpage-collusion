@@ -181,8 +181,10 @@
             <script>
               const cityInput = document.getElementById('city');
               const citySuggestions = document.getElementById('city-suggestions');
+              let lastValidCity = '';
+              
+              // Autocomplete
               let cityTimeout = null;
-            
               cityInput.addEventListener('input', () => {
                 clearTimeout(cityTimeout);
                 const query = cityInput.value.trim();
@@ -203,9 +205,37 @@
                   } catch (err) {
                     console.error('Autocomplete error:', err);
                   }
-                }, 300); // delay to reduce API hits
+                }, 300);
               });
-            </script>                                 
+            
+              // Validate city on blur
+              cityInput.addEventListener('blur', async () => {
+                const city = cityInput.value.trim();
+                if (city === '') {
+                  cityInput.setCustomValidity('City is required.');
+                  return;
+                }
+            
+                try {
+                  const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(city)}&limit=1`);
+                  const results = await res.json();
+            
+                  if (results.length === 0) {
+                    cityInput.setCustomValidity('Not a recognized city.');
+                  } else {
+                    cityInput.setCustomValidity('');
+                    lastValidCity = city;
+                  }
+                } catch (err) {
+                  cityInput.setCustomValidity('Unable to validate city. Try again.');
+                }
+              });
+            
+              // ✅ Clear custom message on form change
+              cityInput.addEventListener('input', () => {
+                cityInput.setCustomValidity('');
+              });
+            </script>                                             
           </div>
         </div>
         <!-- Loading Message -->
