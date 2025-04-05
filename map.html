@@ -281,8 +281,14 @@
               popupContent += "</tr>";
             });
             popupContent += "</table>";
-            // Also list hero counts.
-            popupContent += `<p><strong>RealPage Sources (Count):</strong> ${heroSources.map(h => h + " (" + group.heroCounts[h] + ")").join(", ")}</p>`;
+            // Also list realpage indicator counts.
+            // Calculate total count for percentage
+            let totalCount = heroSources.reduce((sum, h) => sum + group.heroCounts[h], 0);
+            popupContent += `<p><strong>RealPage Sources (Count):</strong> ${heroSources.map(h => {
+              let count = group.heroCounts[h];
+              let percent = ((count / totalCount) * 100).toFixed(1);
+              return `${h} (${count} (${percent}%)`;
+            }).join(", ")}</p>`;
             popupContent += "</div>";
 
             // Create a pie chart icon for the group.
