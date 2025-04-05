@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.8.0"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 800, "continuousHeight": 600}}, "data": {"name": "data-f3ff66e2c67fbf22c69e2f28b09b9d88"}, "mark": {"type": "bar"}, "encoding": {"color": {"field": "Platform", "scale": {"domain": ["AIRM/YieldStar (RealPage) Share", "Lease Rent Options (LRO) Share"], "range": ["#5eb4ec", "#e1b0c0"]}, "type": "nominal"}, "order": {"field": "Platform", "sort": "ascending", "type": "nominal"}, "x": {"field": "City Name", "sort": {"encoding": "y", "order": "descending"}, "type": "nominal"}, "y": {"axis": {"format": "%"}, "field": "Penetration Rate", "type": "quantitative"}}, "title": {"text": "RealPage's Multifamily Penetration Rate by City", "subtitle": "May 2023", "anchor": "start"}, "$schema": "https://vega.github.io/schema/vega-lite/v5.8.0.json", "datasets": {"data-f3ff66e2c67fbf22c69e2f28b09b9d88": [{"City Name": "Atlanta, GA", "Platform": "AIRM/YieldStar (RealPage) Share", "Penetration Rate": 0.40038773876041844}, {"City Name": "Dallas, TX", "Platform": "AIRM/YieldStar (RealPage) Share", "Penetration Rate": 0.33203624178597513}, {"City Name": "Phoenix, AZ", "Platform": "AIRM/YieldStar (RealPage) Share", "Penetration Rate": 0.30940510432163754}, {"City Name": "Denver, CO", "Platform": "AIRM/YieldStar (RealPage) Share", "Penetration Rate": 0.3112960601887739}, {"City Name": "Tampa, FL", "Platform": "AIRM/YieldStar (RealPage) Share", "Penetration Rate": 0.27391501189453354}, {"City Name": "Washington, DC", "Platform": "AIRM/YieldStar (RealPage) Share", "Penetration Rate": 0.2051154095274142}, {"City Name": "Houston, TX", "Platform": "AIRM/YieldStar (RealPage) Share", "Penetration Rate": 0.24472142714871709}, {"City Name": "Riverside, CA", "Platform": "AIRM/YieldStar (RealPage) Share", "Penetration Rate": 0.2327506314367872}, {"City Name": "Las Vegas, NV", "Platform": "AIRM/YieldStar (RealPage) Share", "Penetration Rate": 0.20160962274053157}, {"City Name": "Seattle, WA", "Platform": "AIRM/YieldStar (RealPage) Share", "Penetration Rate": 0.1448054792664501}, {"City Name": "Philadelphia, PA", "Platform": "AIRM/YieldStar (RealPage) Share", "Penetration Rate": 0.07258003927883724}, {"City Name": "Boston, MA", "Platform": "AIRM/YieldStar (RealPage) Share", "Penetration Rate": 0.12105430719931595}, {"City Name": "Minneapolis, MN", "Platform": "AIRM/YieldStar (RealPage) Share", "Penetration Rate": 0.11807005215687226}, {"City Name": "San Diego, CA", "Platform": "AIRM/YieldStar (RealPage) Share", "Penetration Rate": 0.12122496947946973}, {"City Name": "Miami, FL", "Platform": "AIRM/YieldStar (RealPage) Share", "Penetration Rate": 0.102}, {"City Name": "San Francisco, CA", "Platform": "AIRM/YieldStar (RealPage) Share", "Penetration Rate": 0.08049624576017031}, {"City Name": "Chicago, IL", "Platform": "AIRM/YieldStar (RealPage) Share", "Penetration Rate": 0.08390528780506881}, {"City Name": "Detroit, MI", "Platform": "AIRM/YieldStar (RealPage) Share", "Penetration Rate": 0.05011597516276379}, {"City Name": "Los Angeles, CA", "Platform": "AIRM/YieldStar (RealPage) Share", "Penetration Rate": 0.047885870056802914}, {"City Name": "New York, NY", "Platform": "AIRM/YieldStar (RealPage) Share", "Penetration Rate": 0.013999999999999999}, {"City Name": "Atlanta, GA", "Platform": "Lease Rent Options (LRO) Share", "Penetration Rate": 0.22264551828266257}, {"City Name": "Dallas, TX", "Platform": "Lease Rent Options (LRO) Share", "Penetration Rate": 0.15554850966550185}, {"City Name": "Phoenix, AZ", "Platform": "Lease Rent Options (LRO) Share", "Penetration Rate": 0.14424967701481753}, {"City Name": "Denver, CO", "Platform": "Lease Rent Options (LRO) Share", "Penetration Rate": 0.1165704395600515}, {"City Name": "Tampa, FL", "Platform": "Lease Rent Options (LRO) Share", "Penetration Rate": 0.1253205936772376}, {"City Name": "Washington, DC", "Platform": "Lease Rent Options (LRO) Share", "Penetration Rate": 0.16433945462136199}, {"City Name": "Houston, TX", "Platform": "Lease Rent Options (LRO) Share", "Penetration Rate": 0.08926945141273956}, {"City Name": "Riverside, CA", "Platform": "Lease Rent Options (LRO) Share", "Penetration Rate": 0.0581876578591968}, {"City Name": "Las Vegas, NV", "Platform": "Lease Rent Options (LRO) Share", "Penetration Rate": 0.06607374190656078}, {"City Name": "Seattle, WA", "Platform": "Lease Rent Options (LRO) Share", "Penetration Rate": 0.08218689363771492}, {"City Name": "Philadelphia, PA", "Platform": "Lease Rent Options (LRO) Share", "Penetration Rate": 0.13636249803902753}, {"City Name": "Boston, MA", "Platform": "Lease Rent Options (LRO) Share", "Penetration Rate": 0.07717212083956392}, {"City Name": "Minneapolis, MN", "Platform": "Lease Rent Options (LRO) Share", "Penetration Rate": 0.04919585506536344}, {"City Name": "San Diego, CA", "Platform": "Lease Rent Options (LRO) Share", "Penetration Rate": 0.03330356304381037}, {"City Name": "Miami, FL", "Platform": "Lease Rent Options (LRO) Share", "Penetration Rate": 0.037000000000000005}, {"City Name": "San Francisco, CA", "Platform": "Lease Rent Options (LRO) Share", "Penetration Rate": 0.052784423449292}, {"City Name": "Chicago, IL", "Platform": "Lease Rent Options (LRO) Share", "Penetration Rate": 0.0359594090593152}, {"City Name": "Detroit, MI", "Platform": "Lease Rent Options (LRO) Share", "Penetration Rate": 0.0451043776464874}, {"City Name": "Los Angeles, CA", "Platform": "Lease Rent Options (LRO) Share", "Penetration Rate": 0.029198701254148116}, {"City Name": "New York, NY", "Platform": "Lease Rent Options (LRO) Share", "Penetration Rate": 0.022}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>

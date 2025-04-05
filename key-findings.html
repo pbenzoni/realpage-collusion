@@ -125,7 +125,50 @@
         <p class="text-muted" style="margin-top:1rem;">
           This scatter plot compares the predicted value in rent on a given unit (i.e. market's asking prices for rent) against actual rent prices, with a line indicating perfect prediction.
         </p>
-        <!-- Add visuals from the ML Model -->
+        <br
+        <!-- Add visuals from the ML Models -->
+        <hr>
+        <h2 class="mt-5">Additional Model Visualizations</h2>
+        <p class="text-muted">
+          The following visualizations provide insights into the machine learning models' performances and feature importance.
+          These visualizations help in understanding the models' predictions and the significance of different features in the dataset.
+        </p>
+        <p><b>It is Unclear Whether this Rent Impact is Due to Price Coordination</b></p>
+        <p>
+          Our predictive models suggest that RealPage usage can predict higher rents. However, can we test whether this correlation is actually *because of* effects which are similar to price-fixing, and not other factors like efficiency?<br>
+          In December 2017, RealPage completed an acquisition of Lease Rent Options (LRO), their primary competitor in the market for rental pricing algorithms. Did this acquisition lead to higher rent in the housing market? If the answer is yes, then this may be because of price-coordinating effects, because no landlords actually merged - the only merger was between providers for price algorithms. Market power would only change if landlords using one of RealPage's products (post-merger) were coordinating via the algorithms.<br>
+          However, we do not see this effect; therefore, our data does not prove whether or not price coordination is the root cause of RealPage's rent impact.          
+        </p>
+        <br>
+        <h3>Demonstrate ARIMA Modeling</h3>
+        <p>
+          The COVID pandemic of 2020 had a significant effect on the housing market which varied across cities and time. 
+          To test the effect of a 2017 merger, we start by adjusting for the effect of COVID in 2020 and beyond. 
+          We trained an ARIMA forecasting model from December 2017 to December 2019, then use this to predict three years of housing market data without the effect of COVID.
+        </p>
+        <div class="mb-5">
+          <h5>Zillow Index and COVID Adjustment (2015 - 2022)</h5>
+          <iframe src="covid_adjustment.html" style="width: 100%; height: 800px; border: none;"></iframe>
+        </div>
+        <h3>Explain Treatment and Control Selection</h3>
+        <p>
+          Next, we need to select a treatment group and a control group. If this merger has an effect, it would have the highest effect on cities with both a high RealPage penetration rate and a high share gain from the merger (and the lowest effect on cities with low penetration rates and share gains).<br>
+          We estimate RealPage's share of multifamily rental units based on their own disclosed share of *all* rental units for 20 select cities in May 2023, the count of total units according to the 2023 American Community Survey, and the share of units which are multifamily from the same survey. We select the cities with the highest share (Atlanta, Dallas, Phoenix, Denver, Tampa, and Washington DC) as the treatment group, and the cities with the lowest share (Minneapolis, San Diego, Miami, San Francisco, Chicago, Detroit, Los Angeles, and New York) as the control group.
+        </p>
+        <div class="mb-5">
+          <h5>"RealPage's Multifamily Penetration Rate by City (May 2023)</h5>
+          <iframe src="realpage_lro_shares_2023-05.html" style="width: 100%; height: 800px; border: none;"></iframe>
+        </div>
+        <h3>Compare Treatment to Control</h3>
+        <p>
+          For each of the six <b>treatment</b> cities, we use a machine learning approach called the "Synthetic Control" method to predict the treatment city's pre-merger rent level using only the <b>control cities</b>' rent levels. We make this prediction model as accurate as possible using only <b>pre-merger</b> data, then use that model to predict the <b>post-merger</b> rent levels. <br><br>
+          In essence, the Synthetic Control is a prediction of what a city's rent *would* look like if the combined market share was much lower there. If a city's rent is much higher than its Synthetic Control predicted level, this suggests that the 2017 RealPage-LRO merger may be causing higher rent. Conversely, if the citys rent is much lower than its Synthetic Control predicted level, this suggests that the merger may be causing lower rent.<br><br>
+          However, differences are small and generally inconsistent across cities. In Phoenix, this method predicts higher rents, but in Atlanta and Dallas, this method predicts lower rents. In the remaining three cities, there is no obvious difference. Furthermore, divergence for some cities begins in 2020, suggesting that this may be due to imperfections in the COVID adjustment. Because of this inconsistency, we cannot conclusively say whether RealPage's rent impact is a result of price-coordination.
+        </p> 
+        <div class="mb-5">
+          <h5>High-Share Cities and their Synthetic Controls (2015 - 2022)</h5>
+          <iframe src="synthetic_control.html" style="width: 100%; height: 800px; border: none;"></iframe>
+        </div>
       </div>
       <!-- Footer -->
       <footer class="bg-light text-center py-3 mt-5 border-top">
