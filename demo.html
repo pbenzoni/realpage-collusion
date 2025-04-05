@@ -123,8 +123,9 @@
                 <label for="unitcount" class="form-label">
                   Unit Count <span data-bs-toggle="tooltip" title="Total number of units in the property.">ⓘ</span>
                 </label>
-                <input type="number" class="form-control" id="unitcount" name="unitcount" placeholder="e.g. 120" min="1" max="1000" required>
-              </div>
+                <input type="range" class="form-range" id="unitcount" name="unitcount" min="1" max="1000" value="120" oninput="document.getElementById('unitcountValue').innerText = this.value" required>
+                <output id="unitcountValue" class="form-text">120</output>
+              </div>              
             
               <!-- MPF HIST CONC RATIO -->
               <div class="mb-3">
