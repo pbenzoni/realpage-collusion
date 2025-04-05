@@ -287,7 +287,7 @@
             popupContent += `<p><strong>RealPage Sources (Count):</strong> ${heroSources.map(h => {
               let count = group.heroCounts[h];
               let percent = ((count / totalCount) * 100).toFixed(1);
-              return `${h} ${count} (${percent}%)`;
+              return `<br>${h} - ${count} (${percent}%)`;
             }).join(", ")}</p>`;
             popupContent += "</div>";
 
