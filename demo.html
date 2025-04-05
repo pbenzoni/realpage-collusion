@@ -181,18 +181,20 @@
             <script>
               const cityInput = document.getElementById('city');
               const citySuggestions = document.getElementById('city-suggestions');
+              let lastValidatedCity = '';
+
+              // Autocomplete (unchanged — keep if you want suggestions)
               let cityTimeout = null;
-            
               cityInput.addEventListener('input', () => {
                 clearTimeout(cityTimeout);
                 const query = cityInput.value.trim();
                 if (query.length < 3) return;
-            
+
                 cityTimeout = setTimeout(async () => {
                   try {
                     const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5&addressdetails=1`);
                     const results = await res.json();
-            
+
                     citySuggestions.innerHTML = '';
                     results.forEach(result => {
                       const cityLabel = result.display_name;
@@ -203,7 +205,42 @@
                   } catch (err) {
                     console.error('Autocomplete error:', err);
                   }
-                }, 300); // delay to reduce API hits
+                }, 300);
+              });
+
+              // 🚨 Validate city on blur
+              cityInput.addEventListener('blur', async () => {
+                const city = cityInput.value.trim();
+
+                if (city === '') {
+                  cityInput.setCustomValidity('Please enter a city or submarket.');
+                  return;
+                }
+
+                try {
+                  const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(city)}&limit=1`);
+                  const results = await res.json();
+                  if (!results || results.length === 0) {
+                    cityInput.setCustomValidity('Not a recognized city. Please enter a valid one.');
+                  } else {
+                    cityInput.setCustomValidity('');
+                    lastValidatedCity = city;
+                  }
+                } catch (err) {
+                  cityInput.setCustomValidity('Unable to validate city right now.');
+                }
+              });
+
+              // 🛑 Hook into existing form (do NOT redeclare `form`)
+              form.addEventListener('submit', async (e) => {
+                if (cityInput.value.trim() !== lastValidatedCity) {
+                  await cityInput.dispatchEvent(new Event('blur'));
+                }
+
+                if (!form.checkValidity()) {
+                  e.preventDefault();
+                  form.reportValidity(); // Show native browser error
+                }
               });
             </script>                                 
           </div>
