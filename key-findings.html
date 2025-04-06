@@ -125,7 +125,47 @@
           After cleaning and standardizing the data, key features such as unit count, square footage, building age, occupancy rate, and market competitiveness were selected. The location was captured using CBSA regions, encoded for model use. A logistic regression model was then trained to estimate the likelihood (propensity score) that a property uses RealPage, based on its characteristics.
           <br><br>
           Using these propensity scores, each RealPage property was matched to a non-user with similar features to reduce bias—emulating a randomized control trial. The analysis showed that RealPage-managed properties charge, on average, $0.27 more per square foot than similar properties not using the software. This suggests that RealPage’s algorithmic pricing may significantly affect market rents and deserves further scrutiny.
-        </p>          
+        </p>
+        <!-- Lightbox Trigger Section -->
+        <div class="row">
+          <div class="col-12 mb-4">
+            <img src="photos/residual-rent-comparison.png" class="img-fluid img-thumbnail clickable-img" alt="Residual Rent Comparison" data-bs-toggle="modal" data-bs-target="#lightboxModal" data-img-src="residual-rent-comparison.png">
+          </div>
+          <div class="col-12 mb-4">
+            <img src="photos/Distribution of Rent Differences (RealPage - Non-RealPage).png" class="img-fluid img-thumbnail clickable-img" alt="Distribution of Rent Differences" data-bs-toggle="modal" data-bs-target="#lightboxModal" data-img-src="Distribution of Rent Differences (RealPage - Non-RealPage).png">
+          </div>
+          <div class="col-12 mb-4">
+            <img src="photos/Rent Comparison (Matched Sample).png" class="img-fluid img-thumbnail clickable-img" alt="Rent Comparison Matched Sample" data-bs-toggle="modal" data-bs-target="#lightboxModal" data-img-src="Rent Comparison (Matched Sample).png">
+          </div>
+          <div class="col-12 mb-4">
+            <img src="photos/propensity-dist.png" class="img-fluid img-thumbnail clickable-img" alt="Propensity Score Distribution" data-bs-toggle="modal" data-bs-target="#lightboxModal" data-img-src="propensity-dist.png">
+          </div>
+        </div>
+        <!-- Modal Structure -->
+        <div class="modal fade" id="lightboxModal" tabindex="-1" aria-labelledby="lightboxModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-fullscreen">
+            <div class="modal-content bg-dark">
+              <div class="modal-body p-0">
+                <img src="" id="lightboxImage" class="w-100 h-100 object-fit-contain" alt="Expanded Visualization">
+              </div>
+              <div class="modal-footer justify-content-center bg-dark">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            const modal = document.getElementById('lightboxModal');
+            const modalImg = document.getElementById('lightboxImage');
+            document.querySelectorAll('.clickable-img').forEach(img => {
+              img.addEventListener('click', () => {
+                const src = img.getAttribute('data-img-src');
+                modalImg.src = src;
+              });
+            });
+          });
+        </script>        
         <hr>
         <p><b>It is Unclear Whether this Rent Impact is Due to Price Coordination</b></p>
         <p>
