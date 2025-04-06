@@ -8,7 +8,83 @@
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
   <style>
+
+    html, body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    #wrapper {
+      flex-wrap: wrap;
+    }
+
+    .swiper-container {
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      overflow: hidden;
+      padding: 20px 0;
+    }
+
+    .swiper-wrapper {
+      display: flex;
+      box-sizing: border-box;
+    }
+
+    .swiper-slide {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+    }
+
+    .swiper-slide img {
+      width: 100%;
+      height: auto;
+      max-height: 450px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Swiper navigation buttons */
+    .swiper-button-next,
+    .swiper-button-prev {
+      position: absolute; /* ← This is critical */
+      color: #004a99; /* Make arrows visible (use your primary blue) */
+      font-size: 20px;
+      width: 44px;
+      height: 44px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+    }
+
+    /* Hover effect */
+    .swiper-button-next:hover,
+    .swiper-button-prev:hover {
+      color: #FDB515;
+    }
+
+    .swiper-button-prev {
+      left: -10px; /* move left arrow more to the left */
+    }
+
+    .swiper-button-next {
+      right: -10px; /* move right arrow more to the right */
+    }
+
+
+    iframe {
+      max-width: 100%;
+      display: block;
+    }
+
     /* Sidebar styles */
     @media (min-width: 769px) {
       #sidebar-wrapper {
@@ -21,6 +97,8 @@
 
       #page-content-wrapper {
         margin-left: 250px;
+        width: 100%;
+        overflow-x: hidden;
       }
 
       #menu-toggle {
@@ -124,48 +202,38 @@
           <br><br>
           After cleaning and standardizing the data, key features such as unit count, square footage, building age, occupancy rate, and market competitiveness were selected. The location was captured using CBSA regions, encoded for model use. A logistic regression model was then trained to estimate the likelihood (propensity score) that a property uses RealPage, based on its characteristics.
           <br><br>
-          Using these propensity scores, each RealPage property was matched to a non-user with similar features to reduce bias—emulating a randomized control trial. The analysis showed that RealPage-managed properties charge, on average, $0.27 more per square foot than similar properties not using the software. This suggests that RealPage’s algorithmic pricing may significantly affect market rents and deserves further scrutiny.
+          Using these propensity scores, each RealPage property was matched to a non-user with similar features to reduce bias—emulating a randomized control trial. The analysis showed that RealPage-managed properties charge, on average, $0.27 more per square foot than similar properties not using the software. This suggests that RealPage's algorithmic pricing may significantly affect market rents and deserves further scrutiny.
         </p>
-        <!-- Lightbox Trigger Section -->
-        <div class="row">
-          <div class="col-12 mb-4">
-            <img src="photos/residual-rent-comparison.png" class="img-fluid img-thumbnail clickable-img" alt="Residual Rent Comparison" data-bs-toggle="modal" data-bs-target="#lightboxModal" data-img-src="residual-rent-comparison.png">
-          </div>
-          <div class="col-12 mb-4">
-            <img src="photos/Distribution of Rent Differences (RealPage - Non-RealPage).png" class="img-fluid img-thumbnail clickable-img" alt="Distribution of Rent Differences" data-bs-toggle="modal" data-bs-target="#lightboxModal" data-img-src="Distribution of Rent Differences (RealPage - Non-RealPage).png">
-          </div>
-          <div class="col-12 mb-4">
-            <img src="photos/Rent Comparison (Matched Sample).png" class="img-fluid img-thumbnail clickable-img" alt="Rent Comparison Matched Sample" data-bs-toggle="modal" data-bs-target="#lightboxModal" data-img-src="Rent Comparison (Matched Sample).png">
-          </div>
-          <div class="col-12 mb-4">
-            <img src="photos/propensity-dist.png" class="img-fluid img-thumbnail clickable-img" alt="Propensity Score Distribution" data-bs-toggle="modal" data-bs-target="#lightboxModal" data-img-src="propensity-dist.png">
-          </div>
-        </div>
-        <!-- Modal Structure -->
-        <div class="modal fade" id="lightboxModal" tabindex="-1" aria-labelledby="lightboxModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered modal-fullscreen">
-            <div class="modal-content bg-dark">
-              <div class="modal-body p-0">
-                <img src="" id="lightboxImage" class="w-100 h-100 object-fit-contain" alt="Expanded Visualization">
+        <!-- Swiper Slider Section -->
+        <div class="container">
+          <div class="swiper-container">
+            <div class="swiper-wrapper">
+
+              <div class="swiper-slide">
+                <img src="photos/residual-rent-comparison.png" alt="Residual Rent Comparison" onclick="openLightbox(this.src)" style="cursor: zoom-in;">
               </div>
-              <div class="modal-footer justify-content-center bg-dark">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+
+              <div class="swiper-slide">
+                <img src="photos/Distribution of Rent Differences (RealPage - Non-RealPage).png" alt="Distribution of Rent Differences" onclick="openLightbox(this.src)" style="cursor: zoom-in;">
+              </div>
+
+              <div class="swiper-slide">
+                <img src="photos/Rent Comparison (Matched Sample).png" alt="Rent Comparison Matched Sample" onclick="openLightbox(this.src)" style="cursor: zoom-in;">
+              </div>
+
+              <div class="swiper-slide">
+                <img src="photos/propensity-dist.png" alt="Propensity Score Distribution" onclick="openLightbox(this.src)" style="cursor: zoom-in;">
               </div>
             </div>
-          </div>
-        </div>
-        <script>
-          document.addEventListener("DOMContentLoaded", function () {
-            const modal = document.getElementById('lightboxModal');
-            const modalImg = document.getElementById('lightboxImage');
-            document.querySelectorAll('.clickable-img').forEach(img => {
-              img.addEventListener('click', () => {
-                const src = img.getAttribute('data-img-src');
-                modalImg.src = src;
-              });
-            });
-          });
-        </script>        
+
+            <!-- Navigation (desktop only) -->
+            <div class="desktop-only swiper-button-next"></div>
+            <div class="desktop-only swiper-button-prev"></div>
+
+            <!-- Pagination (mobile friendly) -->
+            <div class="mobile-only swiper-pagination"></div>
+          </div>    
+        </div>    
         <hr>
         <p><b>It is Unclear Whether this Rent Impact is Due to Price Coordination</b></p>
         <p>
@@ -323,202 +391,85 @@
         });
     });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
     <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        const ctx = document.getElementById('comboChart').getContext('2d');
-      
-        fetch("https://rpc-webpage.s3-accelerate.amazonaws.com/cbsa_data_final.csv")
-          .then(res => res.text())
-          .then(csv => {
-            Papa.parse(csv, {
-              header: true,
-              skipEmptyLines: true,
-              complete: function(results) {
-                const data = results.data;
-                const yearMap = {};
-      
-                data.forEach(row => {
-                  const year = parseInt(row.yearBuilt);
-                  const rent = parseFloat(row["MPF-RENT"]);
-                  const growth = parseFloat(row["MPF-ANN-RENT-CHG"]);
-      
-                  if (!isNaN(year) && year >= 1950 && year <= 2025 && !isNaN(rent) && !isNaN(growth)) {
-                    if (!yearMap[year]) {
-                      yearMap[year] = { rentTotal: 0, growthTotal: 0, count: 0 };
-                    }
-                    yearMap[year].rentTotal += rent;
-                    yearMap[year].growthTotal += growth;
-                    yearMap[year].count++;
-                  }
-                });
-      
-                const labels = [];
-                const avgRent = [];
-                const avgGrowth = [];
-      
-                Object.entries(yearMap).forEach(([year, stats]) => {
-                  if (stats.count >= 5) {
-                    labels.push(year);
-                    avgRent.push(stats.rentTotal / stats.count);
-                    avgGrowth.push((stats.growthTotal / stats.count) * 100); // convert to %
-                  }
-                });
-      
-                new Chart(ctx, {
-                  type: 'bar',
-                  data: {
-                    labels,
-                    datasets: [
-                      {
-                        type: 'bar',
-                        label: 'Avg Rent ($)',
-                        data: avgRent,
-                        backgroundColor: 'rgba(0, 123, 255, 0.7)',
-                        yAxisID: 'y'
-                      },
-                      {
-                        type: 'line',
-                        label: 'Rent Growth (%)',
-                        data: avgGrowth,
-                        borderColor: 'rgba(220, 53, 69, 1)',
-                        backgroundColor: 'rgba(220, 53, 69, 0.3)',
-                        yAxisID: 'y1',
-                        fill: false
-                      }
-                    ]
-                  },
-                  options: {
-                    responsive: true,
-                    plugins: {
-                      title: {
-                        display: true,
-                        text: 'Rent and Rent Growth by Year Built'
-                      }
-                    },
-                    scales: {
-                      y: {
-                        beginAtZero: true,
-                        title: {
-                          display: true,
-                          text: 'Average Rent ($)'
-                        }
-                      },
-                      y1: {
-                        beginAtZero: true,
-                        position: 'right',
-                        grid: { drawOnChartArea: false },
-                        title: {
-                          display: true,
-                          text: 'Annual Rent Growth (%)'
-                        }
-                      }
-                    }
-                  }
-                });
-              }
-            });
-          });
-      });
-      </script>
-      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
-      <script>
       document.addEventListener("DOMContentLoaded", function () {
-        const canvas = document.getElementById("predictionChart").getContext("2d");
-      
-        fetch("https://rpc-webpage.s3-accelerate.amazonaws.com/cbsa_data_final.csv")
-          .then(res => res.text())
-          .then(csv => {
-            Papa.parse(csv, {
-              header: true,
-              skipEmptyLines: true,
-              complete: function(results) {
-                const data = results.data;
-      
-                const realPagePoints = [];
-                const otherPoints = [];
-      
-                data.forEach(row => {
-                  const actual = parseFloat(row["MPF-RENT"]);
-                  const predicted = parseFloat(row["MPF-HIST-ASK-RENT"]);
-                  const source = row["uses_realpage"];
-      
-                  if (!isNaN(actual) && !isNaN(predicted)) {
-                    const point = {
-                      x: actual,
-                      y: predicted,
-                      tooltip: row["propertyName"] || ""
-                    };
-                    (source === "1" ? realPagePoints : otherPoints).push(point);
-                  }
-                });
-      
-                new Chart(canvas, {
-                  type: "scatter",
-                  data: {
-                    datasets: [
-                      {
-                        label: "RealPage",
-                        data: realPagePoints,
-                        backgroundColor: "rgba(255,99,132,0.8)",
-                        pointRadius: 4
-                      },
-                      {
-                        label: "Not RealPage",
-                        data: otherPoints,
-                        backgroundColor: "rgba(54,162,235,0.8)",
-                        pointRadius: 4
-                      },
-                      {
-                        type: "line",
-                        label: "Perfect Fit (y = x)",
-                        data: Array.from({length: 100}, (_, i) => ({ x: i * 100, y: i * 100 })),
-                        borderColor: "rgba(0,0,0,0.3)",
-                        borderWidth: 1,
-                        pointRadius: 0,
-                        fill: false
-                      }
-                    ]
-                  },
-                  options: {
-                    responsive: true,
-                    plugins: {
-                      tooltip: {
-                        callbacks: {
-                          label: function(context) {
-                            return `${context.dataset.label}: Predicted $${context.parsed.y.toFixed(0)}, Actual $${context.parsed.x.toFixed(0)}`;
-                          }
-                        }
-                      },
-                      title: {
-                        display: true,
-                        text: "Predicted vs Actual Rent Prices"
-                      }
-                    },
-                    scales: {
-                      x: {
-                        title: { display: true, text: "Actual Rent Price ($)" },
-                        min: 0
-                      },
-                      y: {
-                        title: { display: true, text: "Predicted Rent Price ($)" },
-                        min: 0
-                      }
-                    }
-                  }
-                });
-              }
-            });
-          });
+          const menuToggle = document.getElementById("menu-toggle");
+          const wrapper = document.getElementById("wrapper");
+          menuToggle.addEventListener("click", () => {
+          wrapper.classList.toggle("toggled");
+        });
       });
-
-      document.addEventListener("DOMContentLoaded", function () {
-      const menuToggle = document.getElementById("menu-toggle");
-      const wrapper = document.getElementById("wrapper");
-      menuToggle.addEventListener("click", () => {
-        wrapper.classList.toggle("toggled");
+    </script>
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const swiper = new Swiper('.swiper-container', {
+        loop: true,
+        slidesPerView: 1,
+        spaceBetween: 10,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+        breakpoints: {
+          768: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
+          1024: {
+            slidesPerView: 3,
+            spaceBetween: 30,
+          }
+        }
       });
     });
-      </script>
+  </script>
+  <!-- Lightbox Modal -->
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <img id="lightbox-img" src="" alt="Full Size Image">
+  </div>
+  <style>
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 3000;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.85);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+    }
+  </style>
+  <script>
+    function openLightbox(src) {
+      const lightbox = document.getElementById('lightbox');
+      const img = document.getElementById('lightbox-img');
+      img.src = src;
+      lightbox.style.display = 'flex';
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').style.display = 'none';
+    }
+    // Allow closing with ESC key
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
 </body>
 </html>
