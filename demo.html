@@ -244,7 +244,7 @@
         let interpretation = `
           <hr>
           <strong>Propensity Score:</strong> ${propensity !== null ? propensity.toFixed(4) : 'N/A'} <br>
-          <em>This score represents the estimated probability that algorithmic collusion took place in determining rent prices with RealPage, based on observed characteristics. It ranges from 0 to 1. Higher values indicate stronger likelihood of algorithmic collusion.</em><br><br>
+          <em>This score represents the estimated probability that a property uses RealPage to determine pricing. Higher values indicate that a property with these characteristics is using the RealPage algorithm.</em><br><br>
 
           <strong>Average Treatment Effect on the Treated (ATT):</strong> ${att !== null ? `$${att.toFixed(2)}` : 'N/A'} <br>
           <em>This value estimates the average difference in rent per square foot attributable to using RealPage pricing tools versus not using them.</em><br><br>
@@ -259,7 +259,7 @@
 
         let outputHTML = `
           <strong>
-            <span data-bs-toggle="tooltip" title="The probability (0 to 1) that algorithmic collusion took place in determining rent prices using RealPage.">
+            <span data-bs-toggle="tooltip" title="The likelihood (propensity score) that a property uses RealPage to determine pricing (ranges from 0 to 1).">
               Propensity Score:
             </span>
           </strong>
