@@ -196,7 +196,7 @@
           The following visualizations provide insights into the machine learning models' performances and feature importance.
           These visualizations help in understanding the models' predictions and the significance of different features in the dataset.
         </p>
-        <h3>Propensity Score and Machine Learning Prediction for Rental Properties</h3>
+        <h4>Propensity Score and Machine Learning Prediction for Rental Properties</h4>
         <p>
           This analysis investigates how RealPage's pricing software may influence rental rates in the multifamily housing market. Researchers compiled a dataset of over 42,000 properties across the U.S., including a subset of ~5,000 properties identified as RealPage users based on public legal documents. Due to inconsistent property names and addresses, a multi-step fuzzy matching process was used to accurately link records across datasets using text normalization and similarity metrics like Levenshtein distance and address-based scoring.
           <br><br>
@@ -242,7 +242,7 @@
           However, we do not see this effect; therefore, our data does not prove whether or not price coordination is the root cause of RealPage's rent impact.          
         </p>
         <br>
-        <h3>Demonstrate ARIMA Modeling</h3>
+        <h4>Demonstrate ARIMA Modeling</h4>
         <p>
           The COVID pandemic of 2020 had a significant effect on the housing market which varied across cities and time. 
           To test the effect of a 2017 merger, we start by adjusting for the effect of COVID in 2020 and beyond. 
@@ -252,7 +252,7 @@
           <h5>Zillow Index and COVID Adjustment (2015 - 2022)</h5>
           <iframe src="covid_adjustment.html" style="width: 100%; height: 800px; border: none;"></iframe>
         </div>
-        <h3>Explain Treatment and Control Selection</h3>
+        <h4>Explain Treatment and Control Selection</h4>
         <p>
           Next, we need to select a treatment group and a control group. If this merger has an effect, it would have the highest effect on cities with both a high RealPage penetration rate and a high share gain from the merger (and the lowest effect on cities with low penetration rates and share gains).<br>
           We estimate RealPage's share of multifamily rental units based on their own disclosed share of *all* rental units for 20 select cities in May 2023, the count of total units according to the 2023 American Community Survey, and the share of units which are multifamily from the same survey. We select the cities with the highest share (Atlanta, Dallas, Phoenix, Denver, Tampa, and Washington DC) as the treatment group, and the cities with the lowest share (Minneapolis, San Diego, Miami, San Francisco, Chicago, Detroit, Los Angeles, and New York) as the control group.
@@ -261,7 +261,7 @@
           <h5>"RealPage's Multifamily Penetration Rate by City (May 2023)</h5>
           <iframe src="realpage_lro_shares_2023-05.html" style="width: 100%; height: 800px; border: none;"></iframe>
         </div>
-        <h3>Compare Treatment to Control</h3>
+        <h4>Compare Treatment to Control</h4>
         <p>
           For each of the six <b>treatment</b> cities, we use a machine learning approach called the "Synthetic Control" method to predict the treatment city's pre-merger rent level using only the <b>control cities</b>' rent levels. We make this prediction model as accurate as possible using only <b>pre-merger</b> data, then use that model to predict the <b>post-merger</b> rent levels. <br><br>
           In essence, the Synthetic Control is a prediction of what a city's rent *would* look like if the combined market share was much lower there. If a city's rent is much higher than its Synthetic Control predicted level, this suggests that the 2017 RealPage-LRO merger may be causing higher rent. Conversely, if the citys rent is much lower than its Synthetic Control predicted level, this suggests that the merger may be causing lower rent.<br><br>
