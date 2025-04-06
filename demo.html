@@ -244,12 +244,13 @@
           <strong>Propensity Score:</strong> ${propensity !== null ? propensity.toFixed(4) : 'N/A'} <br>
           <em>This score represents the estimated probability that algorithmic collusion took place in determining rent prices with RealPage, based on observed characteristics. It ranges from 0 to 1. Higher values indicate stronger likelihood of algorithmic collusion.</em><br><br>
 
-          <strong>Matched Index:</strong> ${matchIndex !== null ? matchIndex : 'N/A'} <br>
-          <em>This is the index of the most similar property used for comparison in the matching analysis based on similar propensity scores.</em>
+          <strong>Predicted Rent per Square Foot (RPSF):</strong> ${rpsf !== null ? `$${rpsf.toFixed(2)}` : 'N/A'} <br>
+          <em>This is the predicted rent per square foot ($USD), used as a key comparative indicator in rent analysis.</em>
           <hr>
         `;
 
         console.log(interpretation);
+
         let outputHTML = `
           <strong>
             <span data-bs-toggle="tooltip" title="The probability (0 to 1) that this algorithmic collusion took place in determining rent prices using RealPage.">
@@ -258,11 +259,11 @@
           </strong>
           <span class="text-info fw-bold">${propensity !== null ? propensity.toFixed(4) : 'N/A'}</span><br>
           <strong>
-            <span data-bs-toggle="tooltip" title="Index of the most similar property used for comparison in the matching analysis.">
-              Match Index:
+            <span data-bs-toggle="tooltip" title="Predicted Rent per square foot from the model.">
+              Predicted Rent per Square Foot (RPSF):
             </span>
           </strong>
-          <span class="text-info fw-bold">${matchIndex !== null ? matchIndex : 'N/A'}</span><br>
+          <span class="text-info fw-bold">${rpsf !== null ? `$${rpsf.toFixed(2)}` : 'N/A'}</span><br>
           ${interpretation}
           ${data.mse !== undefined ? `<strong><span data-bs-toggle="tooltip" title="The average of the squared differences between the predicted and actual values. Lower values indicate better predictive accuracy.">MSE:</span></strong> <span>${data.mse}</span> <br>` : ""}
           ${data.confidence !== undefined ? `<strong><span data-bs-toggle="tooltip" title="How certain the model is about its prediction.">Confidence:</span></strong> <span>${data.confidence}%</span> <br>` : ""}
@@ -286,7 +287,7 @@
         loadingDiv.classList.add('d-none');
         outputDiv.classList.remove('d-none');
         outputDiv.classList.add('alert-danger');
-        outputDiv.textContent = 'Error fetching prediction or geocoding city. Please try again.';
+        outputDiv.textContent = 'Error fetching prediction. Please try again.';
         console.error(err);
       }
     });
