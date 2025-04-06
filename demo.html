@@ -237,15 +237,21 @@
         console.log(data);
 
         const propensity = Array.isArray(data.propensity_scores) ? data.propensity_scores[0] : null;
-        const rpsf = Array.isArray(data.rpsf) ? data.rpsf[0] : null;
+        const att = data["MPF-RPSF"]?.ATT ?? null;
+        const rpsfRealPage = data["MPF-RPSF"]?.uses_realpage_true ?? null;
+        const rpsfNonRealPage = data["MPF-RPSF"]?.uses_realpage_false ?? null;
 
         let interpretation = `
           <hr>
           <strong>Propensity Score:</strong> ${propensity !== null ? propensity.toFixed(4) : 'N/A'} <br>
           <em>This score represents the estimated probability that algorithmic collusion took place in determining rent prices with RealPage, based on observed characteristics. It ranges from 0 to 1. Higher values indicate stronger likelihood of algorithmic collusion.</em><br><br>
 
-          <strong>Predicted Rent per Square Foot (RPSF):</strong> ${rpsf !== null ? `$${rpsf.toFixed(2)}` : 'N/A'} <br>
-          <em>This is the predicted rent per square foot ($USD), used as a key comparative indicator in rent analysis.</em>
+          <strong>Average Treatment Effect on the Treated (ATT):</strong> ${att !== null ? `$${att.toFixed(2)}` : 'N/A'} <br>
+          <em>This value estimates the average difference in rent per square foot attributable to using RealPage pricing tools versus not using them.</em><br><br>
+
+          <strong>Predicted RPSF (RealPage Users):</strong> ${rpsfRealPage !== null ? `$${rpsfRealPage.toFixed(2)}` : 'N/A'} <br>
+          <strong>Predicted RPSF (Non-RealPage Users):</strong> ${rpsfNonRealPage !== null ? `$${rpsfNonRealPage.toFixed(2)}` : 'N/A'} <br>
+          <em>These are the predicted rent per square foot ($USD) values for properties using and not using RealPage, respectively.</em>
           <hr>
         `;
 
@@ -253,17 +259,33 @@
 
         let outputHTML = `
           <strong>
-            <span data-bs-toggle="tooltip" title="The probability (0 to 1) that this algorithmic collusion took place in determining rent prices using RealPage.">
+            <span data-bs-toggle="tooltip" title="The probability (0 to 1) that algorithmic collusion took place in determining rent prices using RealPage.">
               Propensity Score:
             </span>
           </strong>
           <span class="text-info fw-bold">${propensity !== null ? propensity.toFixed(4) : 'N/A'}</span><br>
+
           <strong>
-            <span data-bs-toggle="tooltip" title="Predicted Rent per square foot from the model.">
-              Predicted Rent per Square Foot (RPSF):
+            <span data-bs-toggle="tooltip" title="The estimated average increase in rent per square foot due to RealPage usage.">
+              ATT (Effect of RealPage):
             </span>
           </strong>
-          <span class="text-info fw-bold">${rpsf !== null ? `$${rpsf.toFixed(2)}` : 'N/A'}</span><br>
+          <span class="text-info fw-bold">${att !== null ? `$${att.toFixed(2)}` : 'N/A'}</span><br>
+
+          <strong>
+            <span data-bs-toggle="tooltip" title="Predicted rent per square foot for properties using RealPage.">
+              RPSF (RealPage):
+            </span>
+          </strong>
+          <span class="text-info fw-bold">${rpsfRealPage !== null ? `$${rpsfRealPage.toFixed(2)}` : 'N/A'}</span><br>
+
+          <strong>
+            <span data-bs-toggle="tooltip" title="Predicted rent per square foot for properties not using RealPage.">
+              RPSF (Non-RealPage):
+            </span>
+          </strong>
+          <span class="text-info fw-bold">${rpsfNonRealPage !== null ? `$${rpsfNonRealPage.toFixed(2)}` : 'N/A'}</span><br>
+
           ${interpretation}
           ${data.mse !== undefined ? `<strong><span data-bs-toggle="tooltip" title="The average of the squared differences between the predicted and actual values. Lower values indicate better predictive accuracy.">MSE:</span></strong> <span>${data.mse}</span> <br>` : ""}
           ${data.confidence !== undefined ? `<strong><span data-bs-toggle="tooltip" title="How certain the model is about its prediction.">Confidence:</span></strong> <span>${data.confidence}%</span> <br>` : ""}
