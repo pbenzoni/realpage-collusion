@@ -115,20 +115,12 @@
         <!-- Add visuals from the ML Models -->
         <h3>Propensity Score and Machine Learning Prediction for Rental Properties</h3>
         <p>
-          <strong>Propensity Score and Machine Learning Prediction for Rental Properties</strong><br><br>
-          
-          <b>Data Collection:</b> One dataset was taken from the RealPage Explore page and combined to create a comprehensive CBSA-level dataset of approximately 42,000 multifamily properties representing the broader rental market. A proprietary list of ~5,000 multifamily properties known to use RealPage was manually scraped using public property manager names listed in the RealPage lawsuit.<br><br>
-          
-          <b>Fuzzy Matching:</b> Due to inconsistent property identifiers, redundancy, and data quality issues—including variations in naming, abbreviations, and address formatting—it was difficult to match properties directly across datasets. A multi-step fuzzy matching process was implemented: property names were standardized (lowercased, special characters removed, abbreviations normalized), and similarity was computed using Levenshtein distance, Jaccard similarity, and a custom address match score. Matches were classified into high-confidence (score ≥ 75), possible (50–75), and unmatched (&lt; 50). A final set of 5,175 RealPage matches was retained with 100% confidence.<br><br>
-          
-          <b>Data Preprocessing:</b> From 37 original features, the dataset was reduced to 15 through OLS testing against MPF-RPSF. Steps included filtering out CBSAs with no RealPage listings, removing student housing, converting yearBuilt into building_age, casting numeric columns, dropping features with &gt;50% missing data, and eliminating highly collinear pairs (threshold &gt; 0.9). Median imputation was applied for remaining missing values.<br><br>
-          
-          <b>Propensity Model:</b> The goal was to estimate the rent a RealPage-using property would charge if it did not use RealPage, while controlling for characteristics. Treatment status was defined via a RealPage flag. Features included: square footage (unit size), stories (vertical scale), unit count (property size), building age, occupancy rate, and historical market concentration. CBSA was used to control for geographic differences and was one-hot encoded.<br><br>
-          
-          Before modeling, the covariate matrix was standardized using z-score transformation. A logistic regression model was trained to estimate propensity scores—i.e., the probability that a property uses RealPage based on its characteristics. Each RealPage (treated) property was matched to a non-user (control) using 1:1 nearest neighbor matching on propensity score, minimizing bias from observed variables. This resulted in 1,860 matched pairs.<br><br>
-
-          After matching, the treated and control datasets were combined, and the average treatment effect on the treated (ATT) was computed by comparing the matched properties' rent per square foot (MPF-RPSF). The final result showed that RealPage-managed properties charged, on average, $0.27 more per square foot compared to similar properties not using RealPage.
-          </p>                  
+          This analysis investigates how RealPage's pricing software may influence rental rates in the multifamily housing market. Researchers compiled a dataset of over 42,000 properties across the U.S., including a subset of ~5,000 properties identified as RealPage users based on public legal documents. Due to inconsistent property names and addresses, a multi-step fuzzy matching process was used to accurately link records across datasets using text normalization and similarity metrics like Levenshtein distance and address-based scoring.
+          <br><br>
+          After cleaning and standardizing the data, key features such as unit count, square footage, building age, occupancy rate, and market competitiveness were selected. The location was captured using CBSA regions, encoded for model use. A logistic regression model was then trained to estimate the likelihood (propensity score) that a property uses RealPage, based on its characteristics.
+          <br><br>
+          Using these propensity scores, each RealPage property was matched to a non-user with similar features to reduce bias—emulating a randomized control trial. The analysis showed that RealPage-managed properties charge, on average, $0.27 more per square foot than similar properties not using the software. This suggests that RealPage’s algorithmic pricing may significantly affect market rents and deserves further scrutiny.
+        </p>          
         <hr>
         <h2 class="mt-5">Additional Model Visualizations</h2>
         <p class="text-muted">
