@@ -96,7 +96,7 @@
     .chart-wrapper canvas {
       min-width: 600px;
       width: 100%;
-      height: 500px;  /* Give it a healthy default height */
+      height: 700px;  /* Give it a healthy default height */
       max-height: none;
     }
 
@@ -1025,6 +1025,7 @@
             },
             options: {
               responsive: true,
+              maintainAspectRatio: false,
               plugins: {
                 title: {
                   display: true,
@@ -1117,6 +1118,7 @@
           data: chartData,
           options: {
             responsive: true,
+            maintainAspectRatio: false,
             plugins: {
               title: {
                 display: true,
