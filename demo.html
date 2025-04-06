@@ -109,13 +109,13 @@
                 </small>
               </div>
             
-              <!-- Year Built -->
+              <!-- Building Age (Year Built) -->
               <div class="mb-3">
-                <label for="yearBuilt" class="form-label">
-                  Year Built <span data-bs-toggle="tooltip" title="Year the property was built. Usually ranges from 1900 to present.">ⓘ</span>
+                <label for="building_age" class="form-label">
+                  Year Built <span data-bs-toggle="tooltip" title="Age of the building in years, according to the year that the building was constructed.">ⓘ</span>
                 </label>
-                <input type="range" class="form-range" id="yearBuilt" name="yearBuilt" min="1900" max="2025" step="1" value="2000" oninput="yearBuiltOutput.value = this.value">
-                <output id="yearBuiltOutput" class="form-text">2000</output>
+                <input type="range" class="form-range" id="building_age" name="building_age" min="0" max="50" step="1" value="15" oninput="building_ageOutput.value = this.value">
+                <output id="building_ageOutput" class="form-text">2000</output>
               </div>
             
               <!-- Unit Count -->
@@ -154,20 +154,6 @@
                 </small>
               </div>
             
-              <!-- City / Submarket -->
-              <div class="mb-3">
-                <label for="city" class="form-label">
-                  City / Submarket
-                  <span data-bs-toggle="tooltip" title="Search for a city or submarket.">ⓘ</span>
-                </label>
-                <input type="text" class="form-control" id="city" name="city" list="city-suggestions" placeholder="e.g. Austin, TX" required>
-                <datalist id="city-suggestions"></datalist>
-                <br>
-                <small class="form-text text-muted">
-                  Need help? Use the <a href="interactive-map.html" target="_blank">interactive map</a> to find common market values.
-                </small>
-              </div>
-            
               <!-- Stories -->
               <div class="mb-3">
                 <label for="stories" class="form-label">
@@ -178,67 +164,7 @@
               </div>
             
               <button type="submit" class="btn btn-primary">Submit & Predict</button>
-            </form>             
-            <script>
-              const cityInput = document.getElementById('city');
-              const citySuggestions = document.getElementById('city-suggestions');
-              let lastValidCity = '';
-
-              // Autocomplete
-              let cityTimeout = null;
-              cityInput.addEventListener('input', () => {
-                clearTimeout(cityTimeout);
-                const query = cityInput.value.trim();
-                if (query.length < 3) return;
-            
-                cityTimeout = setTimeout(async () => {
-                  try {
-                    const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5&addressdetails=1`);
-                    const results = await res.json();
-            
-                    citySuggestions.innerHTML = '';
-                    results.forEach(result => {
-                      const cityLabel = result.display_name;
-                      const option = document.createElement('option');
-                      option.value = cityLabel;
-                      citySuggestions.appendChild(option);
-                    });
-                  } catch (err) {
-                    console.error('Autocomplete error:', err);
-                  }
-                }, 300);
-              });
-            
-              // Validate city on blur
-              cityInput.addEventListener('blur', async () => {
-              const city = cityInput.value.trim();
-              if (city === '') {
-                cityInput.setCustomValidity('City is required.');
-                return;
-              }
-              try {
-                const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(city)}&limit=1&addressdetails=1`);
-                const results = await res.json();
-
-                const validTypes = ["city", "town", "village", "hamlet", "suburb", "municipality", "locality"];
-
-                if (
-                  !results.length ||
-                  !results[0].type ||
-                  !validTypes.includes(results[0].type)
-                ) {
-                  console.warn("Rejected:", results[0]?.display_name, "→ type:", results[0]?.type);
-                  cityInput.setCustomValidity('Not a valid city or submarket. Please enter a real one.');
-                } else {
-                  cityInput.setCustomValidity('');
-                  lastValidCity = city;
-                }
-              } catch (err) {
-                console.error(err);
-                cityInput.setCustomValidity('Could not validate city. Please try again.');
-              }
-            });
-            </script>                                             
+            </form>                                           
           </div>
         </div>
         <!-- Loading Message -->
@@ -282,40 +208,19 @@
     const form = document.getElementById('model-form-propensity');
     const outputDiv = document.getElementById('model-output');
   
-    // ✅ Helper: Geocode city into lat/lng
-    async function getLatLongFromCity(city) {
-      const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(city)}`);
-      const data = await response.json();
-      if (data && data.length > 0) {
-        return {
-          latitude: parseFloat(data[0].lat),
-          longitude: parseFloat(data[0].lon)
-        };
-      } else {
-        throw new Error('Location not found');
-      }
-    }
-  
     const loadingDiv = document.getElementById('loading-message');
     form.addEventListener('submit', async event => {
       event.preventDefault();
-  
-      const city = document.getElementById('city').value.trim();
-
       // Show loading message
       loadingDiv.classList.remove('d-none');
   
       try {
-        const { latitude, longitude } = await getLatLongFromCity(city);
-  
         const payload = {
             averageSquareFootage: parseInt(document.getElementById('averageSquareFootage').value),
-            yearBuilt: parseInt(document.getElementById('yearBuilt').value),
+            building_age: parseInt(document.getElementById('building_age').value),
             unitcount: parseInt(document.getElementById('unitcount').value),
             "MPF-HIST-CONC-RATIO": parseFloat(document.getElementById('MPF-HIST-CONC-RATIO').value),
             "MPF-OCC": parseFloat(document.getElementById('MPF-OCC').value),
-            latitude,
-            longitude,
             stories: parseInt(document.getElementById('stories').value)
         };
   
