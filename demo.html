@@ -237,7 +237,7 @@
         console.log(data);
 
         const propensity = Array.isArray(data.propensity_scores) ? data.propensity_scores[0] : null;
-        const matchIndex = Array.isArray(data.match_indices) ? data.match_indices[0] : null;
+        const rpsf = Array.isArray(data.rpsf) ? data.rpsf[0] : null;
 
         let interpretation = `
           <hr>
