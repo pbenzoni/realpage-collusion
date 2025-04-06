@@ -84,6 +84,22 @@
       height: auto;
       max-height: 700px;
     }
+
+    .chart-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 20px;
+    }
+
+    .chart-wrapper canvas {
+      min-width: 600px;
+      width: 100%;
+      height: 500px;  /* Give it a healthy default height */
+      max-height: none;
+    }
+
   </style>
   <!-- Defer non-critical scripts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
@@ -242,9 +258,9 @@
             and metropolitation area to compare RealPage-managed properties to the rest of the market.
           </p>
           <div style="display: flex; flex-direction: column; gap: 20px;">
-            <canvas id="rentComparablesChart"></canvas>
-            <canvas id="yearBuiltVolumeChart"></canvas>
-          </div>
+            <div class="chart-wrapper"><canvas id="rentComparablesChart"></canvas></div>
+            <div class="chart-wrapper"><canvas id="yearBuiltVolumeChart"></canvas></div>
+          </div>          
           <p class="mt-4">Scroll down to understand who RealPage serves and in what markets.</p>
           <div class="scroll-indicator" style=" margin-bottom: -400px;">
             <a href="#contextualizingRentHR">
@@ -1029,7 +1045,13 @@
               scales: {
                 x: {
                   title: { display: true, text: "City" },
-                  ticks: { autoSkip: false },
+                  ticks: {
+                    autoSkip: true,
+                    maxRotation: 90,
+                    minRotation: 45,
+                    maxTicksLimit: 6, // Show fewer labels to prevent squish
+                    font: { size: 10 } // Smaller font to help fit
+                  },
                   offset: true
                 },
                 y: {
