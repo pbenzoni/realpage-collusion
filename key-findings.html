@@ -113,6 +113,11 @@
         <br>
         <hr>
         <!-- Add visuals from the ML Models -->
+        <h2 class="mt-5">Machine Learning Models</h2>
+        <p class="text-muted">
+          The following visualizations provide insights into the machine learning models' performances and feature importance.
+          These visualizations help in understanding the models' predictions and the significance of different features in the dataset.
+        </p>
         <h3>Propensity Score and Machine Learning Prediction for Rental Properties</h3>
         <p>
           This analysis investigates how RealPage's pricing software may influence rental rates in the multifamily housing market. Researchers compiled a dataset of over 42,000 properties across the U.S., including a subset of ~5,000 properties identified as RealPage users based on public legal documents. Due to inconsistent property names and addresses, a multi-step fuzzy matching process was used to accurately link records across datasets using text normalization and similarity metrics like Levenshtein distance and address-based scoring.
@@ -122,11 +127,6 @@
           Using these propensity scores, each RealPage property was matched to a non-user with similar features to reduce bias—emulating a randomized control trial. The analysis showed that RealPage-managed properties charge, on average, $0.27 more per square foot than similar properties not using the software. This suggests that RealPage’s algorithmic pricing may significantly affect market rents and deserves further scrutiny.
         </p>          
         <hr>
-        <h2 class="mt-5">Additional Model Visualizations</h2>
-        <p class="text-muted">
-          The following visualizations provide insights into the machine learning models' performances and feature importance.
-          These visualizations help in understanding the models' predictions and the significance of different features in the dataset.
-        </p>
         <p><b>It is Unclear Whether this Rent Impact is Due to Price Coordination</b></p>
         <p>
           Our predictive models suggest that RealPage usage can predict higher rents. However, can we test whether this correlation is actually *because of* effects which are similar to price-fixing, and not other factors like efficiency?<br><br>
