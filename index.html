@@ -67,16 +67,20 @@
       align-items: center;
       justify-content: flex-start;
       scroll-snap-align: start;
-      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      /* 
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out; 
       opacity: 0;
       transform: translateY(30px);
+      */
       padding: 20px;
     }
 
+    /*
     .section.in-view {
       opacity: 1;
       transform: translateY(0);
     }
+    */
 
     /* Adjusted chart container height for readability */
     canvas {
@@ -867,6 +871,7 @@
       // Optionally refresh charts if data changes.
     }
 
+    /*
     document.addEventListener("DOMContentLoaded", function () {
       const sections = document.querySelectorAll('.section');
       const observer = new IntersectionObserver((entries) => {
@@ -881,6 +886,7 @@
       }, { threshold: 0.4 });
       sections.forEach(section => observer.observe(section));
     });
+    */
 
     document.addEventListener("DOMContentLoaded", function () {
       fetch('https://rpc-webpage.s3-accelerate.amazonaws.com/cbsa_data_final.csv')
