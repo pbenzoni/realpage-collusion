@@ -206,7 +206,7 @@
         <p>
           This analysis investigates how RealPage's pricing software may influence rental rates in the multifamily housing market. Researchers compiled a dataset of over 42,000 properties across the U.S., including a subset of <b>~5,000</b> properties identified as RealPage users based on public legal documents. Due to inconsistent property names and addresses, a multi-step fuzzy matching process was used to accurately link records across datasets using text normalization and similarity metrics like Levenshtein distance and address-based scoring.
           <br><br>
-          After cleaning and standardizing the data, key features such as unit count, square footage, building age, occupancy rate, and market competitiveness were selected.<br>
+          After cleaning and standardizing the data, key features such as unit count, square footage, building age, occupancy rate, and market competitiveness were selected. 
           To factor in how different regions can affect the market, we used the property's CBSA (Core-Based Statistical Area) to represent its location. Since CBSA is a category (like a label) rather than a number, we used a method called one-hot encoding. This turned each CBSA into its own yes/no flag, so the model could understand which region a property belongs to without making any assumptions about how regions are related. After doing this, we combined these regional indicators with the rest of our numeric features to create a complete dataset for the model to learn from.
           <br><br>
           A logistic regression model was then trained to estimate the likelihood (propensity score) that a property uses RealPage, based on its characteristics.
