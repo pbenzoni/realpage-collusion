@@ -230,7 +230,23 @@
         <p>
           These simulations not only serve to validate the models but also provide clear visual insights.
         </p>
-        
+
+        <h4>Interaction of Market Share and RealPage Usage</h4>
+        <p>
+          Our newest updated model extends our analysis by incorporating a proxy for RealPage's market share within each CBSA (Core-Based Statistical Area). This allows us to investigate how the extent of RealPage's local dominance may interact with pricing outcomes.
+        </p>
+        <p>
+          <strong>Market Share Proxy:</strong><br>
+          We calculate market share per CBSA as the proportion of properties flagged as RealPage users:
+        </p>
+        <pre><code>RealPage Market Share = (Number of RealPage-flagged Properties) / (Total Properties in CBSA)</code></pre>
+        <p>
+          This variable is included in the regression model alongside other property-level features. We also include an interaction term between <code>uses_realpage</code> and <code>market_share</code> to test whether RealPage's pricing influence grows as its market penetration increases in a given area.
+        </p>
+        <p>
+          To visualize this, we simulate predictions from the model for both RealPage and non-RealPage users across a range of market share values. The resulting chart shows how predicted price per square foot changes depending on local RealPage saturation.
+        </p>
+
         <p>Click on the visualizations below to view them in full size.</p>
 
         <!-- Swiper Slider Section -->
