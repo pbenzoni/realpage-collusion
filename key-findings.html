@@ -196,6 +196,12 @@
           The following visualizations provide insights into the machine learning models' performances and feature importance.
           These visualizations help in understanding the models' predictions and the significance of different features in the dataset.
         </p>
+
+        <h4>Predicting the Usage of RealPage</h4>
+        <p>
+          We first developed a machine learning model to predict whether a property uses RealPage based on features like location (CBSA), size, age, unit count, and market conditions. After cleaning and preparing the data, we used logistic regression to estimate the likelihood of RealPage usage. This model helps identify patterns across properties and supports deeper analysis into how RealPage's software might influence rental pricing.
+        </p>        
+
         <h4>Propensity Score and Machine Learning Prediction for Rental Properties</h4>
         <p>
           This analysis investigates how RealPage's pricing software may influence rental rates in the multifamily housing market. Researchers compiled a dataset of over 42,000 properties across the U.S., including a subset of <b>~5,000</b> properties identified as RealPage users based on public legal documents. Due to inconsistent property names and addresses, a multi-step fuzzy matching process was used to accurately link records across datasets using text normalization and similarity metrics like Levenshtein distance and address-based scoring.
@@ -206,9 +212,27 @@
           A logistic regression model was then trained to estimate the likelihood (propensity score) that a property uses RealPage, based on its characteristics.
           <br><br>
           Using these propensity scores, each RealPage property was matched to a non-user with similar features to reduce bias—emulating a randomized control trial. The analysis showed that RealPage-managed properties charge, on average, <b>$0.27 more per square foot</b> than similar properties not using the software. This suggests that RealPage's algorithmic pricing may significantly affect market rents and deserves further scrutiny.
-          <br><br>
-          Click on the visualizations below to view them in full size.
         </p>
+
+        <h4>Simulation of Predicted Prices Based on Varying Inputs</h4>
+        <p>
+          We performed simulations to illustrate how the predicted price per square foot (MPF-RPSF) changes as key input features vary. We focused on two cases:
+        </p>
+        <ol>
+          <li><strong>Regressor Model 1 (AKA Model 2) - Varying the <code>uses_realpage</code> Flag:</strong><br>
+            We generate simulated data points for a representative property by holding most features constant while switching the <code>uses_realpage</code> flag between 0 and 1. This will help us see the effect of being a RealPage user on the predicted price.
+          </li>
+          <br>
+          <li><strong>Regressor Model 2 (AKA Model 3) - Varying Market Share and <code>uses_realpage</code>:</strong><br>
+            For the second model, we simulate how the predicted MPF-RPSF changes as RealPage's market share in the CBSA changes. We generate two sets of simulated properties (one for non-RealPage users and one for RealPage users) while varying the <code>market_share</code> feature over a range of values. The resulting plots will show the relationship between market share and predicted price for both groups.
+          </li>
+        </ol>
+        <p>
+          These simulations not only serve to validate the models but also provide clear visual insights.
+        </p>
+        
+        <p>Click on the visualizations below to view them in full size.</p>
+
         <!-- Swiper Slider Section -->
         <div class="container">
           <div class="swiper-container">
@@ -228,6 +252,14 @@
 
               <div class="swiper-slide">
                 <img src="photos/propensity-dist.png" alt="Propensity Score Distribution" onclick="openLightbox(this.src)" style="cursor: zoom-in;">
+              </div>
+
+              <div class="swiper-slide">
+                <img src="photos/rp_impact_price.png" alt="Effect of uses_realpage on Predicted Rent per Sqare Foot Price." onclick="openLightbox(this.src)" style="cursor: zoom-in;">
+              </div>
+
+              <div class="swiper-slide">
+                <img src="photos/model_share_rp_impact.png" alt="Effect of Market Share and uses_realpage on Predicted Rent per Sqare Foot Price" onclick="openLightbox(this.src)" style="cursor: zoom-in;">
               </div>
             </div>
 
