@@ -434,7 +434,7 @@
       }
     
       // Load CSV
-      fetch("https://rpc-webpage.s3-accelerate.amazonaws.com/cbsa_data_final.csv")
+      fetch("https://raw.githubusercontent.com/pbenzoni/realpage-collusion/refs/heads/main/data/cbsa_data_final_cleaned.csv")
         .then(res => res.text())
         .then(csv => {
           Papa.parse(csv, {
