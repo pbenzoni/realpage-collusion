@@ -179,7 +179,7 @@
       }
 
       // Load CSV data.
-      Papa.parse("https://rpc-webpage.s3-accelerate.amazonaws.com/cbsa_data_final.csv", {
+      Papa.parse("https://raw.githubusercontent.com/pbenzoni/realpage-collusion/refs/heads/main/data/cbsa_data_final_cleaned.csv", {
         download: true,
         header: true,
         complete: function (results) {
