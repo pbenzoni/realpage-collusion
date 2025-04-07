@@ -202,49 +202,60 @@
           We first developed a machine learning model to predict whether a property uses RealPage based on features like location (CBSA), size, age, unit count, and market conditions. After cleaning and preparing the data, we used logistic regression to estimate the likelihood of RealPage usage. This model helps identify patterns across properties and supports deeper analysis into how RealPage's software might influence rental pricing.
         </p>        
 
-        <h4>Propensity Score and Machine Learning Prediction for Rental Properties</h4>
+        <h4>Propensity Score & Machine Learning for Rental Pricing</h4>
         <p>
-          This analysis investigates how RealPage's pricing software may influence rental rates in the multifamily housing market. Researchers compiled a dataset of over 42,000 properties across the U.S., including a subset of <b>~5,000</b> properties identified as RealPage users based on public legal documents. Due to inconsistent property names and addresses, a multi-step fuzzy matching process was used to accurately link records across datasets using text normalization and similarity metrics like Levenshtein distance and address-based scoring.
-          <br><br>
-          After cleaning and standardizing the data, key features such as unit count, square footage, building age, occupancy rate, and market competitiveness were selected. 
-          To factor in how different regions can affect the market, we used the property's CBSA (Core-Based Statistical Area) to represent its location. Since CBSA is a category (like a label) rather than a number, we used a method called one-hot encoding. This turned each CBSA into its own yes/no flag, so the model could understand which region a property belongs to without making any assumptions about how regions are related. After doing this, we combined these regional indicators with the rest of our numeric features to create a complete dataset for the model to learn from.
-          <br><br>
-          A logistic regression model was then trained to estimate the likelihood (propensity score) that a property uses RealPage, based on its characteristics.
-          <br><br>
-          Using these propensity scores, each RealPage property was matched to a non-user with similar features to reduce bias—emulating a randomized control trial. The analysis showed that RealPage-managed properties charge, on average, <b>$0.27 more per square foot</b> than similar properties not using the software. This suggests that RealPage's algorithmic pricing may significantly affect market rents and deserves further scrutiny.
+          This analysis explores how RealPage's pricing software may impact rents in the multifamily housing market. 
+          Researchers compiled data on over 42,000 U.S. properties, identifying ~5,000 RealPage users through public legal records. 
+          Due to inconsistent property names and addresses, fuzzy matching techniques—such as text normalization, Levenshtein distance, 
+          and address scoring—were used to link records across datasets.
+        </p>
+        <p>
+          After cleaning, key features like unit count, square footage, age, occupancy, and market competitiveness were selected. 
+          Locations were represented using Core-Based Statistical Areas (CBSAs), which were one-hot encoded to allow the model to 
+          recognize regions without assuming relationships between them. These were combined with numeric features to train the model.
+        </p>
+        <p>
+          A logistic regression model estimated the likelihood (propensity score) that a property uses RealPage. Each RealPage 
+          property was then matched to a similar non-user to reduce bias, simulating a randomized control trial. 
+          Results showed RealPage properties charge <strong>$0.27 more per square foot</strong> on average, suggesting a 
+          meaningful pricing impact.
         </p>
 
-        <h4>Simulation of Predicted Prices Based on Varying Inputs</h4>
-        <p>
-          We performed simulations to illustrate how the predicted price per square foot (MPF-RPSF) changes as key input features vary. We focused on two cases:
-        </p>
+        <h4>Simulating Predicted Prices</h4>
+        <p>We simulated predicted price per square foot (MPF-RPSF) under two scenarios:</p>
         <ol>
-          <li><strong>Regressor Model 1 (AKA Model 2) - Varying the <code>uses_realpage</code> Flag:</strong><br>
-            We generate simulated data points for a representative property by holding most features constant while switching the <code>uses_realpage</code> flag between 0 and 1. This will help us see the effect of being a RealPage user on the predicted price.
+          <li>
+            <strong>Model 1 - Varying <code>uses_realpage</code>:</strong><br>
+            A representative property is simulated with most features held constant, while toggling the <code>uses_realpage</code> 
+            flag between 0 and 1 to isolate RealPage's effect on price.
           </li>
           <br>
-          <li><strong>Regressor Model 2 (AKA Model 3) - Varying Market Share and <code>uses_realpage</code>:</strong><br>
-            For the second model, we simulate how the predicted MPF-RPSF changes as RealPage's market share in the CBSA changes. We generate two sets of simulated properties (one for non-RealPage users and one for RealPage users) while varying the <code>market_share</code> feature over a range of values. The resulting plots will show the relationship between market share and predicted price for both groups.
+          <li>
+            <strong>Model 2 - Varying <code>market_share</code> and <code>uses_realpage</code>:</strong><br>
+            Simulated properties with different <code>market_share</code> values for both RealPage and non-RealPage users. 
+            This shows how pricing responds as RealPage's presence increases in a given CBSA.
           </li>
         </ol>
         <p>
-          These simulations not only serve to validate the models but also provide clear visual insights.
+          These simulations validate the models and provide intuitive visual insights into RealPage's pricing influence.
         </p>
 
-        <h4>Interaction of Market Share and RealPage Usage</h4>
+        <h4>Market Share & RealPage Usage Interaction</h4>
         <p>
-          Our newest updated model extends our analysis by incorporating a proxy for RealPage's market share within each CBSA (Core-Based Statistical Area). This allows us to investigate how the extent of RealPage's local dominance may interact with pricing outcomes.
+          The updated model adds RealPage's market share within each CBSA to examine its interaction with pricing outcomes.
         </p>
         <p>
-          <strong>Market Share Proxy:</strong><br>
-          We calculate market share per CBSA as the proportion of properties flagged as RealPage users:
-        </p>
-        <pre><code>RealPage Market Share = (Number of RealPage-flagged Properties) / (Total Properties in CBSA)</code></pre>
-        <p>
-          This variable is included in the regression model alongside other property-level features. We also include an interaction term between <code>uses_realpage</code> and <code>market_share</code> to test whether RealPage's pricing influence grows as its market penetration increases in a given area.
+          <strong>Market Share Calculation:</strong><br>
+          <pre><code>RealPage Market Share = (Number of RealPage Properties) / (Total Properties in CBSA)</code></pre>
         </p>
         <p>
-          To visualize this, we simulate predictions from the model for both RealPage and non-RealPage users across a range of market share values. The resulting chart shows how predicted price per square foot changes depending on local RealPage saturation.
+          This variable is included alongside other property-level features, along with an interaction term between 
+          <code>uses_realpage</code> and <code>market_share</code>. This allows us to test whether RealPage's pricing impact 
+          grows with its local dominance.
+        </p>
+        <p>
+          Simulations illustrate predicted price per square foot across a range of market share values for both user types, 
+          highlighting how RealPage saturation may amplify pricing effects.
         </p>
 
         <p>Click on the visualizations below to view them in full size.</p>
