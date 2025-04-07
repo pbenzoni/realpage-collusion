@@ -896,7 +896,7 @@
     */
 
     document.addEventListener("DOMContentLoaded", function () {
-      fetch('https://rpc-webpage.s3-accelerate.amazonaws.com/cbsa_data_final.csv')
+      fetch('https://raw.githubusercontent.com/pbenzoni/realpage-collusion/refs/heads/main/data/cbsa_data_final_cleaned.csv')
         .then(response => response.text())
         .then(csvText => {
           Papa.parse(csvText, {
@@ -1159,7 +1159,7 @@
         });
       }
 
-      fetch('https://rpc-webpage.s3-accelerate.amazonaws.com/cbsa_data_final.csv')
+      fetch('https://raw.githubusercontent.com/pbenzoni/realpage-collusion/refs/heads/main/data/cbsa_data_final_cleaned.csv')
         .then(response => response.text())
         .then(csvText => {
           Papa.parse(csvText, {
@@ -1304,7 +1304,7 @@
   </script>
   <script defer>
     document.addEventListener('DOMContentLoaded', () => {
-      const csvUrl = 'https://rpc-webpage.s3-accelerate.amazonaws.com/cbsa_data_final.csv';
+      const csvUrl = 'https://raw.githubusercontent.com/pbenzoni/realpage-collusion/refs/heads/main/data/cbsa_data_final_cleaned.csv';
 
       Papa.parse(csvUrl, {
         download: true,
