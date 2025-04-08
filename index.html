@@ -977,13 +977,22 @@
         header: true,
         skipEmptyLines: true,
         complete: function (results) {
-          const data = results.data;
-
+          var data = results.data;
           const labels = [];
           const hudRents = [];
           const realPageRents = [];
           const zillowRents = [];
           const marketShareTicks = [];
+
+                // Check if the device is mobile using a media query.
+          const isMobile = window.matchMedia("(max-width: 768px)").matches;
+          if (isMobile) {
+            // Filter rows to include only those with a valid RealPageMarketShare value,
+            // sort them in descending order, and select the top five.
+            data = data.filter(row => row.RealPageMarketShare && !isNaN(parseFloat(row.RealPageMarketShare)));
+            data.sort((a, b) => parseFloat(b.RealPageMarketShare) - parseFloat(a.RealPageMarketShare));
+            data = data.slice(0, 8);
+          }
 
           data.forEach((row, index) => {
             labels.push(row.City);
