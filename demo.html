@@ -77,7 +77,7 @@
         <!-- Form for Inputs -->
         <div class="card mb-4">
           <div class="card-header">
-            <h5 class="mb-0">Model Inputs - Propensity Score Matching & Market Shares</h5>
+            <h5 class="mb-0">Model Inputs - Propensity Score Matching & Market-Level Modeling</h5>
           </div>
           <div class="card-body">
             <form id="model-form-propensity">
@@ -91,7 +91,7 @@
                     <strong>Model 1 (Propensity Score Matching):</strong> Estimates the likelihood that a property uses RealPage based on property and market characteristics. It also predicts rent differences (ATT) between RealPage and non-RealPage usage.
                   </li>
                   <li>
-                    <strong>Model 3 (Market-Level Model):</strong> Predicts rent per square foot and total rent based on a property's characteristics and RealPage's market share in the area.
+                    <strong>Model 3 (Market-Level Modeling):</strong> Predicts rent per square foot and total rent based on a property's characteristics and RealPage's market share in the area.
                   </li>
                 </ul>
                 <p class="form-text text-muted">
@@ -462,7 +462,7 @@
           ${data.tStats !== undefined ? `<hr><strong>Feature T-Statistics:</strong><br>${Object.entries(data.tStats).map(([k, v]) => `<span>${k}:</span> <span>${v.toFixed(4)}</span>`).join("<br>")}<br>` : ""}
         `;
         outputHTML += `
-          <h5>Market Share Results</h5>
+          <h5>Market-Level Modeling Results</h5>
 
           <strong>
             <span data-bs-toggle="tooltip" title="The predicted rent per square foot based on market-level characteristics.">
