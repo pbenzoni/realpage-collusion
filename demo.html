@@ -100,7 +100,7 @@
                   <br>Need help finding inputs? Visit the <a href="interactive-map.html" target="_blank">interactive map</a> to explore market values by city or submarket.
                 </p>
               </div>            
-              
+
               <!-- Average Square Footage -->
               <div class="mb-3">
                 <label for="averageSquareFootage" class="form-label">
@@ -334,6 +334,8 @@
         console.log(interpretation);
 
         let outputHTML = `
+          <h5>Propensity Score Matching Results</h5>
+
           <strong>
             <span data-bs-toggle="tooltip" title="The likelihood (propensity score) that a property uses RealPage to determine pricing (ranges from 0 to 1).">
               Propensity Score:
@@ -395,7 +397,6 @@
           ${data.tStats !== undefined ? `<hr><strong>Feature T-Statistics:</strong><br>${Object.entries(data.tStats).map(([k, v]) => `<span>${k}:</span> <span>${v.toFixed(4)}</span>`).join("<br>")}<br>` : ""}
         `;
         outputHTML += `
-          <hr>
           <h5>Market Share Results</h5>
 
           <strong>
@@ -403,7 +404,7 @@
               Predicted RPSF:
             </span>
           </strong>
-          <span class="text-success fw-bold">${data2.predictions?.[0] ? data2.predictions[0].toFixed(4) : 'N/A'}</span><br>
+          <span class="text-success fw-bold">$${data2.predictions?.[0] ? data2.predictions[0].toFixed(2) : 'N/A'}</span><br>
 
           <strong>
             <span data-bs-toggle="tooltip" title="The estimated total rent for this property using market-based prediction.">
