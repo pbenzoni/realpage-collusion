@@ -469,14 +469,14 @@
               Predicted RPSF:
             </span>
           </strong>
-          <span class="text-success fw-bold">$${data2.predictions?.[0] ? data2.predictions[0].toFixed(2) : 'N/A'}</span><br>
+          <span class="text-info fw-bold">$${data2.predictions?.[0] ? data2.predictions[0].toFixed(2) : 'N/A'}</span><br>
 
           <strong>
             <span data-bs-toggle="tooltip" title="The estimated total rent for this property using market-based prediction.">
               Estimated Rent:
             </span>
           </strong>
-          <span class="text-success fw-bold">${data2.rent_estimates?.[0] ? `$${data2.rent_estimates[0].toFixed(2)}` : 'N/A'}</span><br>
+          <span class="text-info fw-bold">${data2.rent_estimates?.[0] ? `$${data2.rent_estimates[0].toFixed(2)}` : 'N/A'}</span><br>
         `;
         outputHTML += `
           <hr>
