@@ -112,6 +112,7 @@
                 <small class="form-text text-muted">
                   Need help? Use the <a href="interactive-map.html" target="_blank">interactive map</a> to find common market values.
                 </small>
+                <small class="form-text text-muted">Used in: Model 1 & Model 3</small>
               </div>
             
               <!-- Building Age (Year Built) -->
@@ -121,6 +122,7 @@
                 </label>
                 <input type="range" class="form-range" id="building_age" name="building_age" min="0" max="50" step="1" value="15" oninput="building_ageOutput.value = this.value">
                 <output id="building_ageOutput" class="form-text">15</output>
+                <small class="form-text text-muted">Used in: Model 1 & Model 3</small>
               </div>
             
               <!-- Unit Count -->
@@ -130,6 +132,7 @@
                 </label>
                 <input type="range" class="form-range" id="unitcount" name="unitcount" min="1" max="1000" value="120" oninput="document.getElementById('unitcountValue').innerText = this.value" required>
                 <output id="unitcountValue" class="form-text">120</output>
+                <small class="form-text text-muted">Used in: Model 1 & Model 3</small>
               </div>              
             
               <!-- MPF HIST CONC RATIO -->
@@ -144,6 +147,7 @@
                 <small class="form-text text-muted">
                   Need help? Use the <a href="interactive-map.html" target="_blank">interactive map</a> to find common market values.
                 </small>
+                <small class="form-text text-muted">Used in: Model 1</small>
               </div>
             
               <!-- MPF Occupancy -->
@@ -157,6 +161,7 @@
                 <small class="form-text text-muted">
                   Need help? Use the <a href="interactive-map.html" target="_blank">interactive map</a> to find common market values.
                 </small>
+                <small class="form-text text-muted">Used in: Model 1 & Model 3</small>
               </div>
             
               <!-- Stories -->
@@ -166,6 +171,7 @@
                 </label>
                 <input type="range" class="form-range" id="stories" name="stories" min="1" max="20" step="1" value="3" oninput="storiesOutput.value = this.value">
                 <output id="storiesOutput" class="form-text">3</output>
+                <small class="form-text text-muted">Used in: Model 1 & Model 3</small>
               </div>
 
               <!-- CBSA Dropdown with all State Capitals -->
@@ -222,6 +228,7 @@
                   <option value="45940">Trenton, NJ</option>
                   <option value="47900">Washington, DC</option>
                 </select>
+                <small class="form-text text-muted">Used in: Model 3</small>
               </div>
 
               <!-- Class Dropdown -->
@@ -235,6 +242,7 @@
                   <option value="B" selected>Class B</option>
                   <option value="C">Class C</option>
                 </select>
+                <small class="form-text text-muted">Used in: Model 3</small>
               </div>
 
               <!-- Market Share Slider -->
@@ -245,6 +253,7 @@
                 </label>
                 <input type="range" class="form-range" id="market_share" min="0" max="1" step="0.01" value="0.25" oninput="marketShareOutput.value = this.value">
                 <output id="marketShareOutput" class="form-text">0.25</output>
+                <small class="form-text text-muted">Used in: Model 3</small>
               </div>
 
               <!-- Uses RealPage -->
@@ -257,6 +266,7 @@
                   <option value="1">Yes</option>
                   <option value="0">No</option>
                 </select>
+                <small class="form-text text-muted">Used in: Model 3</small>
               </div>
             
               <button type="submit" class="btn btn-primary">Submit & Predict</button>
@@ -459,7 +469,6 @@
         `;
         outputHTML += `
           <hr>
-          <h5>Model 3 Interpretation</h5>
           <p class="form-text">
             <strong>Predicted RPSF (Rent Per Square Foot):</strong> This value is based on regional trends and RealPage market share. It reflects the estimated rent level for a unit with the provided characteristics, influenced by local competition and RealPage presence.<br><br>
 
