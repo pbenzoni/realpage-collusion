@@ -77,25 +77,30 @@
         <!-- Form for Inputs -->
         <div class="card mb-4">
           <div class="card-header">
-            <h5 class="mb-0">Model Inputs - Propensity Score Matching</h5>
+            <h5 class="mb-0">Model Inputs - Propensity Score Matching & Market Shares</h5>
           </div>
           <div class="card-body">
             <form id="model-form-propensity">
               <!-- Model description with help link -->
               <div class="mb-3">
                 <p class="form-text">
-                  This model estimate the likelihood (propensity score) that a property uses RealPage. It uses characteristics such as property size, year built, market concentration, and occupancy rates to generate a propensity score. It is also determining what rent ($USD) a property using RealPage would charge if it did not use RealPage through controlled for characteristics.
+                  This tool runs two predictive models to analyze how RealPage may impact rent pricing:
                 </p>
-                <p class="form-text">
-                  You don't need exact values — feel free to try out different inputs to explore how the model responds. It's a tool for learning, not precision.
-                </p>
+                <ul class="form-text">
+                  <li>
+                    <strong>Model 1 (Propensity Score Matching):</strong> Estimates the likelihood that a property uses RealPage based on property and market characteristics. It also predicts rent differences (ATT) between RealPage and non-RealPage usage.
+                  </li>
+                  <li>
+                    <strong>Model 3 (Market-Level Model):</strong> Predicts rent per square foot and total rent based on a property's characteristics and RealPage's market share in the area.
+                  </li>
+                </ul>
                 <p class="form-text text-muted">
-                  <strong>Note:</strong> The model is based on historical data and may not reflect current market conditions. The results should be interpreted with caution and in conjunction with other market analysis tools. <br>
-                  <strong>Disclaimer:</strong> The model is for educational purposes only and should not be used for investment decisions. The authors are not responsible for any financial losses incurred based on the model's predictions.
+                  You don't need exact values — feel free to explore how different characteristics affect rent predictions.
+                  <br><strong>Disclaimer:</strong> These models are for educational use only. Interpret results with caution and in conjunction with other data sources.
                   <br>Need help finding inputs? Visit the <a href="interactive-map.html" target="_blank">interactive map</a> to explore market values by city or submarket.
                 </p>
-              </div>
-
+              </div>            
+              
               <!-- Average Square Footage -->
               <div class="mb-3">
                 <label for="averageSquareFootage" class="form-label">
@@ -162,6 +167,53 @@
                 <input type="range" class="form-range" id="stories" name="stories" min="1" max="20" step="1" value="3" oninput="storiesOutput.value = this.value">
                 <output id="storiesOutput" class="form-text">3</output>
               </div>
+
+              <!-- CBSA Dropdown -->
+              <div class="mb-3">
+                <label for="cbsa_code" class="form-label">CBSA Market Area</label>
+                <select id="cbsa_code" class="form-select" required>
+                  <option value="26420">Houston, TX</option>
+                  <option value="19100">Dallas-Fort Worth, TX</option>
+                  <option value="31080">Los Angeles, CA</option>
+                  <option value="35620">New York, NY</option>
+                  <option value="37980">Philadelphia, PA</option>
+                  <option value="16980">Chicago, IL</option>
+                  <option value="47900">Washington, DC</option>
+                  <option value="41860">San Francisco, CA</option>
+                  <option value="42660">Seattle, WA</option>
+                  <option value="14460">Boston, MA</option>
+                  <!-- Add more as needed -->
+                </select>
+              </div>
+
+              <!-- Class Dropdown -->
+              <div class="mb-3">
+                <label for="class" class="form-label">Building Class</label>
+                <select id="class" class="form-select">
+                  <option value="A">Class A</option>
+                  <option value="B" selected>Class B</option>
+                  <option value="C">Class C</option>
+                </select>
+              </div>
+
+              <!-- Market Share Slider -->
+              <div class="mb-3">
+                <label for="market_share" class="form-label">
+                  Market Share
+                  <span data-bs-toggle="tooltip" title="Market penetration of RealPage in the area (0 = none, 1 = fully dominated).">ⓘ</span>
+                </label>
+                <input type="range" class="form-range" id="market_share" min="0" max="1" step="0.01" value="0.25" oninput="marketShareOutput.value = this.value">
+                <output id="marketShareOutput" class="form-text">0.25</output>
+              </div>
+
+              <!-- Uses RealPage -->
+              <div class="mb-3">
+                <label for="uses_realpage" class="form-label">Uses RealPage</label>
+                <select id="uses_realpage" class="form-select">
+                  <option value="1">Yes</option>
+                  <option value="0">No</option>
+                </select>
+              </div>
             
               <button type="submit" class="btn btn-primary">Submit & Predict</button>
             </form>                                           
@@ -223,6 +275,21 @@
             "MPF-OCC": parseFloat(document.getElementById('MPF-OCC').value),
             stories: parseInt(document.getElementById('stories').value)
         };
+
+        const payloadModel3 = {
+          data: [{
+            averageSquareFootage: payload.averageSquareFootage,
+            stories: payload.stories,
+            cbsa_code: parseInt(document.getElementById('cbsa_code').value),
+            building_age: payload.building_age,
+            class: document.getElementById('class').value,
+            yearsold: payload.building_age, // reuse
+            unitcount: payload.unitcount,
+            "MPF-OCC": payload["MPF-OCC"],
+            uses_realpage: parseInt(document.getElementById('uses_realpage').value),
+            market_share: parseFloat(document.getElementById('market_share').value)
+          }]
+        };
   
         outputDiv.classList.add('d-none');
         outputDiv.classList.remove('alert-danger');
@@ -232,9 +299,18 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
+
+        const response2 = await fetch('https://rpc-proxy-msf8.onrender.com/predict_model3', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payloadModel3)
+        });
   
         const data = await response.json();
         console.log(data);
+
+        const data2 = await response2.json();
+        console.log(data2);
 
         const propensity = Array.isArray(data.propensity_scores) ? data.propensity_scores[0] : null;
         const att = data["MPF-RPSF"]?.ATT ?? null;
@@ -286,6 +362,24 @@
           </strong>
           <span class="text-info fw-bold">${rpsfNonRealPage !== null ? `$${rpsfNonRealPage.toFixed(2)}` : 'N/A'}</span><br>
 
+          <strong>
+            <span data-bs-toggle="tooltip" title="The estimated total monthly rent for this property if it uses RealPage.">
+              Estimated Rent (Treated - Uses RealPage):
+            </span>
+          </strong>
+          <span class="text-info fw-bold">
+            ${data.rent_estimates?.treated?.[0] ? `$${data.rent_estimates.treated[0].toFixed(2)}` : 'N/A'}
+          </span><br>
+
+          <strong>
+            <span data-bs-toggle="tooltip" title="The estimated rent this same property would charge if it did NOT use RealPage (counterfactual estimate).">
+              Estimated Rent (Control - No RealPage):
+            </span>
+          </strong>
+          <span class="text-info fw-bold">
+            ${data.rent_estimates?.control?.[0] ? `$${data.rent_estimates.control[0].toFixed(2)}` : 'N/A'}
+          </span><br>
+
           ${interpretation}
           ${data.mse !== undefined ? `<strong><span data-bs-toggle="tooltip" title="The average of the squared differences between the predicted and actual values. Lower values indicate better predictive accuracy.">MSE:</span></strong> <span>${data.mse}</span> <br>` : ""}
           ${data.confidence !== undefined ? `<strong><span data-bs-toggle="tooltip" title="How certain the model is about its prediction.">Confidence:</span></strong> <span>${data.confidence}%</span> <br>` : ""}
@@ -299,6 +393,24 @@
           ${data.logLoss !== undefined ? `<strong><span data-bs-toggle="tooltip" title="A metric that penalizes false classifications. Lower values indicate a more accurate model.">Log Loss:</span></strong> <span>${data.logLoss}</span> <br>` : ""}
           ${data.pValues !== undefined ? `<hr><strong>Feature P-Values:</strong><br>${Object.entries(data.pValues).map(([k, v]) => `<span>${k}:</span> <span>${v.toFixed(4)}</span>`).join("<br>")}<br>` : ""}
           ${data.tStats !== undefined ? `<hr><strong>Feature T-Statistics:</strong><br>${Object.entries(data.tStats).map(([k, v]) => `<span>${k}:</span> <span>${v.toFixed(4)}</span>`).join("<br>")}<br>` : ""}
+        `;
+        outputHTML += `
+          <hr>
+          <h5>Market Share Results</h5>
+
+          <strong>
+            <span data-bs-toggle="tooltip" title="The predicted rent per square foot based on market-level characteristics.">
+              Predicted RPSF:
+            </span>
+          </strong>
+          <span class="text-success fw-bold">${data2.predictions?.[0] ? data2.predictions[0].toFixed(4) : 'N/A'}</span><br>
+
+          <strong>
+            <span data-bs-toggle="tooltip" title="The estimated total rent for this property using market-based prediction.">
+              Estimated Rent:
+            </span>
+          </strong>
+          <span class="text-success fw-bold">${data2.rent_estimates?.[0] ? `$${data2.rent_estimates[0].toFixed(2)}` : 'N/A'}</span><br>
         `;
         outputDiv.innerHTML = outputHTML;
         loadingDiv.classList.add('d-none');
