@@ -107,13 +107,14 @@
                   Average Square Footage <span data-bs-toggle="tooltip" title="Average unit size in square feet for the property. Typical range: 500–1500.">ⓘ</span>
                 </label>
                 <input type="range" class="form-range" id="averageSquareFootage" name="averageSquareFootage" min="400" max="1600" step="25" value="875" oninput="sqftOutput.value = this.value">
-                <output id="sqftOutput" class="form-text">875</output>
-                <small class="form-text text-muted text-end d-block"><i>Used in: Model 1 & Model 3</i></small>
-                <br>
+                <div class="d-flex justify-content-between">
+                  <output id="sqftOutput" class="form-text">875</output>
+                  <small class="form-text text-muted"><i>Used in: Model 1 & Model 3</i></small>
+                </div>
                 <small class="form-text text-muted">
                   Need help? Use the <a href="interactive-map.html" target="_blank">interactive map</a> to find common market values.
                 </small>
-              </div>
+              </div>              
             
               <!-- Building Age (Year Built) -->
               <div class="mb-3">
@@ -121,9 +122,11 @@
                   Age of the Building (Years) <span data-bs-toggle="tooltip" title="Age of the building in years, according to the year that the building was constructed.">ⓘ</span>
                 </label>
                 <input type="range" class="form-range" id="building_age" name="building_age" min="0" max="50" step="1" value="15" oninput="building_ageOutput.value = this.value">
-                <output id="building_ageOutput" class="form-text">15</output>
-                <small class="form-text text-muted text-end d-block"><i>Used in: Model 1 & Model 3</i></small>
-              </div>
+                <div class="d-flex justify-content-between">
+                  <output id="building_ageOutput" class="form-text">15</output>
+                  <small class="form-text text-muted"><i>Used in: Model 1 & Model 3</i></small>
+                </div>
+              </div>              
             
               <!-- Unit Count -->
               <div class="mb-3">
@@ -131,9 +134,11 @@
                   Unit Count <span data-bs-toggle="tooltip" title="Total number of units in the property.">ⓘ</span>
                 </label>
                 <input type="range" class="form-range" id="unitcount" name="unitcount" min="1" max="1000" value="120" oninput="document.getElementById('unitcountValue').innerText = this.value" required>
-                <output id="unitcountValue" class="form-text">120</output>
-                <small class="form-text text-muted text-end d-block"><i>Used in: Model 1 & Model 3</i></small>
-              </div>              
+                <div class="d-flex justify-content-between">
+                  <output id="unitcountValue" class="form-text">120</output>
+                  <small class="form-text text-muted"><i>Used in: Model 1 & Model 3</i></small>
+                </div>
+              </div>                           
             
               <!-- MPF HIST CONC RATIO -->
               <div class="mb-3">
@@ -142,13 +147,14 @@
                   <span data-bs-toggle="tooltip" title="Market concentration metric. Typical range: 0.3–1.0.">ⓘ</span>
                 </label>
                 <input type="range" class="form-range" id="MPF-HIST-CONC-RATIO" name="MPF-HIST-CONC-RATIO" min="0.3" max="1.0" step="0.01" value="0.65" oninput="concOutput.value = this.value">
-                <output id="concOutput" class="form-text">0.65</output>
-                <small class="form-text text-muted text-end d-block"><i>Used in: Model 1</i></small>
-                <br>
+                <div class="d-flex justify-content-between">
+                  <output id="concOutput" class="form-text">0.65</output>
+                  <small class="form-text text-muted"><i>Used in: Model 1</i></small>
+                </div>
                 <small class="form-text text-muted">
                   Need help? Use the <a href="interactive-map.html" target="_blank">interactive map</a> to find common market values.
                 </small>
-              </div>
+              </div>              
             
               <!-- MPF Occupancy -->
               <div class="mb-3">
@@ -156,13 +162,14 @@
                   MPF Occupancy <span data-bs-toggle="tooltip" title="Occupancy rate between 0.85 and 1.0">ⓘ</span>
                 </label>
                 <input type="range" class="form-range" id="MPF-OCC" name="MPF-OCC" min="0.85" max="1.0" step="0.01" value="0.94" oninput="occOutput.value = this.value">
-                <output id="occOutput" class="form-text">0.94</output>
-                <small class="form-text text-muted text-end d-block"><i>Used in: Model 1 & Model 3</i></small>
-                <br>
+                <div class="d-flex justify-content-between">
+                  <output id="occOutput" class="form-text">0.94</output>
+                  <small class="form-text text-muted"><i>Used in: Model 1 & Model 3</i></small>
+                </div>
                 <small class="form-text text-muted">
                   Need help? Use the <a href="interactive-map.html" target="_blank">interactive map</a> to find common market values.
                 </small>
-              </div>
+              </div>              
             
               <!-- Stories -->
               <div class="mb-3">
@@ -170,9 +177,11 @@
                   Stories <span data-bs-toggle="tooltip" title="Number of floors in the building.">ⓘ</span>
                 </label>
                 <input type="range" class="form-range" id="stories" name="stories" min="1" max="20" step="1" value="3" oninput="storiesOutput.value = this.value">
-                <output id="storiesOutput" class="form-text">3</output>
-                <small class="form-text text-muted text-end d-block"><i>Used in: Model 1 & Model 3</i></small>
-              </div>
+                <div class="d-flex justify-content-between">
+                  <output id="storiesOutput" class="form-text">3</output>
+                  <small class="form-text text-muted"><i>Used in: Model 1 & Model 3</i></small>
+                </div>
+              </div>              
 
               <!-- CBSA Dropdown with all State Capitals -->
               <div class="mb-3">
@@ -252,9 +261,11 @@
                   <span data-bs-toggle="tooltip" title="Market penetration of RealPage in the area (0 = none, 1 = fully dominated).">ⓘ</span>
                 </label>
                 <input type="range" class="form-range" id="market_share" min="0" max="1" step="0.01" value="0.25" oninput="marketShareOutput.value = this.value">
-                <output id="marketShareOutput" class="form-text">0.25</output>
-                <small class="form-text text-muted text-end d-block"><i>Used in: Model 3</i></small>
-              </div>
+                <div class="d-flex justify-content-between">
+                  <output id="marketShareOutput" class="form-text">0.25</output>
+                  <small class="form-text text-muted"><i>Used in: Model 3</i></small>
+                </div>
+              </div>              
 
               <!-- Uses RealPage -->
               <div class="mb-3">
