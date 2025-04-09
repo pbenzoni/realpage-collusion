@@ -168,21 +168,59 @@
                 <output id="storiesOutput" class="form-text">3</output>
               </div>
 
-              <!-- CBSA Dropdown -->
+              <!-- CBSA Dropdown with all State Capitals -->
               <div class="mb-3">
-                <label for="cbsa_code" class="form-label">CBSA Market Area</label>
+                <label for="cbsa_code" class="form-label">
+                  CBSA Market Area
+                  <span data-bs-toggle="tooltip" title="Select the Core-Based Statistical Area (CBSA) for the property's location, typically tied to the state capital or major metro.">ⓘ</span>
+                </label>
                 <select id="cbsa_code" class="form-select" required>
-                  <option value="26420">Houston, TX</option>
-                  <option value="19100">Dallas-Fort Worth, TX</option>
-                  <option value="31080">Los Angeles, CA</option>
-                  <option value="35620">New York, NY</option>
-                  <option value="37980">Philadelphia, PA</option>
+                  <option value="10580">Albany, NY</option>
+                  <option value="12060">Atlanta, GA</option>
+                  <option value="12940">Baton Rouge, LA</option>
+                  <option value="13900">Bismarck, ND</option>
+                  <option value="14460">Boston, MA</option>
+                  <option value="26180">Honolulu, HI</option>
                   <option value="16980">Chicago, IL</option>
-                  <option value="47900">Washington, DC</option>
+                  <option value="17900">Columbia, SC</option>
+                  <option value="18140">Columbus, OH</option>
+                  <option value="19740">Denver, CO</option>
+                  <option value="19780">Des Moines, IA</option>
+                  <option value="20100">Dover, DE</option>
+                  <option value="23020">Frankfort, KY</option>
+                  <option value="25420">Harrisburg, PA</option>
+                  <option value="25540">Hartford, CT</option>
+                  <option value="26420">Houston, TX</option>
+                  <option value="14260">Boise, ID</option>
+                  <option value="26900">Indianapolis, IN</option>
+                  <option value="27140">Jackson, MS</option>
+                  <option value="30780">Little Rock, AR</option>
+                  <option value="29620">Lansing, MI</option>
+                  <option value="29820">Las Vegas, NV</option>
+                  <option value="30700">Lincoln, NE</option>
+                  <option value="31080">Los Angeles, CA</option>
+                  <option value="31540">Madison, WI</option>
+                  <option value="32820">Memphis, TN</option>
+                  <option value="33460">Minneapolis-St. Paul, MN</option>
+                  <option value="35620">New York, NY</option>
+                  <option value="36420">Oklahoma City, OK</option>
+                  <option value="36500">Olympia, WA</option>
+                  <option value="38900">Portland, OR</option>
+                  <option value="39300">Providence, RI</option>
+                  <option value="39380">Santa Fe, NM</option>
+                  <option value="40900">Sacramento, CA</option>
+                  <option value="39580">Raleigh, NC</option>
+                  <option value="40060">Richmond, VA</option>
+                  <option value="41180">St. Louis, MO</option>
+                  <option value="41740">San Diego, CA</option>
                   <option value="41860">San Francisco, CA</option>
                   <option value="42660">Seattle, WA</option>
-                  <option value="14460">Boston, MA</option>
-                  <!-- Add more as needed -->
+                  <option value="44100">Springfield, IL</option>
+                  <option value="45220">Tallahassee, FL</option>
+                  <option value="45300">Tampa, FL</option>
+                  <option value="45820">Topeka, KS</option>
+                  <option value="45940">Trenton, NJ</option>
+                  <option value="47900">Washington, DC</option>
                 </select>
               </div>
 
@@ -418,6 +456,17 @@
             </span>
           </strong>
           <span class="text-success fw-bold">${data2.rent_estimates?.[0] ? `$${data2.rent_estimates[0].toFixed(2)}` : 'N/A'}</span><br>
+        `;
+        outputHTML += `
+          <hr>
+          <h5>Model 3 Interpretation</h5>
+          <p class="form-text">
+            <strong>Predicted RPSF (Rent Per Square Foot):</strong> This value is based on regional trends and RealPage market share. It reflects the estimated rent level for a unit with the provided characteristics, influenced by local competition and RealPage presence.<br><br>
+
+            <strong>Estimated Rent:</strong> This is the total predicted rent for the property based on the average unit size, number of units, and predicted RPSF. It combines both micro-level inputs and macro-level market share effects.<br><br>
+
+            <em>Note:</em> This model does not compare control vs. treatment groups like the ATT model. Instead, it reflects what the rent <u>is likely to be</u> in the context of RealPage's market dominance and your property's profile.
+          </p>
         `;
         outputDiv.innerHTML = outputHTML;
         loadingDiv.classList.add('d-none');
