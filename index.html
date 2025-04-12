@@ -294,7 +294,7 @@
           <!-- <canvas id="explanatoryChart"></canvas> -->
           <p class="mt-4">Scroll down to review a summary of our key findings.</p>
           <div class="scroll-indicator">
-            <a href="#keyFindings">
+            <a href="#aboutModelsHR">
               <span class="arrow arrow-down"></span>
             </a>
           </div>
@@ -302,35 +302,75 @@
       </section>
 
       <br>
-      <br>
+      <hr class="mt-5" id="aboutModelsHR">
+
+      <section id="aboutModels" class="section">
+        <div class="text-center w-100">
+          <div style="margin-top: 50px;"></div>
+          <h1>Modeling RealPage's effect </h1>
+          <h5>Who does RealPage serve and how did the LRO merger affect prices?</h5>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <div class="card">
+                <div class="card-body" style="text-align: left;">
+                  <h3 class="card-title">Propensity Model</h3>
+                  <p class="card-text"><strong>Overview:</strong> This model helps us guess whether a property is likely to use RealPage by looking at its obvious features. The idea is to find properties that are very similar, except for the use of RealPage, so we can fairly compare their rents.</p>
+                  <p class="card-text"><strong>Methodology:</strong>
+                  Data was carefully cleaned by removing missing details, cutting out sparse features, and tackling issues with overlapping or redundant information. We focused on straightforward factors like the age of the property, how many units it has, average size, number of floors, and other identifiers like area codes and building types.</p>
+                  <p class="card-text">Then, we used a logistic regression to calculate a score – the propensity score – which indicates how likely a property is to use RealPage. Properties were paired up (one using RealPage and one not) based on these scores. This lets us isolate the effect of RealPage by comparing similar properties directly.</p>
+                  <p class="card-text"><strong>Initial Conclusions:</strong> We found around one–thousand eight–hundred and sixty pairs, and properties flagged as using RealPage generally have higher rents than those that don’t. This matching helps show a clearer link between RealPage usage and rent increases.</p>
+                  <!-- Visual Placeholder -->
+                  <div class="visual-placeholder" style="height: 200px; background-color: #ddd; display: flex; align-items: center; justify-content: center;">
+                    <span>Visual Placeholder</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="card">
+                <div class="card-body" style="text-align: left;">
+                  <h3 class="card-title">Rent–Prediction Simulation Model</h3>
+                  <p class="card-text"><strong>Overview:</strong> This model is part of our broader rent–prediction toolkit. It shows how flipping the RealPage usage flag changes the predicted rent per square foot, giving us a clear idea of its influence on pricing.</p>
+                  <p class="card-text"><strong>Methodology:</strong>
+                  We combined detailed property data with broader market trends, pulling in important figures like market reach and average unit size. After cleaning the data, we honed in on the factors that really affect rent.</p>
+                  <p class="card-text">Using advanced methods like random forest, gradient boosting, and a feed–forward neural network, we predicted rent per square foot. The trick was to run the simulation twice – once with the RealPage flag turned on and once with it off – to see how much of a difference it makes.</p>
+                  <p class="card-text"><strong>Initial Conclusions:</strong> The results were pretty consistent: turning on the RealPage flag led to a higher predicted rent per square foot. This suggests that, even when controlling for many factors, properties using RealPage tend to have higher rents. While it isn’t a direct proof of collusive behavior, it does point to a strong association with rent inflation.</p>
+                  <!-- Visual Placeholder -->
+                  <div class="visual-placeholder" style="height: 200px; background-color: #ddd; display: flex; align-items: center; justify-content: center;">
+                    <span>Visual Placeholder</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <br>
 
       <!-- Section 6: Key Findings & Policy Implications -->
-      <hr>
+      <hr id="keyFindingsHR">
       <section id="keyFindings" class="section">
         <div class="text-center w-100">
           <div style="margin-top: 125px;"></div>
-          <h1>Key Findings & Policy Implications</h1>
+          <h1 class="mb-4">Key Findings &amp; Policy Implications</h1>
           <p>
-            Our analysis reveals a significant association between RealPage's market presence and rent dynamics. The
-            guided journey through housing supply, rent adjustments, occupancy rates, and robust counterfactual tests
-            suggests that algorithmic pricing may contribute to rent inflation. However, our models do not imply
-            causation. The observed correlations warrant further investigation into the role of algorithmic pricing in
-            shaping rental markets.
+            Our analysis reveals a significant association between RealPage&apos;s market presence and rent dynamics. The guided journey through housing supply, rent adjustments, occupancy rates, and robust counterfactual tests suggests that algorithmic pricing may contribute to rent inflation. However, our models do not imply causation. The observed correlations warrant further investigation into the role of algorithmic pricing in shaping rental markets.
           </p>
           <p><strong>Policy Implications:</strong></p>
           <ul>
-            <li>Regulators and policymakers should consider the impact of pricing technologies on housing
-              affordability.</li>
+            <li>Regulators and policymakers should consider the impact of pricing technologies on housing affordability.</li>
             <li>Enhanced transparency and oversight might be needed to ensure fair competition in rental markets.</li>
-            <li>Stakeholders—from tenants to property managers—could benefit from clearer insights into how technology
-              drives market outcomes.</li>
+            <li>Stakeholders—from tenants to property managers—could benefit from clearer insights into how technology drives market outcomes.</li>
           </ul>
           <p>
-            These findings underscore the need for further investigation and proactive policy responses in an era
-            marked by rising housing instability and technological disruption.
+            These findings underscore the need for further investigation and proactive policy responses in an era marked by rising housing instability and technological disruption.
           </p>
-          <p>For more information about our key findings and how they were derived, please visit <a href="key-findings.html">our Key Findings page</a> or <a href="research-paper.pdf" target="_blank">our Research Paper</a>.</p>
+          <p>
+            For more information about our key findings and how they were derived, please visit 
+            <a href="key-findings.html">our Key Findings page</a> or 
+            <a href="research-paper.pdf" target="_blank">our Research Paper</a>.
+          </p>
         </div>
       </section>
 
