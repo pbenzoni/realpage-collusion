@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Data Dictionary - RealPage Rent Impact Dashboard</title>
   <link rel="icon" type="image/png" href="photos/berkeleyischool-logo-vertical-blue-sm.png">
   <!-- Bootstrap CSS -->
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-  />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <style>
     /* Sidebar styles */
@@ -36,6 +34,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="d-flex" id="wrapper">
     <!-- Sidebar -->
@@ -49,10 +48,12 @@
           Homepage
         </a>
         <a href="about.html" class="list-group-item list-group-item-action bg-light">About</a>
-        <a href="data-dictionary.html" class="list-group-item list-group-item-action bg-light active">Data Dictionary</a>
+        <a href="data-dictionary.html" class="list-group-item list-group-item-action bg-light active">Data
+          Dictionary</a>
         <a href="interactive-map.html" class="list-group-item list-group-item-action bg-light">Interactive Map</a>
         <a href="key-findings.html" class="list-group-item list-group-item-action bg-light">Key Findings</a>
-        <a href="demo.html" class="list-group-item list-group-item-action bg-light">Try It Yourself: Interactive Modeling</a>
+        <a href="demo.html" class="list-group-item list-group-item-action bg-light">Try It Yourself: Interactive
+          Modeling</a>
         <a href="contact-us.html" class="list-group-item list-group-item-action bg-light">Contact Us</a>
       </div>
       <div class="p-3">
@@ -64,24 +65,29 @@
     <!-- Page Content -->
     <div id="page-content-wrapper">
       <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom mobile-only">
-          <div class="container-fluid">
-            <button class="btn btn-secondary" id="menu-toggle">
-              MIDS Capstone, Spring 2025: RealPage Rent Impact Dashboard
-            </button>
-          </div>
+        <div class="container-fluid">
+          <button class="btn btn-secondary" id="menu-toggle">
+            MIDS Capstone, Spring 2025: RealPage Rent Impact Dashboard
+          </button>
+        </div>
       </nav>
 
       <div class="container-fluid py-4">
-        
+
         <!-- Heading Section for Data Dictionary Page -->
         <div class="mb-4">
           <h1 class="display-5">Data Dictionary</h1>
           <p class="text-muted">
-            This data dictionary provides a comprehensive overview of the data fields used in the RealPage Rent Impact Dashboards, visualizations, and analyses.
-            It serves as a reference for understanding the structure and content of the data, which is essential for interpreting the results and insights presented in the dashboard. 
-            It includes descriptions of each field, its data type, and its significance in the context of the dashboard's functionality.
+            This data dictionary provides a comprehensive overview of the data fields used in the RealPage Rent Impact
+            Dashboards, visualizations, and analyses.
+            It serves as a reference for understanding the structure and content of the data, which is essential for
+            interpreting the results and insights presented in the dashboard.
+            It includes descriptions of each field, its data type, and its significance in the context of the
+            dashboard's functionality.
           </p>
-          <h3>Rent Page &amp; Comparison Data, Core-Based Statistical Area</h3>
+          <h3>Scraped RealPage &amp; Comparison Data, Core-Based Statistical Area</h3>
+          <p> Source - Scraped from <a href="https://www.realpage.com/explore/main">"RealPage Explore: Multifamily Real Estate Analytics"</a>
+            </p>
           <p><strong>Example Data Featured</strong></p>
           <p><em>Note: The examples below are made up for the purpose of demonstration.</em></p>
         </div>
@@ -91,10 +97,14 @@
         <div class="mb-3">
           <h5>Sample Row - Woodstone Village (RealPage Property)</h5>
           <ul>
-            <li><strong>Location &amp; Basics:</strong> Located in Westminster, CO, zip code 80031, address “4941 W 81st Pl.”</li>
-            <li><strong>Property Details:</strong> 2-story, Class C, built in 1984, 192 units, average unit size 746 sq ft.</li>
-            <li><strong>Rent Metrics:</strong> Annual rent change of 2.13%, asking rent $1,441, rent per square foot 1.93.</li>
-            <li><strong>Submarket Data:</strong> Submarket: Westminster. Additional historical submarket price band metrics may apply.</li>
+            <li><strong>Location &amp; Basics:</strong> Located in Westminster, CO, zip code 80031, address “4941 W 81st
+              Pl.”</li>
+            <li><strong>Property Details:</strong> 2-story, Class C, built in 1984, 192 units, average unit size 746 sq
+              ft.</li>
+            <li><strong>Rent Metrics:</strong> Annual rent change of 2.13%, asking rent $1,441, rent per square foot
+              1.93.</li>
+            <li><strong>Submarket Data:</strong> Submarket: Westminster. Additional historical submarket price band
+              metrics may apply.</li>
           </ul>
         </div>
 
@@ -103,13 +113,16 @@
           <h5>Sample Row - Brix Warehouse District ('Other' Property)</h5>
           <ul>
             <li><strong>Location &amp; Basics:</strong> Phoenix, AZ (85003), “402 W Lincoln St.”</li>
-            <li><strong>Property Details:</strong> 4-story, Class A, built in 2023, 300 units, average unit size 941 sq ft.</li>
-            <li><strong>Rent Metrics:</strong> 5.7% annual rent increase, asking rent $1,848, rent per square foot 1.964.</li>
-            <li><strong>Submarket Data:</strong> Submarket: Central Phoenix. Additional historical submarket price band metrics may apply.</li>
+            <li><strong>Property Details:</strong> 4-story, Class A, built in 2023, 300 units, average unit size 941 sq
+              ft.</li>
+            <li><strong>Rent Metrics:</strong> 5.7% annual rent increase, asking rent $1,848, rent per square foot
+              1.964.</li>
+            <li><strong>Submarket Data:</strong> Submarket: Central Phoenix. Additional historical submarket price band
+              metrics may apply.</li>
           </ul>
         </div>
 
-        <hr/>
+        <hr />
         <div class="mt-3 row">
           <div class="col-xs-12">
             <h4 class="mb-1">Download Scraped RealPage Data </h4>
@@ -175,7 +188,8 @@
             <tr>
               <td>class</td>
               <td>Text</td>
-              <td>Classification rating of the property, typically represented by a letter (for example, “A,” “B,” or “C”).</td>
+              <td>Classification rating of the property, typically represented by a letter (for example, “A,” “B,” or
+                “C”).</td>
             </tr>
             <tr>
               <td>latitude</td>
@@ -269,25 +283,31 @@
             </tr>
           </tbody>
         </table>
-        <hr/>
+        <hr />
 
         <div class="mb-4 mt-5">
           <h3>Comparables Workbooks – Rent Comparison Data by Core-Based Statistical Area</h3>
+          <p> Source - Contains data from "Scraped RealPage &amp; Comparison Data, Core-Based Statistical Area" dataset
+            above and the following sources:
+            U.S. Department of Housing and Urban Development's <a href="https://www.huduser.gov/portal/datasets/fmr.html#data_2025;">Fair Market Rents (40th Percentile Rents)</a> for 2025
+            Washington Post's <a href="https://www.washingtonpost.com/business/interactive/2025/realpage-lawsuit-rent-map/;">"Landlords are accused of colluding to raise rents. See where."</a>
+            and <a href="https://www.zillow.com/research/data/ ">Zillow's Observed Rent Index (ZORI): Multi Family Residence Time Series</a> for 2025</p>
           <p><strong>Example Data Featured</strong></p>
           <p><em>Note: The examples below are made up for the purpose of demonstration.</em></p>
         </div>
-        
+
         <!-- Comparables Workbooks Sample Row -->
         <div class="mb-3">
           <h5>Sample Row – Santa Cruz–Watsonville, CA (Comparables Workbooks)</h5>
           <ul>
             <li><strong>Area &amp; Basics:</strong> Area name: Santa Cruz–Watsonville, CA; CBSA: 42100.</li>
-            <li><strong>Rent Metrics:</strong> HUD Fair Market Rent: $3,388.65; RealPage Rent: $3,452.15; Zillow Rent: $3,016.74.</li>
+            <li><strong>Rent Metrics:</strong> HUD Fair Market Rent: $3,388.65; RealPage Rent: $3,452.15; Zillow Rent:
+              $3,016.74.</li>
             <li><strong>Market Share:</strong> RealPage market share: 9.30%.</li>
             <li><strong>Average Rent:</strong> Average of rents: $3,286.</li>
           </ul>
         </div>
-        
+
         <!-- Comparables Workbooks Download Section -->
         <div class="mt-3 row">
           <div class="col-xs-12">
@@ -295,7 +315,7 @@
             <a href="data/workbooks/Comparables_Workbooks.xlsx" class="btn btn-primary btn-lg">Excel</a>
           </div>
         </div>
-        
+
         <!-- Comparables Workbooks Field Descriptions -->
         <h5 class="mt-3">Comparables Workbooks Field Descriptions</h5>
         <table class="table table-striped table-bordered mt-3">
@@ -344,32 +364,36 @@
             </tr>
           </tbody>
         </table>
-        
-        <hr/>
-        
+
+        <hr />
+
         <!-- Zillow Rent Over Time Section Header -->
         <div class="mb-4 mt-5">
           <h3>Zillow Rent Over Time – Analysis of Rent Trends Relative to RealPage Market Share</h3>
+          <p>Recreated from Washington Post's <a href="https://www.washingtonpost.com/business/interactive/2025/realpage-lawsuit-rent-map/;">"Landlords are accused of colluding to raise rents. See where."</a>
+            and <a href="https://www.zillow.com/research/data/ ">Zillow's Observed Rent Index (ZORI): Multi Family Residence Time Series</a>
+            </p>
           <p><strong>Example Data Featured</strong></p>
         </div>
-        
+
         <!-- Zillow Rent Over Time Sample Row -->
         <div class="mb-3">
           <h5>Sample Row – Austin, TX (Zillow Rent Over Time)</h5>
           <ul>
             <li><strong>Region &amp; Basics:</strong> Region name: Austin, TX; RealPage market share: 46.00%.</li>
-            <li><strong>Rent Over Time:</strong> January 31, 2015: $1,092.69; February 28, 2015: $1,101.90; March 31, 2015: $1,105.17; April 30, 2015: $1,103.27.</li>
+            <li><strong>Rent Over Time:</strong> January 31, 2015: $1,092.69; February 28, 2015: $1,101.90; March 31,
+              2015: $1,105.17; April 30, 2015: $1,103.27.</li>
           </ul>
         </div>
-        
+
         <!-- Zillow Rent Over Time Download Section -->
         <div class="mt-3 row">
           <div class="col-xs-12">
             <h4 class="mb-1">Download Zillow Rent Over Time Data</h4>
-            <a href="data/zillow_rent_over_time_excel.json" class="btn btn-primary btn-lg">EXCEL</a>
+            <a href="data/workbooks/zillow_rent_over_time_excel.xlsx" class="btn btn-primary btn-lg">EXCEL</a>
           </div>
         </div>
-        
+
         <!-- Zillow Rent Over Time Field Descriptions -->
         <h5 class="mt-3">Zillow Rent Over Time Field Descriptions</h5>
         <table class="table table-striped table-bordered mt-3">
@@ -413,23 +437,35 @@
             </tr>
           </tbody>
         </table>
-
+        <hr />
+        <!-- Individually Scraped Landord Comparison Data-->
+        <div class="mb-4 mt-5">
+          <h3> Individually Scraped Landord Comparison Data</h3>
+          <p>Derived from  Washington Post's <a href="https://www.washingtonpost.com/business/interactive/2025/realpage-lawsuit-rent-map/;">"Landlords are accused of colluding to raise rents. See where."</a>
+            and respective sites of the landlords listed in the article.</p>
+          <p><strong>Format varies by landlord</strong></p>
+        </div>
+        <!-- Zillow Rent Over Time Download Section -->
+        <div class="mt-3 row">
+          <div class="col-xs-12">
+            <h4 class="mb-1">Download Individually Scraped Landord Comparison Data</h4>
+            <a href="data/scraped_landlord_data.zip" class="btn btn-primary btn-lg">ZIP </a>
+          </div>
+        </div>
       </div>
-    <!-- Footer with link to the Full Privacy Policy -->
-    <footer class="bg-light text-center py-3 mt-5 border-top">
-      <p class="mb-0">
-        &copy; 2025 RealPage Rent Impact Dashboard &mdash; 
-        <a href="privacy.html">View Full Privacy Policy</a>
-      </p>
-    </footer>
+      <!-- Footer with link to the Full Privacy Policy -->
+      <footer class="bg-light text-center py-3 mt-5 border-top">
+        <p class="mb-0">
+          &copy; 2025 RealPage Rent Impact Dashboard &mdash;
+          <a href="privacy.html">View Full Privacy Policy</a>
+        </p>
+      </footer>
     </div>
     <!-- /#page-content-wrapper -->
   </div>
   <!-- /#wrapper -->
   <!-- Bootstrap JS -->
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-  ></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
     // Toggle the sidebar
@@ -443,7 +479,7 @@
 
   <!-- Script to fetch and display data from data-dictionary.json -->
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       fetch('data-dictionary.json')
         .then(response => {
           if (!response.ok) {
@@ -456,7 +492,7 @@
         })
         .catch(error => console.error('Error fetching JSON:', error));
     });
-  
+
     function renderDataDictionary(dictionary) {
       const container = document.getElementById('json-dictionary');
       container.innerHTML = ''; // Clear previous content if any
@@ -464,12 +500,12 @@
         // Create a container for each category
         const sectionDiv = document.createElement('div');
         sectionDiv.classList.add('mb-4');
-  
+
         // Create a header for this category
         const header = document.createElement('h5');
         header.textContent = prettyTitle(categoryKey);
         sectionDiv.appendChild(header);
-  
+
         // Create a list for the fields in this category
         const ul = document.createElement('ul');
         dictionary[categoryKey].forEach(item => {
@@ -478,17 +514,18 @@
           ul.appendChild(li);
         });
         sectionDiv.appendChild(ul);
-  
+
         // Append this category to the main container
         container.appendChild(sectionDiv);
       });
     }
-  
+
     function prettyTitle(key) {
       return key
         .replace(/([A-Z])/g, ' $1')  // Insert space before uppercase letters
         .replace(/^./, s => s.toUpperCase());  // Capitalize first letter
     }
-  </script>  
+  </script>
 </body>
+
 </html>
