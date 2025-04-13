@@ -267,7 +267,39 @@
           highlighting how RealPage saturation may amplify pricing effects.
         </p>
 
-        <p>Click on the visualizations below to view them in full size.</p>
+        <h4>Simulating Distributions of RSPF for RealPage Users vs Non-RealPage Users</h4>
+        
+        <p>
+        In this section, we perform simulations to illustrate how the distributions of predicted rent per square foot (RSPF) differ between RealPage and non-RealPage users using the FFNN model.
+        </p>
+
+        <ul>
+          <li>
+            <strong>Variation in RSPF with <code>uses_realpage</code> Flag:</strong><br>
+            We generate simulated data points for a representative property by holding most features constant while switching the <code>uses_realpage</code> flag between 0 and 1. 
+            This will help us see the effect of being a RealPage user on the predicted price.
+          </li>
+          <br>
+          <li>
+            <strong>Varying <code>market_share</code> and <code>uses_realpage</code>:</strong><br>
+            The second simulation shows how the predicted MPF-RPSF changes as RealPage’s market share in the CBSA changes. 
+            We generate two sets of simulated properties (one for non-RealPage users and one for RealPage users) while varying the <code>market_share</code> feature over a range of values. 
+            The resulting plots will show the relationship between market share and predicted price for both groups.
+          </li>
+        </ul>
+
+        <p>
+        Our goal is to demonstrate that the distributions of the predictions differ significantly as the value of <code>uses_realpage</code> changes.
+        </p>
+
+        <p>
+        <strong>One-sided Mann-Whitney U test (RealPage &gt; Non-RealPage):</strong><br>
+        U-statistic: 1270.0000<br>
+        p-value: 0.4465<br><br>
+        Result: The test did not detect a statistically significant difference (p &ge; 0.05).
+        </p>
+
+        <p><em>Click on the visualizations below to view them in full size.</em></p>
 
         <!-- Swiper Slider Section -->
         <div class="container">
@@ -295,7 +327,11 @@
               </div>
 
               <div class="swiper-slide">
-                <img src="photos/model_share_rp_impact.png" alt="Effect of Market Share and uses_realpage on Predicted Rent per Sqare Foot Price" onclick="openLightbox(this.src)" style="cursor: zoom-in;">
+                <img src="photos/model_share_rp_impact.png" alt="Effect of Market Share and uses_realpage on Predicted Rent per Square Foot Price" onclick="openLightbox(this.src)" style="cursor: zoom-in;">
+              </div>
+
+              <div class="swiper-slide">
+                <img src="photos/RealPage_vs_non_RP.png" alt="Distribution of Predicted MPF-RPSF for Non-RealPage vs. RealPage" onclick="openLightbox(this.src)" style="cursor: zoom-in;">
               </div>
             </div>
 
