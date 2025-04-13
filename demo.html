@@ -88,10 +88,10 @@
                 </p>
                 <ul class="form-text">
                   <li>
-                    <strong>Model 1 (Propensity Score Matching):</strong> Estimates the likelihood that a property uses RealPage based on property and market characteristics. It also predicts rent differences (ATT) between RealPage and non-RealPage usage.
+                    <strong>Propensity Score Matching:</strong> Estimates the likelihood that a property uses RealPage based on property and market characteristics. It also predicts rent differences (ATT) between RealPage and non-RealPage usage.
                   </li>
                   <li>
-                    <strong>Model 3 (Market-Level Modeling):</strong> Predicts rent per square foot and total rent based on a property's characteristics and RealPage's market share in the area.
+                    <strong>Market-Level Modeling:</strong> Predicts rent per square foot and total rent based on a property's characteristics and RealPage's market share in the area.
                   </li>
                 </ul>
                 <p class="form-text text-muted">
@@ -109,7 +109,7 @@
                 <input type="range" class="form-range" id="averageSquareFootage" name="averageSquareFootage" min="400" max="1600" step="25" value="875" oninput="sqftOutput.value = this.value">
                 <div class="d-flex justify-content-between">
                   <output id="sqftOutput" class="form-text">875</output>
-                  <small class="form-text text-muted"><i>Used in: Model 1 & Model 3</i></small>
+                  <small class="form-text text-muted"><i>Used in: Propensity Score Matching & Market-Level Modeling</i></small>
                 </div>
                 <small class="form-text text-muted">
                   Need help? Use the <a href="interactive-map.html" target="_blank">interactive map</a> to find common market values.
@@ -124,7 +124,7 @@
                 <input type="range" class="form-range" id="building_age" name="building_age" min="0" max="50" step="1" value="15" oninput="building_ageOutput.value = this.value">
                 <div class="d-flex justify-content-between">
                   <output id="building_ageOutput" class="form-text">15</output>
-                  <small class="form-text text-muted"><i>Used in: Model 1 & Model 3</i></small>
+                  <small class="form-text text-muted"><i>Used in: Propensity Score Matching & Market-Level Modeling</i></small>
                 </div>
               </div>              
             
@@ -136,7 +136,7 @@
                 <input type="range" class="form-range" id="unitcount" name="unitcount" min="1" max="1000" value="120" oninput="document.getElementById('unitcountValue').innerText = this.value" required>
                 <div class="d-flex justify-content-between">
                   <output id="unitcountValue" class="form-text">120</output>
-                  <small class="form-text text-muted"><i>Used in: Model 1 & Model 3</i></small>
+                  <small class="form-text text-muted"><i>Used in: Propensity Score Matching & Market-Level Modeling</i></small>
                 </div>
               </div>                           
             
@@ -149,7 +149,7 @@
                 <input type="range" class="form-range" id="MPF-HIST-CONC-RATIO" name="MPF-HIST-CONC-RATIO" min="0.3" max="1.0" step="0.01" value="0.65" oninput="concOutput.value = this.value">
                 <div class="d-flex justify-content-between">
                   <output id="concOutput" class="form-text">0.65</output>
-                  <small class="form-text text-muted"><i>Used in: Model 1</i></small>
+                  <small class="form-text text-muted"><i>Used in: Propensity Score Matching</i></small>
                 </div>
                 <small class="form-text text-muted">
                   Need help? Use the <a href="interactive-map.html" target="_blank">interactive map</a> to find common market values.
@@ -164,7 +164,7 @@
                 <input type="range" class="form-range" id="MPF-OCC" name="MPF-OCC" min="0.85" max="1.0" step="0.01" value="0.94" oninput="occOutput.value = this.value">
                 <div class="d-flex justify-content-between">
                   <output id="occOutput" class="form-text">0.94</output>
-                  <small class="form-text text-muted"><i>Used in: Model 1 & Model 3</i></small>
+                  <small class="form-text text-muted"><i>Used in: Propensity Score Matching & Market-Level Modeling</i></small>
                 </div>
                 <small class="form-text text-muted">
                   Need help? Use the <a href="interactive-map.html" target="_blank">interactive map</a> to find common market values.
@@ -179,7 +179,7 @@
                 <input type="range" class="form-range" id="stories" name="stories" min="1" max="20" step="1" value="3" oninput="storiesOutput.value = this.value">
                 <div class="d-flex justify-content-between">
                   <output id="storiesOutput" class="form-text">3</output>
-                  <small class="form-text text-muted"><i>Used in: Model 1 & Model 3</i></small>
+                  <small class="form-text text-muted"><i>Used in: Propensity Score Matching & Market-Level Modeling</i></small>
                 </div>
               </div>              
 
@@ -237,7 +237,7 @@
                   <option value="45940">Trenton, NJ</option>
                   <option value="47900">Washington, DC</option>
                 </select>
-                <small class="form-text text-muted text-end d-block"><i>Used in: Model 3</i></small>
+                <small class="form-text text-muted text-end d-block"><i>Used in: Market-Level Modeling</i></small>
               </div>
 
               <!-- Class Dropdown -->
@@ -251,7 +251,7 @@
                   <option value="B" selected>Class B</option>
                   <option value="C">Class C</option>
                 </select>
-                <small class="form-text text-muted text-end d-block"><i>Used in: Model 3</i></small>
+                <small class="form-text text-muted text-end d-block"><i>Used in: Market-Level Modeling</i></small>
               </div>
 
               <!-- Market Share Slider -->
@@ -263,7 +263,7 @@
                 <input type="range" class="form-range" id="market_share" min="0" max="1" step="0.01" value="0.25" oninput="marketShareOutput.value = this.value">
                 <div class="d-flex justify-content-between">
                   <output id="marketShareOutput" class="form-text">0.25</output>
-                  <small class="form-text text-muted"><i>Used in: Model 3</i></small>
+                  <small class="form-text text-muted"><i>Used in: Market-Level Modeling</i></small>
                 </div>
               </div>              
 
@@ -277,7 +277,7 @@
                   <option value="1">Yes</option>
                   <option value="0">No</option>
                 </select>
-                <small class="form-text text-muted text-end d-block"><i>Used in: Model 3</i></small>
+                <small class="form-text text-muted text-end d-block"><i>Used in: Market-Level Modeling</i></small>
               </div>
             
               <button type="submit" class="btn btn-primary">Submit & Predict</button>
@@ -409,7 +409,7 @@
                 </h2>
                 <div id="collapseInputs" class="accordion-collapse collapse" aria-labelledby="headingInputs" data-bs-parent="#inputSummaryAccordion">
                   <div class="accordion-body">
-                    <h6>Inputs for Model 1 (Propensity Score Matching):</h6>
+                    <h6>Inputs for Propensity Score Matching (Propensity Score Matching):</h6>
                     <ul>
                       <li>Average Square Footage: ${payload.averageSquareFootage}</li>
                       <li>Building Age: ${payload.building_age}</li>
@@ -494,7 +494,7 @@
                 </h2>
                 <div id="collapseInputs" class="accordion-collapse collapse" aria-labelledby="headingInputs" data-bs-parent="#inputSummaryAccordion">
                   <div class="accordion-body">
-                    <h6 class="mt-3">Inputs for Model 3 (Market-Level Modeling):</h6>
+                    <h6 class="mt-3">Inputs for Market-Level Modeling (Market-Level Modeling):</h6>
                     <ul>
                       <li>Average Square Footage: ${payload.averageSquareFootage}</li>
                       <li>Building Age: ${payload.building_age}</li>
