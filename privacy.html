@@ -3,11 +3,37 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Full Privacy Policy - RealPage Collusion Dashboard</title>
+  <title>Full Privacy Policy - RealPage Rent Impact Dashboard</title>
   <link rel="icon" type="image/png" href="photos/berkeleyischool-logo-vertical-blue-sm.png">
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Sidebar styles */
+    @media (min-width: 769px) {
+      #sidebar-wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 250px;
+      }
+
+      #page-content-wrapper {
+        margin-left: 250px;
+        width: 100%;
+        overflow-x: hidden;
+      }
+
+      #menu-toggle {
+        display: none;
+      }
+
+      nav.navbar.fixed-top {
+        display: none;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="d-flex" id="wrapper">
@@ -16,7 +42,7 @@
       <div class="sidebar-heading text-center py-4">
         <img src="photos/berkeleyischool-logo-vertical-blue-sm.png" alt="UC Berkeley School of Information">
         <h2 class="mids-capstone">
-          MIDS Capstone: <strong>RealPage Collusion Dashboard</strong>
+          MIDS Capstone: <strong>RealPage Rent Impact Dashboard</strong>
         </h2>
       </div>
       <div class="list-group list-group-flush">
@@ -54,10 +80,10 @@
     
     <!-- Page Content -->
     <div id="page-content-wrapper">
-      <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+      <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom mobile-only">
         <div class="container-fluid">
           <button class="btn btn-secondary" id="menu-toggle">
-            MIDS Capstone, Spring 2025: RealPage Collusion Dashboard
+            MIDS Capstone, Spring 2025: RealPage Rent Impact Dashboard
           </button>
         </div>
       </nav>
@@ -97,7 +123,7 @@
         <hr>
 
         <h2>1. Introduction</h2>
-        <p>Welcome to <strong>the RealPage Collusion Dashboard</strong> (“Company,” “we,” “us,” or “our”). Your privacy is important to us. 
+        <p>Welcome to <strong>the RealPage Rent Impact Dashboard</strong> (“Company,” “we,” “us,” or “our”). Your privacy is important to us. 
             This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our 
             website and machine learning dashboard for rent trend prediction and classification.</p>
         <p>By accessing or using our services, you agree to the terms outlined in this Privacy Policy. If you do not agree, 
@@ -180,7 +206,7 @@
       <!-- Optional Footer -->
       <footer class="bg-light text-center py-3 mt-5 border-top">
         <p class="mb-0">
-          &copy; 2025 RealPage Collusion Dashboard | <a href="index.html">Home</a>
+          &copy; 2025 RealPage Rent Impact Dashboard | <a href="index.html">Home</a>
         </p>
       </footer>
     </div>

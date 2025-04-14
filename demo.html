@@ -8,6 +8,30 @@
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Sidebar styles */
+    @media (min-width: 769px) {
+      #sidebar-wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 250px;
+      }
+
+      #page-content-wrapper {
+        margin-left: 250px;
+      }
+
+      #menu-toggle {
+        display: none;
+      }
+
+      nav.navbar.fixed-top {
+        display: none;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="d-flex" id="wrapper">
@@ -16,7 +40,7 @@
       <div class="sidebar-heading text-center py-4">
         <img src="photos/berkeleyischool-logo-vertical-blue-sm.png" alt="UC Berkeley School of Information">
         <h2 class="mids-capstone">
-          MIDS Capstone: <strong>RealPage Collusion Dashboard</strong>
+          MIDS Capstone: <strong>RealPage Rent Impact Dashboard</strong>
         </h2>
       </div>
       <div class="list-group list-group-flush">
@@ -38,75 +62,238 @@
 
     <!-- Page Content -->
     <div id="page-content-wrapper">
-      <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+      <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom mobile-only">
         <div class="container-fluid">
-          <button class="btn btn-secondary" id="menu-toggle">MIDS Capstone, Spring 2025: RealPage Collusion Dashboard</button>
+          <button class="btn btn-secondary" id="menu-toggle">MIDS Capstone, Spring 2025: RealPage Rent Impact Dashboard</button>
         </div>
       </nav>
 
       <div class="container-fluid py-4">
         <h1 class="display-5 mb-4">Try It Yourself: Interactive Modeling</h1>
         <p class="text-muted">
-          Use the input fields below to provide the key market indicators. The model will analyze your inputs to predict outcomes using both collusion and no-collusion models. After submission, you'll receive prediction results along with key evaluation metrics and a visualization.
+          Use the input fields below to provide the model inputs. The model will analyze your inputs to predict outcomes on RealPage's potential impact in pricing. After submission, you'll receive prediction results along with key evaluation metrics.
         </p>        
 
         <!-- Form for Inputs -->
         <div class="card mb-4">
           <div class="card-header">
-            <h5 class="mb-0">Model Inputs</h5>
+            <h5 class="mb-0">Model Inputs - Propensity Score Matching & Market-Level Modeling</h5>
           </div>
           <div class="card-body">
-            <form id="model-form">
+            <form id="model-form-propensity">
+              <!-- Model description with help link -->
               <div class="mb-3">
-                <label for="marginalCost" class="form-label">Marginal Cost</label>
-                <input type="number" class="form-control" id="marginalCost" name="marginalCost" placeholder="e.g. 75.5" step="any" required title="Enter the additional cost incurred when producing one more unit. Typical range: 0 - 150.">
-                <small class="form-text text-muted">
-                  Enter the marginal cost value (additional cost per extra unit).
-                </small>
-              </div>
+                <p class="form-text">
+                  This tool runs two predictive models to analyze how RealPage may impact rent pricing:
+                </p>
+                <ul class="form-text">
+                  <li>
+                    <strong>Propensity Score Matching:</strong> Estimates the likelihood that a property uses RealPage based on property and market characteristics. It also predicts rent differences (ATT) between RealPage and non-RealPage usage.
+                  </li>
+                  <li>
+                    <strong>Market-Level Modeling:</strong> Predicts rent per square foot and total rent based on a property's characteristics and RealPage's market share in the area.
+                  </li>
+                </ul>
+                <p class="form-text text-muted">
+                  You don't need exact values — feel free to explore how different characteristics affect rent predictions.
+                  <br><strong>Disclaimer:</strong> These models are for educational use only. Interpret results with caution and in conjunction with other data sources.
+                  <br>Need help finding inputs? Visit the <a href="interactive-map.html" target="_blank">interactive map</a> to explore market values by city or submarket.
+                </p>
+              </div>            
+
+              <!-- Average Square Footage -->
               <div class="mb-3">
-                <label for="supplyElasticity" class="form-label">Supply Elasticity</label>
-                <input type="number" class="form-control" id="supplyElasticity" name="supplyElasticity" placeholder="e.g. 1.2" step="any" required title="Enter the supply elasticity. This measures the sensitivity of the quantity supplied to price changes. Typical range: 0.5 - 2.0.">
+                <label for="averageSquareFootage" class="form-label">
+                  Average Square Footage <span data-bs-toggle="tooltip" title="Average unit size in square feet for the property. Typical range: 500–1500.">ⓘ</span>
+                </label>
+                <input type="range" class="form-range" id="averageSquareFootage" name="averageSquareFootage" min="400" max="1600" step="25" value="875" oninput="sqftOutput.value = this.value">
+                <div class="d-flex justify-content-between">
+                  <output id="sqftOutput" class="form-text">875</output>
+                  <small class="form-text text-muted"><i>Used in: Propensity Score Matching & Market-Level Modeling</i></small>
+                </div>
                 <small class="form-text text-muted">
-                  Enter the supply elasticity value (sensitivity of quantity supplied to price changes).
+                  Need help? Use the <a href="interactive-map.html" target="_blank">interactive map</a> to find common market values.
                 </small>
-              </div>
+              </div>              
+            
+              <!-- Building Age (Year Built) -->
               <div class="mb-3">
-                <label for="price" class="form-label">Observed Price</label>
-                <input type="number" class="form-control" id="price" name="price" placeholder="e.g. 1000" step="any" required title="Enter the market price at which goods are sold. Ensure a positive value. Typical range: 50 - 200.">
+                <label for="building_age" class="form-label">
+                  Age of the Building (Years) <span data-bs-toggle="tooltip" title="Age of the building in years, according to the year that the building was constructed.">ⓘ</span>
+                </label>
+                <input type="range" class="form-range" id="building_age" name="building_age" min="0" max="50" step="1" value="15" oninput="building_ageOutput.value = this.value">
+                <div class="d-flex justify-content-between">
+                  <output id="building_ageOutput" class="form-text">15</output>
+                  <small class="form-text text-muted"><i>Used in: Propensity Score Matching & Market-Level Modeling</i></small>
+                </div>
+              </div>              
+            
+              <!-- Unit Count -->
+              <div class="mb-3">
+                <label for="unitcount" class="form-label">
+                  Unit Count <span data-bs-toggle="tooltip" title="Total number of units in the property.">ⓘ</span>
+                </label>
+                <input type="range" class="form-range" id="unitcount" name="unitcount" min="1" max="1000" value="120" oninput="document.getElementById('unitcountValue').innerText = this.value" required>
+                <div class="d-flex justify-content-between">
+                  <output id="unitcountValue" class="form-text">120</output>
+                  <small class="form-text text-muted"><i>Used in: Propensity Score Matching & Market-Level Modeling</i></small>
+                </div>
+              </div>                           
+            
+              <!-- MPF HIST CONC RATIO -->
+              <div class="mb-3">
+                <label for="MPF-HIST-CONC-RATIO" class="form-label">
+                  MPF Historical Concentration Ratio
+                  <span data-bs-toggle="tooltip" title="Market concentration metric. Typical range: 0.3–1.0.">ⓘ</span>
+                </label>
+                <input type="range" class="form-range" id="MPF-HIST-CONC-RATIO" name="MPF-HIST-CONC-RATIO" min="0.3" max="1.0" step="0.01" value="0.65" oninput="concOutput.value = this.value">
+                <div class="d-flex justify-content-between">
+                  <output id="concOutput" class="form-text">0.65</output>
+                  <small class="form-text text-muted"><i>Used in: Propensity Score Matching</i></small>
+                </div>
                 <small class="form-text text-muted">
-                  Enter the observed price value (market price rent). Ensure a positive integer value.
+                  Need help? Use the <a href="interactive-map.html" target="_blank">interactive map</a> to find common market values.
                 </small>
+              </div>              
+            
+              <!-- MPF Occupancy -->
+              <div class="mb-3">
+                <label for="MPF-OCC" class="form-label">
+                  MPF Occupancy <span data-bs-toggle="tooltip" title="Occupancy rate between 0.85 and 1.0">ⓘ</span>
+                </label>
+                <input type="range" class="form-range" id="MPF-OCC" name="MPF-OCC" min="0.85" max="1.0" step="0.01" value="0.94" oninput="occOutput.value = this.value">
+                <div class="d-flex justify-content-between">
+                  <output id="occOutput" class="form-text">0.94</output>
+                  <small class="form-text text-muted"><i>Used in: Propensity Score Matching & Market-Level Modeling</i></small>
+                </div>
+                <small class="form-text text-muted">
+                  Need help? Use the <a href="interactive-map.html" target="_blank">interactive map</a> to find common market values.
+                </small>
+              </div>              
+            
+              <!-- Stories -->
+              <div class="mb-3">
+                <label for="stories" class="form-label">
+                  Stories <span data-bs-toggle="tooltip" title="Number of floors in the building.">ⓘ</span>
+                </label>
+                <input type="range" class="form-range" id="stories" name="stories" min="1" max="20" step="1" value="3" oninput="storiesOutput.value = this.value">
+                <div class="d-flex justify-content-between">
+                  <output id="storiesOutput" class="form-text">3</output>
+                  <small class="form-text text-muted"><i>Used in: Propensity Score Matching & Market-Level Modeling</i></small>
+                </div>
+              </div>              
+
+              <!-- CBSA Dropdown with all State Capitals -->
+              <div class="mb-3">
+                <label for="cbsa_code" class="form-label">
+                  CBSA Market Area
+                  <span data-bs-toggle="tooltip" title="Select the Core-Based Statistical Area (CBSA) for the property's location, typically tied to the state capital or major metro.">ⓘ</span>
+                </label>
+                <select id="cbsa_code" class="form-select" required>
+                  <option value="10580">Albany, NY</option>
+                  <option value="12060">Atlanta, GA</option>
+                  <option value="12940">Baton Rouge, LA</option>
+                  <option value="13900">Bismarck, ND</option>
+                  <option value="14460">Boston, MA</option>
+                  <option value="26180">Honolulu, HI</option>
+                  <option value="16980">Chicago, IL</option>
+                  <option value="17900">Columbia, SC</option>
+                  <option value="18140">Columbus, OH</option>
+                  <option value="19740">Denver, CO</option>
+                  <option value="19780">Des Moines, IA</option>
+                  <option value="20100">Dover, DE</option>
+                  <option value="23020">Frankfort, KY</option>
+                  <option value="25420">Harrisburg, PA</option>
+                  <option value="25540">Hartford, CT</option>
+                  <option value="26420">Houston, TX</option>
+                  <option value="14260">Boise, ID</option>
+                  <option value="26900">Indianapolis, IN</option>
+                  <option value="27140">Jackson, MS</option>
+                  <option value="30780">Little Rock, AR</option>
+                  <option value="29620">Lansing, MI</option>
+                  <option value="29820">Las Vegas, NV</option>
+                  <option value="30700">Lincoln, NE</option>
+                  <option value="31080">Los Angeles, CA</option>
+                  <option value="31540">Madison, WI</option>
+                  <option value="32820">Memphis, TN</option>
+                  <option value="33460">Minneapolis-St. Paul, MN</option>
+                  <option value="35620">New York, NY</option>
+                  <option value="36420">Oklahoma City, OK</option>
+                  <option value="36500">Olympia, WA</option>
+                  <option value="38900">Portland, OR</option>
+                  <option value="39300">Providence, RI</option>
+                  <option value="39380">Santa Fe, NM</option>
+                  <option value="40900">Sacramento, CA</option>
+                  <option value="39580">Raleigh, NC</option>
+                  <option value="40060">Richmond, VA</option>
+                  <option value="41180">St. Louis, MO</option>
+                  <option value="41740">San Diego, CA</option>
+                  <option value="41860">San Francisco, CA</option>
+                  <option value="42660">Seattle, WA</option>
+                  <option value="44100">Springfield, IL</option>
+                  <option value="45220">Tallahassee, FL</option>
+                  <option value="45300">Tampa, FL</option>
+                  <option value="45820">Topeka, KS</option>
+                  <option value="45940">Trenton, NJ</option>
+                  <option value="47900">Washington, DC</option>
+                </select>
+                <small class="form-text text-muted text-end d-block"><i>Used in: Market-Level Modeling</i></small>
               </div>
-              <button type="submit" class="btn btn-primary">Submit &amp; Predict</button>
-            </form>
+
+              <!-- Class Dropdown -->
+              <div class="mb-3">
+                <label for="class" class="form-label">
+                  Building Class 
+                  <span data-bs-toggle="tooltip" title="Class A: Newer, luxury buildings. Class B: Mid-tier, older or less amenitized. Class C: Older, more affordable stock.">ⓘ</span>
+                </label>
+                <select id="class" class="form-select">
+                  <option value="A">Class A</option>
+                  <option value="B" selected>Class B</option>
+                  <option value="C">Class C</option>
+                </select>
+                <small class="form-text text-muted text-end d-block"><i>Used in: Market-Level Modeling</i></small>
+              </div>
+
+              <!-- Market Share Slider -->
+              <div class="mb-3">
+                <label for="market_share" class="form-label">
+                  Market Share
+                  <span data-bs-toggle="tooltip" title="Market penetration of RealPage in the area (0 = none, 1 = fully dominated).">ⓘ</span>
+                </label>
+                <input type="range" class="form-range" id="market_share" min="0" max="1" step="0.01" value="0.25" oninput="marketShareOutput.value = this.value">
+                <div class="d-flex justify-content-between">
+                  <output id="marketShareOutput" class="form-text">0.25</output>
+                  <small class="form-text text-muted"><i>Used in: Market-Level Modeling</i></small>
+                </div>
+              </div>              
+
+              <!-- Uses RealPage -->
+              <div class="mb-3">
+                <label for="uses_realpage" class="form-label">
+                  Uses RealPage
+                  <span data-bs-toggle="tooltip" title="Select whether the property currently uses RealPage pricing software.">ⓘ</span>
+                </label>
+                <select id="uses_realpage" class="form-select">
+                  <option value="1">Yes</option>
+                  <option value="0">No</option>
+                </select>
+                <small class="form-text text-muted text-end d-block"><i>Used in: Market-Level Modeling</i></small>
+              </div>
+            
+              <button type="submit" class="btn btn-primary">Submit & Predict</button>
+            </form>                                           
           </div>
         </div>
-
+        <!-- Loading Message -->
+        <div id="loading-message" class="alert alert-warning d-none" role="alert">
+          <strong>Loading...</strong> Please wait while we fetch the prediction.
+        </div>
         <!-- Display Model Output (text) -->
         <div id="model-output" class="alert alert-info d-none" role="alert"></div>
 
-        <!-- Visualization Container (hidden by default) -->
-        <div class="desktop-only card mb-4 d-none" id="prediction-vis-container">
-          <div class="card-header">
-            <h5 class="mb-0">Prediction-based Visualization</h5>
-          </div>
-          <div class="card-body">
-            <p class="mb-3 text-muted">Below is a visualization relevant to your model results.</p>
-            <!-- Container for iframe graph -->
-            <div id="iframe-container" class="ratio ratio-16x9 d-none">
-              <iframe src="" id="prediction-iframe" frameborder="0" allowfullscreen></iframe>
-            </div>
-            <!-- Container for Chart.js graph -->
-            <div id="chart-container" class="d-none">
-              <canvas id="prediction-chart"></canvas>
-            </div>
-          </div>
-        </div>
-
       </div>
       <footer class="bg-light text-center py-3 mt-5 border-top">
-        <p class="mb-0">&copy; 2025 RealPage Collusion Dashboard &mdash; <a href="privacy.html">View Full Privacy Policy</a></p>
+        <p class="mb-0">&copy; 2025 RealPage Rent Impact Dashboard &mdash; <a href="privacy.html">View Full Privacy Policy</a></p>
       </footer>
     </div>
     <!-- /#page-content-wrapper -->
@@ -135,108 +322,229 @@
 
   <!-- Script to handle the form submission and display prediction-based visualization -->
   <script>
-    const form = document.getElementById('model-form');
+    const form = document.getElementById('model-form-propensity');
     const outputDiv = document.getElementById('model-output');
-    const visContainer = document.getElementById('prediction-vis-container');
-    const iframeContainer = document.getElementById('iframe-container');
-    const chartContainer = document.getElementById('chart-container');
-    const visIframe = document.getElementById('prediction-iframe');
-    let predictionChart = null; // to hold the Chart.js instance
-
-    form.addEventListener('submit', event => {
+  
+    const loadingDiv = document.getElementById('loading-message');
+    form.addEventListener('submit', async event => {
       event.preventDefault();
-      const marginalCost = parseFloat(document.getElementById('marginalCost').value);
-      const supplyElasticity = parseFloat(document.getElementById('supplyElasticity').value);
-      const price = parseFloat(document.getElementById('price').value);
-      const payload = {
-        data: [{
-          marginal_cost: marginalCost,
-          supply_elasticity: supplyElasticity,
-          price: price
-        }]
-      };
-      outputDiv.classList.add('d-none');
-      outputDiv.classList.remove('alert-danger');
-      visContainer.classList.add('d-none');
-      // Clear any existing iframe src or chart
-      visIframe.src = "";
-      iframeContainer.classList.add('d-none');
-      chartContainer.classList.add('d-none');
-      if (predictionChart) {
-        predictionChart.destroy();
-        predictionChart = null;
-      }
-      fetch('https://67bcba9fed4861e07b3bbb1a.mockapi.io/rpc/predict', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-      .then(response => response.json())
-      .then(data => {
-        outputDiv.classList.remove('d-none');
-        outputDiv.innerHTML = `
-          <strong><span data-bs-toggle="tooltip" title="The value the model forecasts based on the input data.">Model Prediction:</span></strong> <span>${data.prediction}</span> <br>
-          <strong><span data-bs-toggle="tooltip" title="The average of the squared differences between the predicted and actual values. Lower values indicate better predictive accuracy.">Mean Squared Error (MSE):</span></strong> <span>${data.mse}</span> <br>
-          ${data.confidence ? `<strong><span data-bs-toggle="tooltip" title="A measure of how certain the model is about its prediction. Higher percentages typically mean higher certainty.">Confidence:</span></strong> <span>${data.confidence}%</span> <br>` : ""}
-          ${data.accuracy ? `<strong><span data-bs-toggle="tooltip" title="The percentage of correct predictions out of all predictions made.">Accuracy:</span></strong> <span>${data.accuracy}%</span> <br>` : ""}
-          ${data.precision ? `<strong><span data-bs-toggle="tooltip" title="The proportion of true positive predictions among all positive predictions made.">Precision:</span></strong> <span>${data.precision}</span> <br>` : ""}
-          ${data.recall ? `<strong><span data-bs-toggle="tooltip" title="The proportion of actual positives that were correctly identified by the model.">Recall:</span></strong> <span>${data.recall}</span> <br>` : ""}
-          ${data.f1Score ? `<strong><span data-bs-toggle="tooltip" title="The harmonic mean of precision and recall.">F1-Score:</span></strong> <span>${data.f1Score}</span> <br>` : ""}
-          ${data.mae ? `<strong><span data-bs-toggle="tooltip" title="The average absolute difference between predicted values and actual values. Lower values indicate more accurate predictions.">MAE:</span></strong> <span>${data.mae}</span> <br>` : ""}
-          ${data.rSquared ? `<strong><span data-bs-toggle="tooltip" title="The coefficient of determination showing the proportion of variance explained by the model. Closer to 1 indicates a better fit.">R² Score:</span></strong> <span>${data.rSquared}</span> <br>` : ""}
-          ${data.aucRoc ? `<strong><span data-bs-toggle="tooltip" title="The area under the Receiver Operating Characteristic curve. Higher values indicate a better ability to distinguish between classes.">AUC-ROC:</span></strong> <span>${data.aucRoc}</span> <br>` : ""}
-          ${data.logLoss ? `<strong><span data-bs-toggle="tooltip" title="A metric that penalizes false classifications. Lower values indicate a more accurate model.">Log Loss:</span></strong> <span>${data.logLoss}</span> <br>` : ""}
-        `;
-        // Reinitialize tooltips on dynamically added elements
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        tooltipTriggerList.map(function (tooltipTriggerEl) {
-          return new bootstrap.Tooltip(tooltipTriggerEl)
+      // Show loading message
+      loadingDiv.classList.remove('d-none');
+  
+      try {
+        const payload = {
+            averageSquareFootage: parseInt(document.getElementById('averageSquareFootage').value),
+            building_age: parseInt(document.getElementById('building_age').value),
+            unitcount: parseInt(document.getElementById('unitcount').value),
+            "MPF-HIST-CONC-RATIO": parseFloat(document.getElementById('MPF-HIST-CONC-RATIO').value),
+            "MPF-OCC": parseFloat(document.getElementById('MPF-OCC').value),
+            stories: parseInt(document.getElementById('stories').value)
+        };
+
+        const payloadModel3 = {
+          data: [{
+            averageSquareFootage: payload.averageSquareFootage,
+            stories: payload.stories,
+            cbsa_code: parseInt(document.getElementById('cbsa_code').value),
+            building_age: payload.building_age,
+            class: document.getElementById('class').value,
+            yearsold: payload.building_age, // reuse
+            unitcount: payload.unitcount,
+            "MPF-OCC": payload["MPF-OCC"],
+            uses_realpage: parseInt(document.getElementById('uses_realpage').value),
+            market_share: parseFloat(document.getElementById('market_share').value)
+          }]
+        };
+  
+        outputDiv.classList.add('d-none');
+        outputDiv.classList.remove('alert-danger');
+
+        const response = await fetch('https://rpc-proxy-msf8.onrender.com/predict', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
         });
-        // If the API provides a visualUrl, use it.
-        if (data.visualUrl) {
-          iframeContainer.classList.remove('d-none');
-          chartContainer.classList.add('d-none');
-          visIframe.src = data.visualUrl;
-          visContainer.classList.remove('d-none');
-        }
-        // Else, if xAxis and yAxis fields are provided, build a chart.
-        else if (data.xAxis && data.yAxis) {
-          iframeContainer.classList.add('d-none');
-          chartContainer.classList.remove('d-none');
-          visContainer.classList.remove('d-none');
-          const ctx = document.getElementById('prediction-chart').getContext('2d');
-          predictionChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-              labels: data.xAxis,
-              datasets: data.yAxis.map(series => ({
-                label: series.label,
-                data: series.data,
-                borderColor: series.borderColor || 'rgba(75, 192, 192, 1)',
-                fill: false,
-                tension: 0.1,
-                borderWidth: 1
-              }))
-            },
-            options: {
-              responsive: true,
-              plugins: {
-                legend: { display: true }
-              }
-            }
-          });
-        }
-        else {
-          visContainer.classList.add('d-none');
-        }
-      })
-      .catch(err => {
+
+        const response2 = await fetch('https://rpc-proxy-msf8.onrender.com/predict_model3', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payloadModel3)
+        });
+  
+        const data = await response.json();
+        console.log(data);
+
+        const data2 = await response2.json();
+        console.log(data2);
+
+        const propensity = Array.isArray(data.propensity_scores) ? data.propensity_scores[0] : null;
+        const att = data["MPF-RPSF"]?.ATT ?? null;
+        const rpsfRealPage = data["MPF-RPSF"]?.uses_realpage_true ?? null;
+        const rpsfNonRealPage = data["MPF-RPSF"]?.uses_realpage_false ?? null;
+
+        let interpretation = `
+          <hr>
+          <strong>Propensity Score:</strong> ${propensity !== null ? propensity.toFixed(4) : 'N/A'} <br>
+          <em>This score represents the estimated probability that a property uses RealPage to determine pricing. Higher values indicate that a property with these characteristics is using the RealPage algorithm.</em><br><br>
+
+          <strong>Average Treatment Effect on the Treated (ATT):</strong> ${att !== null ? `$${att.toFixed(2)}` : 'N/A'} <br>
+          <em>This value estimates the average difference in rent per square foot attributable to using RealPage pricing tools versus not using them.</em><br><br>
+
+          <strong>Predicted RPSF (RealPage Users):</strong> ${rpsfRealPage !== null ? `$${rpsfRealPage.toFixed(2)}` : 'N/A'} <br>
+          <strong>Predicted RPSF (Non-RealPage Users):</strong> ${rpsfNonRealPage !== null ? `$${rpsfNonRealPage.toFixed(2)}` : 'N/A'} <br>
+          <em>These are the predicted rent per square foot ($USD) values for properties using and not using RealPage, respectively.</em>
+          <hr>
+        `;
+
+        console.log(interpretation);
+
+        let outputHTML = `
+          <h5>Propensity Score Matching Results</h5>
+            <div class="accordion mb-3" id="inputSummaryAccordionModel1">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingInputs">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInputs" aria-expanded="false" aria-controls="collapseInputs">
+                    View Model Inputs Summary
+                  </button>
+                </h2>
+                <div id="collapseInputs" class="accordion-collapse collapse" aria-labelledby="headingInputs" data-bs-parent="#inputSummaryAccordion">
+                  <div class="accordion-body">
+                    <h6>Inputs for Propensity Score Matching (Propensity Score Matching):</h6>
+                    <ul>
+                      <li>Average Square Footage: ${payload.averageSquareFootage}</li>
+                      <li>Building Age: ${payload.building_age}</li>
+                      <li>Unit Count: ${payload.unitcount}</li>
+                      <li>Historical Concentration Ratio: ${payload["MPF-HIST-CONC-RATIO"]}</li>
+                      <li>Occupancy: ${payload["MPF-OCC"]}</li>
+                      <li>Stories: ${payload.stories}</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          <strong>
+            <span data-bs-toggle="tooltip" title="The likelihood (propensity score) that a property uses RealPage to determine pricing (ranges from 0 to 1).">
+              Propensity Score:
+            </span>
+          </strong>
+          <span class="text-info fw-bold">${propensity !== null ? propensity.toFixed(4) : 'N/A'}</span><br>
+
+          <strong>
+            <span data-bs-toggle="tooltip" title="The estimated average increase in rent per square foot due to RealPage usage.">
+              ATT (Effect of RealPage):
+            </span>
+          </strong>
+          <span class="text-info fw-bold">${att !== null ? `$${att.toFixed(2)}` : 'N/A'}</span><br>
+
+          <strong>
+            <span data-bs-toggle="tooltip" title="Predicted rent per square foot for properties using RealPage.">
+              RPSF (RealPage):
+            </span>
+          </strong>
+          <span class="text-info fw-bold">${rpsfRealPage !== null ? `$${rpsfRealPage.toFixed(2)}` : 'N/A'}</span><br>
+
+          <strong>
+            <span data-bs-toggle="tooltip" title="Predicted rent per square foot for properties not using RealPage.">
+              RPSF (Non-RealPage):
+            </span>
+          </strong>
+          <span class="text-info fw-bold">${rpsfNonRealPage !== null ? `$${rpsfNonRealPage.toFixed(2)}` : 'N/A'}</span><br>
+
+          <strong>
+            <span data-bs-toggle="tooltip" title="The estimated total monthly rent for this property if it uses RealPage.">
+              Estimated Rent (Treated - Uses RealPage):
+            </span>
+          </strong>
+          <span class="text-info fw-bold">
+            ${data.rent_estimates?.treated?.[0] ? `$${data.rent_estimates.treated[0].toFixed(2)}` : 'N/A'}
+          </span><br>
+
+          <strong>
+            <span data-bs-toggle="tooltip" title="The estimated rent this same property would charge if it did NOT use RealPage (counterfactual estimate).">
+              Estimated Rent (Control - No RealPage):
+            </span>
+          </strong>
+          <span class="text-info fw-bold">
+            ${data.rent_estimates?.control?.[0] ? `$${data.rent_estimates.control[0].toFixed(2)}` : 'N/A'}
+          </span><br>
+
+          ${interpretation}
+          ${data.mse !== undefined ? `<strong><span data-bs-toggle="tooltip" title="The average of the squared differences between the predicted and actual values. Lower values indicate better predictive accuracy.">MSE:</span></strong> <span>${data.mse}</span> <br>` : ""}
+          ${data.confidence !== undefined ? `<strong><span data-bs-toggle="tooltip" title="How certain the model is about its prediction.">Confidence:</span></strong> <span>${data.confidence}%</span> <br>` : ""}
+          ${data.accuracy !== undefined ? `<strong><span data-bs-toggle="tooltip" title="The percentage of correct predictions out of all predictions made.">Accuracy:</span></strong> <span>${data.accuracy}%</span> <br>` : ""}
+          ${data.precision !== undefined ? `<strong><span data-bs-toggle="tooltip" title="The proportion of true positive predictions among all positive predictions made.">Precision:</span></strong> <span>${data.precision}</span> <br>` : ""}
+          ${data.recall !== undefined ? `<strong><span data-bs-toggle="tooltip" title="The proportion of actual positives that were correctly identified by the model.">Recall:</span></strong> <span>${data.recall}</span> <br>` : ""}
+          ${data.f1Score !== undefined ? `<strong><span data-bs-toggle="tooltip" title="The harmonic mean of precision and recall.">F1-Score:</span></strong> <span>${data.f1Score}</span> <br>` : ""}
+          ${data.mae !== undefined ? `<strong><span data-bs-toggle="tooltip" title="The average absolute difference between predicted values and actual values. Lower values indicate more accurate predictions.">MAE:</span></strong> <span>${data.mae}</span> <br>` : ""}
+          ${data.rSquared !== undefined ? `<strong><span data-bs-toggle="tooltip" title="The coefficient of determination showing the proportion of variance explained by the model. Closer to 1 indicates a better fit.">R² Score:</span></strong> <span>${data.rSquared}</span> <br>` : ""}
+          ${data.aucRoc !== undefined ? `<strong><span data-bs-toggle="tooltip" title="The area under the Receiver Operating Characteristic curve. Higher values indicate a better ability to distinguish between classes.">AUC-ROC:</span></strong> <span>${data.aucRoc}</span> <br>` : ""}
+          ${data.logLoss !== undefined ? `<strong><span data-bs-toggle="tooltip" title="A metric that penalizes false classifications. Lower values indicate a more accurate model.">Log Loss:</span></strong> <span>${data.logLoss}</span> <br>` : ""}
+          ${data.pValues !== undefined ? `<hr><strong>Feature P-Values:</strong><br>${Object.entries(data.pValues).map(([k, v]) => `<span>${k}:</span> <span>${v.toFixed(4)}</span>`).join("<br>")}<br>` : ""}
+          ${data.tStats !== undefined ? `<hr><strong>Feature T-Statistics:</strong><br>${Object.entries(data.tStats).map(([k, v]) => `<span>${k}:</span> <span>${v.toFixed(4)}</span>`).join("<br>")}<br>` : ""}
+        `;
+        outputHTML += `
+          <h5>Market-Level Modeling Results</h5>
+            <div class="accordion mb-3" id="inputSummaryAccordionModel3">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingInputs">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInputs" aria-expanded="false" aria-controls="collapseInputs">
+                    View Model Inputs Summary
+                  </button>
+                </h2>
+                <div id="collapseInputs" class="accordion-collapse collapse" aria-labelledby="headingInputs" data-bs-parent="#inputSummaryAccordion">
+                  <div class="accordion-body">
+                    <h6 class="mt-3">Inputs for Market-Level Modeling (Market-Level Modeling):</h6>
+                    <ul>
+                      <li>Average Square Footage: ${payload.averageSquareFootage}</li>
+                      <li>Building Age: ${payload.building_age}</li>
+                      <li>Unit Count: ${payload.unitcount}</li>
+                      <li>Occupancy: ${payload["MPF-OCC"]}</li>
+                      <li>Stories: ${payload.stories}</li>
+                      <li>CBSA Market Area: ${document.getElementById('cbsa_code').selectedOptions[0].text}</li>
+                      <li>Building Class: ${document.getElementById('class').value}</li>
+                      <li>Market Share: ${document.getElementById('market_share').value}</li>
+                      <li>Uses RealPage: ${document.getElementById('uses_realpage').value === '1' ? 'Yes' : 'No'}</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <strong>
+            <span data-bs-toggle="tooltip" title="The predicted rent per square foot based on market-level characteristics.">
+              Predicted RPSF:
+            </span>
+          </strong>
+          <span class="text-info fw-bold">$${data2.predictions?.[0] ? data2.predictions[0].toFixed(2) : 'N/A'}</span><br>
+
+          <strong>
+            <span data-bs-toggle="tooltip" title="The estimated total rent for this property using market-based prediction.">
+              Estimated Rent:
+            </span>
+          </strong>
+          <span class="text-info fw-bold">${data2.rent_estimates?.[0] ? `$${data2.rent_estimates[0].toFixed(2)}` : 'N/A'}</span><br>
+        `;
+        outputHTML += `
+          <hr>
+          <strong>Predicted RPSF (Rent Per Square Foot):</strong> This value is based on regional trends and RealPage market share. It reflects the estimated rent level for a unit with the provided characteristics, influenced by local competition and RealPage presence.<br><br>
+          <strong>Estimated Rent:</strong> This is the total predicted rent for the property based on the average unit size, number of units, and predicted RPSF. It combines both micro-level inputs and macro-level market share effects.<br><br>
+          <p class="form-text">
+            <em>Note:</em> This model does not compare control vs. treatment groups like the ATT model. Instead, it reflects what the rent <u>is likely to be</u> in the context of RealPage's market dominance and your property's profile.
+          </p>
+        `;
+        outputDiv.innerHTML = outputHTML;
+        loadingDiv.classList.add('d-none');
+        outputDiv.classList.remove('d-none');  // <-- move this here just in case
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(el => new bootstrap.Tooltip(el));
+      } catch (err) {
+        loadingDiv.classList.add('d-none');
         outputDiv.classList.remove('d-none');
         outputDiv.classList.add('alert-danger');
-        outputDiv.textContent = 'Error fetching model prediction. Please try again.';
+        outputDiv.textContent = 'Error fetching prediction. Please try again.';
         console.error(err);
-      });
+      }
     });
-  </script>
+  </script>  
 </body>
 </html>

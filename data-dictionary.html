@@ -1,34 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Data Dictionary - RealPage Collusion Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Dictionary - RealPage Rent Impact Dashboard</title>
   <link rel="icon" type="image/png" href="photos/berkeleyischool-logo-vertical-blue-sm.png">
   <!-- Bootstrap CSS -->
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-  />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Sidebar styles */
+    @media (min-width: 769px) {
+      #sidebar-wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 250px;
+      }
+
+      #page-content-wrapper {
+        margin-left: 250px;
+      }
+
+      #menu-toggle {
+        display: none;
+      }
+
+      nav.navbar.fixed-top {
+        display: none;
+      }
+    }
+  </style>
 </head>
+
 <body>
   <div class="d-flex" id="wrapper">
     <!-- Sidebar -->
     <div class="bg-light border-end" id="sidebar-wrapper">
       <div class="sidebar-heading text-center py-4">
         <img src="photos/berkeleyischool-logo-vertical-blue-sm.png" alt="UC Berkeley School of Information">
-        <h2 class="mids-capstone">MIDS Capstone: <strong>RealPage Collusion Dashboard</strong></h2>
+        <h2 class="mids-capstone">MIDS Capstone: <strong>RealPage Rent Impact Dashboard</strong></h2>
       </div>
       <div class="list-group list-group-flush">
         <a href="index.html" class="list-group-item list-group-item-action bg-light">
           Homepage
         </a>
         <a href="about.html" class="list-group-item list-group-item-action bg-light">About</a>
-        <a href="data-dictionary.html" class="list-group-item list-group-item-action bg-light active">Data Dictionary</a>
+        <a href="data-dictionary.html" class="list-group-item list-group-item-action bg-light active">Data
+          Dictionary</a>
         <a href="interactive-map.html" class="list-group-item list-group-item-action bg-light">Interactive Map</a>
         <a href="key-findings.html" class="list-group-item list-group-item-action bg-light">Key Findings</a>
-        <a href="demo.html" class="list-group-item list-group-item-action bg-light">Try It Yourself: Interactive Modeling</a>
+        <a href="demo.html" class="list-group-item list-group-item-action bg-light">Try It Yourself: Interactive
+          Modeling</a>
         <a href="contact-us.html" class="list-group-item list-group-item-action bg-light">Contact Us</a>
       </div>
       <div class="p-3">
@@ -39,80 +64,408 @@
 
     <!-- Page Content -->
     <div id="page-content-wrapper">
-      <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+      <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom mobile-only">
         <div class="container-fluid">
           <button class="btn btn-secondary" id="menu-toggle">
-            MIDS Capstone, Spring 2025: RealPage Collusion Dashboard
+            MIDS Capstone, Spring 2025: RealPage Rent Impact Dashboard
           </button>
         </div>
       </nav>
 
       <div class="container-fluid py-4">
-        
+
         <!-- Heading Section for Data Dictionary Page -->
         <div class="mb-4">
           <h1 class="display-5">Data Dictionary</h1>
           <p class="text-muted">
-            The data shown below are examples meant to illustrate how the fields 
-            in the source data are defined, and do not reflect exact records found.
+            This data dictionary provides a comprehensive overview of the data fields used in the RealPage Rent Impact
+            Dashboards, visualizations, and analyses.
+            It serves as a reference for understanding the structure and content of the data, which is essential for
+            interpreting the results and insights presented in the dashboard.
+            It includes descriptions of each field, its data type, and its significance in the context of the
+            dashboard's functionality.
           </p>
-          <h4>Rent Page &amp; Comparison Data, Core-Based Statistical Area</h4>
+          <h3>Scraped RealPage &amp; Comparison Data, Core-Based Statistical Area</h3>
+          <p> Source - Scraped from <a href="https://www.realpage.com/explore/main">"RealPage Explore: Multifamily Real Estate Analytics"</a>
+            </p>
           <p><strong>Example Data Featured</strong></p>
           <p><em>Note: The examples below are made up for the purpose of demonstration.</em></p>
         </div>
 
         <!-- Example Data Cases -->
+        <!-- Case 1 - Woodstone Village -->
         <div class="mb-3">
-          <h5>Case 1 - Property Alpha</h5>
+          <h5>Sample Row - Woodstone Village (RealPage Property)</h5>
           <ul>
-            <li><strong>Location &amp; Basics:</strong> Located in Metroville, NY, zip code 12345, address “100 Main St.”</li>
-            <li><strong>Property Details:</strong> 3-story, Class A, built in 2000, 150 units, average unit size 900 sq ft.</li>
-            <li><strong>Rent Metrics:</strong> Annual rent change of 8%, asking rent $1,200, rent per square foot 1.33.</li>
-            <li><strong>Submarket Data:</strong> Additional historical submarket price band metrics (e.g., asking rent, occupancy, etc.).</li>
+            <li><strong>Location &amp; Basics:</strong> Located in Westminster, CO, zip code 80031, address “4941 W 81st
+              Pl.”</li>
+            <li><strong>Property Details:</strong> 2-story, Class C, built in 1984, 192 units, average unit size 746 sq
+              ft.</li>
+            <li><strong>Rent Metrics:</strong> Annual rent change of 2.13%, asking rent $1,441, rent per square foot
+              1.93.</li>
+            <li><strong>Submarket Data:</strong> Submarket: Westminster. Additional historical submarket price band
+              metrics may apply.</li>
           </ul>
         </div>
 
+        <!-- Case 2 - Brix Warehouse District -->
         <div class="mb-3">
-          <h5>Case 2 - Property Beta</h5>
+          <h5>Sample Row - Brix Warehouse District ('Other' Property)</h5>
           <ul>
-            <li><strong>Location &amp; Basics:</strong> Springfield, IL (54321), “200 Oak Ave.”</li>
-            <li><strong>Property Details:</strong> 2-story, Class B luxury, built in 1995, 200 units, average unit size 750 sq ft.</li>
-            <li><strong>Rent Metrics:</strong> 12% annual rent increase, asking rent $1,400, rent per square foot 1.50.</li>
-            <li><strong>Submarket Data:</strong> Includes historical submarket price band metrics.</li>
+            <li><strong>Location &amp; Basics:</strong> Phoenix, AZ (85003), “402 W Lincoln St.”</li>
+            <li><strong>Property Details:</strong> 4-story, Class A, built in 2023, 300 units, average unit size 941 sq
+              ft.</li>
+            <li><strong>Rent Metrics:</strong> 5.7% annual rent increase, asking rent $1,848, rent per square foot
+              1.964.</li>
+            <li><strong>Submarket Data:</strong> Submarket: Central Phoenix. Additional historical submarket price band
+              metrics may apply.</li>
           </ul>
         </div>
 
+        <hr />
+        <div class="mt-3 row">
+          <div class="col-xs-12">
+            <h4 class="mb-1">Download Scraped RealPage Data </h4>
+            <a href="data/cbsa_data.csv" class="btn btn-primary btn-lg">CSV</a>
+            <a href="data/cbsa_data.json" class="btn btn-primary btn-lg">JSON</a>
+          </div>
+        </div>
+        <h5 class="mt-3">Field Descriptions </h5>
+        <table class="table table-striped table-bordered mt-3">
+          <thead>
+            <tr>
+              <th>Field Name</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>propertyId</td>
+              <td>Integer</td>
+              <td>Unique identifier for each property.</td>
+            </tr>
+            <tr>
+              <td>propertyName</td>
+              <td>Text</td>
+              <td>Name of the property.</td>
+            </tr>
+            <tr>
+              <td>zipCode</td>
+              <td>Text</td>
+              <td>Postal code where the property is located.</td>
+            </tr>
+            <tr>
+              <td>address</td>
+              <td>Text</td>
+              <td>Street address of the property.</td>
+            </tr>
+            <tr>
+              <td>city</td>
+              <td>Text</td>
+              <td>City in which the property is situated.</td>
+            </tr>
+            <tr>
+              <td>state</td>
+              <td>Text</td>
+              <td>Two-letter state code representing the location.</td>
+            </tr>
+            <tr>
+              <td>averageSquareFootage</td>
+              <td>Number</td>
+              <td>Average square footage per unit at the property.</td>
+            </tr>
+            <tr>
+              <td>stories</td>
+              <td>Number</td>
+              <td>Number of stories in the property building.</td>
+            </tr>
+            <tr>
+              <td>stable</td>
+              <td>Text</td>
+              <td>Indicates whether the property’s operational status is stable.</td>
+            </tr>
+            <tr>
+              <td>class</td>
+              <td>Text</td>
+              <td>Classification rating of the property, typically represented by a letter (for example, “A,” “B,” or
+                “C”).</td>
+            </tr>
+            <tr>
+              <td>latitude</td>
+              <td>Number</td>
+              <td>Geographic latitude of the property.</td>
+            </tr>
+            <tr>
+              <td>longitude</td>
+              <td>Number</td>
+              <td>Geographic longitude of the property.</td>
+            </tr>
+            <tr>
+              <td>imageHero</td>
+              <td>Text</td>
+              <td>File path or URL for the primary image associated with the property.</td>
+            </tr>
+            <tr>
+              <td>heroSource</td>
+              <td>Text</td>
+              <td>Source of the hero image; for example, the name of the image provider.</td>
+            </tr>
+            <tr>
+              <td>submarketName</td>
+              <td>Text</td>
+              <td>Submarket or subregion where the property is located.</td>
+            </tr>
+            <tr>
+              <td>unitcount</td>
+              <td>Number</td>
+              <td>Total number of residential or commercial units in the property.</td>
+            </tr>
+            <tr>
+              <td>yearBuilt</td>
+              <td>Number</td>
+              <td>The year the property was constructed.</td>
+            </tr>
+            <tr>
+              <td>siteStatus</td>
+              <td>Text</td>
+              <td>Current status of the property site (for example, “Stabilized”).</td>
+            </tr>
+            <tr>
+              <td>type</td>
+              <td>Text</td>
+              <td>Property type or building style (for example, “Conventional”).</td>
+            </tr>
+            <tr>
+              <td>MPF-ANN-RENT-CHG</td>
+              <td>Number</td>
+              <td>Annual change in rent, represented as a decimal value.</td>
+            </tr>
+            <tr>
+              <td>MPF-HIST-ASK-RENT</td>
+              <td>Number</td>
+              <td>Historical asking rent value; typically, the monthly rent amount in dollars.</td>
+            </tr>
+            <tr>
+              <td>MPF-HIST-AVG-ASK-RPSF</td>
+              <td>Number</td>
+              <td>Historical average asking rent per square foot.</td>
+            </tr>
+            <tr>
+              <td>MPF-HIST-CONC-RATIO</td>
+              <td>Number or Text</td>
+              <td>Historical concession ratio, indicating any adjustments made to rent (this value may be missing).</td>
+            </tr>
+            <tr>
+              <td>MPF-OCC</td>
+              <td>Number</td>
+              <td>Occupancy metric; likely represents the occupancy rate of the property.</td>
+            </tr>
+            <tr>
+              <td>MPF-RENT</td>
+              <td>Number</td>
+              <td>Current rent amount at the property.</td>
+            </tr>
+            <tr>
+              <td>MPF-RPSF</td>
+              <td>Number</td>
+              <td>Current rent per square foot.</td>
+            </tr>
+            <tr>
+              <td>data_index</td>
+              <td>Number</td>
+              <td>Index number assigned to the data row.</td>
+            </tr>
+            <tr>
+              <td>cbsa_code</td>
+              <td>Number</td>
+              <td>Core-based statistical area code representing the broader metropolitan area.</td>
+            </tr>
+          </tbody>
+        </table>
+        <hr />
+
+        <div class="mb-4 mt-5">
+          <h3>Comparables Workbooks – Rent Comparison Data by Core-Based Statistical Area</h3>
+          <p> Source - Contains data from "Scraped RealPage &amp; Comparison Data, Core-Based Statistical Area" dataset
+            above and the following sources:
+            U.S. Department of Housing and Urban Development's <a href="https://www.huduser.gov/portal/datasets/fmr.html#data_2025;">Fair Market Rents (40th Percentile Rents)</a> for 2025
+            Washington Post's <a href="https://www.washingtonpost.com/business/interactive/2025/realpage-lawsuit-rent-map/;">"Landlords are accused of colluding to raise rents. See where."</a>
+            and <a href="https://www.zillow.com/research/data/ ">Zillow's Observed Rent Index (ZORI): Multi Family Residence Time Series</a> for 2025</p>
+          <p><strong>Example Data Featured</strong></p>
+          <p><em>Note: The examples below are made up for the purpose of demonstration.</em></p>
+        </div>
+
+        <!-- Comparables Workbooks Sample Row -->
         <div class="mb-3">
-          <h5>Case 3 - Property Gamma</h5>
+          <h5>Sample Row – Santa Cruz–Watsonville, CA (Comparables Workbooks)</h5>
           <ul>
-            <li><strong>Location &amp; Basics:</strong> Lakeside, CA (67890), “300 Pine Rd.”</li>
-            <li><strong>Property Details:</strong> Single-story, Class C, built in 2010, 100 units, average unit size 1,100 sq ft.</li>
-            <li><strong>Rent Metrics:</strong> Decrease of –2% in annual rent change, asking rent $1,100, rent per square foot 1.00.</li>
-            <li><strong>Submarket Data:</strong> In this row, the submarket historical fields are left blank (missing or uncollected data).</li>
+            <li><strong>Area &amp; Basics:</strong> Area name: Santa Cruz–Watsonville, CA; CBSA: 42100.</li>
+            <li><strong>Rent Metrics:</strong> HUD Fair Market Rent: $3,388.65; RealPage Rent: $3,452.15; Zillow Rent:
+              $3,016.74.</li>
+            <li><strong>Market Share:</strong> RealPage market share: 9.30%.</li>
+            <li><strong>Average Rent:</strong> Average of rents: $3,286.</li>
           </ul>
         </div>
 
-        <hr/>
+        <!-- Comparables Workbooks Download Section -->
+        <div class="mt-3 row">
+          <div class="col-xs-12">
+            <h4 class="mb-1">Download Comparables Workbooks Data</h4>
+            <a href="data/workbooks/Comparables_Workbooks.xlsx" class="btn btn-primary btn-lg">Excel</a>
+          </div>
+        </div>
 
-        <!-- JSON-based dictionary goes here -->
-        <div id="json-dictionary"></div>
+        <!-- Comparables Workbooks Field Descriptions -->
+        <h5 class="mt-3">Comparables Workbooks Field Descriptions</h5>
+        <table class="table table-striped table-bordered mt-3">
+          <thead>
+            <tr>
+              <th>Field Name</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>HUD Metro Fair Market Rent Area Name</td>
+              <td>Text</td>
+              <td>Name of the metro area as defined by HUD.</td>
+            </tr>
+            <tr>
+              <td>CBSA</td>
+              <td>Number</td>
+              <td>Core-based statistical area code representing the broader metropolitan area.</td>
+            </tr>
+            <tr>
+              <td>HUD</td>
+              <td>Number</td>
+              <td>HUD-determined Fair Market Rent value.</td>
+            </tr>
+            <tr>
+              <td>Realpage</td>
+              <td>Number</td>
+              <td>Rent value as stated by RealPage.</td>
+            </tr>
+            <tr>
+              <td>Zillow</td>
+              <td>Number</td>
+              <td>Rent value listed on Zillow.</td>
+            </tr>
+            <tr>
+              <td>Realpage Market Share</td>
+              <td>Number</td>
+              <td>Market share percentage for RealPage.</td>
+            </tr>
+            <tr>
+              <td>Avg of Rents</td>
+              <td>Number</td>
+              <td>Average rent value computed from the available sources.</td>
+            </tr>
+          </tbody>
+        </table>
 
+        <hr />
+
+        <!-- Zillow Rent Over Time Section Header -->
+        <div class="mb-4 mt-5">
+          <h3>Zillow Rent Over Time – Analysis of Rent Trends Relative to RealPage Market Share</h3>
+          <p>Recreated from Washington Post's <a href="https://www.washingtonpost.com/business/interactive/2025/realpage-lawsuit-rent-map/;">"Landlords are accused of colluding to raise rents. See where."</a>
+            and <a href="https://www.zillow.com/research/data/ ">Zillow's Observed Rent Index (ZORI): Multi Family Residence Time Series</a>
+            </p>
+          <p><strong>Example Data Featured</strong></p>
+        </div>
+
+        <!-- Zillow Rent Over Time Sample Row -->
+        <div class="mb-3">
+          <h5>Sample Row – Austin, TX (Zillow Rent Over Time)</h5>
+          <ul>
+            <li><strong>Region &amp; Basics:</strong> Region name: Austin, TX; RealPage market share: 46.00%.</li>
+            <li><strong>Rent Over Time:</strong> January 31, 2015: $1,092.69; February 28, 2015: $1,101.90; March 31,
+              2015: $1,105.17; April 30, 2015: $1,103.27.</li>
+          </ul>
+        </div>
+
+        <!-- Zillow Rent Over Time Download Section -->
+        <div class="mt-3 row">
+          <div class="col-xs-12">
+            <h4 class="mb-1">Download Zillow Rent Over Time Data</h4>
+            <a href="data/workbooks/zillow_rent_over_time_excel.xlsx" class="btn btn-primary btn-lg">EXCEL</a>
+          </div>
+        </div>
+
+        <!-- Zillow Rent Over Time Field Descriptions -->
+        <h5 class="mt-3">Zillow Rent Over Time Field Descriptions</h5>
+        <table class="table table-striped table-bordered mt-3">
+          <thead>
+            <tr>
+              <th>Field Name</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>RegionName</td>
+              <td>Text</td>
+              <td>Name of the region or city under analysis.</td>
+            </tr>
+            <tr>
+              <td>Realpage Market Share</td>
+              <td>Number</td>
+              <td>Market share percentage for RealPage in the region.</td>
+            </tr>
+            <tr>
+              <td>1/31/2015</td>
+              <td>Number</td>
+              <td>Rent value on January 31, 2015.</td>
+            </tr>
+            <tr>
+              <td>2/28/2015</td>
+              <td>Number</td>
+              <td>Rent value on February 28, 2015.</td>
+            </tr>
+            <tr>
+              <td>3/31/2015</td>
+              <td>Number</td>
+              <td>Rent value on March 31, 2015.</td>
+            </tr>
+            <tr>
+              <td>Continued through 2025</td>
+              <td>Continued, all "numbers"</td>
+              <td>Continued, Rent value at the end of each month</td>
+            </tr>
+          </tbody>
+        </table>
+        <hr />
+        <!-- Individually Scraped Landord Comparison Data-->
+        <div class="mb-4 mt-5">
+          <h3> Individually Scraped Landord Comparison Data</h3>
+          <p>Derived from  Washington Post's <a href="https://www.washingtonpost.com/business/interactive/2025/realpage-lawsuit-rent-map/;">"Landlords are accused of colluding to raise rents. See where."</a>
+            and respective sites of the landlords listed in the article.</p>
+          <p><strong>Format varies by landlord</strong></p>
+        </div>
+        <!-- Zillow Rent Over Time Download Section -->
+        <div class="mt-3 row">
+          <div class="col-xs-12">
+            <h4 class="mb-1">Download Individually Scraped Landord Comparison Data</h4>
+            <a href="data/scraped_landlord_data.zip" class="btn btn-primary btn-lg">ZIP </a>
+          </div>
+        </div>
       </div>
-    <!-- Footer with link to the Full Privacy Policy -->
-    <footer class="bg-light text-center py-3 mt-5 border-top">
-      <p class="mb-0">
-        &copy; 2025 RealPage Collusion Dashboard &mdash; 
-        <a href="privacy.html">View Full Privacy Policy</a>
-      </p>
-    </footer>
+      <!-- Footer with link to the Full Privacy Policy -->
+      <footer class="bg-light text-center py-3 mt-5 border-top">
+        <p class="mb-0">
+          &copy; 2025 RealPage Rent Impact Dashboard &mdash;
+          <a href="privacy.html">View Full Privacy Policy</a>
+        </p>
+      </footer>
     </div>
     <!-- /#page-content-wrapper -->
   </div>
   <!-- /#wrapper -->
   <!-- Bootstrap JS -->
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-  ></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
     // Toggle the sidebar
@@ -126,7 +479,7 @@
 
   <!-- Script to fetch and display data from data-dictionary.json -->
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       fetch('data-dictionary.json')
         .then(response => {
           if (!response.ok) {
@@ -139,7 +492,7 @@
         })
         .catch(error => console.error('Error fetching JSON:', error));
     });
-  
+
     function renderDataDictionary(dictionary) {
       const container = document.getElementById('json-dictionary');
       container.innerHTML = ''; // Clear previous content if any
@@ -147,12 +500,12 @@
         // Create a container for each category
         const sectionDiv = document.createElement('div');
         sectionDiv.classList.add('mb-4');
-  
+
         // Create a header for this category
         const header = document.createElement('h5');
         header.textContent = prettyTitle(categoryKey);
         sectionDiv.appendChild(header);
-  
+
         // Create a list for the fields in this category
         const ul = document.createElement('ul');
         dictionary[categoryKey].forEach(item => {
@@ -161,17 +514,18 @@
           ul.appendChild(li);
         });
         sectionDiv.appendChild(ul);
-  
+
         // Append this category to the main container
         container.appendChild(sectionDiv);
       });
     }
-  
+
     function prettyTitle(key) {
       return key
         .replace(/([A-Z])/g, ' $1')  // Insert space before uppercase letters
         .replace(/^./, s => s.toUpperCase());  // Capitalize first letter
     }
-  </script>  
+  </script>
 </body>
+
 </html>

@@ -241,6 +241,94 @@ a:hover, a:focus {
   display: none;
 }
 
+/* Help Overlay */
+.help-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+/* Help Content Box */
+.help-content {
+  background: white;
+  padding: 20px;
+  width: 60%;
+  max-height: 80vh;
+  overflow-y: auto;
+  border-radius: 8px;
+  text-align: center;
+  position: relative;
+}
+
+/* Close Button */
+.close-help {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+/* Styled Popup Table */
+.popup-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.popup-table th {
+  background-color: #007bff; /* Blue Header */
+  color: white;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+.popup-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+/* Alternate row colors for readability */
+.popup-table tr:nth-child(even) td {
+  background-color: #e9ecef;
+}
+
+/* Tooltip effect for descriptions */
+.popup-table td[title] {
+  cursor: help;
+  position: relative;
+}
+
+/* Show tooltip on hover */
+.popup-table td[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 6px;
+  border-radius: 5px;
+  font-size: 12px;
+  white-space: nowrap;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+
 /* ================= Full-Width, Full-Height Scroll Sections ================= */
 
 html, body {
@@ -314,7 +402,7 @@ html, body {
 
 /* 🎯 Spacing Fixes */
 #introduction p {
-  max-width: 750px;
+  max-width: 900px;
   font-size: 1.1rem;
   margin: 15px auto;
   line-height: 1.6;
@@ -484,4 +572,32 @@ html, body {
 .arrow-down {
   transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
+}
+
+.transition-container {
+  transition: transform 0.5s ease;
+}
+.container-rentsim {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 400px;
+  margin: auto;
+  width: 80%;
+  max-width: 600px;
+}
+.bar-rentsim {
+  width: 100px;
+  background: steelblue;
+  margin: 0 10px;
+  position: relative;
+  transition: height 0.5s ease;
+}
+.price {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-weight: bold;
 }

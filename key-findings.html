@@ -3,11 +3,124 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Key Findings - RealPage Collusion Dashboard</title>
+  <title>Key Findings - RealPage Rent Impact Dashboard</title>
   <link rel="icon" type="image/png" href="photos/berkeleyischool-logo-vertical-blue-sm.png">
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+  <style>
+
+    html, body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    #wrapper {
+      flex-wrap: wrap;
+    }
+
+    .swiper-container {
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      overflow: hidden;
+      padding: 20px 0;
+    }
+
+    .swiper-wrapper {
+      display: flex;
+      box-sizing: border-box;
+    }
+
+    .swiper-slide {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+    }
+
+    .swiper-slide img {
+      width: 100%;
+      height: auto;
+      max-height: 450px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Swiper navigation buttons */
+    .swiper-button-next,
+    .swiper-button-prev {
+      position: absolute; /* ← This is critical */
+      color: #004a99; /* Make arrows visible (use your primary blue) */
+      font-size: 20px;
+      width: 44px;
+      height: 44px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+    }
+
+    /* Hover effect */
+    .swiper-button-next:hover,
+    .swiper-button-prev:hover {
+      color: #FDB515;
+    }
+
+    .swiper-button-prev {
+      left: -10px; /* move left arrow more to the left */
+    }
+
+    .swiper-button-next {
+      right: -10px; /* move right arrow more to the right */
+    }
+
+
+    iframe {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* Sidebar styles */
+    @media (min-width: 769px) {
+      #sidebar-wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 250px;
+      }
+
+      #page-content-wrapper {
+        margin-left: 250px;
+        width: 100%;
+        overflow-x: hidden;
+      }
+
+      #menu-toggle {
+        display: none;
+      }
+
+      nav.navbar.fixed-top {
+        display: none;
+      }
+    }
+
+    .responsive-chart {
+      min-width: 400px;
+      width: 100%;
+      height: 700px;  /* Give it a healthy default height */
+      aspect-ratio: 16 / 9;
+      max-height: none;
+    }
+
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
 </head>
 <body>
   <div class="d-flex" id="wrapper">
@@ -16,7 +129,7 @@
       <div class="sidebar-heading text-center py-4">
         <img src="photos/berkeleyischool-logo-vertical-blue-sm.png" alt="UC Berkeley School of Information">
         <h2 class="mids-capstone">
-          MIDS Capstone: <strong>RealPage Collusion Dashboard</strong>
+          MIDS Capstone: <strong>RealPage Rent Impact Dashboard</strong>
         </h2>
       </div>
       <div class="list-group list-group-flush">
@@ -54,10 +167,10 @@
     
     <!-- Page Content -->
     <div id="page-content-wrapper">
-      <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+      <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom mobile-only">
         <div class="container-fluid">
           <button class="btn btn-secondary" id="menu-toggle">
-            MIDS Capstone, Spring 2025: RealPage Collusion Dashboard
+            MIDS Capstone, Spring 2025: RealPage Rent Impact Dashboard
           </button>
         </div>
       </nav>
@@ -67,38 +180,240 @@
         <div class="mb-4">
           <h1 class="display-5">Key Findings</h1>
           <p class="text-muted">
-            This research examines explanatory and predictive analyses of rent pricing. It explores causal inference using difference-in-difference and synthetic control methods, as well as predictive modeling approaches.
-          </p>
+            This investigation examined whether RealPage’s widely used “Revenue Management” and pricing algorithms have a significant impact on rental housing costs. 
+            ProPublica’s initial allegations about RealPage’s software—known under brands like YieldStar—sparked concerns that landlords might engage in tacit price-fixing through an algorithm rather than negotiating rents independently. 
+            RealPage denies such claims. Motivated by these debates, we sought to (1) quantify how much more, if any, RealPage-managed properties charge relative to non-users, and (2) determine whether RealPage’s 2017 acquisition of its largest competitor, Lease Rent Options (LRO), generated additional supra-competitive rent increases.
+            <hr>
+            Thus, this page explores the key patterns in rent pricing using updated difference-in-differences methods and non-causal models. 
+            Rather than asserting definitive collusion, our analyses highlight statistically significant rent impacts associated with RealPage usage. 
+            Management Named in Lawsuits Against RealPage are grouped for comparison throughout.
+          </p>          
         </div>
         
         <!-- Visualization Card -->
-        <div class="desktop-only card mb-4">
-          <div class="card-header">
-            <h5 class="mb-0">Visualizations for our Key Findings</h5>
-          </div>
-          <div class="card-body">
-            <div class="ratio ratio-16x9">
-              <iframe 
-                src="https://app.powerbi.com/view?r=eyJrIjoiNDg5Nzk3MGEtMDEwZS00YmQ2LWFlZDEtNzkyOGIxNzFkYmQ5IiwidCI6IjA2MjJmYTVkLWRlMDEtNDJhYi1iYWVkLWY2ZmM3NDc0ZDJlMyIsImMiOjN9" 
-                frameborder="0" 
-                allowFullScreen>
-              </iframe>
-            </div>
-          </div>
-        </div>
+        <div class="mb-3">
+          <label for="stateFilter" class="form-label">Filter by State:</label>
+          <select id="stateFilter" class="form-select" style="max-width: 300px;">
+            <option value="">All States</option>
+          </select>
+        </div>        
+        <div id="keyFindingsChart" class="responsive-chart"></div>
+        <p class="text-muted" style="margin-top:1rem;">
+          This chart compares rent levels by metro, grouped by city.
+        </p>
+        <br>
+        <hr>
+        <!-- Add visuals from the ML Models -->
+        <h2 class="mt-5">Machine Learning Models</h2>
+        <p class="text-muted">
+          The following visualizations provide insights into the machine learning models' performances and feature importance.
+          These visualizations help in understanding the models' predictions and the significance of different features in the dataset.
+        </p>
 
-        <!-- Mobile only description -->
-        <div class="mobile-only mb-4">
-          <p class="text-muted">
-            To view the data visualizations surrounding our findings, please open our <a href="research-paper.pdf" target="_blank">research paper (PDF)</a>, our <a href="index.html">homepage</a>, or visit this page on a desktop or laptop computer.
-          </p>
-        </div>
+        <h4>Predicting the Usage of RealPage</h4>
+        <p>
+          We first developed a machine learning model to predict whether a property uses RealPage based on features like location (CBSA), size, age, unit count, and market conditions. After cleaning and preparing the data, we used logistic regression to estimate the likelihood of RealPage usage. This model helps identify patterns across properties and supports deeper analysis into how RealPage's software might influence rental pricing.
+        </p>        
+
+        <h4>Propensity Score & Machine Learning for Rental Pricing</h4>
+        <p>
+          This analysis explores how RealPage's pricing software may impact rents in the multifamily housing market. 
+          Researchers compiled data on over 42,000 U.S. properties, identifying ~5,000 RealPage users through public legal records. 
+          Due to inconsistent property names and addresses, fuzzy matching techniques—such as text normalization, Levenshtein distance, 
+          and address scoring—were used to link records across datasets.
+        </p>
+        <p>
+          After cleaning, key features like unit count, square footage, age, occupancy, and market competitiveness were selected. 
+          Locations were represented using Core-Based Statistical Areas (CBSAs), which were one-hot encoded to allow the model to 
+          recognize regions without assuming relationships between them. These were combined with numeric features to train the model.
+        </p>
+        <p>
+          A logistic regression model estimated the likelihood (propensity score) that a property uses RealPage. Each RealPage 
+          property was then matched to a similar non-user to reduce bias, simulating a randomized control trial. 
+          Results showed RealPage properties charge <strong>$0.27 more per square foot</strong> on average, suggesting a 
+          meaningful pricing impact.
+        </p>
+
+        <h4>Simulating Predicted Prices</h4>
+        <p>We simulated predicted price per square foot (MPF-RPSF) under two scenarios:</p>
+        <ol>
+          <li>
+            <strong>Varying <code>uses_realpage</code>:</strong><br>
+            A representative property is simulated with most features held constant, while toggling the <code>uses_realpage</code> 
+            flag between 0 and 1 to isolate RealPage's effect on price.
+          </li>
+          <br>
+          <li>
+            <strong>Varying <code>market_share</code> and <code>uses_realpage</code>:</strong><br>
+            Simulated properties with different <code>market_share</code> values for both RealPage and non-RealPage users. 
+            This shows how pricing responds as RealPage's presence increases in a given CBSA.
+          </li>
+        </ol>
+        <p>
+          These simulations validate the models and provide intuitive visual insights into RealPage's pricing influence.
+        </p>
+
+        <h4>Market Share & RealPage Usage Interaction</h4>
+        <p>
+          The updated model adds RealPage's market share within each CBSA to examine its interaction with pricing outcomes.
+        </p>
+        <p>
+          <strong>Market Share Calculation:</strong><br>
+          <pre><code>RealPage Market Share = (Number of RealPage Properties) / (Total Properties in CBSA)</code></pre>
+        </p>
+        <p>
+          This variable is included alongside other property-level features, along with an interaction term between 
+          <code>uses_realpage</code> and <code>market_share</code>. This allows us to test whether RealPage's pricing impact 
+          grows with its local dominance.
+        </p>
+        <p>
+          Simulations illustrate predicted price per square foot across a range of market share values for both user types, 
+          highlighting how RealPage saturation may amplify pricing effects.
+        </p>
+
+        <h4>Simulating Distributions of RSPF for RealPage Users vs Non-RealPage Users</h4>
         
+        <p>
+        In this section, we perform simulations to illustrate how the distributions of predicted rent per square foot (RSPF) differ between RealPage and non-RealPage users using the FFNN model.
+        </p>
+
+        <ul>
+          <li>
+            <strong>Variation in RSPF with <code>uses_realpage</code> Flag:</strong><br>
+            We generate simulated data points for a representative property by holding most features constant while switching the <code>uses_realpage</code> flag between 0 and 1. 
+            This will help us see the effect of being a RealPage user on the predicted price.
+          </li>
+          <br>
+          <li>
+            <strong>Varying <code>market_share</code> and <code>uses_realpage</code>:</strong><br>
+            The second simulation shows how the predicted MPF-RPSF changes as RealPage’s market share in the CBSA changes. 
+            We generate two sets of simulated properties (one for non-RealPage users and one for RealPage users) while varying the <code>market_share</code> feature over a range of values. 
+            The resulting plots will show the relationship between market share and predicted price for both groups.
+          </li>
+        </ul>
+
+        <p>
+        Our goal is to demonstrate that the distributions of the predictions differ significantly as the value of <code>uses_realpage</code> changes.
+        </p>
+
+        <p>
+        <strong>One-sided Mann-Whitney U test (RealPage &gt; Non-RealPage):</strong><br>
+        U-statistic: 1270.0000<br>
+        p-value: 0.4465<br><br>
+        Result: The test did not detect a statistically significant difference (p &ge; 0.05).
+        </p>
+
+        <p><em>Click on the visualizations below to view them in full size.</em></p>
+
+        <!-- Swiper Slider Section -->
+        <div class="container">
+          <div class="swiper-container">
+            <div class="swiper-wrapper">
+
+              <div class="swiper-slide">
+                <img src="photos/residual-rent-comparison.png" alt="Residual Rent Comparison" onclick="openLightbox(this.src)" style="cursor: zoom-in;">
+              </div>
+
+              <div class="swiper-slide">
+                <img src="photos/Distribution of Rent Differences (RealPage - Non-RealPage).png" alt="Distribution of Rent Differences" onclick="openLightbox(this.src)" style="cursor: zoom-in;">
+              </div>
+
+              <div class="swiper-slide">
+                <img src="photos/Rent Comparison (Matched Sample).png" alt="Rent Comparison Matched Sample" onclick="openLightbox(this.src)" style="cursor: zoom-in;">
+              </div>
+
+              <div class="swiper-slide">
+                <img src="photos/propensity-dist.png" alt="Propensity Score Distribution" onclick="openLightbox(this.src)" style="cursor: zoom-in;">
+              </div>
+
+              <div class="swiper-slide">
+                <img src="photos/rp_impact_price.png" alt="Effect of uses_realpage on Predicted Rent per Sqare Foot Price." onclick="openLightbox(this.src)" style="cursor: zoom-in;">
+              </div>
+
+              <div class="swiper-slide">
+                <img src="photos/model_share_rp_impact.png" alt="Effect of Market Share and uses_realpage on Predicted Rent per Square Foot Price" onclick="openLightbox(this.src)" style="cursor: zoom-in;">
+              </div>
+
+              <div class="swiper-slide">
+                <img src="photos/RealPage_vs_non_RP.png" alt="Distribution of Predicted MPF-RPSF for Non-RealPage vs. RealPage" onclick="openLightbox(this.src)" style="cursor: zoom-in;">
+              </div>
+            </div>
+
+            <!-- Navigation (desktop only) -->
+            <div class="desktop-only swiper-button-next"></div>
+            <div class="desktop-only swiper-button-prev"></div>
+
+            <!-- Pagination (mobile friendly) -->
+            <div class="mobile-only swiper-pagination"></div>
+          </div>    
+        </div>    
+        <hr>
+        <h4>It is Unclear Whether this Rent Impact is Due to Price Coordination</h4>
+        <p>
+          Our predictive models suggest that RealPage usage can predict higher rents. However, can we test whether this correlation is actually *because of* effects which are similar to price-fixing, and not other factors like efficiency?<br><br>
+          In December 2017, RealPage completed an acquisition of Lease Rent Options (LRO), their primary competitor in the market for rental pricing algorithms. Did this acquisition lead to higher rent in the housing market? If the answer is yes, then this may be because of price-coordinating effects, because no landlords actually merged - the only merger was between providers for price algorithms. Market power would only change if landlords using one of RealPage's products (post-merger) were coordinating via the algorithms.<br><br>
+          However, we do not see this effect; therefore, our data does not prove whether or not price coordination is the root cause of RealPage's rent impact.          
+        </p>
+        <br>
+        <h4>ARIMA Forecasting to Adjust for COVID Impact</h4>
+        <p>
+          The COVID pandemic of 2020 had a significant effect on the housing market which varied across cities and time. 
+          To test the effect of a 2017 merger, we start by adjusting for the effect of COVID in 2020 and beyond. 
+          We trained an ARIMA forecasting model from December 2017 to December 2019, then use this to predict three years of housing market data without the effect of COVID.
+        </p>
+        <div class="mb-5">
+          <h5>Zillow Index and COVID Adjustment (2015 - 2022)</h5>
+          <iframe src="covid_adjustment.html" style="width: 100%; height: 800px; border: none;"></iframe>
+        </div>
+        <h4>Divide Cities into Treatment and Control Groups</h4>
+        <p>
+          Next, we need to select a treatment group and a control group. If this merger has an effect, it would have the highest effect on cities with both a high RealPage penetration rate and a high share gain from the merger (and the lowest effect on cities with low penetration rates and share gains).<br>
+          We estimate RealPage's share of multifamily rental units based on their own disclosed share of *all* rental units for 20 select cities in May 2023, the count of total units according to the 2023 American Community Survey, and the share of units which are multifamily from the same survey. We select the cities with the highest share (Atlanta, Dallas, Phoenix, Denver, Tampa, and Washington DC) as the treatment group, and the cities with the lowest share (Minneapolis, San Diego, Miami, San Francisco, Chicago, Detroit, Los Angeles, and New York) as the control group.
+        </p>
+        <div class="mb-5">
+          <h5>"RealPage's Multifamily Penetration Rate by City (May 2023)</h5>
+          <iframe src="realpage_lro_shares_2023-05.html" style="width: 100%; height: 800px; border: none;"></iframe>
+        </div>
+        <h4>Compare Merger Effects on Treatment and Control Cities</h4>
+        <p>
+          For each of the six <b>treatment</b> cities, we use a machine learning approach called the "Synthetic Control" method to predict the <b>treatment city's</b> pre-merger rent level using only the <b>control cities</b>' rent levels. We make this prediction model as accurate as possible using only <b>pre-merger</b> data, then use that model to predict the <b>post-merger</b> rent levels. <br><br>
+          In essence, the Synthetic Control is a prediction of what a city's rent *would* look like if the combined market share was much lower there. If a city's rent is much higher than its Synthetic Control predicted level, this suggests that the 2017 RealPage-LRO merger may be causing higher rent. Conversely, if the city's rent is much lower than its Synthetic Control predicted level, this suggests that the merger may be causing lower rent.<br><br>
+          However, differences are small and generally inconsistent across cities. In Phoenix, this method predicts higher rents, but in Atlanta and Dallas, this method predicts lower rents. In the remaining three cities, there is no obvious difference. Furthermore, divergence for some cities begins in 2020, suggesting that this may be due to imperfections in the COVID adjustment. Because of this inconsistency, we cannot conclusively say whether RealPage's rent impact is a result of price-coordination.
+        </p> 
+        <div class="mb-5">
+          <h5>High-Share Cities and their Synthetic Controls (2015 - 2022)</h5>
+          <iframe src="synthetic_control.html" style="width: 100%; height: 800px; border: none;"></iframe>
+        </div>
+        <h2>Conclusion </h2>
+        <p>
+          Our research demonstrates a positive association between RealPage software usage and higher rents—approximately 0.23 dollars more per square foot each month. 
+          On the other hand, the post-merger analyses do not provide robust or uniform evidence that RealPage’s acquisition of LRO caused additional rent hikes attributable to enhanced algorithmic collusion. 
+          This suggests that while algorithmic pricing may be boosting rents where it is adopted, the merger itself does not appear to have notably intensified that effect on a widespread basis.
+          It remains possible that algorithmic pricing could enable supra-competitive coordination even without a merger, as some economic models suggest. 
+          Likewise, RealPage’s own position is that these tools improve operational efficiency for landlords in ways that do not involve collusion. 
+          Ultimately, further research is needed to isolate which features of algorithmic pricing might genuinely threaten competition.
+        </p>
+        <h2> 
+          Policy Implications and Recommendations
+        </h2>
+        <p>
+          <ul>
+            <li>Increased Transparency: Policymakers could require property management firms or software developers to disclose the scope and nature of their algorithmic pricing use. Such disclosures help ensure that public agencies, renters, and watchdogs can monitor for potential abusive behaviors.</li>
+            <li>Ongoing Oversight and Market Monitoring: Housing regulators and antitrust authorities should track market penetration rates, particularly in localities that exceed certain thresholds for RealPage or similar software usage, to evaluate potential impacts on competition.
+            </li>
+            <li>          Further Regulation of Pricing Algorithms: Legislators may consider rules that regulate how competitor data is aggregated or shared to ensure that these tools do not inadvertently facilitate tacit collusion.
+            </li>
+            <li>          Encourage Independent Research: Supporting academic or government-sponsored studies can expand access to more granular data (e.g., property-level historical rents, occupancy, or landlord usage patterns) to clarify whether algorithm-driven rent increases harm competition or reflect efficient market pricing.
+            </li>
+          </ul>
+          By bolstering transparency and carefully scrutinizing markets with high algorithmic penetration, officials can better protect tenants from potential rent inflation while still allowing legitimate tech-driven efficiency gains.
+        </p>
+
       </div>
       <!-- Footer -->
       <footer class="bg-light text-center py-3 mt-5 border-top">
         <p class="mb-0">
-          &copy; 2025 RealPage Collusion Dashboard &mdash; 
+          &copy; 2025 RealPage Rent Impact Dashboard &mdash; 
           <a href="privacy.html">View Full Privacy Policy</a>
         </p>
       </footer>
@@ -106,14 +421,193 @@
     <!-- /#page-content-wrapper -->
   </div>
   <!-- /#wrapper -->
-  
-  <!-- Bootstrap Bundle JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Chart Code -->
   <script>
-    const menuToggle = document.getElementById("menu-toggle");
-    const wrapper = document.getElementById("wrapper");
-    menuToggle.addEventListener("click", () => {
-      wrapper.classList.toggle("toggled");
+    document.addEventListener('DOMContentLoaded', function () {
+      const container = document.getElementById("keyFindingsChart");
+      const canvas = document.createElement("canvas");
+      container.appendChild(canvas);
+      const ctx = canvas.getContext("2d");
+    
+      let chart; // Store the Chart.js instance
+      let parsedData = [];
+    
+      function updateChart(filteredState = "") {
+        const cityGroups = {};
+    
+        parsedData.forEach(row => {
+          if (filteredState && row.state !== filteredState) return;
+    
+          const city = row.city;
+          const rent = parseFloat(row["MPF-RENT"]);
+          const usesRealPage = row.uses_realpage === "1" ? "RealPage" : "Not RealPage";
+    
+          if (!city || isNaN(rent)) return;
+          if (!cityGroups[city]) cityGroups[city] = { "RealPage": [], "Not RealPage": [] };
+          cityGroups[city][usesRealPage].push(rent);
+        });
+    
+        const labels = [];
+        const realpageAverages = [];
+        const otherAverages = [];
+    
+        for (let city in cityGroups) {
+          const group = cityGroups[city];
+          if (group["RealPage"].length && group["Not RealPage"].length) {
+            labels.push(city);
+            realpageAverages.push(group["RealPage"].reduce((a, b) => a + b, 0) / group["RealPage"].length);
+            otherAverages.push(group["Not RealPage"].reduce((a, b) => a + b, 0) / group["Not RealPage"].length);
+          }
+        }
+    
+        if (chart) chart.destroy(); // Remove old chart
+        chart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: "RealPage",
+                data: realpageAverages,
+                backgroundColor: "rgba(0,123,255,0.7)"
+              },
+              {
+                label: "Not RealPage",
+                data: otherAverages,
+                backgroundColor: "rgba(108,117,125,0.7)"
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              title: {
+                display: true,
+                text: "Rent Impact by RealPage Involvement (by City)"
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                title: { display: true, text: "Rent ($)" }
+              }
+            }
+          }
+        });
+      }
+    
+      // Load CSV
+      fetch("https://raw.githubusercontent.com/pbenzoni/realpage-collusion/refs/heads/main/data/cbsa_data_final_cleaned.csv")
+        .then(res => res.text())
+        .then(csv => {
+          Papa.parse(csv, {
+            header: true,
+            skipEmptyLines: true,
+            complete: function(results) {
+              parsedData = results.data;
+    
+              // Populate state filter
+              const stateFilter = document.getElementById("stateFilter");
+              const states = [...new Set(parsedData.map(d => d.state).filter(Boolean))].sort();
+              states.forEach(state => {
+                const option = document.createElement("option");
+                option.value = state;
+                option.textContent = state;
+                stateFilter.appendChild(option);
+              });
+    
+              // Initial chart
+              updateChart();
+    
+              // Filter change
+              stateFilter.addEventListener("change", function () {
+                updateChart(this.value);
+              });
+            }
+          });
+        });
+    });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          const menuToggle = document.getElementById("menu-toggle");
+          const wrapper = document.getElementById("wrapper");
+          menuToggle.addEventListener("click", () => {
+          wrapper.classList.toggle("toggled");
+        });
+      });
+    </script>
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const swiper = new Swiper('.swiper-container', {
+        loop: true,
+        slidesPerView: 1,
+        spaceBetween: 10,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+        breakpoints: {
+          768: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
+          1024: {
+            slidesPerView: 3,
+            spaceBetween: 30,
+          }
+        }
+      });
+    });
+  </script>
+  <!-- Lightbox Modal -->
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <img id="lightbox-img" src="" alt="Full Size Image">
+  </div>
+  <style>
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 3000;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.85);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+    }
+  </style>
+  <script>
+    function openLightbox(src) {
+      const lightbox = document.getElementById('lightbox');
+      const img = document.getElementById('lightbox-img');
+      img.src = src;
+      lightbox.style.display = 'flex';
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').style.display = 'none';
+    }
+    // Allow closing with ESC key
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeLightbox();
     });
   </script>
 </body>

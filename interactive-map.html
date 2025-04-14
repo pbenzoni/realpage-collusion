@@ -116,7 +116,7 @@
       <div class="sidebar-heading text-center py-4">
         <img src="photos/berkeleyischool-logo-vertical-blue-sm.png" alt="UC Berkeley School of Information">
         <h2 class="mids-capstone">
-          MIDS Capstone: <strong>RealPage Collusion Dashboard</strong>
+          MIDS Capstone: <strong>RealPage Rent Impact Dashboard</strong>
         </h2>
       </div>
       <div class="list-group list-group-flush">
@@ -139,16 +139,20 @@
     <!-- Page Content (Flex Column) -->
     <div id="page-content-wrapper">
       <!-- Top Navbar -->
-      <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+      <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom mobile-only">
         <div class="container-fluid">
           <button class="btn btn-secondary" id="menu-toggle">
-            MIDS Capstone, Spring 2025: RealPage Collusion Dashboard
+            MIDS Capstone, Spring 2025: RealPage Rent Impact Dashboard
           </button>
         </div>
       </nav>
       
       <!-- Map takes all remaining space -->
       <div class="map-wrapper" style="position: relative;">
+        <!-- Help Button (Positioned on Top of the Map) -->
+        <button id="toggle-help-btn" class="btn btn-info" style="position: absolute; top: 10px; right: 10px; z-index: 1000;">
+          ❓ Help
+        </button>
         <!-- Loading overlay -->
         <div id="loadingOverlay">
           <img src="photos/spinner.gif" alt="Loading..." />
@@ -162,11 +166,69 @@
           </iframe>
         </div>
       </div>
+
+      <!-- Help Overlay (Hidden by Default) -->
+      <div id="help-overlay" class="help-overlay">
+        <div class="help-content">
+          <button id="close-help-btn" class="close-help">&times;</button>
+          <h2>📊 Understanding the Data in Popups</h2>
+          <p>
+            When you click on a location marker, a popup appears displaying important rental market metrics. 
+            Each row in the table represents a specific **rental market indicator**. Below is an explanation of each metric and how to interpret the values:
+          </p>
+
+          <table class="popup-table" style="width:100%; margin-top:10px;">
+            <tr>
+              <th>Field</th>
+              <th>Description</th>
+              <th>How to Interpret</th>
+            </tr>
+            <tr>
+              <td><strong>Annual Rent Change (MPF-ANN-RENT-CHG)</strong></td>
+              <td>The annual percentage change in rent according to market performance data.</td>
+              <td>Higher values indicate increasing rent prices, while negative values show rent declines.</td>
+            </tr>
+            <tr>
+              <td><strong>Historical Ask Rent (MPF-HIST-ASK-RENT)</strong></td>
+              <td>Historical asking rent amount based on market performance data.</td>
+              <td>Reflects past trends in advertised rent. Compare with <strong>Current Rent</strong> to see if asking prices have increased.</td>
+            </tr>
+            <tr>
+              <td><strong>Hist. Avg Ask RPSF (MPF-HIST-AVG-ASK-RPSF)</strong></td>
+              <td>Historical average asking rent per square foot.</td>
+              <td>Gives insight into rental pricing efficiency. Higher values suggest premium pricing per unit space.</td>
+            </tr>
+            <tr>
+              <td><strong>Hist. Rent Conc. Ratio (MPF-HIST-CONC-RATIO)</strong></td>
+              <td>Historical concentration ratio of rents across units.</td>
+              <td>Indicates the diversity of rent pricing. A low ratio means prices are more spread out, while a high ratio means uniform pricing.</td>
+            </tr>
+            <tr>
+              <td><strong>Occupancy Rate (MPF-OCC)</strong></td>
+              <td>Market performance occupancy rate (percentage of occupied units).</td>
+              <td>Values near 100% indicate high demand, while lower values suggest vacancy issues.</td>
+            </tr>
+            <tr>
+              <td><strong>Current Rent (MPF-RENT)</strong></td>
+              <td>Current rent figure derived from market performance data.</td>
+              <td>Shows present market rent levels. Compare with historical values to assess trends.</td>
+            </tr>
+            <tr>
+              <td><strong>Rent per SF (MPF-RPSF)</strong></td>
+              <td>Current rent per square foot metric.</td>
+              <td>Useful for comparing different unit sizes. Higher values indicate expensive rental pricing per unit area.</td>
+            </tr>
+          </table>
+          <br>
+          <p><strong>Tip:</strong> Hover over field names in the popups for quick descriptions.</p>
+          <p>For more details, refer to the <a href="data-dictionary.html" target="_blank">Data Dictionary</a>.</p> 
+        </div>
+      </div>
         
       <!-- Footer pinned at the bottom -->
       <footer class="bg-light text-center py-3 border-top">
         <p class="mb-0">
-          &copy; 2025 RealPage Collusion Dashboard &mdash; 
+          &copy; 2025 RealPage Rent Impact Dashboard &mdash; 
           <a href="privacy.html">View Full Privacy Policy</a>
         </p>
       </footer>
@@ -181,6 +243,12 @@
     const wrapper = document.getElementById("wrapper");
     menuToggle.addEventListener("click", () => {
       wrapper.classList.toggle("toggled");
+    });
+    document.getElementById("toggle-help-btn").addEventListener("click", function () {
+      document.getElementById("help-overlay").style.display = "flex";
+    });
+    document.getElementById("close-help-btn").addEventListener("click", function () {
+      document.getElementById("help-overlay").style.display = "none";
     });
   </script>
 </body>

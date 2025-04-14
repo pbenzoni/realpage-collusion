@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RealPage Collusion Dashboard</title>
+  <title>RealPage Rent Impact Dashboard</title>
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="photos/berkeleyischool-logo-vertical-blue-sm.png">
   <!-- Bootstrap CSS -->
@@ -37,6 +37,27 @@
       }
     }
 
+    /* For screens >= 769px, when the sidebar is fixed at 250px */
+    @media (min-width: 769px) {
+      #page-content-wrapper {
+        margin-left: 250px;
+        /* Shift the content to the right of the sidebar */
+        max-width: calc(100% - 250px);
+        /* Prevents content from exceeding the screen width */
+        overflow-x: hidden;
+        /* Hides any accidental overflow */
+      }
+    }
+
+    /* For smaller screens, let #page-content-wrapper take full width */
+    @media (max-width: 768px) {
+      #page-content-wrapper {
+        margin-left: 0;
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+    }
+
     /* Full-width content sections */
     .section {
       width: 100%;
@@ -46,16 +67,20 @@
       align-items: center;
       justify-content: flex-start;
       scroll-snap-align: start;
-      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      /* 
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out; 
       opacity: 0;
       transform: translateY(30px);
+      */
       padding: 20px;
     }
 
+    /*
     .section.in-view {
       opacity: 1;
       transform: translateY(0);
     }
+    */
 
     /* Adjusted chart container height for readability */
     canvas {
@@ -63,9 +88,27 @@
       height: auto;
       max-height: 700px;
     }
+
+    .chart-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 20px;
+    }
+
+    .chart-wrapper canvas {
+      min-width: 400px;
+      width: 100%;
+      height: 700px;
+      /* Give it a healthy default height */
+      aspect-ratio: 16 / 9;
+      max-height: none;
+    }
   </style>
   <!-- Defer non-critical scripts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+
   <!-- Chart.js Annotation Plugin -->
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.1.0" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js" defer></script>
@@ -77,7 +120,7 @@
     <div class="bg-light border-end" id="sidebar-wrapper">
       <div class="sidebar-heading text-center py-4">
         <img src="photos/berkeleyischool-logo-vertical-blue-sm.png" alt="UC Berkeley School of Information">
-        <h2 class="mids-capstone">MIDS Capstone: <strong>RealPage Collusion Dashboard</strong></h2>
+        <h2 class="mids-capstone">MIDS Capstone: <strong>RealPage Rent Impact Dashboard</strong></h2>
       </div>
       <div class="list-group list-group-flush">
         <a href="index.html" class="list-group-item list-group-item-action bg-light active">Homepage</a>
@@ -99,27 +142,30 @@
     <div id="page-content-wrapper">
       <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom mobile-only">
         <div class="container-fluid">
-          <button class="btn btn-secondary" id="menu-toggle">MIDS Capstone, Spring 2025: RealPage Collusion Dashboard</button>
+          <button class="btn btn-secondary" id="menu-toggle">MIDS Capstone, Spring 2025: RealPage Collusion
+            Dashboard</button>
         </div>
       </nav>
 
       <!-- Introduction Section -->
-      <section id="introduction" class="section in-view">
+      <section id="introduction">
         <div class="w-100 text-center px-4">
           <h1 class="display-1 fw-bold">
-            Is <span class="highlight-primary">Algorithmic Pricing</span> Raising Your <span class="highlight-primary">Rent?</span>
+            Is <span class="highlight-primary">Algorithmic Pricing</span> Raising Your <span
+              class="highlight-primary">Rent?</span>
           </h1>
           <h2 class="display-5 mt-3">A Data-Driven Investigation</h2>
 
           <p class="lead mt-4">
             RealPage's software lets landlords share secret pricing data, coordinating rent hikes instead of competing
-            for tenants. The result? <span class="highlight-secondary">Higher rents, fewer concessions</span>, and no real choice
+            for tenants. The result? <span class="highlight-secondary">Higher rents, fewer concessions</span>, and no
+            real choice
             for renters.
           </p>
 
           <p class="lead">
-            <span class="highlight-secondary">Landlords aren't setting prices—an algorithm is.</span> RealPage collects and
-            analyzes private rent data from competitors, then recommends price hikes landlords follow almost
+            <span class="highlight-secondary">Landlords aren't setting prices—an algorithm is.</span> RealPage collects
+            and analyzes private rent data from competitors, then recommends price hikes landlords follow almost
             automatically. This isn't competition—it's algorithmic price-fixing.
           </p>
 
@@ -130,9 +176,41 @@
           </p>
 
           <p class="lead">
-            When landlords collude, <span class="highlight-secondary">renters lose.</span> Lawsuits are underway, but millions of
-            renters have already paid the price. Housing should be a competitive market—not a rigged game.
+            When landlords collude, <span class="highlight-secondary">renters lose.</span> Lawsuits are underway, but
+            millions of renters have already paid the price. Housing should be a competitive market—not a rigged game.
           </p>
+
+          <div class="row">
+            <div class="col-xs-12 col-md-6 col-lg-4 d-flex justify-content-center">
+              <div class="card  text-center" style="width: 18rem;">
+                <div class="card-body">
+                  <h1 class="card-title">$1,803</h1>
+                  <p class="card-text"> <a href="https://nlihc.org/oor/state/dc" class="card-link">DC's Fair Market Rent
+                      (1 Bedroom Apartment, $2,045 for 2 bedrooms )</a></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-12 col-md-6 col-lg-4 d-flex justify-content-center">
+              <div class="card  text-center" style="width: 18rem;">
+                <div class="card-body">
+                  <h1 class="card-title">$2,053</h1>
+                  <p class="card-text"> <a
+                      href="https://www.zillow.com/rental-manager/market-trends/washington-dc/?propertyTypes=apartment-condo"
+                      class="card-link">DC's Average Rent (All Apartments)</a></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-12 col-md-6 col-lg-4 d-flex justify-content-center">
+              <div class="card  text-center" style="width: 18rem;">
+                <div class="card-body">
+                  <h1 class="card-title"><span class="highlight-primary">$2,150</span></h1>
+                  <p class="card-text"> <a href="data-dictionary.html" class="card-link">RealPages's Average Rent (DC,
+                      All Apartments)</a></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
 
           <!-- Jump to Key Findings -->
           <div class="mt-5">
@@ -140,169 +218,205 @@
           </div>
 
           <!-- Scroll Down Arrow -->
-          <p class="mt-4">Or scroll down to learn more!</p>
+          <p class="mt-4">Or scroll down to learn how price coordination and algorithmic collusion work.</p>
           <div class="scroll-indicator">
-            <a href="#identificationMethods">
+            <a href="#algorithmicCollusion">
               <span class="arrow arrow-down"></span>
             </a>
           </div>
         </div>
       </section>
 
+      <!-- What is Algorithmic Collusion -->
+      <hr class="mt-5" id="algorithmicCollusion">
+      <section class="section" id="algoAnimation">
+        <div style="margin-top: 50px;"></div>
+        <!-- Desktop version embedded -->
+        <div class="desktop-only" style="width: 100%; max-width: 100%;">
+          <iframe src="algorithmicCollusion.html"
+            style="width: 100%; height: 115vh; border: none; background-color: transparent;" allowtransparency="true">
+          </iframe>
+        </div>
+        <!-- Mobile version embedded -->
+        <div class="mobile-only" style="width: 100%; max-width: 100%;">
+          <iframe src="algorithmicCollusion-mobile.html"
+            style="width: 100%; height: 200vh; border: none; background-color: transparent;" allowtransparency="true">
+          </iframe>
+        </div>
+        <!-- Scroll Down Arrow -->
+        <p class="mt-4" style="text-align: center; margin: 0 auto;">Scroll down to learn about the major factors that
+          determine rent prices.</p>
+        <div class="scroll-indicator" style="text-align: center; margin: 0 auto;">
+          <a href="#rentFactorsHR">
+            <span class="arrow arrow-down"></span>
+          </a>
+        </div>
+      </section>
+
+      <hr class="mt-5" id="rentFactorsHR">
       <!-- Section A: Identifying RealPage-Managed Properties -->
-      <section id="identificationMethods" class="section">
+      <section class="section" id="identificationMethods">
         <div class="text-center w-100">
-          <h1 >Identifying RealPage-Managed Properties</h1>
+          <div style="margin-top: 50px;"></div>
+          <h1>What factors into rent? </h1>
+          <h5>and how does RealPage compare?</h5>
           <p>
-            To better understand the spatial and temporal patterns of RealPage's market penetration, we present two new
-            visualizations:
+            Two major factors affect rent prices: the market and the condition of the property. We use the year built
+            and metropolitation area to compare RealPage-managed properties to the rest of the market.
           </p>
-          <ul>
-            <li><strong>Interactive Geographic Heatmap:</strong> A map-based view showing the concentration of
-              RealPage-managed properties across regions.</li>
-            <li><strong>Time Series of Adoption Trends:</strong> A chart tracking the evolution of RealPage adoption
-              over time, highlighting key market milestones.</li>
-          </ul>
           <div style="display: flex; flex-direction: column; gap: 20px;">
-            <canvas id="geoHeatmapChart"></canvas>
-            <canvas id="adoptionTrendsChart"></canvas>
+            <div class="chart-wrapper"><canvas id="rentComparablesChart"></canvas></div>
+            <div class="chart-wrapper"><canvas id="yearBuiltVolumeChart"></canvas></div>
+          </div>
+          <p class="mt-4">Scroll down to understand who RealPage serves and in what markets.</p>
+          <div class="scroll-indicator" style=" margin-bottom: -200px;">
+            <a href="#contextualizingRentHR">
+              <span class="arrow arrow-down"></span>
+            </a>
           </div>
         </div>
       </section>
 
-      <div class="content">
-        <!-- Section 1: Contextualizing Rent -->
-        <section id="whatIsRent" class="section">
-          <div class="text-center w-100">
-            <h1>Contextualizing Rent: The Role of Housing Supply</h1>
-            <p>
-              Rent isn't just a monthly expense—it reflects the market's housing supply. By examining average unit
-              counts as a proxy for available housing, we set the stage to explore how algorithmic pricing might
-              influence these fundamentals.
-            </p>
-            <canvas id="explanatoryChart"></canvas>
-          </div>
-        </section>
+      <hr class="mt-5" id="contextualizingRentHR">
 
-        <!-- Section 2: Tracing Rent Dynamics -->
-        <section id="diffinDiff" class="section">
-          <div class="text-center w-100">
-            <h1>Tracing Rent Dynamics: Pre‑ and Post‑RealPage Adoption</h1>
-            <p>
-              In this section, we use a difference‑in‑difference framework to explore how rent changes evolve before and
-              after RealPage's entry. Look for the red vertical line (at 2015) on the chart—a key moment marking
-              RealPage adoption—that helps anchor the story of changing rent trends.
-            </p>
-            <canvas id="diffinDiffChart"></canvas>
+      <section id="whatIsRent" class="section">
+        <div class="text-center w-100">
+          <div style="margin-top: 50px;"></div>
+          <h1>Contextualizing RealPage</h1>
+          <h5>Who does RealPage serve and how did the LRO merger affect prices?</h5>
+          <p>
+            Realpage isn't serving mom and pop landlords: they court large property management companies.
+            In Spring 2017, RealPage acquired their main rival, LRO. This merger allowed RealPage to collect more data
+            and increase their market share.
+          </p>
+          <canvas id="zillowLineChart"></canvas>
+          <canvas id="unitCountBarChart" style="height: 500px;"></canvas>
+          <!-- <canvas id="explanatoryChart"></canvas> -->
+          <p class="mt-4">Scroll down to explore how we model RealPage's Effects</p>
+          <div class="scroll-indicator">
+            <a href="#aboutModelsHR">
+              <span class="arrow arrow-down"></span>
+            </a>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <!-- Section 3: Uncovering Price Adjustments -->
-        <section id="rentComparison" class="section">
-          <div class="text-center w-100">
-            <h1>Current vs. Historical Rents: Uncovering Price Adjustments</h1>
-            <p>
-              By comparing current market rents with historical asking rents across property managers, we assess whether
-              RealPage-managed properties exhibit distinct price adjustments that might indicate algorithm-driven
-              inflation.
-            </p>
-            <canvas id="rentComparisonChart"></canvas>
-          </div>
-        </section>
+      <br>
+      <hr class="mt-5" id="aboutModelsHR">
 
-        <!-- Section 4: Occupancy Trends -->
-        <section id="occupancyTrends" class="section">
-          <div class="text-center w-100">
-            <h1>Occupancy Trends Amidst Market Shifts</h1>
-            <p>
-              Tracking occupancy rates over time reveals how tenants respond to changing rent levels. This section
-              explores whether higher RealPage adoption correlates with altered occupancy trends—hinting at broader
-              market impacts.
-            </p>
-            <canvas id="occupancyChart"></canvas>
+      <section id="aboutModels" class="section">
+        <div class="text-center w-100">
+          <div style="margin-top: 50px;"></div>
+          <h1>Modeling RealPage's effect </h1>
+          <h5>How can we predicting and simulate RealPage's effect on the housing market?</h5>
+          <div class="row">
+            <div class="col-xs-12 col-md-6 mb-3">
+              <div class="card">
+                <div class="card-body" style="text-align: left;">
+                  <h3 class="card-title">Propensity Model</h3>
+                  <p class="card-text"><strong>Overview:</strong> This model helps us guess whether a property is likely
+                    to use RealPage by looking at its obvious features. The idea is to find properties that are very
+                    similar, except for the use of RealPage, so we can fairly compare their rents.</p>
+                  <p class="card-text"><strong>Methodology:</strong>
+                    Data was carefully cleaned by removing missing details, cutting out sparse features, and tackling
+                    issues with overlapping or redundant information. We focused on straightforward factors like the age
+                    of the property, how many units it has, average size, number of floors, and other identifiers like
+                    area codes and building types.</p>
+                  <p class="card-text">Then, we used a logistic regression to calculate a score – the propensity score –
+                    which indicates how likely a property is to use RealPage. Properties were paired up (one using
+                    RealPage and one not) based on these scores. This lets us isolate the effect of RealPage by
+                    comparing similar properties directly.</p>
+                  <p class="card-text"><strong>Initial Conclusions:</strong> We found around one–thousand eight–hundred
+                    and sixty pairs, and properties flagged as using RealPage generally have higher rents than those
+                    that don’t. This matching helps show a clearer link between RealPage usage and rent increases.</p>
+                  <!-- Visual Placeholder -->
+                  <div class="visual-placeholder"
+                    style=" background-color: #ddd; display: flex; align-items: center; justify-content: center;">
+                    <img src="photos/output2.png" alt="Graph of rent distribution"
+                      style="max-width: 100%; height: auto;">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-12 col-md-6 mb-3">
+              <div class="card">
+                <div class="card-body" style="text-align: left;">
+                  <h3 class="card-title">Rent–Prediction Simulation Model</h3>
+                  <p class="card-text"><strong>Overview:</strong> This model is part of our broader rent–prediction
+                    toolkit. It shows how flipping the RealPage usage flag changes the predicted rent per square foot,
+                    giving us a clear idea of its influence on pricing.</p>
+                  <p class="card-text"><strong>Methodology:</strong>
+                    We combined detailed property data with broader market trends, pulling in important figures like
+                    market reach and average unit size. After cleaning the data, we honed in on the factors that really
+                    affect rent.</p>
+                  <p class="card-text">Using advanced methods like random forest, gradient boosting, and a feed–forward
+                    neural network, we predicted rent per square foot. The trick was to run the simulation twice – once
+                    with the RealPage flag turned on and once with it off – to see how much of a difference it makes.
+                  </p>
+                  <p class="card-text"><strong>Initial Conclusions:</strong> The results were pretty consistent: turning
+                    on the RealPage flag led to a higher predicted rent per square foot. This suggests that, even when
+                    controlling for many factors, properties using RealPage tend to have higher rents. While it isn’t a
+                    direct proof of collusive behavior, it does point to a strong association with rent inflation.</p>
+                  <!-- Visual Placeholder -->
+                  <div class="visual-placeholder"
+                    style=" background-color: #ddd; display: flex; align-items: center; justify-content: center;">
+                    <img src="photos/output1.png" alt="Graph of rent distribution"
+                      style="max-width: 100%; height: auto;">
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </section>
+          <div class="row">
+            <div class="col-md-6" >
+              <a href="/research-paper.pdf" class="btn btn-primary btn-lg">Read more about the models</a>
+            </div>
+            <div class="col-md-6 ">
+              <a href="/demo.html" class="btn btn-primary btn-lg">Try the models yourself</a>
+            </div>
+          </div>
+          <p class="mt-4">Scroll down to review a summary of our key findings.</p>
+          <div class="scroll-indicator">
+            <a href="#aboutModelsHR">
+              <span class="arrow arrow-down"></span>
+            </a>
+          </div>
+        </div>
+      </section>
 
-        <!-- Section 5: Correlation & Potential Collusion -->
-        <section id="correlationTests" class="section">
-          <div class="text-center w-100">
-            <h1>Testing the Link: RealPage Adoption & Rent Inflation</h1>
-            <p>
-              We directly test whether algorithmic pricing is associated with inflated rents. By correlating historical
-              ask rents with RealPage's market presence, this scatter chart aims to reveal statistical patterns
-              suggestive of collusive behavior.
-            </p>
-            <canvas id="correlationChart"></canvas>
-          </div>
-        </section>
+      <br>
 
-        <!-- Section 6: Benchmarking Across Markets -->
-        <section id="benchmarkComparison" class="section">
-          <div class="text-center w-100">
-            <h1>Benchmarking Rent: Multifamily vs. Single‑Family Markets</h1>
-            <p>
-              This visualization juxtaposes multifamily rent indices with single‑family benchmarks to determine whether
-              observed rent increases are unique to markets influenced by algorithmic pricing or simply part of broader
-              economic trends.
-            </p>
-            <canvas id="benchmarkChart"></canvas>
+      <!-- Section 6: Key Findings & Policy Implications -->
+      <hr id="keyFindingsHR">
+      <section id="keyFindings" class="section">
+        <h1>Key Findings and Policy Implications </h1>
+        <div class="text-center w-100">
+          <div class="card" style="width: 100%;">
+            <div class="card-body" style="text-align: left;">
+              <p>
+                Our investigation found a significant association between the use of RealPage’s pricing algorithms and higher rental costs. Properties utilizing RealPage software charged, on average, $0.23 more per square foot monthly compared to similar properties not using the software. However, an analysis of RealPage’s 2017 acquisition of competitor Lease Rent Options (LRO) found no consistent evidence that the merger directly increased rents through algorithmic collusion.
+              </p>
+              <h4>Key Findings:</h4>
+              <ul>
+                <li>RealPage-managed properties consistently exhibit higher rent levels, suggesting algorithmic pricing may contribute to increased rental costs.</li>
+                <li>Extensive analysis of the RealPage-LRO merger using advanced econometric techniques (Synthetic Control Method) found no conclusive evidence of increased rent due to algorithmic collusion following the merger.</li>
+                <li>Rent impacts varied significantly by city, with Phoenix being the only consistent exception, showing notable rent increases post-merger.</li>
+              </ul>
+              <h4>Policy Implications and Recommendations:</h4>
+              <ul>
+                <li><strong>Transparency and Disclosure:</strong> Regulators should mandate clearer reporting from property management firms regarding their use of algorithmic pricing software to better understand its market impacts.</li>
+                <li><strong>Enhanced Oversight:</strong> Agencies should actively monitor and investigate markets with substantial algorithmic pricing penetration to ensure competitive fairness.</li>
+                <li><strong>Targeted Regulation:</strong> Consideration should be given to regulating the functionality and data usage of algorithmic pricing tools to prevent potential anti-competitive practices.</li>
+                <li><strong>Further Investigation:</strong> Additional comprehensive research is necessary to fully discern the competitive dynamics and consumer impacts associated with algorithmic pricing in rental housing markets.</li>
+              </ul>
+            </div>
           </div>
-        </section>
-
-        <!-- Section 7: Validating Findings -->
-        <section id="syntheticControl" class="section">
-          <div class="text-center w-100">
-            <h1>Validating Findings: Synthetic Control Analysis</h1>
-            <p>
-              To ensure our results aren't merely capturing general market conditions, we apply synthetic control
-              methods. This robustness check creates counterfactual scenarios, reinforcing whether RealPage's market
-              penetration genuinely drives distinct rent dynamics.
-            </p>
-            <canvas id="syntheticChart"></canvas>
-          </div>
-        </section>
-
-        <!-- Section 8: A Multi-Dimensional View of Rent -->
-        <section id="alternativeMeasures" class="section">
-          <div class="text-center w-100">
-            <h1>Alternative Measures: Expanding Our Perspective</h1>
-            <p>
-              In addition to direct rent figures, we use housing supply metrics (like unit counts) as alternative
-              measures. This multi-dimensional view strengthens our analysis and cross-validates the impact of
-              algorithmic pricing on the market.
-            </p>
-            <canvas id="alternativeChart"></canvas>
-          </div>
-        </section>
-
-        <!-- Section 9: Key Findings & Policy Implications -->
-        <section id="keyFindings" class="section">
-          <div class="text-center w-100">
-            <h1>Key Findings & Policy Implications</h1>
-            <p>
-              Our analysis reveals a significant association between RealPage's market presence and rent dynamics. The
-              guided journey through housing supply, rent adjustments, occupancy rates, and robust counterfactual tests
-              suggests that algorithmic pricing may contribute to rent inflation.
-            </p>
-            <p><strong>Policy Implications:</strong></p>
-            <ul>
-              <li>Regulators and policymakers should consider the impact of pricing technologies on housing
-                affordability.</li>
-              <li>Enhanced transparency and oversight might be needed to ensure fair competition in rental markets.</li>
-              <li>Stakeholders—from tenants to property managers—could benefit from clearer insights into how technology
-                drives market outcomes.</li>
-            </ul>
-            <p>
-              These findings underscore the need for further investigation and proactive policy responses in an era
-              marked by rising housing instability and technological disruption.
-            </p>
-          </div>
-        </section>
-      </div>
+        </div>
+      </section>
 
       <footer class="bg-light text-center py-3 border-top w-100">
         <p class="mb-0">
-          &copy; 2025 RealPage Collusion Dashboard &mdash;
+          &copy; 2025 RealPage Rent Impact Dashboard &mdash;
           <a href="privacy.html">View Full Privacy Policy</a>
         </p>
       </footer>
@@ -333,9 +447,6 @@
       rentComparison: { metric1: 'MPF-RENT', metric2: 'MPF-HIST-ASK-RENT', label: 'Current vs Historical Rents' },
       occupancyTrends: { metric: 'MPF-OCC', label: 'Occupancy Trends Amid Price Changes' },
       correlationTests: { metric: 'MPF-HIST-ASK-RENT', label: 'Correlation: RealPage Adoption & Historical Ask Rent' },
-      benchmarkComparison: { metric: 'MPF-RPSF', label: 'Multifamily vs Single‑Family Rent Metrics' },
-      syntheticControl: { metric: 'MPF-HIST-ASK-RENT', label: 'Synthetic Control: Validating Rent Trends' },
-      alternativeMeasures: { metric: 'unitcount', label: 'Alternative Rent Measures via Unit Count' },
       identificationMethods: { metric: 'unitcount', label: 'Identifying RealPage-Managed Properties' }
     };
 
@@ -355,7 +466,7 @@
       let grouped = {};
       csvData.forEach(row => {
         let state = row.state;
-        let hero = row.heroSource;
+        let hero = row.uses_realpage?.toLowerCase() === 'true' ? 'realpage' : 'other';
         if (state && hero) {
           if (!grouped[state]) grouped[state] = {};
           if (!grouped[state][hero]) grouped[state][hero] = { sum: 0, count: 0 };
@@ -395,7 +506,7 @@
       let grouped = {};
       csvData.forEach(row => {
         let year = row.yearBuilt;
-        let hero = row.heroSource;
+        let hero = row.uses_realpage?.toLowerCase() === 'true' ? 'realpage' : 'other';
         if (year && hero) {
           if (!grouped[year]) grouped[year] = {};
           if (!grouped[year][hero]) grouped[year][hero] = { sum: 0, count: 0 };
@@ -435,7 +546,7 @@
       let grouped = {};
       csvData.forEach(row => {
         let year = row.yearBuilt;
-        let hero = row.heroSource;
+        let hero = row.uses_realpage?.toLowerCase() === 'true' ? 'realpage' : 'other';
         if (year && hero) {
           if (!grouped[year]) grouped[year] = {};
           if (!grouped[year][hero]) {
@@ -514,18 +625,45 @@
             stateData[state] = { total: 0, realpageCount: 0 };
           }
           stateData[state].total += 1;
-          if (row.heroSource && row.heroSource.toLowerCase() === 'realpage') {
+          if (row.uses_realpage === '1') {
             stateData[state].realpageCount += 1;
           }
         }
       });
-      let labels = Object.keys(stateData).sort();
-      let data = labels.map(state => {
+
+      function aggregateRealPageShareByCity() {
+        let cityData = {};
+        csvData.forEach(row => {
+          let city = row.city;
+          if (city) {
+            if (!cityData[city]) {
+              cityData[city] = { total: 0, realpageCount: 0 };
+            }
+            cityData[city].total += 1;
+            if (row.heroSource && row.heroSource.toLowerCase() === 'realpage') {
+              cityData[city].realpageCount += 1;
+            }
+          }
+        });
+        return cityData;
+      }
+
+      // Get state names and sort them based on computed share value (descending)
+      let states = Object.keys(stateData);
+      states.sort((a, b) => {
+        let shareA = stateData[a].realpageCount / stateData[a].total;
+        let shareB = stateData[b].realpageCount / stateData[b].total;
+        return shareB - shareA; // descending order; use shareA - shareB for ascending order
+      });
+
+      let data = states.map(state => {
         let share = stateData[state].realpageCount / stateData[state].total;
         return (share * 100).toFixed(2);
       });
+
       return {
-        labels: labels, datasets: [{
+        labels: states,
+        datasets: [{
           label: 'RealPage Share (%)',
           data: data,
           backgroundColor: 'rgba(54, 162, 235, 0.6)',
@@ -638,22 +776,31 @@
             dt = getChartDataGrouped(sectionMetrics.diffinDiff.metric, chartType);
             charts.diffinDiff = initChart('diffinDiffChart', chartType, sectionMetrics.diffinDiff.label, dt, {
               scales: {
-                x: { title: { display: true, text: 'Year Built' }, ticks: { font: { size: 14 } } },
-                y: { title: { display: true, text: 'MPF-ANN-RENT-CHG' }, ticks: { font: { size: 14 } } }
+                x: { title: { display: true, text: 'Year' }, ticks: { font: { size: 14 } } },
+                y: {
+                  title: { display: true, text: 'Annual Change in Rent (%)' },
+                  ticks: {
+                    font: { size: 14 },
+                    callback: function (value) {
+                      return (value * 100).toFixed(0) + '%'; // Multiply by 100 and append a percent sign
+                    }
+                  }
+                }
               },
               plugins: {
                 annotation: {
                   annotations: {
                     line1: {
                       type: 'line',
-                      xMin: 2015,
-                      xMax: 2015,
-                      borderColor: 'red',
+                      scaleID: 'x', // Reference to your x-axis
+                      value: '2017', // Ensure this exactly matches one of your x-axis labels
+                      borderColor: 'blue',
                       borderWidth: 2,
                       label: {
-                        content: 'RealPage Adoption',
                         enabled: true,
-                        position: 'start'
+                        content: '2017 merger with LRO',
+                        position: 'top',
+                        backgroundColor: 'blue',
                       }
                     }
                   }
@@ -669,7 +816,22 @@
           case "occupancyTrends":
             chartType = 'line';
             dt = getChartDataGrouped(sectionMetrics.occupancyTrends.metric, chartType);
-            charts.occupancyTrends = initChart('occupancyChart', chartType, sectionMetrics.occupancyTrends.label, dt);
+            charts.occupancyTrends = initChart('occupancyChart', chartType, sectionMetrics.occupancyTrends.label, dt,
+              {
+                scales: {
+                  x: { title: { display: true, text: 'Year' }, ticks: { font: { size: 14 } } },
+                  y: {
+                    title: { display: true, text: 'Occupied Units (%)' },
+                    ticks: {
+                      font: { size: 14 },
+                      callback: function (value) {
+                        return (value * 100).toFixed(0) + '%'; // Multiply by 100 and append a percent sign
+                      }
+                    }
+                  }
+                }
+              }
+            );
             break;
           case "correlationTests":
             chartType = 'scatter';
@@ -698,31 +860,25 @@
             }
             charts.correlation = initChart('correlationChart', chartType, sectionMetrics.correlationTests.label, dt, {
               scales: {
-                x: { type: 'linear', position: 'bottom', title: { display: true, text: 'Year' } },
+                x: {
+                  type: 'linear',
+                  position: 'bottom',
+                  title: { display: true, text: 'Year' },
+                  ticks: {
+                    callback: function (value, index, ticks) {
+                      return parseInt(value).toString(); // Converts 2,017 to "2017"
+                    }
+                  }
+                },
                 y: { beginAtZero: true, title: { display: true, text: sectionMetrics.correlationTests.label } }
               },
               parsing: false
             });
             break;
-          case "benchmarkComparison":
-            chartType = 'bar';
-            dt = getChartDataGrouped(sectionMetrics.benchmarkComparison.metric, chartType);
-            charts.benchmark = initChart('benchmarkChart', chartType, sectionMetrics.benchmarkComparison.label, dt);
-            break;
-          case "syntheticControl":
-            chartType = 'line';
-            dt = getChartDataGrouped(sectionMetrics.syntheticControl.metric, chartType);
-            charts.synthetic = initChart('syntheticChart', chartType, sectionMetrics.syntheticControl.label, dt);
-            break;
-          case "alternativeMeasures":
-            chartType = 'bar';
-            dt = getChartDataGrouped(sectionMetrics.alternativeMeasures.metric, chartType);
-            charts.alternative = initChart('alternativeChart', chartType, sectionMetrics.alternativeMeasures.label, dt);
-            break;
           case "identificationMethods":
             let geoChartType = 'bar';
             let geoData = aggregateRealPageShareByState();
-            charts.geoHeatmap = initChart('geoHeatmapChart', geoChartType, 'Geographic Distribution of RealPage-Managed Properties', geoData);
+            charts.geoHeatmap = initChart('geoHeatmapChart', geoChartType, 'Geographic Distribution of Properties using the RealPage Algorithm', geoData);
             let adoptionChartType = 'line';
             let adoptionData = aggregateRealPageShareByYear();
             charts.adoptionTrends = initChart('adoptionTrendsChart', adoptionChartType, 'Time Series of RealPage Adoption Trends', adoptionData);
@@ -730,7 +886,31 @@
         }
       }
     }
-
+    function aggregateUnitCountByYearBuilt(data) {
+      const yearGroups = {};
+      data.forEach(row => {
+        const year = row.yearBuilt;
+        const units = parseInt(row.unitcount) || 0;
+        if (year) {
+          if (!yearGroups[year]) yearGroups[year] = 0;
+          yearGroups[year] += units;
+        }
+      });
+      const sortedYears = Object.keys(yearGroups).sort();
+      const counts = sortedYears.map(y => yearGroups[y]);
+      return {
+        labels: sortedYears,
+        datasets: [
+          {
+            label: "Total Unit Count",
+            data: counts,
+            backgroundColor: "rgba(153, 102, 255, 0.6)",
+            borderColor: "rgba(153, 102, 255, 1)",
+            borderWidth: 1
+          }
+        ]
+      };
+    }
     function aggregateByState() {
       let stateAgg = {};
       csvData.forEach(row => {
@@ -781,6 +961,7 @@
       // Optionally refresh charts if data changes.
     }
 
+    /*
     document.addEventListener("DOMContentLoaded", function () {
       const sections = document.querySelectorAll('.section');
       const observer = new IntersectionObserver((entries) => {
@@ -795,9 +976,10 @@
       }, { threshold: 0.4 });
       sections.forEach(section => observer.observe(section));
     });
+    */
 
     document.addEventListener("DOMContentLoaded", function () {
-      fetch('https://rpc-webpage.s3-accelerate.amazonaws.com/cbsa_data.csv')
+      fetch('https://raw.githubusercontent.com/pbenzoni/realpage-collusion/refs/heads/main/data/cbsa_data_final_cleaned.csv')
         .then(response => response.text())
         .then(csvText => {
           Papa.parse(csvText, {
@@ -820,7 +1002,500 @@
         wrapper.classList.toggle("toggled");
       });
     });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const csvString = `City,CBSASub24,HUD,Realpage,Zillow,RealPageMarketShare,Avg of Rents
+"Santa Cruz-Watsonville, CA",42100,3388.65,3452.15,3016.74,9.296953948,3286
+"San Jose-Sunnyvale-Santa Clara, CA",41940,3099.39,2899.41,3071.1,,3023
+"San Luis Obispo-Paso Robles-Arroyo Grande, CA",42020,1808,2884.5,2427.22,,2373
+"San Diego-Carlsbad, CA",41740,2499.43,2821.4,2736.57,,2686
+"Oxnard-Thousand Oaks-Ventura, CA",37100,2289.04,2615.92,2708.02,17.16353646,2538
+"Providence-Fall River, RI-MA",39300,1494.79,2492.5,1959.4,,1982
+"Santa Maria-Santa Barbara, CA",42200,2598.81,2492.15,2858.26,5.187820844,2650
+"Santa Rosa, CA",42220,1803.8,2467.88,2403.8,,2225
+"Chicago-Joliet-Naperville, IL",16980,1745.78,2462.07,2001.53,,2070
+"Washington-Arlington-Alexandria, DC-VA-MD",47900,2194.89,2454.56,2265.5,,2305
+"Ithaca, NY",27060,1519.33,2382.75,2035.04,6.664101578,1979
+"Utica-Rome, NY",46540,963.42,2377,1282.85,,1541
+"Burlington-South Burlington, VT",15540,1501.65,2374,1934.22,,1937
+"Binghamton, NY",13780,999.18,2361,1099.56,,1487
+"Salinas, CA",41500,2637.18,2288,2330.56,9.897201171,2419
+"Boulder, CO",14500,1765.29,2239.82,2099.85,19.18003843,2035
+"Naples-Immokalee-Marco Island, FL",34940,1696.37,2183.8,2446.48,,2109
+"Worcester, MA",49340,1560,2169.94,2028.76,,1920
+"Riverside-San Bernardino-Ontario, CA",40140,1976.63,2169.49,2290.14,14.42517463,2145
+"Charlottesville, VA",16820,1517.12,1939.76,1741.65,5.896602659,1733
+"East Stroudsburg, PA",20700,1255.87,1934.5,1599.36,,1597
+"Charleston-North Charleston, SC",16700,1758.68,1928.97,1831.74,23.75321054,1840
+"Flagstaff, AZ",22380,1753.24,1916.1,1911.58,1.747602846,1860
+"Philadelphia-Camden-Wilmington, PA-NJ-DE-MD",37980,1662.61,1903.86,1808.23,7.781512711,1792
+"Sacramento--Roseville--Arden-Arcade, CA",40900,1907.95,1884.46,1996.04,,1929
+"Hartford-West Hartford-East Hartford, CT",25540,1386.68,1882.89,1775.64,,1682
+"Denver-Aurora-Lakewood, CO",19740,1886.25,1851.64,1789.95,,1843
+"Tampa-St. Petersburg-Clearwater, FL",45300,1810.25,1851.11,1866.88,19.02432447,1843
+"Santa Fe, NM",42140,1406.55,1849.36,1888.26,10.78369906,1715
+"Bellingham, WA",13380,1399.86,1835.41,1690.23,,1642
+"Visalia-Porterville, CA",47300,1145.22,1828.83,1315.27,,1430
+"Bend-Redmond, OR",13460,1342.73,1826.96,1804.8,,1658
+"Ann Arbor, MI",11460,1398.79,1814.2,1878.16,0.859529085,1697
+"Blacksburg-Christiansburg-Radford, VA",13980,999.89,1812.78,1216.63,,1343
+"Bremerton-Silverdale, WA",14740,1693.04,1783.08,1831.04,,1769
+"Scranton--Wilkes-Barre, PA",42540,967.25,1774.33,1175.77,1.833073323,1306
+"Winchester, VA-WV",49020,1282.29,1773.86,1599.37,5.690280695,1552
+"Albany-Schenectady-Troy, NY",10580,1276.18,1754.92,1520.85,1.411984917,1517
+"Kingston, NY",28740,1430.77,1753,1765.12,2.804327277,1650
+"Orlando-Kissimmee-Sanford, FL",36740,1821.41,1750.2,1824.4,27.78099041,1799
+"Salisbury, MD",41540,1176.22,1741.07,1630.77,,1516
+"Olympia-Tumwater, WA",36500,1615.71,1734.43,1790.82,,1714
+"Cape Coral-Fort Myers, FL",15980,1601.12,1721.31,1751.39,9.355610007,1691
+"Eugene-Springfield, OR",21660,1186.19,1706.23,1705.58,16.81110294,1533
+"Atlanta-Sandy Springs-Roswell, GA",12060,1754.97,1702.96,1674.46,,1711
+"Asheville, NC",11700,1409.63,1701.7,1549.04,,1553
+"Wenatchee, WA",48300,1201.36,1701.6,1755.59,,1553
+"Pittsburgh, PA",38300,1113.01,1692.35,1353.28,,1386
+"Fort Collins, CO",22660,1516.97,1687.3,1679.44,,1628
+"Modesto, CA",33700,1341.45,1685.02,1698.96,19.47350494,1575
+"Allentown-Bethlehem-Easton, PA",10900,1280.93,1684.34,1626.22,,1530`;
+      Papa.parse(csvString, {
+        header: true,
+        skipEmptyLines: true,
+        complete: function (results) {
+          var data = results.data;
+          const labels = [];
+          const hudRents = [];
+          const realPageRents = [];
+          const zillowRents = [];
+          const marketShareTicks = [];
+
+          // Check if the device is mobile using a media query.
+          const isMobile = window.matchMedia("(max-width: 768px)").matches;
+          if (isMobile) {
+            // Filter rows to include only those with a valid RealPageMarketShare value,
+            // sort them in descending order, and select the top five.
+            data = data.filter(row => row.RealPageMarketShare && !isNaN(parseFloat(row.RealPageMarketShare)));
+            data.sort((a, b) => parseFloat(b.RealPageMarketShare) - parseFloat(a.RealPageMarketShare));
+            data = data.slice(0, 8);
+          }
+
+          data.forEach((row, index) => {
+            labels.push(row.City);
+            hudRents.push(parseFloat(row.HUD));
+            realPageRents.push(parseFloat(row.Realpage));
+            zillowRents.push(parseFloat(row.Zillow));
+            const share = Math.round(parseFloat(row.RealPageMarketShare) * 10) / 10;
+            // Create "tick" marker as a scatter point with the x as the index and y as the share
+            marketShareTicks.push({
+              x: index,
+              y: share
+            });
+          });
+
+          const ctx = document.getElementById("rentComparablesChart").getContext("2d");
+          new Chart(ctx, {
+            type: "bar",
+            data: {
+              labels: labels,
+              datasets: [
+                {
+                  label: "HUD Rent",
+                  data: hudRents,
+                  backgroundColor: "rgba(75, 192, 192, 0.6)",
+                  yAxisID: "y"
+                },
+                {
+                  label: "RealPage Rent",
+                  data: realPageRents,
+                  backgroundColor: "rgba(54, 162, 235, 0.6)",
+                  yAxisID: "y"
+                },
+                {
+                  label: "Zillow Rent",
+                  data: zillowRents,
+                  backgroundColor: "rgba(255, 206, 86, 0.6)",
+                  yAxisID: "y"
+                },
+                {
+                  label: "RealPage Market Share (%)",
+                  type: "scatter",
+                  data: marketShareTicks,
+                  yAxisID: "y1",
+                  showLine: false,
+                  pointStyle: 'line',
+                  pointRadius: 10,
+                  pointBorderColor: "rgba(255, 99, 132, 1)",
+                  pointBackgroundColor: "rgba(255, 99, 132, 1)",
+                  pointBorderWidth: 2,
+                  pointRotation: 0
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                title: {
+                  display: true,
+                  text: "Rents and RealPage Market Share by City"
+                },
+                tooltip: {
+                  callbacks: {
+                    label: function (context) {
+                      if (context.dataset.type === "scatter") {
+                        return context.dataset.label + ": " + context.raw.y + "%";
+                      } else {
+                        return context.dataset.label + ": $" + context.parsed.y;
+                      }
+                    }
+                  }
+                }
+              },
+              scales: {
+                x: {
+                  title: { display: true, text: "City" },
+                  ticks: {
+                    autoSkip: true,
+                    maxRotation: 90,
+                    minRotation: 45,
+                    maxTicksLimit: 6, // Show fewer labels to prevent squish
+                    font: { size: 10 } // Smaller font to help fit
+                  },
+                  offset: true
+                },
+                y: {
+                  beginAtZero: true,
+                  position: "left",
+                  title: { display: true, text: "Rent (USD)" }
+                },
+                y1: {
+                  beginAtZero: true,
+                  position: "right",
+                  title: { display: true, text: "RealPage Market Share (%)" },
+                  grid: { drawOnChartArea: false }
+                }
+              }
+            }
+          });
+        }
+      });
+    });
+
   </script>
+  <script defer>
+    document.addEventListener("DOMContentLoaded", function () {
+      const yearBuiltCanvas = document.createElement("canvas");
+      yearBuiltCanvas.id = "yearBuiltVolumeChart";
+      document.querySelector("#identificationMethods").appendChild(yearBuiltCanvas);
+
+      function aggregateUnitCountByYearBuilt(data) {
+        const yearGroups = {};
+        data.forEach(row => {
+          // toss out rows with missing or invalid yearBuilt values or before 1900
+          if (!row.yearBuilt || row.yearBuilt < 1920 || row.yearBuilt > 2025) return;
+          //toss out rows whose heroSource is not RealPage
+          if (row.uses_realpage !== '1') return;
+
+          const year = row.yearBuilt;
+          const units = parseInt(row.unitcount) || 0;
+          if (year) {
+            if (!yearGroups[year]) yearGroups[year] = 0;
+            yearGroups[year] += units;
+          }
+        });
+        const sortedYears = Object.keys(yearGroups).sort();
+        const counts = sortedYears.map(y => yearGroups[y]);
+        return {
+          labels: sortedYears,
+          datasets: [
+            {
+              label: "Total Unit Count",
+              data: counts,
+              backgroundColor: "rgba(153, 102, 255, 0.6)",
+              borderColor: "rgba(153, 102, 255, 1)",
+              borderWidth: 1
+            }
+          ]
+        };
+      }
+
+      function renderYearBuiltChart(data) {
+        const chartData = aggregateUnitCountByYearBuilt(data);
+        new Chart(document.getElementById("yearBuiltVolumeChart").getContext("2d"), {
+          type: "bar",
+          data: chartData,
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              title: {
+                display: true,
+                text: "Unit Count by Year Built"
+              },
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    return "Units: " + context.parsed.y;
+                  }
+                }
+              }
+            },
+            scales: {
+              x: {
+                title: { display: true, text: "Year Built" }
+              },
+              y: {
+                beginAtZero: true,
+                title: { display: true, text: "Total Units" }
+              }
+            }
+          }
+        });
+      }
+
+      fetch('https://raw.githubusercontent.com/pbenzoni/realpage-collusion/refs/heads/main/data/cbsa_data_final_cleaned.csv')
+        .then(response => response.text())
+        .then(csvText => {
+          Papa.parse(csvText, {
+            header: true,
+            complete: function (results) {
+              renderYearBuiltChart(results.data);
+            }
+          });
+        })
+        .catch(err => console.error("Error loading Year Built data:", err));
+    });
+  </script>
+  q
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const csvUrl = 'https://raw.githubusercontent.com/UC-Berkeley-I-School/realpage-collusion/refs/heads/main/data/workbooks/zillow_rot.csv';
+      const mergerDate = '12/31/2017';
+
+      Papa.parse(csvUrl, {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete: (results) => {
+          const rows = results.data;
+          if (!rows.length) {
+            console.error('No data in CSV!');
+            return;
+          }
+
+          const allHeaders = results.meta.fields;
+          const dateLabels = allHeaders.slice(2); // Skip first two columns (RegionName, Realpage Market Share)
+
+          // Separate USA line from others
+          const usaData = rows.find(row => row.RegionName === 'USA');
+          const regionalData = rows.filter(row => row.RegionName !== 'USA');
+
+          const datasets = [];
+
+          // Add USA dataset first, standalone
+          if (usaData) {
+            datasets.push({
+              label: 'USA',
+              data: dateLabels.map(date => parseFloat(usaData[date]) || null),
+              borderColor: 'rgba(0,0,0,1)',
+              backgroundColor: 'rgba(0,0,0,0)',
+              fill: false,
+              tension: 0.2,
+              borderWidth: 3,
+              pointRadius: 0
+            });
+          }
+
+          // Add regional datasets with market share in label
+          regionalData.forEach(regionRow => {
+            const regionName = regionRow['RegionName'];
+            const marketShare = parseFloat(regionRow['Realpage Market Share']);
+            const shareLabel = isNaN(marketShare) ? '' : ` (${marketShare.toFixed(1)}%)`;
+
+            datasets.push({
+              label: regionName + shareLabel,
+              data: dateLabels.map(date => parseFloat(regionRow[date]) || null),
+              borderColor: randomColor(),
+              fill: false,
+              tension: 0.2,
+              borderWidth: 1.5,
+              pointRadius: 0
+            });
+          });
+
+          // Chart initialization
+          const ctx = document.getElementById('zillowLineChart').getContext('2d');
+          new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: dateLabels,
+              datasets: datasets
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              interaction: { mode: 'index', intersect: false },
+              plugins: {
+                legend: {
+                  display: true,
+                  position: 'right',
+                  labels: { boxWidth: 15, font: { size: 12 } }
+                },
+                title: {
+                  display: true,
+                  text: 'Zillow Rent Trends Over Time'
+                },
+                annotation: {
+                  annotations: {
+                    mergerLine: {
+                      type: 'line',
+                      scaleID: 'x',
+                      value: mergerDate,
+                      borderColor: 'red',
+                      borderWidth: 2,
+                      label: {
+                        enabled: true,
+                        content: 'RealPage-LRO Merger',
+                        position: 'start',
+                        backgroundColor: 'rgba(255, 99, 132, 0.8)',
+                        color: 'white'
+                      }
+                    }
+                  }
+                }
+              },
+              scales: {
+                x: {
+                  title: { display: true, text: 'Date' },
+                  ticks: {
+                    maxRotation: 45,
+                    minRotation: 30,
+                    autoSkip: true,
+                    maxTicksLimit: 20
+                  }
+                },
+                y: {
+                  title: { display: true, text: 'Rent (USD)' },
+                  beginAtZero: false
+                }
+              }
+            }
+          });
+        },
+        error: (err) => {
+          console.error('Error fetching CSV:', err);
+        }
+      });
+
+      // Utility function for random colors
+      function randomColor() {
+        const r = Math.floor(Math.random() * 180 + 30);
+        const g = Math.floor(Math.random() * 180 + 30);
+        const b = Math.floor(Math.random() * 180 + 30);
+        return `rgba(${r}, ${g}, ${b}, 0.9)`;
+      }
+    });
+  </script>
+  <script defer>
+    document.addEventListener('DOMContentLoaded', () => {
+      const csvUrl = 'https://raw.githubusercontent.com/pbenzoni/realpage-collusion/refs/heads/main/data/cbsa_data_final_cleaned.csv';
+
+      Papa.parse(csvUrl, {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete: (results) => {
+          const rows = results.data;
+
+          // Define categories for unit counts
+          const categories = {
+            'Small (≤10 units)': 0,
+            'Medium (10–50 units)': 0,
+            'Large (51–200 units)': 0,
+            'Very Large (201–500 units)': 0,
+            'Mega (501+ units)': 0
+          };
+
+          // Classify each property
+          rows.forEach(row => {
+            // remove non-realpage rows
+            if (row.uses_realpage !== '1') return;
+            const units = parseInt(row.unitcount, 10);
+            if (isNaN(units)) return;
+
+            if (units <= 10) categories['Small (≤10 units)'] += units;
+            else if (units <= 50) categories['Medium (10–50 units)'] += units;
+            else if (units <= 200) categories['Large (51–200 units)'] += units;
+            else if (units <= 500) categories['Very Large (201–500 units)'] += units;
+            else categories['Mega (501+ units)'] += units;
+          });
+
+          const labels = Object.keys(categories);
+          const data = Object.values(categories);
+
+          // Initialize the Bar Chart
+          const ctx = document.getElementById('unitCountBarChart').getContext('2d');
+
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: labels,
+              datasets: [{
+                label: 'Total Units',
+                data: data,
+                backgroundColor: [
+                  '#a6cee3',
+                  '#1f78b4',
+                  '#b2df8a',
+                  '#33a02c',
+                  '#fb9a99'
+                ],
+                borderColor: '#333',
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                title: {
+                  display: true,
+                  text: 'Apartment Complexes Grouped by Total Units',
+                  font: { size: 18 }
+                },
+                legend: {
+                  display: false
+                },
+                tooltip: {
+                  callbacks: {
+                    label: (context) => `${context.parsed.y.toLocaleString()} units`
+                  }
+                }
+              },
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  title: {
+                    display: true,
+                    text: 'Total Units'
+                  },
+                  ticks: {
+                    callback: (value) => value.toLocaleString()
+                  }
+                },
+                x: {
+                  title: {
+                    display: true,
+                    text: 'Apartment Complex Size Categories'
+                  }
+                }
+              }
+            }
+          });
+        },
+        error: (err) => console.error('CSV Parsing Error:', err)
+      });
+    });
+  </script>
+
 </body>
 
 </html>
