@@ -1,7 +1,7 @@
 ---
 title: "zillow_augsynth"
 author: "Timothy Majidzadeh"
-date: "2025-03-28"
+date: "2025-04-05"
 output: html_document
 ---
 
@@ -41,7 +41,7 @@ for (city in treat_cities){
   syn <- augsynth(
       ZORI ~ AffectedCityTime, RegionName, TimeTrend, one_city_data, progfunc="None", SCM=T, t_int=35
     )
-  syn_sum <- summary(syn)
+  syn_sum <- summary(syn, stat_func = function(x) abs(sum(x)))
   write.csv(syn_sum[['average_att']], file=paste0('../data/reg_results/syn_2015-2022_avg_att_', city, '.csv'))
   write.csv(syn_sum[['att']], file=paste0('../data/reg_results/syn_2015-2022_att_', city, '.csv'))
 }
@@ -69,7 +69,7 @@ for (city in treat_cities){
   syn <- augsynth(
       ZORI ~ AffectedCityTime, RegionName, TimeTrend, one_city_data, progfunc="None", SCM=T, t_int=35
     )
-  syn_sum <- summary(syn)
+  syn_sum <- summary(syn, stat_func = function(x) abs(sum(x)))
   write.csv(syn_sum[['average_att']], file=paste0('../data/reg_results/syn_alt_con_2015-2022avg_att_', city, '.csv'))
   write.csv(syn_sum[['att']], file=paste0('../data/reg_results/syn_alt_con_2015-2022_att_', city, '.csv'))
 }
