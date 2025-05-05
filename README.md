@@ -1,6 +1,7 @@
 # Investigation of Rent Impact of RealPage's Rental Pricing Algorithms
 
 [Timoth Majidzadeh](https://linkedin.com/in/timothy-majidzadeh), [Chelle Davies](https://www.linkedin.com/in/michelle-dominique-davies/), [Peter Benzoni](https://www.linkedin.com/in/benzoni/), [Ahmad Allaou](https://www.linkedin.com/in/ahmad-allaou/), [Patrick Yim](https://www.linkedin.com/in/patrick-h-yim/)
+
 Spring 2025
 
 We investigate allegations, [spotlighted by ProPublica in 2022](https://www.propublica.org/article/yieldstar-rent-increase-realpage-rent), that algorithmic pricing products for rental housing sold by RealPage inflate rent due to "Algorithmic Colluison"; the tendency of pricing algorithms to co-ordinate price levels.
